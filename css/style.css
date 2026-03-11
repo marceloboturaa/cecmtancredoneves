@@ -1,0 +1,22 @@
+/* BASE */
+@import "base/reset.css";
+@import "base/variables.css";
+@import "base/typography.css";
+
+/* LAYOUT */
+@import "layout/navbar.css";
+@import "layout/header.css";
+@import "layout/footer.css";
+@import "layout/container.css";
+
+/* COMPONENTES */
+@import "components/cards.css";
+@import "components/gallery.css";
+@import "components/video.css";
+@import "components/podcast.css";
+
+/* PÁGINAS */
+@import "pages/home.css";
+@import "pages/galeria.css";
+@import "pages/conteudos.css";
+@import "pages/apresentacoes.css";
