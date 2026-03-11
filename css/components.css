@@ -1,0 +1,467 @@
+/* ============================= */
+/* COMPONENTS.CSS - ELEMENTOS    */
+/* ============================= */
+
+/* ================= BOTÕES ================= */
+.btn {
+    display: inline-block;
+    background: var(--green);
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 40px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: background 0.2s, transform 0.1s;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+}
+
+.btn:hover {
+    background: #5a6e34;
+    transform: scale(0.98);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+}
+
+.btn-outline:hover {
+    background: var(--blue);
+    color: white;
+}
+
+/* ================= CARDS PADRÃO ================= */
+.card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 2rem;
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+}
+
+.card h3 {
+    margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+    color: var(--blue);
+}
+
+.card p {
+    color: #475569;
+    margin-bottom: 1.5rem;
+}
+
+/* ================= FLIP CARDS (CONCEITOS) ================= */
+.flip-card {
+    perspective: 1000px;
+    height: 220px;
+}
+
+.flip-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.7s;
+    transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-inner {
+    transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.flip-front {
+    background: var(--white);
+    border: 1px solid var(--border);
+}
+
+.flip-back {
+    color: white;
+    transform: rotateY(180deg);
+    font-size: 0.95rem;
+    line-height: 1.4;
+}
+
+/* cores alternadas para os versos */
+.flip-card:nth-child(1) .flip-back {
+    background: var(--blue);
+}
+
+.flip-card:nth-child(2) .flip-back {
+    background: var(--green);
+}
+
+.flip-card:nth-child(3) .flip-back {
+    background: #7c3aed;
+}
+
+.flip-card:nth-child(4) .flip-back {
+    background: #ea580c;
+}
+
+.flip-card:nth-child(5) .flip-back {
+    background: #0891b2;
+}
+
+.flip-card:nth-child(6) .flip-back {
+    background: #dc2626;
+}
+
+.flip-card:nth-child(7) .flip-back {
+    background: #16a34a;
+}
+
+.flip-card:nth-child(8) .flip-back {
+    background: #9333ea;
+}
+
+.flip-card:nth-child(9) .flip-back {
+    background: #d97706;
+}
+
+.flip-card:nth-child(10) .flip-back {
+    background: #0ea5e9;
+}
+
+/* ================= PODCAST ================= */
+.spotify-player {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: var(--dark);
+    color: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: var(--shadow-md);
+    max-width: 750px;
+    margin: auto;
+    transition: transform 0.3s ease;
+}
+
+.spotify-player:hover {
+    transform: translateY(-5px);
+}
+
+.podcast-cover {
+    width: 120px;
+    height: 120px;
+    border-radius: 12px;
+    object-fit: cover;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+}
+
+.spotify-info h4 {
+    margin-bottom: 6px;
+    font-size: 18px;
+    color: var(--green);
+}
+
+.spotify-info p {
+    font-size: 14px;
+    opacity: 0.85;
+    margin-bottom: 10px;
+}
+
+.spotify-audio {
+    width: 100%;
+    filter: invert(1);
+}
+
+/* ================= VÍDEOS ================= */
+.video-card {
+    background: var(--white);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--border);
+}
+
+.video-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.video-card iframe {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+    display: block;
+}
+
+.video-info {
+    padding: 18px;
+}
+
+.video-info h4 {
+    color: var(--blue);
+    margin-bottom: 6px;
+}
+
+.destaque-video {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+/* ================= TABELAS ================= */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: var(--white);
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+}
+
+.data-table th {
+    background: var(--blue);
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.data-table tbody tr:hover {
+    background: var(--light-gray);
+}
+
+.table-desktop {
+    display: block;
+}
+
+.table-mobile {
+    display: none;
+}
+
+.mobile-row {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+}
+
+.mobile-row strong {
+    display: block;
+    background: var(--blue);
+    color: white;
+    padding: 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+/* ================= SEARCH ================= */
+.search-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+#searchInput {
+    width: 100%;
+    max-width: 600px;
+    padding: 15px;
+    border-radius: 40px;
+    border: 1px solid var(--border);
+    font-family: 'Inter', sans-serif;
+    outline: none;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s;
+}
+
+#searchInput:focus {
+    box-shadow: var(--shadow-md);
+    border-color: var(--blue);
+}
+
+/* ================= DOWNLOAD CARDS ================= */
+.download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-download {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    background: var(--light-gray);
+    color: var(--blue);
+    text-decoration: none;
+    border: 2px solid var(--blue);
+    border-radius: 40px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-download:hover {
+    background: var(--blue);
+    color: white;
+}
+
+/* ================= HISTÓRIA ================= */
+.history-section {
+    background: var(--white);
+    padding: 35px;
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 50px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    border: 1px solid var(--border);
+}
+
+.history-section:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.history-section h2 {
+    color: var(--blue);
+    margin-bottom: 15px;
+}
+
+/* ================= FONTES ================= */
+.fontes {
+    background: var(--light-gray);
+    border-radius: 24px;
+    padding: 2rem;
+    margin-top: 3rem;
+    border: 1px solid var(--border);
+}
+
+.fontes h4 {
+    color: var(--dark);
+    font-size: 1.4rem;
+    margin-bottom: 1.2rem;
+    border-left: 6px solid var(--green);
+    padding-left: 1rem;
+}
+
+.fontes ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.8rem 2rem;
+}
+
+.fontes li {
+    color: #475569;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.fontes li::before {
+    content: "📌";
+    color: var(--green);
+    font-size: 1rem;
+}
+
+.fontes a {
+    color: var(--blue);
+    text-decoration: none;
+    border-bottom: 1px dotted var(--blue);
+}
+
+.fontes a:hover {
+    color: var(--green);
+}
+
+/* ================= EXPLICAÇÃO (BALÃO) ================= */
+.explicacao-container {
+    margin-top: 2.5rem;
+    padding: 2rem;
+    background: #fffbeb;
+    border-left: 8px solid #f59e0b;
+    border-radius: 24px;
+    box-shadow: var(--shadow-sm);
+    font-size: 1rem;
+    line-height: 1.7;
+    display: none;
+}
+
+.explicacao-container.visivel {
+    display: block;
+    animation: fadeSlide 0.4s ease;
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.explicacao-titulo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #b45309;
+    margin-bottom: 1rem;
+    border-bottom: 2px dashed #fcd34d;
+    padding-bottom: 0.5rem;
+}
+
+.explicacao-conteudo {
+    color: #78350f;
+}
+
+/* ================= BNCC CARD (INDEX) ================= */
+.bncc-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 40px;
+    margin-top: -60px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border);
+}
+
+.bncc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.bncc-item {
+    padding: 20px;
+    border-left: 4px solid var(--green);
+    background: var(--light-gray);
+    border-radius: 0 16px 16px 0;
+}

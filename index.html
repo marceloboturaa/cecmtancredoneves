@@ -1,11 +1,127 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Início – Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-    Olá, mundo!
+    <nav>
+        <div class="logo">Colégio Tancredo</div>
+        <div class="menu-toggle">☰</div> <!-- já existente, o JS não deve criar outro -->
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="galeria.html">Galeria</a></li>
+            <li><a href="materias.html">Matérias</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero com carrossel de fundo -->
+    <header class="hero hero-slider">
+        <div class="slider-container" id="heroSlider"></div>
+        <div class="hero-content">
+            <h1>Colégio Estadual Cívico-Militar<br>Tancredo de Almeida Neves</h1>
+            <p>Exposição de Trabalhos Escolares – Educação Financeira</p>
+            <a href="materias.html" class="btn">Ver trabalhos</a>
+        </div>
+    </header>
+
+    <section class="container">
+        <h2>Matérias em destaque</h2>
+        <div class="grid">
+            <div class="card">
+                <h3>Educação Financeira</h3>
+                <p>Moeda, inflação, orçamento familiar – confira os projetos da turma.</p>
+                <a href="materias/educacao-financeira/index.html" class="btn btn-outline">Acessar</a>
+            </div>
+            <!-- outras matérias podem ser adicionadas aqui -->
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Exposição Escolar – Educação Financeira · Colégio Tancredo de Almeida Neves</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Lista completa das imagens (58 nomes – cole aqui a lista que já temos)
+        const imagens = [ "IMG_20260307_152257.jpg",
+                "IMG_20260307_152438.jpg",
+                "IMG_20260307_152625.jpg",
+                "IMG_20260307_152836.jpg",
+                "IMG_20260307_153246.jpg",
+                "IMG_20260307_153407.jpg",
+                "IMG_20260307_153412.jpg",
+                "IMG_20260307_154514.jpg",
+                "IMG_20260307_154526.jpg",
+                "IMG_20260307_154926.jpg",
+                "IMG_20260307_154931.jpg",
+                "IMG_20260307_155132.jpg",
+                "IMG_20260307_155137.jpg",
+                "IMG_20260307_155355.jpg",
+                "IMG_20260307_155406.jpg",
+                "IMG_20260307_155516.jpg",
+                "IMG_20260307_155522.jpg",
+                "IMG_20260307_155805.jpg",
+                "IMG_20260307_155809.jpg",
+                "IMG_20260307_160316.jpg",
+                "IMG_20260307_160320.jpg",
+                "IMG_20260307_160419.jpg",
+                "IMG_20260307_160434.jpg",
+                "IMG_20260307_160453.jpg",
+                "IMG_20260307_160832.jpg",
+                "IMG_20260307_160837.jpg",
+                "IMG_20260307_161007.jpg",
+                "IMG_20260307_161013.jpg",
+                "IMG_20260307_161256.jpg",
+                "IMG_20260307_161301.jpg",
+                "IMG_20260307_161518.jpg",
+                "IMG_20260307_161523.jpg",
+                "IMG_20260307_161926.jpg",
+                "IMG_20260307_161933.jpg",
+                "IMG_20260307_162209.jpg",
+                "IMG_20260307_162213.jpg",
+                "IMG_20260307_162308.jpg",
+                "IMG_20260307_162312.jpg",
+                "IMG_20260307_163223.jpg",
+                "IMG_20260307_163231.jpg",
+                "IMG_20260307_163236.jpg",
+                "IMG_20260307_163241.jpg",
+                "IMG_20260307_163637.jpg",
+                "IMG_20260307_163643.jpg",
+                "IMG_20260307_164507.jpg",
+                "IMG_20260307_164512.jpg",
+                "IMG_20260307_164641.jpg",
+                "IMG_20260307_164645.jpg",
+                "IMG_20260307_164850.jpg",
+                "IMG_20260307_164854.jpg",
+                "IMG_20260307_165010.jpg",
+                "IMG_20260307_165014.jpg",
+                "IMG_20260307_165129.jpg",
+                "IMG_20260307_165132.jpg",
+                "MVIMG_20260307_153314.jpg",
+                "MVIMG_20260307_163706.jpg",
+                "MVIMG_20260307_163837.jpg",
+                "MVIMG_20260307_164254.jpg",
+                "IMG_20260311_110958.jpg",
+                "MVIMG_20260307_164654.jpg" /* ... */];
+
+        const sliderContainer = document.getElementById('heroSlider');
+        if (sliderContainer) {
+            let html = '';
+            // Repete 3 vezes para um fundo denso e sem falhas
+            for (let i = 0; i < 3; i++) {
+                imagens.forEach(img => {
+                    html += `<img src="image/${img}" alt="">`;
+                });
+            }
+            sliderContainer.innerHTML = html;
+        }
+    </script>
 </body>
+
 </html>
