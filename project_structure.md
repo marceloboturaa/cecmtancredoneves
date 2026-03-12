@@ -1,12 +1,12 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 12/03/2026, 13:28:40*
+*Generated on: 12/03/2026, 17:55:34*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 96 |
+| 📄 Total Files | 97 |
 | 📁 Total Folders | 13 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
@@ -19,10 +19,10 @@
 
 ### By File Type
 
-- 🖼️ **.jpg** (JPEG images): 58 files (60.4%)
-- 🌐 **.html** (HTML files): 13 files (13.5%)
-- 📕 **.pdf** (PDF files): 9 files (9.4%)
-- 🎨 **.css** (Stylesheets): 8 files (8.3%)
+- 🖼️ **.jpg** (JPEG images): 58 files (59.8%)
+- 🌐 **.html** (HTML files): 14 files (14.4%)
+- 📕 **.pdf** (PDF files): 9 files (9.3%)
+- 🎨 **.css** (Stylesheets): 8 files (8.2%)
 - 📜 **.js** (JavaScript files): 3 files (3.1%)
 - 📄 **.** (Other files): 2 files (2.1%)
 - 📖 **.md** (Markdown files): 2 files (2.1%)
@@ -30,16 +30,16 @@
 
 ### By Category
 
-- **Assets**: 58 files (60.4%)
-- **Web**: 13 files (13.5%)
-- **Docs**: 11 files (11.5%)
-- **Styles**: 8 files (8.3%)
+- **Assets**: 58 files (59.8%)
+- **Web**: 14 files (14.4%)
+- **Docs**: 11 files (11.3%)
+- **Styles**: 8 files (8.2%)
 - **Other**: 3 files (3.1%)
 - **JavaScript**: 3 files (3.1%)
 
 ### 📁 Largest Directories
 
-- **root**: 96 files
+- **root**: 97 files
 - **image**: 58 files
 - **css**: 8 files
 - **slaides**: 6 files
@@ -135,7 +135,7 @@ cecmtancredoneves/
 │   └── 📕 lviro-educacaeducacao-financeira-nas-escolas-ensino-medio-livro-do-professor.pdf
 ├── 📂 materias/
 │   ├── 📂 educacao-financeira/
-│   │   ├── 🌐 historia-do-dinheiro.html
+│   │   ├── 🌐 historia-do-dinheiro-brasil.html
 │   │   └── 🌐 index.html
 │   ├── 📂 filosofia/
 │   │   └── 🌐 index.html
@@ -157,7 +157,8 @@ cecmtancredoneves/
 ├── 🌐 slaides.html
 ├── 🌐 sobre.html
 ├── 🌐 visualizador-livro.html
-└── 🌐 visualizador-pdf.html
+├── 🌐 visualizador-pdf.html
+└── 🌐 visualizador-slaides.html
 ```
 
 ## 📖 Legend

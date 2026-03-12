@@ -4,59 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
     <title>Matérias – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+    <!-- NAVBAR -->
     <nav>
-        <div class="logo">Colégio Tancredo</div>
+        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="menu-toggle">☰</div>
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
             <li><a href="materias.html">Matérias</a></li>
             <li><a href="mural.html">Mural</a></li>
-            <li><a href="slaides.html">Slaides</a></li>
+            <li><a href="slaides.html">Slides</a></li>
             <li><a href="acervo.html">Acervo</a></li>
-            
+            <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
 
-    <header class="hero">
+    <!-- HERO -->
+    <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
         <h1>Matérias</h1>
         <p>Navegue pelos trabalhos organizados por disciplina</p>
     </header>
 
+    <!-- CONTEÚDO PRINCIPAL -->
     <section class="container">
         <div class="materias-grid">
-            <!-- Educação Financeira -->
-            <a href="materias/educacao-financeira/index.html" class="card">
-                <h3>Educação Financeira</h3>
-                <p>Projetos sobre dinheiro, consumo e planejamento.</p>
-                <span class="btn btn-outline" style="margin-top: 1rem;">Acessar →</span>
-            </a>
-            <!-- Robotiva -->
-            <a href="materias/robotiva/index.html" class="card">
-                <h3>Robotiva</h3>
-                <p>Robótica educacional e pensamento computacional.</p>
-                <span class="btn btn-outline" style="margin-top: 1rem;">Acessar →</span>
-            </a>
-            <!-- Filosofia -->
-            <a href="materias/filosofia/index.html" class="card">
-                <h3>Filosofia</h3>
-                <p>Reflexões, ética e pensamento crítico.</p>
-                <span class="btn btn-outline" style="margin-top: 1rem;">Acessar →</span>
-            </a>
-            <!-- Maker -->
-            <a href="materias/maker/index.html" class="card">
-                <h3>Maker</h3>
-                <p>Cultura maker, prototipagem e criatividade.</p>
-                <span class="btn btn-outline" style="margin-top: 1rem;">Acessar →</span>
-            </a>
+            <!-- exemplo de cartão flip -->
+            <div class="flip-card">
+                <div class="flip-inner" style="--accent:var(--green); --accent-hover:var(--green-dark);">
+                    <a href="materias/educacao-financeira/index.html">
+                        <div class="flip-front card">
+                            <h3>Educação Financeira</h3>
+                            <p>Projetos sobre dinheiro, consumo e planejamento.</p>
+                        </div>
+                        <div class="flip-back card">
+                            <h3>Acessar</h3>
+                            <span class="btn btn-outline">→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- outros cartões seguem o mesmo padrão -->
+            <div class="flip-card">
+                <div class="flip-inner" style="--accent:#0ea5e9; --accent-hover:#0284c7;">
+                    <a href="materias/robotiva/index.html">
+                        <div class="flip-front card">
+                            <h3>Robotiva</h3>
+                            <p>Robótica educacional e pensamento computacional.</p>
+                        </div>
+                        <div class="flip-back card">
+                            <h3>Acessar</h3>
+                            <span class="btn btn-outline">→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-inner" style="--accent:#9333ea; --accent-hover:#7e22ce;">
+                    <a href="materias/filosofia/index.html">
+                        <div class="flip-front card">
+                            <h3>Filosofia</h3>
+                            <p>Reflexões, ética e pensamento crítico.</p>
+                        </div>
+                        <div class="flip-back card">
+                            <h3>Acessar</h3>
+                            <span class="btn btn-outline">→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="flip-card">
+                <div class="flip-inner" style="--accent:#d97706; --accent-hover:#b45309;">
+                    <a href="materias/maker/index.html">
+                        <div class="flip-front card">
+                            <h3>Maker</h3>
+                            <p>Cultura maker, prototipagem e criatividade.</p>
+                        </div>
+                        <div class="flip-back card">
+                            <h3>Acessar</h3>
+                            <span class="btn btn-outline">→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <p>© 2026 Exposição Escolar – Educação Financeira · Colégio Tancredo de Almeida Neves</p>
+    <!-- RODAPÉ -->
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">© 2026 Colégio Tancredo Neves · Exposição de Trabalhos Escolares</span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>
