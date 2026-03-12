@@ -6,66 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apresentações – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- PDF.js para gerar thumbnails -->
+    <link rel="stylesheet" href="css/slaides.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <style>
-        /* Estilos específicos para os cards com miniatura */
-        .pdf-card {
-            background: var(--white);
-            border-radius: 24px;
-            padding: 1.5rem;
-            border: 1px solid var(--border);
-            transition: all 0.2s ease;
-            text-align: center;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .pdf-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-md);
-            border-color: transparent;
-        }
-
-        .pdf-thumb {
-            width: 100%;
-            aspect-ratio: 3 / 4;
-            background: #f1f5f9;
-            border-radius: 16px;
-            margin-bottom: 1rem;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid transparent;
-            transition: border-color 0.2s, box-shadow 0.2s;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .pdf-card:hover .pdf-thumb {
-            border-color: var(--green);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-        }
-
-        .pdf-thumb canvas {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .pdf-card h3 {
-            color: var(--blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .pdf-card p {
-            color: #475569;
-            font-size: 0.9rem;
-        }
-    </style>
 </head>
 
 <body>
@@ -74,16 +16,15 @@
         <div class="menu-toggle">☰</div>
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
-            <li><a href="mural.html">Mural</a></li>
             <li><a href="materias.html">Matérias</a></li>
-            <li><a href="apresentacoes.html" class="active">Apresentações</a></li>
-            <li><a href="sobre.html">Sobre</a></li>
+            <li><a href="mural.html">Mural</a></li>
+            <li><a href="slaides.html">Slaides</a></li>
+            <li><a href="acervo.html">Acervo</a></li>
         </ul>
     </nav>
 
     <header class="hero">
-        <h1>Apresentações em PDF</h1>
+        <h1>Apresentações</h1>
         <p>Clique em cada card para visualizar os slides</p>
     </header>
 
@@ -91,16 +32,26 @@
         <div class="grid" id="pdf-list"></div>
     </section>
 
-    <footer>
-        <p>© 2026 Exposição Escolar – Educação Financeira · Colégio Tancredo de Almeida Neves</p>
+    <!-- RODAPÉ PADRONIZADO -->
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 Colégio Tancredo Neves · Exposição de Trabalhos Escolares
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="js/main.js"></script>
     <script>
-        // Configuração do PDF.js worker
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // Lista completa dos slides (pasta slaides/) com títulos extraídos dos nomes dos arquivos
         const slides = [
             { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro", descricao: "Slides sobre orçamento familiar, inflação e poupança." },
             { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto", descricao: "Preparação para emergências financeiras." },
@@ -112,12 +63,12 @@
 
         const container = document.getElementById('pdf-list');
 
-        // Função para gerar thumbnail de um PDF
         async function gerarThumbnail(pdfPath, index) {
             try {
                 const pdf = await pdfjsLib.getDocument(pdfPath).promise;
                 const page = await pdf.getPage(1);
-                const viewport = page.getViewport({ scale: 0.5 });
+                const scale = 0.8;
+                const viewport = page.getViewport({ scale });
                 const canvas = document.createElement('canvas');
                 const context = canvas.getContext('2d');
                 canvas.width = viewport.width;
@@ -132,12 +83,11 @@
                 console.error('Erro ao gerar thumbnail', pdfPath, error);
                 const thumbDiv = document.querySelector(`.pdf-card[data-index="${index}"] .pdf-thumb`);
                 if (thumbDiv) {
-                    thumbDiv.innerHTML = '<span style="color: #888;">Sem prévia</span>';
+                    thumbDiv.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;">Sem prévia</div>';
                 }
             }
         }
 
-        // Cria os cards no container
         slides.forEach((slide, idx) => {
             const card = document.createElement('div');
             card.className = 'pdf-card';
@@ -152,14 +102,13 @@
             container.appendChild(card);
         });
 
-        // Para cada card, carrega a thumbnail (caminho atualizado para slaides/)
         slides.forEach((slide, idx) => {
             const pdfPath = `slaides/${slide.arquivo}`;
             gerarThumbnail(pdfPath, idx);
         });
 
         function abrirVisualizador(arquivo) {
-            window.open(`visualizador-pdf.html?file=${encodeURIComponent(arquivo)}&pasta=slaides`, '_blank');
+            window.open(`visualizador-slaides.html?file=${encodeURIComponent(arquivo)}&pasta=slaides`, '_blank');
         }
     </script>
 </body>

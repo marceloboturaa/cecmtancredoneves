@@ -198,3 +198,12 @@ footer .container {
         width: 100px;
     }
 }
+@media (max-width: 480px) {
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+}

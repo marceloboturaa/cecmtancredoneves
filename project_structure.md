@@ -1,12 +1,12 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 12/03/2026, 11:03:34*
+*Generated on: 12/03/2026, 13:28:40*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 92 |
+| 📄 Total Files | 96 |
 | 📁 Total Folders | 13 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
@@ -19,28 +19,29 @@
 
 ### By File Type
 
-- 🖼️ **.jpg** (JPEG images): 58 files (63.0%)
-- 🌐 **.html** (HTML files): 13 files (14.1%)
-- 📕 **.pdf** (PDF files): 9 files (9.8%)
-- 🎨 **.css** (Stylesheets): 6 files (6.5%)
-- 📄 **.** (Other files): 2 files (2.2%)
-- 📜 **.js** (JavaScript files): 2 files (2.2%)
-- 📖 **.md** (Markdown files): 2 files (2.2%)
+- 🖼️ **.jpg** (JPEG images): 58 files (60.4%)
+- 🌐 **.html** (HTML files): 13 files (13.5%)
+- 📕 **.pdf** (PDF files): 9 files (9.4%)
+- 🎨 **.css** (Stylesheets): 8 files (8.3%)
+- 📜 **.js** (JavaScript files): 3 files (3.1%)
+- 📄 **.** (Other files): 2 files (2.1%)
+- 📖 **.md** (Markdown files): 2 files (2.1%)
+- 📄 **.mp3** (Other files): 1 files (1.0%)
 
 ### By Category
 
-- **Assets**: 58 files (63.0%)
-- **Web**: 13 files (14.1%)
-- **Docs**: 11 files (12.0%)
-- **Styles**: 6 files (6.5%)
-- **Other**: 2 files (2.2%)
-- **JavaScript**: 2 files (2.2%)
+- **Assets**: 58 files (60.4%)
+- **Web**: 13 files (13.5%)
+- **Docs**: 11 files (11.5%)
+- **Styles**: 8 files (8.3%)
+- **Other**: 3 files (3.1%)
+- **JavaScript**: 3 files (3.1%)
 
 ### 📁 Largest Directories
 
-- **root**: 92 files
+- **root**: 96 files
 - **image**: 58 files
-- **css**: 6 files
+- **css**: 8 files
 - **slaides**: 6 files
 - **materias**: 5 files
 
@@ -52,15 +53,17 @@ cecmtancredoneves/
 ├── 🌐 acervo.html
 ├── 📂 apostilas/
 │   └── 📕 apostila-educacao-financeira-pessoal.pdf
-├── 🌐 apresentacoes.html
 ├── 📦 assets/
 ├── 📂 audio/
+│   └── 📄 page-flip.mp3
 ├── 🎨 css/
+│   ├── 🎨 acervo.css
 │   ├── 🎨 components.css
 │   ├── 🎨 layout.css
 │   ├── 🎨 pages.css
+│   ├── 🎨 slaides.css
 │   ├── 🎨 style.css
-│   ├── 🎨 style1.css
+│   ├── 🎨 visualizador-livro.css
 │   └── 🎨 visualizador.css
 ├── 📂 image/
 │   ├── 🖼️ IMG_20260307_152257.jpg
@@ -123,6 +126,7 @@ cecmtancredoneves/
 │   └── 🖼️ subcanal_ciencia_usp-150x150.jpg
 ├── 🌐 index.html
 ├── 📂 js/
+│   ├── 📜 loader.js
 │   ├── 📜 main.js
 │   └── 📜 turn.min.js
 ├── 📄 LICENSE
@@ -150,6 +154,7 @@ cecmtancredoneves/
 │   ├── 📕 história-do-dinheiro-externo-otimizado.pdf
 │   ├── 📕 preparacao-para-imprevisto-otimizado.pdf
 │   └── 📕 Receitas-e-dispesas-otimizado.pdf
+├── 🌐 slaides.html
 ├── 🌐 sobre.html
 ├── 🌐 visualizador-livro.html
 └── 🌐 visualizador-pdf.html

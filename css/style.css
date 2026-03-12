@@ -1,3 +1,6 @@
+/* css/style.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 @import "layout.css";
 @import "components.css";
 @import "pages.css";
@@ -5,7 +8,11 @@
 :root {
     --white: #ffffff;
     --green: #68813c;
+    /* verde principal do colégio */
+    --green-dark: #5a6e34;
+    /* verde mais escuro para hovers e destaques */
     --blue: #173557;
+    /* azul principal do colégio */
     --dark: #1e293b;
     --light-gray: #f8fafc;
     --border: #e2e8f0;
@@ -20,7 +27,7 @@
 }
 
 body {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--white);
     color: var(--dark);
     line-height: 1.6;

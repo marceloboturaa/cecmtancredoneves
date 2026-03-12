@@ -18,7 +18,8 @@
 }
 
 .btn:hover {
-    background: #5a6e34;
+    background: var(--green-dark);
+    /* usa a variável para manter consistência */
     transform: scale(0.98);
 }
 
@@ -107,7 +108,7 @@
     line-height: 1.4;
 }
 
-/* cores alternadas para os versos */
+/* cores alternadas para os versos - mantidas variadas, mas pode-se padronizar com tons de verde/azul se desejar */
 .flip-card:nth-child(1) .flip-back {
     background: var(--blue);
 }
@@ -117,17 +118,20 @@
 }
 
 .flip-card:nth-child(3) .flip-back {
-    background: #7c3aed;
+    background: #2d4b7a;
 }
 
+/* azul mais escuro */
 .flip-card:nth-child(4) .flip-back {
-    background: #ea580c;
+    background: #4a6b2e;
 }
 
+/* verde mais escuro */
 .flip-card:nth-child(5) .flip-back {
     background: #0891b2;
 }
 
+/* pode ser substituído */
 .flip-card:nth-child(6) .flip-back {
     background: #dc2626;
 }
@@ -403,8 +407,9 @@
 .explicacao-container {
     margin-top: 2.5rem;
     padding: 2rem;
-    background: #fffbeb;
-    border-left: 8px solid #f59e0b;
+    background: #f0f7e9;
+    /* tom claro de verde (substituído) */
+    border-left: 8px solid var(--green);
     border-radius: 24px;
     box-shadow: var(--shadow-sm);
     font-size: 1rem;
@@ -432,14 +437,17 @@
 .explicacao-titulo {
     font-size: 1.6rem;
     font-weight: 700;
-    color: #b45309;
+    color: var(--green-dark);
+    /* ajustado */
     margin-bottom: 1rem;
     border-bottom: 2px dashed #fcd34d;
+    /* pode manter ou ajustar */
     padding-bottom: 0.5rem;
 }
 
 .explicacao-conteudo {
-    color: #78350f;
+    color: var(--dark);
+    /* ajustado */
 }
 
 /* ================= BNCC CARD (INDEX) ================= */

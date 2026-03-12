@@ -2,394 +2,328 @@
 <html lang="pt-br">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Visualizador de Livro</title>
-
     <link rel="stylesheet" href="css/visualizador-livro.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
     <script src="js/loader.js"></script>
-
 </head>
 
 <body>
-
     <div class="toolbar">
-
         <button class="close-btn" onclick="fechar()">
             <i class="fas fa-times"></i>
         </button>
-
         <button onclick="previousPage()">
             <i class="fas fa-chevron-left"></i>
         </button>
-
         <span>Página</span>
-
         <input type="number" id="goto-page" value="1" min="1">
-
         <span>de <span id="page-count">?</span></span>
-
         <button onclick="goToPage()">Ir</button>
-
         <button onclick="nextPage()">
             <i class="fas fa-chevron-right"></i>
         </button>
-
         <button onclick="zoomIn()">
             <i class="fas fa-search-plus"></i>
         </button>
-
         <button onclick="zoomOut()">
             <i class="fas fa-search-minus"></i>
         </button>
-
         <span id="zoom-level">100%</span>
-
         <button id="sound-btn" onclick="toggleSound()">
             <i class="fas fa-volume-up"></i>
         </button>
-
         <button onclick="toggleFullscreen()">
             <i class="fas fa-expand"></i>
         </button>
-
     </div>
 
-
     <div id="viewer">
-
         <div id="book">
             <div class="spinner" id="loading-spinner"></div>
         </div>
-
     </div>
-
 
     <audio id="flip-sound">
         <source src="audio/page-flip.mp3" type="audio/mpeg">
     </audio>
 
-
-
     <script>
-
         (function () {
-
-            const params = new URLSearchParams(window.location.search)
-
-            const arquivo = params.get("file")
-            const pasta = params.get("pasta") || "livros"
+            const params = new URLSearchParams(window.location.search);
+            const arquivo = params.get("file");
+            const pasta = params.get("pasta") || "livros";
 
             if (!arquivo) {
-
-                document.body.innerHTML += "<h2>Arquivo não informado</h2>"
-                return
-
+                document.body.innerHTML += "<h2>Arquivo não informado</h2>";
+                return;
             }
 
-            const pdfPath = `${pasta}/${arquivo}`
+            const pdfPath = `${pasta}/${arquivo}`;
 
-            let pdfDoc = null
-            let pageCount = 0
-            let scale = 1
-            let currentPage = 1
-            let soundEnabled = true
+            let pdfDoc = null;
+            let pageCount = 0;
+            let scale = 1;
+            let currentPage = 1;
+            let soundEnabled = true;
+            let resizeTimer;
+            let lastDisplay = window.innerWidth < 600 ? "single" : "double";
 
-            const sound = document.getElementById("flip-sound")
-            const soundBtn = document.getElementById("sound-btn")
-
-            const pageCountSpan = document.getElementById("page-count")
-            const gotoInput = document.getElementById("goto-page")
-            const zoomLevelSpan = document.getElementById("zoom-level")
-            const bookElement = document.getElementById("book")
+            const sound = document.getElementById("flip-sound");
+            const soundBtn = document.getElementById("sound-btn");
+            const pageCountSpan = document.getElementById("page-count");
+            const gotoInput = document.getElementById("goto-page");
+            const zoomLevelSpan = document.getElementById("zoom-level");
+            const bookElement = document.getElementById("book");
+            const viewer = document.getElementById("viewer");
 
             const dependencies = [
-
                 "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js",
                 "https://code.jquery.com/jquery-3.6.0.min.js",
                 "js/turn.min.js"
+            ];
 
-            ]
-
-            Loader.load(dependencies, iniciarPDF)
-
-
+            Loader.load(dependencies, iniciarPDF);
 
             function iniciarPDF() {
-
                 pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"
+                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
                 pdfjsLib.getDocument(pdfPath).promise.then(function (pdf) {
+                    pdfDoc = pdf;
+                    pageCount = pdf.numPages;
 
-                    pdfDoc = pdf
-                    pageCount = pdf.numPages
+                    pageCountSpan.textContent = pageCount;
+                    gotoInput.max = pageCount;
 
-                    pageCountSpan.textContent = pageCount
-                    gotoInput.max = pageCount
-
-                    document.getElementById("loading-spinner").remove()
+                    document.getElementById("loading-spinner").remove();
 
                     for (let i = 1; i <= pageCount; i++) {
-
-                        const page = document.createElement("div")
-                        page.className = "page"
-                        page.id = "page-" + i
-
-                        bookElement.appendChild(page)
-
+                        const page = document.createElement("div");
+                        page.className = "page";
+                        page.id = "page-" + i;
+                        bookElement.appendChild(page);
                     }
 
-                    renderPage(1)
-
-                    setTimeout(initTurn, 400)
-
-                })
-
+                    renderPage(1);
+                    setTimeout(initTurn, 400);
+                });
             }
 
-
-
             function renderPage(num) {
-
                 pdfDoc.getPage(num).then(function (page) {
-
-                    const viewport = page.getViewport({ scale: scale })
-
-                    const canvas = document.createElement("canvas")
-                    const ctx = canvas.getContext("2d")
-
-                    canvas.width = viewport.width
-                    canvas.height = viewport.height
-
+                    const viewport = page.getViewport({ scale: scale });
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
                     page.render({
                         canvasContext: ctx,
                         viewport: viewport
-                    })
-
-                    document.getElementById("page-" + num).appendChild(canvas)
-
-                })
-
+                    });
+                    document.getElementById("page-" + num).appendChild(canvas);
+                });
             }
 
-
-
             function initTurn() {
-
-                const largura = Math.min(window.innerWidth * 0.9, 1200)
-                const altura = window.innerHeight * 0.85
+                const largura = Math.min(window.innerWidth * 0.9, 1200);
+                const altura = window.innerHeight * 0.85;
+                const display = window.innerWidth < 600 ? "single" : "double";
 
                 $("#book").turn({
-
                     width: largura,
                     height: altura,
-
                     autoCenter: true,
                     gradients: true,
                     elevation: 50,
-
-                    display: "double",
-
+                    display: display,
                     when: {
-
                         turning: function (event, page) {
-
-                            currentPage = page
-                            gotoInput.value = page
-
+                            currentPage = page;
+                            gotoInput.value = page;
                             if (soundEnabled) {
-
-                                sound.currentTime = 0
-                                sound.play()
-
+                                sound.currentTime = 0;
+                                sound.play();
                             }
-
-                            lazyLoad(page)
-
+                            lazyLoad(page);
                         }
-
                     }
+                });
 
-                })
+                // Suporte a swipe
+                let touchStartX = 0;
+                bookElement.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
 
+                bookElement.addEventListener('touchend', (e) => {
+                    const touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchEndX - touchStartX;
+                    if (Math.abs(diff) > 50) {
+                        if (diff < 0) nextPage();
+                        else previousPage();
+                    }
+                }, { passive: true });
             }
 
+            // Função para recriar o livro com novo display
+            function recreateBook() {
+                if (!$("#book").data("turn")) return;
 
+                // Salva página atual
+                const savedPage = currentPage;
+
+                // Destroi o livro
+                $("#book").turn("destroy").empty();
+
+                // Recria as páginas
+                for (let i = 1; i <= pageCount; i++) {
+                    const page = document.createElement("div");
+                    page.className = "page";
+                    page.id = "page-" + i;
+                    bookElement.appendChild(page);
+                }
+
+                // Renderiza a página atual novamente
+                renderPage(savedPage);
+
+                // Reinicializa o turn com as novas dimensões e display
+                setTimeout(() => {
+                    const largura = Math.min(window.innerWidth * 0.9, 1200);
+                    const altura = window.innerHeight * 0.85;
+                    const display = window.innerWidth < 600 ? "single" : "double";
+
+                    $("#book").turn({
+                        width: largura,
+                        height: altura,
+                        autoCenter: true,
+                        gradients: true,
+                        elevation: 50,
+                        display: display,
+                        page: savedPage, // vai direto para a página salva
+                        when: {
+                            turning: function (event, page) {
+                                currentPage = page;
+                                gotoInput.value = page;
+                                if (soundEnabled) {
+                                    sound.currentTime = 0;
+                                    sound.play();
+                                }
+                                lazyLoad(page);
+                            }
+                        }
+                    });
+
+                    // Atualiza o input
+                    gotoInput.value = savedPage;
+                    currentPage = savedPage;
+                }, 100);
+            }
+
+            // Redimensionamento responsivo
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    if ($("#book").data("turn")) {
+                        const currentDisplay = window.innerWidth < 600 ? "single" : "double";
+                        if (currentDisplay !== lastDisplay) {
+                            // Mudou o modo de exibição → recria o livro
+                            lastDisplay = currentDisplay;
+                            recreateBook();
+                        } else {
+                            // Apenas redimensiona
+                            const novaLargura = Math.min(window.innerWidth * 0.9, 1200);
+                            const novaAltura = window.innerHeight * 0.85;
+                            $("#book").turn("size", novaLargura, novaAltura);
+                        }
+                    }
+                }, 200);
+            });
 
             function lazyLoad(page) {
-
-                const pages = [page - 1, page, page + 1]
-
+                const pages = [page - 1, page, page + 1];
                 pages.forEach(p => {
-
                     if (p >= 1 && p <= pageCount) {
-
-                        const el = document.getElementById("page-" + p)
-
+                        const el = document.getElementById("page-" + p);
                         if (el && !el.hasChildNodes()) {
-
-                            renderPage(p)
-
+                            renderPage(p);
                         }
-
                     }
-
-                })
-
+                });
             }
-
-
 
             window.previousPage = function () {
-
-                $("#book").turn("previous")
-
-            }
+                $("#book").turn("previous");
+            };
 
             window.nextPage = function () {
-
-                $("#book").turn("next")
-
-            }
-
-
+                $("#book").turn("next");
+            };
 
             window.goToPage = function () {
-
-                let page = parseInt(gotoInput.value)
-
-                if (page < 1) page = 1
-                if (page > pageCount) page = pageCount
-
-                $("#book").turn("page", page)
-
-            }
-
-
+                let page = parseInt(gotoInput.value);
+                if (page < 1) page = 1;
+                if (page > pageCount) page = pageCount;
+                $("#book").turn("page", page);
+            };
 
             window.zoomIn = function () {
-
-                scale += 0.2
-
-                zoomLevelSpan.textContent = Math.round(scale * 100) + "%"
-
-                reloadPages()
-
-            }
+                scale += 0.2;
+                zoomLevelSpan.textContent = Math.round(scale * 100) + "%";
+                reloadPages();
+            };
 
             window.zoomOut = function () {
-
-                scale -= 0.2
-
-                if (scale < 0.6) scale = 0.6
-
-                zoomLevelSpan.textContent = Math.round(scale * 100) + "%"
-
-                reloadPages()
-
-            }
-
-
+                scale -= 0.2;
+                if (scale < 0.6) scale = 0.6;
+                zoomLevelSpan.textContent = Math.round(scale * 100) + "%";
+                reloadPages();
+            };
 
             function reloadPages() {
-
                 for (let i = 1; i <= pageCount; i++) {
-
-                    document.getElementById("page-" + i).innerHTML = ""
-
+                    document.getElementById("page-" + i).innerHTML = "";
                 }
-
-                renderPage(currentPage)
-
+                renderPage(currentPage);
             }
-
-
 
             window.toggleFullscreen = function () {
-
                 if (!document.fullscreenElement) {
-
-                    document.documentElement.requestFullscreen()
-
+                    document.documentElement.requestFullscreen();
                 } else {
-
-                    document.exitFullscreen()
-
+                    document.exitFullscreen();
                 }
-
-            }
-
-
+            };
 
             window.toggleSound = function () {
-
-                soundEnabled = !soundEnabled
-
-                if (soundEnabled) {
-
-                    soundBtn.innerHTML = '<i class="fas fa-volume-up"></i>'
-
-                } else {
-
-                    soundBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'
-
-                }
-
-            }
-
-
+                soundEnabled = !soundEnabled;
+                soundBtn.innerHTML = soundEnabled
+                    ? '<i class="fas fa-volume-up"></i>'
+                    : '<i class="fas fa-volume-mute"></i>';
+            };
 
             window.fechar = function () {
+                window.close();
+            };
 
-                window.close()
-
-            }
-
-
-
-            /* teclado */
-
+            // Teclado
             document.addEventListener("keydown", function (e) {
+                if (e.key === "ArrowRight") nextPage();
+                if (e.key === "ArrowLeft") previousPage();
+            });
 
-                if (e.key === "ArrowRight") nextPage()
-                if (e.key === "ArrowLeft") previousPage()
-
-            })
-
-
-
-            /* zoom com mouse */
-
-            document.getElementById("viewer").addEventListener("wheel", function (e) {
-
+            // Zoom com mouse
+            viewer.addEventListener("wheel", function (e) {
                 if (e.ctrlKey) {
-
-                    e.preventDefault()
-
-                    if (e.deltaY < 0) {
-
-                        zoomIn()
-
-                    } else {
-
-                        zoomOut()
-
-                    }
-
+                    e.preventDefault();
+                    if (e.deltaY < 0) zoomIn();
+                    else zoomOut();
                 }
-
-            }, { passive: false })
-
-        })()
-
+            }, { passive: false });
+        })();
     </script>
-
 </body>
 
 </html>

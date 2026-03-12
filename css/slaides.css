@@ -1,0 +1,124 @@
+.pdf-card {
+    background: var(--white);
+    border-radius: 24px;
+    padding: 2rem 1.5rem;
+    /* aumentado */
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+    text-align: center;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+}
+
+.pdf-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+}
+
+.pdf-thumb {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    /* mais alto que 16/9 */
+    background: #f1f5f9;
+    border-radius: 16px;
+    /* um pouco maior */
+    margin-bottom: 1.2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid transparent;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.pdf-card:hover .pdf-thumb {
+    border-color: var(--green);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.pdf-thumb canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-color: #f1f5f9;
+    display: block;
+}
+
+.pdf-card h3 {
+    color: var(--blue);
+    margin-bottom: 0.6rem;
+    font-size: 1.2rem;
+    /* aumentado */
+}
+
+.pdf-card p {
+    color: #475569;
+    font-size: 1rem;
+    /* aumentado */
+    margin-bottom: 0;
+    line-height: 1.4;
+}
+
+/* Ajuste do grid específico para a página de slides */
+/* Sobrescreve a classe .grid definida em layout.css */
+.grid {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* mínimo maior */
+    gap: 2rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .pdf-card {
+        padding: 1.5rem 1rem;
+    }
+
+    .pdf-thumb {
+        aspect-ratio: 4 / 3;
+        /* mantém a proporção */
+    }
+
+    .pdf-card h3 {
+        font-size: 1.1rem;
+    }
+
+    .pdf-card p {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        grid-template-columns: 1fr;
+        /* uma coluna */
+        gap: 1.2rem;
+    }
+
+    .pdf-card {
+        padding: 1.2rem;
+    }
+
+    .pdf-thumb {
+        aspect-ratio: 16 / 9;
+        /* volta para widescreen em telas pequenas para não ocupar muito espaço vertical */
+        margin-bottom: 1rem;
+    }
+
+    .pdf-card h3 {
+        font-size: 1rem;
+    }
+
+    .pdf-card p {
+        font-size: 0.85rem;
+    }
+}
