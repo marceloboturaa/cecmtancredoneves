@@ -1,15 +1,11 @@
-/* MENU MOBILE */
+/* MENU MOBILE – usa o botão já existente no HTML */
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.nav-links');
 
-const menuToggle = document.createElement("div")
-
-menuToggle.innerHTML = "☰"
-
-menuToggle.classList.add("menu-toggle")
-
-document.querySelector("nav").appendChild(menuToggle)
-
-menuToggle.addEventListener("click",()=>{
-
-document.querySelector(".nav-links").classList.toggle("active")
-
-})
+    if (menuToggle) {
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+        });
+    }
+});

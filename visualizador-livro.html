@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Visualizador de Livro</title>
+
+    <link rel="stylesheet" href="css/visualizador-livro.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="js/loader.js"></script>
+
+</head>
+
+<body>
+
+    <div class="toolbar">
+
+        <button class="close-btn" onclick="fechar()">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <button onclick="previousPage()">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <span>Página</span>
+
+        <input type="number" id="goto-page" value="1" min="1">
+
+        <span>de <span id="page-count">?</span></span>
+
+        <button onclick="goToPage()">Ir</button>
+
+        <button onclick="nextPage()">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <button onclick="zoomIn()">
+            <i class="fas fa-search-plus"></i>
+        </button>
+
+        <button onclick="zoomOut()">
+            <i class="fas fa-search-minus"></i>
+        </button>
+
+        <span id="zoom-level">100%</span>
+
+        <button id="sound-btn" onclick="toggleSound()">
+            <i class="fas fa-volume-up"></i>
+        </button>
+
+        <button onclick="toggleFullscreen()">
+            <i class="fas fa-expand"></i>
+        </button>
+
+    </div>
+
+
+    <div id="viewer">
+
+        <div id="book">
+            <div class="spinner" id="loading-spinner"></div>
+        </div>
+
+    </div>
+
+
+    <audio id="flip-sound">
+        <source src="audio/page-flip.mp3" type="audio/mpeg">
+    </audio>
+
+
+
+    <script>
+
+        (function () {
+
+            const params = new URLSearchParams(window.location.search)
+
+            const arquivo = params.get("file")
+            const pasta = params.get("pasta") || "livros"
+
+            if (!arquivo) {
+
+                document.body.innerHTML += "<h2>Arquivo não informado</h2>"
+                return
+
+            }
+
+            const pdfPath = `${pasta}/${arquivo}`
+
+            let pdfDoc = null
+            let pageCount = 0
+            let scale = 1
+            let currentPage = 1
+            let soundEnabled = true
+
+            const sound = document.getElementById("flip-sound")
+            const soundBtn = document.getElementById("sound-btn")
+
+            const pageCountSpan = document.getElementById("page-count")
+            const gotoInput = document.getElementById("goto-page")
+            const zoomLevelSpan = document.getElementById("zoom-level")
+            const bookElement = document.getElementById("book")
+
+            const dependencies = [
+
+                "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js",
+                "https://code.jquery.com/jquery-3.6.0.min.js",
+                "js/turn.min.js"
+
+            ]
+
+            Loader.load(dependencies, iniciarPDF)
+
+
+
+            function iniciarPDF() {
+
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js"
+
+                pdfjsLib.getDocument(pdfPath).promise.then(function (pdf) {
+
+                    pdfDoc = pdf
+                    pageCount = pdf.numPages
+
+                    pageCountSpan.textContent = pageCount
+                    gotoInput.max = pageCount
+
+                    document.getElementById("loading-spinner").remove()
+
+                    for (let i = 1; i <= pageCount; i++) {
+
+                        const page = document.createElement("div")
+                        page.className = "page"
+                        page.id = "page-" + i
+
+                        bookElement.appendChild(page)
+
+                    }
+
+                    renderPage(1)
+
+                    setTimeout(initTurn, 400)
+
+                })
+
+            }
+
+
+
+            function renderPage(num) {
+
+                pdfDoc.getPage(num).then(function (page) {
+
+                    const viewport = page.getViewport({ scale: scale })
+
+                    const canvas = document.createElement("canvas")
+                    const ctx = canvas.getContext("2d")
+
+                    canvas.width = viewport.width
+                    canvas.height = viewport.height
+
+                    page.render({
+                        canvasContext: ctx,
+                        viewport: viewport
+                    })
+
+                    document.getElementById("page-" + num).appendChild(canvas)
+
+                })
+
+            }
+
+
+
+            function initTurn() {
+
+                const largura = Math.min(window.innerWidth * 0.9, 1200)
+                const altura = window.innerHeight * 0.85
+
+                $("#book").turn({
+
+                    width: largura,
+                    height: altura,
+
+                    autoCenter: true,
+                    gradients: true,
+                    elevation: 50,
+
+                    display: "double",
+
+                    when: {
+
+                        turning: function (event, page) {
+
+                            currentPage = page
+                            gotoInput.value = page
+
+                            if (soundEnabled) {
+
+                                sound.currentTime = 0
+                                sound.play()
+
+                            }
+
+                            lazyLoad(page)
+
+                        }
+
+                    }
+
+                })
+
+            }
+
+
+
+            function lazyLoad(page) {
+
+                const pages = [page - 1, page, page + 1]
+
+                pages.forEach(p => {
+
+                    if (p >= 1 && p <= pageCount) {
+
+                        const el = document.getElementById("page-" + p)
+
+                        if (el && !el.hasChildNodes()) {
+
+                            renderPage(p)
+
+                        }
+
+                    }
+
+                })
+
+            }
+
+
+
+            window.previousPage = function () {
+
+                $("#book").turn("previous")
+
+            }
+
+            window.nextPage = function () {
+
+                $("#book").turn("next")
+
+            }
+
+
+
+            window.goToPage = function () {
+
+                let page = parseInt(gotoInput.value)
+
+                if (page < 1) page = 1
+                if (page > pageCount) page = pageCount
+
+                $("#book").turn("page", page)
+
+            }
+
+
+
+            window.zoomIn = function () {
+
+                scale += 0.2
+
+                zoomLevelSpan.textContent = Math.round(scale * 100) + "%"
+
+                reloadPages()
+
+            }
+
+            window.zoomOut = function () {
+
+                scale -= 0.2
+
+                if (scale < 0.6) scale = 0.6
+
+                zoomLevelSpan.textContent = Math.round(scale * 100) + "%"
+
+                reloadPages()
+
+            }
+
+
+
+            function reloadPages() {
+
+                for (let i = 1; i <= pageCount; i++) {
+
+                    document.getElementById("page-" + i).innerHTML = ""
+
+                }
+
+                renderPage(currentPage)
+
+            }
+
+
+
+            window.toggleFullscreen = function () {
+
+                if (!document.fullscreenElement) {
+
+                    document.documentElement.requestFullscreen()
+
+                } else {
+
+                    document.exitFullscreen()
+
+                }
+
+            }
+
+
+
+            window.toggleSound = function () {
+
+                soundEnabled = !soundEnabled
+
+                if (soundEnabled) {
+
+                    soundBtn.innerHTML = '<i class="fas fa-volume-up"></i>'
+
+                } else {
+
+                    soundBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'
+
+                }
+
+            }
+
+
+
+            window.fechar = function () {
+
+                window.close()
+
+            }
+
+
+
+            /* teclado */
+
+            document.addEventListener("keydown", function (e) {
+
+                if (e.key === "ArrowRight") nextPage()
+                if (e.key === "ArrowLeft") previousPage()
+
+            })
+
+
+
+            /* zoom com mouse */
+
+            document.getElementById("viewer").addEventListener("wheel", function (e) {
+
+                if (e.ctrlKey) {
+
+                    e.preventDefault()
+
+                    if (e.deltaY < 0) {
+
+                        zoomIn()
+
+                    } else {
+
+                        zoomOut()
+
+                    }
+
+                }
+
+            }, { passive: false })
+
+        })()
+
+    </script>
+
+</body>
+
+</html>

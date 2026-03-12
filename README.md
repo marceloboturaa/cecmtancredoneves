@@ -20,6 +20,6 @@ A proposta é valorizar a produção dos alunos e permitir que os conteúdos est
 ---
 
 
-<p style="color: #FFDAB9; text-decoration: line-through;">
-  <strong>Fora do ar</strong> 🔗 https://marceloboturaa.github.io/cecmtancredoneves/
+<p style="color: #38cbf8; ">
+  <strong>No ar</strong> 🔗  https://marceloboturaa.github.io/cecmtancredoneves/
 </p>

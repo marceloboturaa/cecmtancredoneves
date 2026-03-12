@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo – Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- PDF.js para gerar thumbnails -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <style>
+        /* Filtros */
+        .filtros {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filtro-btn {
+            background: var(--light-gray);
+            border: 1px solid var(--border);
+            color: var(--dark);
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .filtro-btn.ativo {
+            background: var(--green);
+            color: white;
+            border-color: var(--green);
+        }
+
+        .filtro-btn:hover {
+            background: var(--green);
+            color: white;
+        }
+
+        /* Cards do acervo */
+        .acervo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+        }
+
+        .item-card {
+            background: var(--white);
+            border-radius: 24px;
+            padding: 1.2rem;
+            border: 1px solid var(--border);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .item-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+            border-color: transparent;
+        }
+
+        .item-thumb {
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            background: #f1f5f9;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+            transition: border-color 0.2s;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .item-card:hover .item-thumb {
+            border-color: var(--green);
+        }
+
+        .item-thumb img,
+        .item-thumb canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .item-thumb .icone-padrao {
+            font-size: 3rem;
+            color: #94a3b8;
+        }
+
+        .item-tipo {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: var(--green);
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .item-titulo {
+            font-weight: 600;
+            color: var(--blue);
+            margin-bottom: 0.3rem;
+        }
+
+        .item-desc {
+            font-size: 0.85rem;
+            color: #475569;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo">Colégio Tancredo</div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="acervo.html" class="active">Acervo</a></li>
+            <li><a href="mural.html">Mural</a></li>
+            <li><a href="materias.html">Matérias</a></li>
+            <li><a href="apresentacoes.html">Apresentações</a></li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <h1>Acervo completo</h1>
+        <p>Imagens, apresentações, livros e apostilas – tudo em um só lugar</p>
+    </header>
+
+    <section class="container">
+        <!-- Filtros -->
+        <div class="filtros">
+            <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
+            <button class="filtro-btn" data-filtro="imagem">Fotos (59)</button>
+            <button class="filtro-btn" data-filtro="apresentacao">Slides (6)</button>
+            <button class="filtro-btn" data-filtro="livro">Livros (2)</button>
+            <button class="filtro-btn" data-filtro="apostila">Apostilas (1)</button>
+        </div>
+
+        <!-- Grid de itens -->
+        <div class="acervo-grid" id="acervo-container"></div>
+    </section>
+
+    <footer>
+        <p>© 2026 Exposição Escolar – Educação Financeira · Colégio Tancredo de Almeida Neves</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // ============================================
+        // LISTA COMPLETA DOS ARQUIVOS REAIS
+        // ============================================
+
+        // 1. IMAGENS (da pasta image/) - 59 arquivos
+        const imagens = [
+            "IMG_20260307_152257.jpg", "IMG_20260307_152438.jpg", "IMG_20260307_152625.jpg",
+            "IMG_20260307_152836.jpg", "IMG_20260307_153246.jpg", "IMG_20260307_153407.jpg",
+            "IMG_20260307_153412.jpg", "IMG_20260307_154514.jpg", "IMG_20260307_154526.jpg",
+            "IMG_20260307_154926.jpg", "IMG_20260307_154931.jpg", "IMG_20260307_155132.jpg",
+            "IMG_20260307_155137.jpg", "IMG_20260307_155355.jpg", "IMG_20260307_155406.jpg",
+            "IMG_20260307_155516.jpg", "IMG_20260307_155522.jpg", "IMG_20260307_155805.jpg",
+            "IMG_20260307_155809.jpg", "IMG_20260307_160316.jpg", "IMG_20260307_160320.jpg",
+            "IMG_20260307_160419.jpg", "IMG_20260307_160434.jpg", "IMG_20260307_160453.jpg",
+            "IMG_20260307_160832.jpg", "IMG_20260307_160837.jpg", "IMG_20260307_161007.jpg",
+            "IMG_20260307_161013.jpg", "IMG_20260307_161256.jpg", "IMG_20260307_161301.jpg",
+            "IMG_20260307_161518.jpg", "IMG_20260307_161523.jpg", "IMG_20260307_161926.jpg",
+            "IMG_20260307_161933.jpg", "IMG_20260307_162209.jpg", "IMG_20260307_162213.jpg",
+            "IMG_20260307_162308.jpg", "IMG_20260307_162312.jpg", "IMG_20260307_163223.jpg",
+            "IMG_20260307_163231.jpg", "IMG_20260307_163236.jpg", "IMG_20260307_163241.jpg",
+            "IMG_20260307_163637.jpg", "IMG_20260307_163643.jpg", "IMG_20260307_164507.jpg",
+            "IMG_20260307_164512.jpg", "IMG_20260307_164641.jpg", "IMG_20260307_164645.jpg",
+            "IMG_20260307_164850.jpg", "IMG_20260307_164854.jpg", "IMG_20260307_165010.jpg",
+            "IMG_20260307_165014.jpg", "IMG_20260307_165129.jpg", "IMG_20260307_165132.jpg",
+            "MVIMG_20260307_153314.jpg", "MVIMG_20260307_163706.jpg", "MVIMG_20260307_163837.jpg",
+            "MVIMG_20260307_164254.jpg", "IMG_20260311_110958.jpg", "MVIMG_20260307_164654.jpg"
+        ];
+
+        // 2. SLIDES (pasta slaides/) - 6 arquivos
+        const slides = [
+            { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro" },
+            { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto" },
+            { arquivo: "defincoes-e-metas-otimizado.pdf", titulo: "Definições e Metas" },
+            { arquivo: "história-do-dinheiro-externo-otimizado.pdf", titulo: "História do Dinheiro" },
+            { arquivo: "preparacao-para-imprevisto-otimizado.pdf", titulo: "Preparação para Imprevistos" },
+            { arquivo: "Receitas-e-dispesas-otimizado.pdf", titulo: "Receitas e Despesas" }
+        ];
+
+        // 3. LIVROS (pasta livros/) - 2 arquivos
+        const livros = [
+            { arquivo: "caderno_cidadania_financeira.pdf", titulo: "Caderno Cidadania Financeira" },
+            { arquivo: "lviro-educacaeducacao-financeira-nas-escolas-ensino-medio-livro-do-professor.pdf", titulo: "Educação Financeira - Ensino Médio (Professor)" }
+        ];
+
+        // 4. APOSTILAS (pasta apostilas/) - 1 arquivo
+        const apostilas = [
+            { arquivo: "apostila-educacao-financeira-pessoal.pdf", titulo: "Apostila Educação Financeira Pessoal" }
+        ];
+
+        // ============================================
+        // CONSTRUÇÃO DO ACERVO
+        // ============================================
+
+        const itens = [
+            // Imagens
+            ...imagens.map(nome => ({
+                tipo: 'imagem',
+                titulo: nome.replace(/\.jpg$/, '').replace(/_/g, ' '),
+                descricao: 'Foto da exposição',
+                arquivo: nome,
+                pasta: 'image'
+            })),
+            // Slides (apresentações)
+            ...slides.map(s => ({
+                tipo: 'apresentacao',
+                titulo: s.titulo,
+                descricao: 'Apresentação em slides',
+                arquivo: s.arquivo,
+                pasta: 'slaides'  // <- nome da pasta é "slaides" (com 's' no final)
+            })),
+            // Livros
+            ...livros.map(l => ({
+                tipo: 'livro',
+                titulo: l.titulo,
+                descricao: 'Livro',
+                arquivo: l.arquivo,
+                pasta: 'livros'
+            })),
+            // Apostilas
+            ...apostilas.map(a => ({
+                tipo: 'apostila',
+                titulo: a.titulo,
+                descricao: 'Apostila',
+                arquivo: a.arquivo,
+                pasta: 'apostilas'
+            }))
+        ];
+
+        // ============================================
+        // RENDERIZAÇÃO
+        // ============================================
+
+        const container = document.getElementById('acervo-container');
+        let currentFilter = 'todos';
+
+        function renderizarItens() {
+            const filtrados = currentFilter === 'todos'
+                ? itens
+                : itens.filter(item => item.tipo === currentFilter);
+
+            container.innerHTML = filtrados.map((item, index) => `
+                <div class="item-card" data-tipo="${item.tipo}" onclick="abrirItem('${item.tipo}', '${item.arquivo}', '${item.pasta}')">
+                    <div class="item-thumb" id="thumb-${index}"></div>
+                    <div class="item-tipo">${item.tipo}</div>
+                    <div class="item-titulo">${item.titulo}</div>
+                    <div class="item-desc">${item.descricao}</div>
+                </div>
+            `).join('');
+
+            filtrados.forEach((item, idx) => {
+                const thumbDiv = document.getElementById(`thumb-${idx}`);
+                if (!thumbDiv) return;
+
+                if (item.tipo === 'imagem') {
+                    const img = document.createElement('img');
+                    img.src = `${item.pasta}/${item.arquivo}`;
+                    img.alt = item.titulo;
+                    thumbDiv.appendChild(img);
+                }
+                else {
+                    // Para PDFs (slides, livros, apostilas)
+                    gerarThumbnailPDF(`${item.pasta}/${item.arquivo}`, thumbDiv);
+                }
+            });
+        }
+
+        async function gerarThumbnailPDF(caminho, elemento) {
+            try {
+                const pdf = await pdfjsLib.getDocument(caminho).promise;
+                const page = await pdf.getPage(1);
+                const viewport = page.getViewport({ scale: 0.5 });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                elemento.appendChild(canvas);
+            } catch {
+                elemento.innerHTML = '<div class="icone-padrao">📄</div>';
+            }
+        }
+
+        window.abrirItem = function (tipo, arquivo, pasta) {
+            if (tipo === 'imagem') {
+                window.open(`${pasta}/${arquivo}`, '_blank');
+            } else if (tipo === 'apresentacao') {
+                window.open(`visualizador-pdf.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+            } else if (tipo === 'livro' || tipo === 'apostila') {
+                window.open(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+            }
+        };
+
+        // Filtros
+        document.querySelectorAll('.filtro-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+                currentFilter = btn.dataset.filtro;
+                renderizarItens();
+            });
+        });
+
+        renderizarItens();
+    </script>
+</body>
+
+</html>
