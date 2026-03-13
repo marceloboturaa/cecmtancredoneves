@@ -34,7 +34,7 @@
         // Obter parâmetros da URL
         const urlParams = new URLSearchParams(window.location.search);
         const arquivo = urlParams.get('file');
-        const pasta = urlParams.get('pasta') || 'slaides'; // padrão é 'slaides'
+        const pasta = urlParams.get('pasta') || 'slide'; // padrão é 'slide'
 
         if (!arquivo) {
             alert('Nenhum PDF especificado.');

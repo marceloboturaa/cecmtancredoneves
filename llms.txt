@@ -1,0 +1,108 @@
+# llms.txt
+
+Project: Legado Digital / Colegio Tancredo Neves
+Repository root: c:\xampp\htdocs\cecmtancredoneves
+Type: Static educational website
+Language: pt-BR content, file naming mostly lowercase and path-based
+
+## Purpose
+
+This project is a digital exhibition website for student work from Colegio Tancredo Neves.
+It showcases photos, subject pages, slides, books, handouts, and interactive educational content.
+There is no backend and no build pipeline. The site is composed of static HTML, CSS, JavaScript, local assets, and PDF viewers.
+
+## Runtime model
+
+- Served as a static site from XAMPP or any static host.
+- Main local root is `c:\xampp\htdocs\cecmtancredoneves`.
+- No package manager, bundler, framework, or server-side application code.
+- Most page data is hardcoded directly inside HTML files through inline JavaScript arrays.
+
+## Main routes
+
+- `/index.html`: home page with hero, image slider, and featured subject entry
+- `/materias.html`: subject index page
+- `/mural.html`: photo wall
+- `/slide.html`: presentation listing page
+- `/acervo.html`: unified archive for photos, slides, books, and handouts
+- `/sobre.html`: project/about page
+- `/visualizador-slide.html`: slide PDF viewer
+- `/visualizador-pdf.html`: generic PDF viewer
+- `/visualizador-livro.html`: book-style PDF viewer with page flip behavior
+
+## Subject routes
+
+- `/materias/educacao-financeira/index.html`
+- `/materias/educacao-financeira/historia-do-dinheiro-brasil.html`
+- `/materias/robotiva/index.html`
+- `/materias/filosofia/index.html`
+- `/materias/maker/index.html`
+
+## Asset folders
+
+- `/image/`: photo gallery images used by home slider, mural, and archive
+- `/slide/`: presentation PDFs
+- `/livros/`: PDF books
+- `/apostilas/`: PDF handouts
+- `/audio/`: sound effects used by the book viewer
+- `/assets/image/`: icons and favicon assets
+
+## CSS architecture
+
+Entry point:
+- `/css/style.css`
+
+Imported shared layers:
+- `/css/layout.css`: navbar, footer, container, shared grid structure
+- `/css/components.css`: buttons, cards, media blocks, shared UI components
+- `/css/pages.css`: page-specific layouts and hero sections
+
+Additional page-specific styles:
+- `/css/acervo.css`
+- `/css/slide.css`
+- `/css/visualizador.css`
+- `/css/visualizador-livro.css`
+
+## JavaScript architecture
+
+- `/js/main.js`: shared mobile menu toggle
+- `/js/loader.js`: helper loader for the book viewer
+- `/js/turn.min.js`: page flip dependency used by `visualizador-livro.html`
+
+Viewer dependencies loaded from CDN inside HTML:
+- PDF.js for slide and PDF rendering
+- jQuery plus Turn.js flow for the book-like viewer
+- Font Awesome icons in viewer pages
+
+## Important content conventions
+
+- Presentation assets must use the folder name `slide/`.
+- The presentation page is `slide.html`.
+- The presentation viewer is `visualizador-slide.html`.
+- Do not reintroduce the old `slaides` naming pattern.
+- Navigation links are duplicated across many HTML files, so link changes usually need to be applied in multiple pages.
+- Subject cards and archive entries are not generated from a CMS; they are maintained manually.
+
+## Where content lists live
+
+- `/index.html`: image slider file list
+- `/slide.html`: presentation list and thumbnail generation
+- `/acervo.html`: master archive lists for images, slides, books, and handouts
+
+## Editing guidance for agents
+
+- Prefer editing shared CSS files before adding inline styles.
+- Keep existing visual identity: blue `#173557`, green `#68813c`, white backgrounds, rounded cards.
+- Preserve static hosting compatibility. Avoid introducing Node, build tools, or framework-specific assumptions unless explicitly requested.
+- When renaming folders or files, update all hardcoded paths in HTML and inline JavaScript.
+- If adding new assets, verify whether they also need to be added to `slide.html`, `acervo.html`, or home page sliders.
+- If changing a shared route such as `slide.html` or a viewer page, review navbar links across root pages and subject pages.
+- Book and handout flows use `visualizador-livro.html`.
+- Presentation flows use `visualizador-slide.html`.
+- Generic PDF navigation flows use `visualizador-pdf.html`.
+
+## Maintenance notes
+
+- `project_structure.md` is a generated structure snapshot and may need regeneration after large file moves.
+- The repository may contain local content updates not reflected in README text.
+- The project is content-heavy; asset path correctness matters more than code abstraction.

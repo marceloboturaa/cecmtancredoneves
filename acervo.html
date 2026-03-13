@@ -19,7 +19,7 @@
             <li><a href="index.html">Início</a></li>
             <li><a href="materias.html">Matérias</a></li>
             <li><a href="mural.html">Mural</a></li>
-            <li><a href="slaides.html">Slides</a></li>
+            <li><a href="slide.html">Slides</a></li>
             <li><a href="acervo.html">Acervo</a></li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
@@ -92,7 +92,7 @@
             "MVIMG_20260307_164254.jpg", "IMG_20260311_110958.jpg", "MVIMG_20260307_164654.jpg"
         ];
 
-        // 2. SLIDES (pasta slaides/) - 6 arquivos
+        // 2. SLIDES (pasta slide/) - 6 arquivos
         const slides = [
             { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro" },
             { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto" },
@@ -132,7 +132,7 @@
                 titulo: s.titulo,
                 descricao: 'Apresentação em slides',
                 arquivo: s.arquivo,
-                pasta: 'slaides'
+                pasta: 'slide'
             })),
             // Livros
             ...livros.map(l => ({
@@ -209,7 +209,7 @@
             if (tipo === 'imagem') {
                 window.open(`${pasta}/${arquivo}`, '_blank');
             } else if (tipo === 'apresentacao') {
-                window.open(`visualizador-pdf.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             } else if (tipo === 'livro' || tipo === 'apostila') {
                 window.open(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             }

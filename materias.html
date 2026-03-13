@@ -18,7 +18,7 @@
             <li><a href="index.html">Início</a></li>
             <li><a href="materias.html">Matérias</a></li>
             <li><a href="mural.html">Mural</a></li>
-            <li><a href="slaides.html">Slides</a></li>
+            <li><a href="slide.html">Slides</a></li>
             <li><a href="acervo.html">Acervo</a></li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
@@ -31,68 +31,62 @@
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
-    <section class="container">
-        <div class="materias-grid">
-            <!-- exemplo de cartão flip -->
-            <div class="flip-card">
-                <div class="flip-inner" style="--accent:var(--green); --accent-hover:var(--green-dark);">
-                    <a href="materias/educacao-financeira/index.html">
-                        <div class="flip-front card">
-                            <h3>Educação Financeira</h3>
-                            <p>Projetos sobre dinheiro, consumo e planejamento.</p>
-                        </div>
-                        <div class="flip-back card">
-                            <h3>Acessar</h3>
-                            <span class="btn btn-outline">→</span>
-                        </div>
-                    </a>
-                </div>
+    <main class="container materias-shell">
+        
+        <section>
+            <h2 class="section-title">Escolha uma matéria</h2>
+
+            <div class="materias-grid">
+                <article class="materia-card-clean" style="--accent: var(--green);">
+                    <span class="materia-badge">Destaque</span>
+                    <h3>Educação Financeira</h3>
+                    <p>Projetos sobre dinheiro, consumo consciente, orçamento familiar e planejamento.</p>
+                    <div class="materia-tags">
+                        <span>Moeda</span>
+                        <span>Planejamento</span>
+                        <span>Consumo</span>
+                    </div>
+                    <a href="materias/educacao-financeira/index.html" class="btn">Entrar na matéria</a>
+                </article>
+
+                <article class="materia-card-clean" style="--accent: #0ea5e9;">
+                    <span class="materia-badge">Tecnologia</span>
+                    <h3>Robotiva</h3>
+                    <p>Robótica educacional, lógica e pensamento computacional aplicados em atividades práticas.</p>
+                    <div class="materia-tags">
+                        <span>Robótica</span>
+                        <span>Lógica</span>
+                        <span>Projetos</span>
+                    </div>
+                    <a href="materias/robotiva/index.html" class="btn">Entrar na matéria</a>
+                </article>
+
+                <article class="materia-card-clean" style="--accent: #9333ea;">
+                    <span class="materia-badge">Humanas</span>
+                    <h3>Filosofia</h3>
+                    <p>Reflexões, ética, cidadania e pensamento crítico desenvolvidos pelos estudantes.</p>
+                    <div class="materia-tags">
+                        <span>Ética</span>
+                        <span>Reflexão</span>
+                        <span>Cidadania</span>
+                    </div>
+                    <a href="materias/filosofia/index.html" class="btn">Entrar na matéria</a>
+                </article>
+
+                <article class="materia-card-clean" style="--accent: #d97706;">
+                    <span class="materia-badge">Criação</span>
+                    <h3>Maker</h3>
+                    <p>Cultura maker, prototipagem e criatividade em propostas construidas pela turma.</p>
+                    <div class="materia-tags">
+                        <span>Protótipos</span>
+                        <span>Criatividade</span>
+                        <span>Prática</span>
+                    </div>
+                    <a href="materias/maker/index.html" class="btn">Entrar na matéria</a>
+                </article>
             </div>
-            <!-- outros cartões seguem o mesmo padrão -->
-            <div class="flip-card">
-                <div class="flip-inner" style="--accent:#0ea5e9; --accent-hover:#0284c7;">
-                    <a href="materias/robotiva/index.html">
-                        <div class="flip-front card">
-                            <h3>Robotiva</h3>
-                            <p>Robótica educacional e pensamento computacional.</p>
-                        </div>
-                        <div class="flip-back card">
-                            <h3>Acessar</h3>
-                            <span class="btn btn-outline">→</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-inner" style="--accent:#9333ea; --accent-hover:#7e22ce;">
-                    <a href="materias/filosofia/index.html">
-                        <div class="flip-front card">
-                            <h3>Filosofia</h3>
-                            <p>Reflexões, ética e pensamento crítico.</p>
-                        </div>
-                        <div class="flip-back card">
-                            <h3>Acessar</h3>
-                            <span class="btn btn-outline">→</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-            <div class="flip-card">
-                <div class="flip-inner" style="--accent:#d97706; --accent-hover:#b45309;">
-                    <a href="materias/maker/index.html">
-                        <div class="flip-front card">
-                            <h3>Maker</h3>
-                            <p>Cultura maker, prototipagem e criatividade.</p>
-                        </div>
-                        <div class="flip-back card">
-                            <h3>Acessar</h3>
-                            <span class="btn btn-outline">→</span>
-                        </div>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <!-- RODAPÉ -->
     <footer id="rodape">

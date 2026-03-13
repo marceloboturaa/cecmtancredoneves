@@ -7,7 +7,7 @@
     <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
     <title>Apresentações – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/slaides.css">
+    <link rel="stylesheet" href="css/slide.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 
@@ -19,7 +19,7 @@
             <li><a href="index.html">Início</a></li>
             <li><a href="materias.html">Matérias</a></li>
             <li><a href="mural.html">Mural</a></li>
-            <li><a href="slaides.html">slides</a></li>
+            <li><a href="slide.html">Slides</a></li>
             <li><a href="acervo.html">Acervo</a></li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
@@ -106,12 +106,12 @@
         });
 
         slides.forEach((slide, idx) => {
-            const pdfPath = `slaides/${slide.arquivo}`;
+            const pdfPath = `slide/${slide.arquivo}`;
             gerarThumbnail(pdfPath, idx);
         });
 
         function abrirVisualizador(arquivo) {
-            window.open(`visualizador-slaides.html?file=${encodeURIComponent(arquivo)}&pasta=slaides`, '_blank');
+            window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=slide`, '_blank');
         }
     </script>
 </body>

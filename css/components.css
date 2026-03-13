@@ -11,7 +11,7 @@
     border-radius: 40px;
     font-weight: 500;
     font-size: 0.95rem;
-    transition: background 0.2s, transform 0.1s;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
     border: none;
     cursor: pointer;
     text-align: center;
@@ -19,8 +19,7 @@
 
 .btn:hover {
     background: var(--green-dark);
-    /* usa a variável para manter consistência */
-    transform: scale(0.98);
+    animation: buttonPulse 0.4s ease;
 }
 
 .btn-outline {
@@ -32,6 +31,21 @@
 .btn-outline:hover {
     background: var(--blue);
     color: white;
+    animation: buttonPulse 0.4s ease;
+}
+
+@keyframes buttonPulse {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
 }
 
 /* ================= CARDS PADRÃO ================= */

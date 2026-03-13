@@ -8,16 +8,4 @@ document.addEventListener('DOMContentLoaded', function() {
             navLinks.classList.toggle('active');
         });
     }
-
-    // flip-card click handler for color change
-    document.querySelectorAll('.flip-card > .flip-inner > a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            // toggle clicked class on parent flip-card
-            const card = this.closest('.flip-card');
-            if (card) {
-                card.classList.toggle('clicked');
-            }
-            // allow navigation after toggling
-        });
-    });
 });
