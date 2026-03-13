@@ -4,164 +4,529 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
     <title>Visualizador de Slides | Colégio Tancredo</title>
-    <!-- PDF.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
-    <!-- CSS externo -->
     <link rel="stylesheet" href="css/visualizador.css">
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 
-<body>
-    <div class="toolbar">
-        <button onclick="fechar()" class="close-btn"><i class="fas fa-times"></i> Fechar</button>
-        <button onclick="prevPage()"><i class="fas fa-chevron-left"></i> Anterior</button>
-        <span>Página <input type="number" id="page-num" value="1" min="1"> de <span id="page-count">?</span></span>
-        <button onclick="nextPage()">Próximo <i class="fas fa-chevron-right"></i></button>
-        <button onclick="zoomIn()"><i class="fas fa-search-plus"></i> +</button>
-        <button onclick="zoomOut()"><i class="fas fa-search-minus"></i> -</button>
-        <button id="play-pause-btn" onclick="toggleAutoPlay()"><i class="fas fa-play"></i> Automático</button>
-        <span id="zoom-level">100%</span>
-    </div>
-    <div id="viewer">
-        <div id="pdf-container"></div>
+<body class="slide-viewer">
+    <div class="slide-shell">
+        <header class="slide-overlay slide-overlay-top">
+            <div class="slide-header-copy">
+                <span class="slide-kicker">Apresentacao</span>
+                <strong id="slide-title">Slides</strong>
+            </div>
+
+            <div class="slide-header-meta">
+                <span class="slide-counter" id="slide-counter">1 / ?</span>
+                <button type="button" class="icon-btn" id="fullscreen-btn" onclick="toggleFullscreen()"
+                    aria-label="Tela cheia">
+                    <i class="fas fa-expand"></i>
+                </button>
+                <button type="button" class="close-btn" onclick="fechar()" aria-label="Fechar">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </header>
+
+        <button type="button" class="hover-nav hover-nav-left" id="nav-prev" onclick="prevPage()"
+            aria-label="Slide anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+
+        <main id="viewer" class="slide-stage-shell" tabindex="0" aria-label="Visualizador de slides">
+            <div class="slide-stage-grid" aria-hidden="true"></div>
+            <div class="slide-stage-glow" aria-hidden="true"></div>
+
+            <section class="slide-stage">
+                <div id="pdf-container" class="slide-frame">
+                    <div id="pdf-content" class="slide-canvas-wrap"></div>
+                </div>
+            </section>
+        </main>
+
+        <button type="button" class="hover-nav hover-nav-right" id="nav-next" onclick="nextPage()"
+            aria-label="Proximo slide">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+
+        <footer class="slide-overlay slide-overlay-bottom">
+            <div class="slide-controls">
+                <button type="button" id="prev-btn" onclick="prevPage()">
+                    <i class="fas fa-chevron-left"></i>
+                    <span>Anterior</span>
+                </button>
+
+                <label class="slide-page-box" for="page-num">
+                    <span>Slide</span>
+                    <input type="number" id="page-num" value="1" min="1">
+                    <small id="page-count">?</small>
+                </label>
+
+                <button type="button" id="next-btn" onclick="nextPage()">
+                    <span>Proximo</span>
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <button type="button" onclick="zoomOut()">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+
+                <span class="slide-zoom" id="zoom-level">100%</span>
+
+                <button type="button" onclick="zoomIn()">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+
+                <button type="button" id="play-pause-btn" onclick="toggleAutoPlay()">
+                    <i class="fas fa-play"></i>
+                    <span>Auto</span>
+                </button>
+            </div>
+        </footer>
     </div>
 
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
-        // Obter parâmetros da URL
-        const urlParams = new URLSearchParams(window.location.search);
-        const arquivo = urlParams.get('file');
-        const pasta = urlParams.get('pasta') || 'slide'; // padrão é 'slide'
+        const params = new URLSearchParams(window.location.search);
+        const arquivo = params.get('file');
+        const pasta = params.get('pasta') || 'slide';
 
         if (!arquivo) {
             alert('Nenhum PDF especificado.');
-            if (window.history.length > 1) window.close();
-            else window.location.href = 'acervo.html';
+            window.location.href = 'acervo.html';
+            throw new Error('Arquivo PDF nao informado.');
         }
 
         const pdfPath = `${pasta}/${arquivo}`;
-        let pdfDoc = null;
-        let pageNum = 1;
-        let pageCount = 0;
-        let scale = 1.5; // será ajustado
-        let autoPlayInterval = null;
-        let autoPlayActive = false;
+        const body = document.body;
+        const viewer = document.getElementById('viewer');
+        const container = document.getElementById('pdf-container');
+        const content = document.getElementById('pdf-content');
+        const pageInput = document.getElementById('page-num');
+        const pageCountElement = document.getElementById('page-count');
+        const slideCounter = document.getElementById('slide-counter');
+        const zoomLevel = document.getElementById('zoom-level');
+        const titleElement = document.getElementById('slide-title');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const navPrev = document.getElementById('nav-prev');
+        const navNext = document.getElementById('nav-next');
+        const playPauseBtn = document.getElementById('play-pause-btn');
+        const fullscreenBtn = document.getElementById('fullscreen-btn');
 
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
-        const container = document.getElementById('pdf-container');
-        container.appendChild(canvas);
+        content.appendChild(canvas);
 
-        // Carregar PDF
-        pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
-            pdfDoc = pdf;
-            pageCount = pdf.numPages;
-            document.getElementById('page-count').textContent = pageCount;
-            document.getElementById('page-num').max = pageCount;
-            // Ajusta escala inicial e renderiza
-            return ajustarEscalaInicial().then(() => renderPage(pageNum));
-        }).catch(err => {
-            document.getElementById('viewer').innerHTML = `<div class="loading">Erro ao carregar PDF: ${err.message}</div>`;
-        });
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageCount = 0;
+        let scale = 1.5;
+        let fitScale = 1.5;
+        let userAdjustedZoom = false;
+        let autoPlayInterval = null;
+        let autoPlayActive = false;
+        let controlsTimer = null;
+        let resizeTimer = null;
+        let touchStartX = 0;
+        let renderTask = null;
+        let pendingRender = false;
+        let isDraggingSlide = false;
+        let dragStartX = 0;
+        let dragStartY = 0;
+        let dragScrollLeft = 0;
+        let dragScrollTop = 0;
 
-        // Função para ajustar a escala baseada no tamanho do container
+        const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
+        const titulo = formatarTitulo(arquivo);
+
+        titleElement.textContent = titulo;
+        document.title = `${titulo} | Visualizador de Slides`;
+
+        function formatarTitulo(nomeArquivo) {
+            return decodeURIComponent(nomeArquivo)
+                .replace(/\.[^.]+$/, '')
+                .replace(/[-_]+/g, ' ')
+                .replace(/\s+/g, ' ')
+                .trim()
+                .replace(/\b\w/g, letra => letra.toUpperCase());
+        }
+
+        function showControls() {
+            body.classList.add('controls-visible');
+
+            if (!pointerMedia.matches) {
+                return;
+            }
+
+            clearTimeout(controlsTimer);
+            controlsTimer = setTimeout(() => {
+                body.classList.remove('controls-visible');
+            }, 1400);
+        }
+
+        function syncPointerMode() {
+            body.classList.toggle('has-pointer', pointerMedia.matches);
+            body.classList.toggle('controls-visible', !pointerMedia.matches);
+
+            if (pointerMedia.matches) {
+                showControls();
+            }
+        }
+
+        function updateUi() {
+            const total = pageCount || '?';
+            const disabledPrev = pageNum <= 1;
+            const disabledNext = pageNum >= pageCount;
+            const canDrag = scale > fitScale + 0.01;
+
+            pageInput.value = pageNum;
+            pageInput.max = pageCount || 1;
+            pageCountElement.textContent = total;
+            slideCounter.textContent = `${pageNum} / ${total}`;
+            zoomLevel.textContent = `${Math.round(scale * 100)}%`;
+
+            prevBtn.disabled = disabledPrev;
+            navPrev.disabled = disabledPrev;
+            nextBtn.disabled = disabledNext;
+            navNext.disabled = disabledNext;
+            container.classList.toggle('is-draggable', canDrag);
+        }
+
         function ajustarEscalaInicial() {
             return pdfDoc.getPage(1).then(page => {
-                const viewport = page.getViewport({ scale: 1.0 });
-                const containerWidth = container.clientWidth;
-                const containerHeight = container.clientHeight;
-                const scaleX = (containerWidth - 40) / viewport.width;
-                const scaleY = (containerHeight - 40) / viewport.height;
-                scale = Math.min(scaleX, scaleY, 3);
-                if (scale < 0.3) scale = 0.3;
-                document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+                const viewport = page.getViewport({ scale: 1 });
+                const areaWidth = Math.max(container.clientWidth - 64, 260);
+                const areaHeight = Math.max(container.clientHeight - 64, 180);
+                const scaleX = areaWidth / viewport.width;
+                const scaleY = areaHeight / viewport.height;
+
+                fitScale = Math.min(scaleX, scaleY, 2.2);
+
+                if (fitScale < 0.4) {
+                    fitScale = 0.4;
+                }
+
+                if (!userAdjustedZoom) {
+                    scale = fitScale;
+                } else if (scale < fitScale) {
+                    scale = fitScale;
+                }
+
+                updateUi();
             });
         }
 
-        function renderPage(num) {
-            container.style.opacity = '0.5';
-            pdfDoc.getPage(num).then(page => {
-                const viewport = page.getViewport({ scale: scale });
-                canvas.height = viewport.height;
+        function renderPage(targetPage) {
+            if (!pdfDoc) {
+                return;
+            }
+
+            if (renderTask) {
+                pendingRender = true;
+                renderTask.cancel();
+                return;
+            }
+
+            container.classList.add('is-rendering');
+            updateUi();
+
+            pdfDoc.getPage(targetPage).then(page => {
+                const viewport = page.getViewport({ scale });
                 canvas.width = viewport.width;
-                return page.render({ canvasContext: ctx, viewport: viewport }).promise;
+                canvas.height = viewport.height;
+                canvas.style.width = `${viewport.width}px`;
+                canvas.style.height = `${viewport.height}px`;
+
+                renderTask = page.render({
+                    canvasContext: ctx,
+                    viewport
+                });
+
+                return renderTask.promise;
             }).then(() => {
-                container.style.opacity = '1';
+                container.classList.remove('is-rendering');
+                updateUi();
+            }).catch(err => {
+                if (err && err.name === 'RenderingCancelledException') {
+                    return;
+                }
+
+                container.classList.remove('is-rendering');
+                viewer.innerHTML = `<div class="loading">Erro ao renderizar slide: ${err.message}</div>`;
+            }).finally(() => {
+                renderTask = null;
+
+                if (pendingRender) {
+                    pendingRender = false;
+                    renderPage(pageNum);
+                }
             });
-            document.getElementById('page-num').value = num;
+        }
+
+        function goToPage(targetPage) {
+            if (!pdfDoc) {
+                return;
+            }
+
+            const nextPageNumber = Math.min(Math.max(targetPage, 1), pageCount);
+            pageNum = nextPageNumber;
+            showControls();
+            renderPage(pageNum);
         }
 
         function prevPage() {
-            if (pageNum <= 1) return;
-            pageNum--;
-            renderPage(pageNum);
+            if (pageNum <= 1) {
+                return;
+            }
+
+            goToPage(pageNum - 1);
         }
 
         function nextPage() {
-            if (pageNum >= pageCount) return;
-            pageNum++;
-            renderPage(pageNum);
+            if (pageNum >= pageCount) {
+                return;
+            }
+
+            goToPage(pageNum + 1);
         }
 
         function zoomIn() {
-            scale += 0.2;
-            if (scale > 3) scale = 3;
+            userAdjustedZoom = true;
+            scale = Math.min(scale + 0.2, 6);
+            showControls();
             renderPage(pageNum);
-            document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
         }
 
         function zoomOut() {
-            if (scale <= 0.3) return;
-            scale -= 0.2;
-            if (scale < 0.3) scale = 0.3;
+            userAdjustedZoom = true;
+            scale = Math.max(scale - 0.2, fitScale);
+            showControls();
             renderPage(pageNum);
-            document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
-        }
-
-        document.getElementById('page-num').addEventListener('change', function (e) {
-            let newPage = parseInt(e.target.value);
-            if (newPage >= 1 && newPage <= pageCount) {
-                pageNum = newPage;
-                renderPage(pageNum);
-            } else {
-                e.target.value = pageNum;
-            }
-        });
-
-        function fechar() {
-            window.close();
         }
 
         function toggleAutoPlay() {
-            const btn = document.getElementById('play-pause-btn');
+            showControls();
+
             if (autoPlayActive) {
                 clearInterval(autoPlayInterval);
                 autoPlayActive = false;
-                btn.innerHTML = '<i class="fas fa-play"></i> Automático';
-                btn.style.background = 'rgba(104, 129, 60, 0.6)';
-            } else {
-                if (pageNum >= pageCount) pageNum = 1;
-                autoPlayInterval = setInterval(() => {
-                    if (pageNum >= pageCount) {
-                        toggleAutoPlay();
-                        return;
-                    }
-                    pageNum++;
-                    renderPage(pageNum);
-                }, 3000);
-                autoPlayActive = true;
-                btn.innerHTML = '<i class="fas fa-pause"></i> Pausar';
-                btn.style.background = 'rgba(220, 38, 38, 0.8)';
+                playPauseBtn.classList.remove('is-active');
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i><span>Auto</span>';
+                return;
+            }
+
+            if (pageNum >= pageCount) {
+                pageNum = 1;
+            }
+
+            autoPlayInterval = setInterval(() => {
+                if (pageNum >= pageCount) {
+                    toggleAutoPlay();
+                    return;
+                }
+
+                pageNum += 1;
+                renderPage(pageNum);
+            }, 3200);
+
+            autoPlayActive = true;
+            playPauseBtn.classList.add('is-active');
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i><span>Pausar</span>';
+        }
+
+        async function toggleFullscreen() {
+            showControls();
+
+            try {
+                if (document.fullscreenElement) {
+                    await document.exitFullscreen();
+                } else {
+                    await viewer.requestFullscreen();
+                }
+            } catch (error) {
+                console.error('Erro ao alternar tela cheia:', error);
             }
         }
 
-        window.addEventListener('resize', () => {
-            if (pdfDoc) {
-                ajustarEscalaInicial().then(() => renderPage(pageNum));
+        function syncFullscreenUi() {
+            const isFullscreen = !!document.fullscreenElement;
+
+            fullscreenBtn.innerHTML = isFullscreen
+                ? '<i class="fas fa-compress"></i>'
+                : '<i class="fas fa-expand"></i>';
+
+            fullscreenBtn.setAttribute(
+                'aria-label',
+                isFullscreen ? 'Sair da tela cheia' : 'Tela cheia'
+            );
+        }
+
+        function fechar() {
+            if (window.history.length > 1) {
+                window.close();
+                return;
             }
+
+            window.location.href = 'slide.html';
+        }
+
+        pageInput.addEventListener('change', event => {
+            const newPage = parseInt(event.target.value, 10);
+
+            if (Number.isNaN(newPage)) {
+                pageInput.value = pageNum;
+                return;
+            }
+
+            goToPage(newPage);
+        });
+
+        ['mousemove', 'mouseenter', 'mousedown'].forEach(eventName => {
+            viewer.addEventListener(eventName, showControls);
+            document.addEventListener(eventName, showControls);
+        });
+
+        viewer.addEventListener('touchstart', event => {
+            touchStartX = event.changedTouches[0].clientX;
+            body.classList.add('controls-visible');
+        }, { passive: true });
+
+        viewer.addEventListener('touchend', event => {
+            const touchEndX = event.changedTouches[0].clientX;
+            const deltaX = touchEndX - touchStartX;
+
+            if (Math.abs(deltaX) < 60) {
+                return;
+            }
+
+            if (deltaX < 0) {
+                nextPage();
+            } else {
+                prevPage();
+            }
+        }, { passive: true });
+
+        viewer.addEventListener('wheel', event => {
+            event.preventDefault();
+            showControls();
+
+            if (event.deltaY < 0) {
+                zoomIn();
+            } else {
+                zoomOut();
+            }
+        }, { passive: false });
+
+        container.addEventListener('mousedown', event => {
+            if (!container.classList.contains('is-draggable')) {
+                return;
+            }
+
+            isDraggingSlide = true;
+            dragStartX = event.clientX;
+            dragStartY = event.clientY;
+            dragScrollLeft = container.scrollLeft;
+            dragScrollTop = container.scrollTop;
+
+            container.classList.add('is-dragging');
+            showControls();
+            event.preventDefault();
+        });
+
+        document.addEventListener('mousemove', event => {
+            if (!isDraggingSlide) {
+                return;
+            }
+
+            const deltaX = event.clientX - dragStartX;
+            const deltaY = event.clientY - dragStartY;
+
+            container.scrollLeft = dragScrollLeft - deltaX;
+            container.scrollTop = dragScrollTop - deltaY;
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDraggingSlide) {
+                return;
+            }
+
+            isDraggingSlide = false;
+            container.classList.remove('is-dragging');
+        });
+
+        document.addEventListener('mouseleave', () => {
+            if (!isDraggingSlide) {
+                return;
+            }
+
+            isDraggingSlide = false;
+            container.classList.remove('is-dragging');
+        });
+
+        document.addEventListener('keydown', event => {
+            if (event.target.tagName === 'INPUT') {
+                return;
+            }
+
+            showControls();
+
+            if (event.key === 'ArrowLeft') {
+                prevPage();
+            } else if (event.key === 'ArrowRight' || event.key === ' ') {
+                event.preventDefault();
+                nextPage();
+            } else if (event.key === '+' || event.key === '=') {
+                event.preventDefault();
+                zoomIn();
+            } else if (event.key === '-' || event.key === '_') {
+                event.preventDefault();
+                zoomOut();
+            } else if (event.key.toLowerCase() === 'f') {
+                event.preventDefault();
+                toggleFullscreen();
+            } else if (event.key === 'Escape') {
+                fechar();
+            }
+        });
+
+        document.addEventListener('fullscreenchange', syncFullscreenUi);
+
+        window.addEventListener('resize', () => {
+            if (!pdfDoc) {
+                return;
+            }
+
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => {
+                ajustarEscalaInicial().then(() => renderPage(pageNum));
+            }, 120);
+        });
+
+        if (typeof pointerMedia.addEventListener === 'function') {
+            pointerMedia.addEventListener('change', syncPointerMode);
+        } else if (typeof pointerMedia.addListener === 'function') {
+            pointerMedia.addListener(syncPointerMode);
+        }
+
+        syncPointerMode();
+        syncFullscreenUi();
+
+        pdfjsLib.getDocument(pdfPath).promise.then(pdf => {
+            pdfDoc = pdf;
+            pageCount = pdf.numPages;
+            updateUi();
+
+            return ajustarEscalaInicial().then(() => {
+                renderPage(pageNum);
+                viewer.focus();
+            });
+        }).catch(err => {
+            viewer.innerHTML = `<div class="loading">Erro ao carregar PDF: ${err.message}</div>`;
         });
     </script>
 </body>
