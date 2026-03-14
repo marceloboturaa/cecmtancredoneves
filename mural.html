@@ -12,14 +12,28 @@
 
 <body>
     <nav>
-        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
         <div class="menu-toggle">☰</div> <!-- Já existente, evita duplicação -->
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="materias.html">Matérias</a></li>
-            <li><a href="mural.html">Mural</a></li>
-            <li><a href="slide.html">Slides</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
@@ -32,6 +46,9 @@
 
     <section class="container">
         <div class="masonry-gallery" id="galeria-fotos"></div>
+        <div class="gallery-actions">
+            <button type="button" class="btn gallery-more-btn" id="ver-mais-fotos">Ver mais</button>
+        </div>
     </section>
 
     <!-- RODAPÉ PADRONIZADO -->
@@ -40,7 +57,7 @@
             <div class="footer-content">
                 <div class="footer-bottom">
                     <span class="footer-copy">
-                        © 2026 Colégio Tancredo Neves • <strong>Legado Digital:</strong> Exposição de Trabalhos Escolares
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
                     </span>
                     <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
                         <span>@sabormatematica</span>
@@ -115,18 +132,40 @@
             "MVIMG_20260307_164654.jpg"
         ];
 
+        const FOTOS_POR_ETAPA = 6;
         const container = document.getElementById("galeria-fotos");
-        let html = "";
-        fotos.forEach(f => {
-            html += `
+        const botaoVerMais = document.getElementById("ver-mais-fotos");
+        let fotosExibidas = 0;
+
+        function criarCardFoto(foto) {
+            return `
                 <div class="gallery-item">
-                    <a href="image/${f}" data-fancybox="gallery" data-caption="${f.replace(/\.jpg$/, '').replace(/_/g, ' ')}">
-                        <img src="image/${f}" alt="Trabalho escolar" loading="lazy">
+                    <a href="image/${foto}" data-fancybox="gallery" data-caption="${foto.replace(/\.jpg$/, '').replace(/_/g, ' ')}">
+                        <img src="image/${foto}" alt="Trabalho escolar" loading="lazy">
                     </a>
                 </div>
             `;
-        });
-        container.innerHTML = html;
+        }
+
+        function renderizarMaisFotos() {
+            const proximasFotos = fotos.slice(fotosExibidas, fotosExibidas + FOTOS_POR_ETAPA);
+
+            if (!proximasFotos.length) {
+                return;
+            }
+
+            const html = proximasFotos.map(criarCardFoto).join("");
+            container.insertAdjacentHTML("beforeend", html);
+            fotosExibidas += proximasFotos.length;
+
+            if (fotosExibidas >= fotos.length) {
+                botaoVerMais.hidden = true;
+            }
+        }
+
+        renderizarMaisFotos();
+
+        botaoVerMais.addEventListener("click", renderizarMaisFotos);
         Fancybox.bind("[data-fancybox]", {});
     </script>
     <script src="js/main.js"></script>

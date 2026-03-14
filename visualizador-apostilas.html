@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Visualizador de Apostilas | Colégio Tancredo</title>
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <!-- CSS externo -->
+    <link rel="stylesheet" href="css/visualizador-pdf.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+    <div class="toolbar">
+        <div class="toolbar-left">
+            <button onclick="fechar()" class="close-btn" title="Fechar"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="toolbar-center">
+            <button onclick="prevPage()" title="Página anterior"><i class="fas fa-chevron-left"></i></button>
+            <span>Página <input type="number" id="page-num" value="1" min="1"> de <span id="page-count">?</span></span>
+            <button onclick="nextPage()" title="Próxima página"><i class="fas fa-chevron-right"></i></button>
+        </div>
+        <div class="toolbar-right">
+            <button onclick="fitToWidth()" title="Ajustar à largura"><i class="fas fa-arrows-alt-h"></i></button>
+            <button onclick="fitToHeight()" title="Ajustar à altura"><i class="fas fa-arrows-alt-v"></i></button>
+            <button onclick="actualSize()" title="Tamanho real"><i class="fas fa-expand-arrows-alt"></i></button>
+            <button onclick="zoomOut()" title="Diminuir zoom"><i class="fas fa-search-minus"></i></button>
+            <span id="zoom-level">100%</span>
+            <button onclick="rotatePage()" title="Rotacionar página"><i class="fas fa-rotate-right"></i></button>
+            <button id="play-pause-btn" onclick="toggleAutoPlay()" title="Apresentação automática"><i class="fas fa-play"></i></button>
+            <button onclick="toggleFullscreen()" title="Tela cheia"><i class="fas fa-expand"></i></button>
+            <button onclick="downloadPDF()" title="Baixar PDF"><i class="fas fa-download"></i></button>
+        </div>
+    </div>
+    <div id="viewer">
+        <div id="pdf-container"></div>
+    </div>
+
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        // Obter parâmetros da URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const arquivo = urlParams.get('file');
+        const pasta = urlParams.get('pasta') || 'apostilas';
+
+        if (!arquivo) {
+            document.getElementById('viewer').innerHTML = `
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #6c757d;">
+                    <i class="fas fa-file-pdf" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h2>Nenhuma apostila especificada</h2>
+                    <p>Por favor, acesse o acervo para selecionar uma apostila.</p>
+                    <button onclick="window.location.href='acervo.html'" style="margin-top: 1rem; padding: 0.5rem 1rem; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                        Ir para Acervo
+                    </button>
+                </div>
+            `;
+            return;
+        }
+
+        const cacheKey = new Date().getTime();
+        const pdfPath = `${pasta}/${arquivo}?t=${cacheKey}`;
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageCount = 0;
+        let rotation = 0; // graus
+
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('pdf-container');
+        container.appendChild(canvas);
+
+        // Carregar PDF
+        carregarPdf();
+
+        async function carregarPdf() {
+            try {
+                const response = await fetch(pdfPath, {
+                    cache: 'no-store'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Resposta inesperada do servidor (${response.status})`);
+                }
+
+                const pdfData = new Uint8Array(await response.arrayBuffer());
+                const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+
+                pdfDoc = pdf;
+                pageCount = pdf.numPages;
+                document.getElementById('page-count').textContent = pageCount;
+                document.getElementById('page-num').max = pageCount;
+
+                await ajustarEscalaInicial();
+                renderPage(pageNum);
+            } catch (err) {
+                document.getElementById('viewer').innerHTML = `<div class="loading">Erro ao carregar PDF: ${err.message}</div>`;
+            }
+        }
+
+        // Função para ajustar a escala baseada no tamanho do container
+        function ajustarEscalaInicial() {
+            return pdfDoc.getPage(1).then(page => {
+                const viewport = page.getViewport({ scale: 1.0, rotation: rotation });
+                const containerRect = container.getBoundingClientRect();
+                const viewerRect = document.getElementById('viewer').getBoundingClientRect();
+                const availableWidth = viewerRect.width - 32; // padding
+                const availableHeight = viewerRect.height - 32;
+                const scaleX = availableWidth / viewport.width;
+                const scaleY = availableHeight / viewport.height;
+                scale = Math.min(scaleX, scaleY, 3);
+                if (scale < 0.3) scale = 0.3;
+                document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+            });
+        }
+
+        function renderPage(num) {
+            container.style.opacity = '0.5';
+            pdfDoc.getPage(num).then(page => {
+                const viewport = page.getViewport({ scale: scale, rotation: rotation });
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                return page.render({ canvasContext: ctx, viewport: viewport }).promise;
+            }).then(() => {
+                container.style.opacity = '1';
+            });
+            document.getElementById('page-num').value = num;
+        }
+
+        function prevPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            renderPage(pageNum);
+        }
+
+        function nextPage() {
+            if (pageNum >= pageCount) return;
+            pageNum++;
+            renderPage(pageNum);
+        }
+
+        function zoomIn() {
+            scale += 0.2;
+            if (scale > 3) scale = 3;
+            renderPage(pageNum);
+            document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+        }
+
+        function zoomOut() {
+            if (scale <= 0.3) return;
+            scale -= 0.2;
+            if (scale < 0.3) scale = 0.3;
+            renderPage(pageNum);
+            document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+        }
+
+        document.getElementById('page-num').addEventListener('change', function (e) {
+            let newPage = parseInt(e.target.value);
+            if (newPage >= 1 && newPage <= pageCount) {
+                pageNum = newPage;
+                renderPage(pageNum);
+            } else {
+                e.target.value = pageNum;
+            }
+        });
+
+        function toggleFullscreen() {
+            const viewer = document.getElementById('viewer');
+            if (!document.fullscreenElement) {
+                if (viewer.requestFullscreen) {
+                    viewer.requestFullscreen().catch(err => {
+                        console.error('Erro ao entrar em tela cheia:', err);
+                        // Fallback para documentElement
+                        if (document.documentElement.requestFullscreen) {
+                            document.documentElement.requestFullscreen().catch(err2 => {
+                                console.error('Erro no fallback de tela cheia:', err2);
+                            });
+                        }
+                    });
+                } else {
+                    console.warn('Fullscreen não suportado neste navegador');
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().catch(err => {
+                        console.error('Erro ao sair da tela cheia:', err);
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btn = document.querySelector('button[onclick="toggleFullscreen()"]');
+            if (document.fullscreenElement) {
+                btn.innerHTML = '<i class="fas fa-compress"></i>';
+                btn.title = 'Sair da tela cheia';
+            } else {
+                btn.innerHTML = '<i class="fas fa-expand"></i>';
+                btn.title = 'Tela cheia';
+            }
+        });
+
+        function fitToWidth() {
+            if (!pdfDoc) return;
+            pdfDoc.getPage(pageNum).then(page => {
+                const viewport = page.getViewport({ scale: 1.0, rotation: rotation });
+                const viewer = document.getElementById('viewer');
+                const availableWidth = viewer.clientWidth - 32;
+                scale = availableWidth / viewport.width;
+                if (scale < 0.3) scale = 0.3;
+                if (scale > 3) scale = 3;
+                renderPage(pageNum);
+                document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+            }).catch(err => console.error('Erro em fitToWidth:', err));
+        }
+
+        function fitToHeight() {
+            if (!pdfDoc) return;
+            pdfDoc.getPage(pageNum).then(page => {
+                const viewport = page.getViewport({ scale: 1.0, rotation: rotation });
+                const viewer = document.getElementById('viewer');
+                const availableHeight = viewer.clientHeight - 32;
+                scale = availableHeight / viewport.height;
+                if (scale < 0.3) scale = 0.3;
+                if (scale > 3) scale = 3;
+                renderPage(pageNum);
+                document.getElementById('zoom-level').textContent = Math.round(scale * 100) + '%';
+            }).catch(err => console.error('Erro em fitToHeight:', err));
+        }
+
+        function actualSize() {
+            if (!pdfDoc) return;
+            scale = 1.0;
+            renderPage(pageNum);
+            document.getElementById('zoom-level').textContent = '100%';
+        }
+
+        function downloadPDF() {
+            try {
+                const link = document.createElement('a');
+                link.href = pdfPath;
+                link.download = arquivo || 'documento.pdf';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (err) {
+                console.error('Erro ao baixar PDF:', err);
+                alert('Erro ao baixar o PDF. Tente novamente.');
+            }
+        }
+
+        function toggleAutoPlay() {
+            const btn = document.getElementById('play-pause-btn');
+            if (autoPlayActive) {
+                clearInterval(autoPlayInterval);
+                autoPlayActive = false;
+                btn.innerHTML = '<i class="fas fa-play"></i>';
+                btn.title = 'Apresentação automática';
+            } else {
+                if (pageNum >= pageCount) pageNum = 1;
+                autoPlayInterval = setInterval(() => {
+                    if (pageNum >= pageCount) {
+                        toggleAutoPlay();
+                        return;
+                    }
+                    pageNum++;
+                    renderPage(pageNum);
+                }, 3000);
+                autoPlayActive = true;
+                btn.innerHTML = '<i class="fas fa-pause"></i>';
+                btn.title = 'Pausar apresentação';
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (pdfDoc) {
+                ajustarEscalaInicial().then(() => renderPage(pageNum));
+            }
+        });
+    </script>
+</body>
+
+</html>

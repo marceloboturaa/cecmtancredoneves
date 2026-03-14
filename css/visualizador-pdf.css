@@ -1,0 +1,210 @@
+/* css/visualizador-pdf.css - Estilos minimalistas para visualizador de PDF */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    color: #333;
+    overflow: hidden;
+}
+
+.toolbar {
+    background: #ffffff;
+    border-bottom: 1px solid #e9ecef;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.toolbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar-center {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.toolbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.toolbar button {
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    padding: 0.5rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+}
+
+.toolbar button:hover {
+    background: #f8f9fa;
+    color: #495057;
+}
+
+.toolbar button:active {
+    background: #e9ecef;
+}
+
+.toolbar button.close-btn {
+    color: #dc3545;
+}
+
+.toolbar button.close-btn:hover {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.toolbar span {
+    color: #6c757d;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+#page-num {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    color: #495057;
+    padding: 0.25rem 0.5rem;
+    width: 60px;
+    text-align: center;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+#page-num:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.25);
+}
+
+#zoom-level {
+    background: #f8f9fa;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    border: 1px solid #dee2e6;
+    font-size: 0.8rem;
+    color: #495057;
+}
+
+#viewer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 1rem;
+    background: #ffffff;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}
+
+#pdf-container {
+    position: relative;
+    width: auto;
+    height: auto;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 80px - 2rem);
+}
+
+canvas {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 8px;
+}
+
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 1.1rem;
+    color: #6c757d;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .toolbar {
+        padding: 0.5rem 1rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .toolbar-left,
+    .toolbar-center,
+    .toolbar-right {
+        justify-content: center;
+    }
+
+    .toolbar button {
+        width: 32px;
+        height: 32px;
+        font-size: 0.9rem;
+    }
+
+    #viewer {
+        padding: 0.5rem;
+    }
+}
+
+/* Fullscreen styles */
+:fullscreen #viewer {
+    padding: 0;
+    background: #000;
+}
+
+:fullscreen #pdf-container {
+    max-width: 100vw;
+    max-height: 100vh;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+:fullscreen canvas {
+    border-radius: 0;
+}
+
+/* Animações suaves */
+.toolbar button {
+    transition: all 0.2s ease;
+}
+
+#pdf-container {
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+#pdf-container:hover {
+    transform: scale(1.01);
+}

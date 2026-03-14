@@ -13,20 +13,34 @@
 
 <body>
     <nav>
-        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
         <div class="menu-toggle">☰</div> <!-- Já existente, evita duplicação -->
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="materias.html">Matérias</a></li>
-            <li><a href="mural.html">Mural</a></li>
-            <li><a href="slide.html">Slides</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
 
     <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
-        <h1>Acervo completo</h1>
+        <h1>Acervo</h1>
         <p>Imagens, apresentações, livros e apostilas</p>
     </header>
 
@@ -34,14 +48,17 @@
         <!-- Filtros -->
         <div class="filtros">
             <button class="filtro-btn ativo" data-filtro="todos">Todos</button>
-            <button class="filtro-btn" data-filtro="imagem">Fotos (59)</button>
-            <button class="filtro-btn" data-filtro="apresentacao">Slides (6)</button>
-            <button class="filtro-btn" data-filtro="livro">Livros (2)</button>
-            <button class="filtro-btn" data-filtro="apostila">Apostilas (1)</button>
+            <button class="filtro-btn" data-filtro="trabalho">Trabalhos</button>
+            <button class="filtro-btn" data-filtro="apostila">Apostilas</button>
+            <button class="filtro-btn" data-filtro="slide">Slides</button>
+            <button class="filtro-btn" data-filtro="livro">Livros</button>
         </div>
 
         <!-- Grid de itens -->
         <div class="acervo-grid" id="acervo-container"></div>
+        <div class="listagem-acoes">
+            <button type="button" class="btn ver-mais-btn" id="ver-mais-acervo">Ver mais</button>
+        </div>
     </section>
 
     <!-- RODAPÉ PADRONIZADO -->
@@ -50,7 +67,7 @@
             <div class="footer-content">
                 <div class="footer-bottom">
                     <span class="footer-copy">
-                        © 2026 Colégio Tancredo Neves • <strong>Legado Digital:</strong> Exposição de Trabalhos Escolares
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
                     </span>
                     <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
                         <span>@sabormatematica</span>
@@ -63,12 +80,8 @@
     <script src="js/main.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        const pdfCacheKey = Date.now();
 
-        // ============================================
-        // LISTA COMPLETA DOS ARQUIVOS REAIS
-        // ============================================
-
-        // 1. IMAGENS (da pasta image/) - 59 arquivos
         const imagens = [
             "IMG_20260307_152257.jpg", "IMG_20260307_152438.jpg", "IMG_20260307_152625.jpg",
             "IMG_20260307_152836.jpg", "IMG_20260307_153246.jpg", "IMG_20260307_153407.jpg",
@@ -88,11 +101,15 @@
             "IMG_20260307_164512.jpg", "IMG_20260307_164641.jpg", "IMG_20260307_164645.jpg",
             "IMG_20260307_164850.jpg", "IMG_20260307_164854.jpg", "IMG_20260307_165010.jpg",
             "IMG_20260307_165014.jpg", "IMG_20260307_165129.jpg", "IMG_20260307_165132.jpg",
-            "MVIMG_20260307_153314.jpg", "MVIMG_20260307_163706.jpg", "MVIMG_20260307_163837.jpg",
-            "MVIMG_20260307_164254.jpg", "IMG_20260311_110958.jpg", "MVIMG_20260307_164654.jpg"
+            "IMG_20260311_110958.jpg", "IMG_20260311_111013.jpg", "MVIMG_20260307_164254.jpg"
         ];
 
-        // 2. SLIDES (pasta slide/) - 6 arquivos
+        const arquivosTrabalhos = [
+            "adrana-valentina-2a-inflacao-hiperinflacao.pdf",
+            "evelin-santos-2a-inflacao-hiperinflacao.pdf",
+            "maria-eduarda-2a-inflacao-hiperinflacao.pdf"
+        ];
+
         const slides = [
             { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro" },
             { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto" },
@@ -102,39 +119,75 @@
             { arquivo: "Receitas-e-dispesas-otimizado.pdf", titulo: "Receitas e Despesas" }
         ];
 
-        // 3. LIVROS (pasta livros/) - 2 arquivos
         const livros = [
             { arquivo: "caderno_cidadania_financeira.pdf", titulo: "Caderno Cidadania Financeira" },
-            { arquivo: "lviro-educacaeducacao-financeira-nas-escolas-ensino-medio-livro-do-professor.pdf", titulo: "Educação Financeira - Ensino Médio (Professor)" }
+            { arquivo: "educacao-financeira-ensino-medio-professor.pdf", titulo: "Educação Financeira - Ensino Médio (Professor)" }
         ];
 
-        // 4. APOSTILAS (pasta apostilas/) - 1 arquivo
         const apostilas = [
             { arquivo: "apostila-educacao-financeira-pessoal.pdf", titulo: "Apostila Educação Financeira Pessoal" }
         ];
 
-        // ============================================
-        // CONSTRUÇÃO DO ACERVO
-        // ============================================
+        const container = document.getElementById('acervo-container');
+        const botaoVerMais = document.getElementById('ver-mais-acervo');
+        const urlParams = new URLSearchParams(window.location.search);
+        const filtroInicial = urlParams.get('filtro');
+        const filtrosValidos = ['todos', 'trabalho', 'apostila', 'slide', 'livro', 'imagem'];
+        let currentFilter = filtrosValidos.includes(filtroInicial) ? filtroInicial : 'todos';
+        let itensExibidos = 0;
+        let renderToken = 0;
+        const ITENS_POR_ETAPA = 8;
+
+        function montarCaminho(pasta, arquivo, usarCache = false) {
+            const sufixo = usarCache ? `?v=${pdfCacheKey}` : '';
+            return `${pasta}/${encodeURIComponent(arquivo)}${sufixo}`;
+        }
+
+        function capitalizar(texto) {
+            return texto.charAt(0).toUpperCase() + texto.slice(1);
+        }
+
+        function formatarTituloTrabalho(arquivo) {
+            const nomeBase = arquivo.replace(/\.pdf$/i, '');
+            const partes = nomeBase.split('-');
+
+            if (partes.length < 4) {
+                return nomeBase.replace(/-/g, ' ');
+            }
+
+            const nome = partes.slice(0, 2).map(capitalizar).join(' ');
+            const turma = partes[2].toUpperCase();
+            const tema = partes
+                .slice(3)
+                .map(capitalizar)
+                .join(' ')
+                .replace('Inflacao Hiperinflacao', 'Inflação e Hiperinflação')
+                .replace('Inflacao', 'Inflação')
+                .replace('Hiperinflacao', 'Hiperinflação');
+
+            return `${nome} - ${turma} - ${tema}`;
+        }
+
+        const trabalhos = arquivosTrabalhos.map(arquivo => ({
+            arquivo,
+            titulo: formatarTituloTrabalho(arquivo)
+        }));
 
         const itens = [
-            // Imagens
-            ...imagens.map(nome => ({
-                tipo: 'imagem',
-                titulo: nome.replace(/\.jpg$/, '').replace(/_/g, ' '),
-                descricao: 'Foto da exposição',
-                arquivo: nome,
-                pasta: 'image'
+            ...trabalhos.map(t => ({
+                tipo: 'trabalho',
+                titulo: t.titulo,
+                descricao: 'Trabalho em PDF',
+                arquivo: t.arquivo,
+                pasta: 'trabalhos'
             })),
-            // Slides (apresentações)
             ...slides.map(s => ({
-                tipo: 'apresentacao',
+                tipo: 'slide',
                 titulo: s.titulo,
                 descricao: 'Apresentação em slides',
                 arquivo: s.arquivo,
                 pasta: 'slide'
             })),
-            // Livros
             ...livros.map(l => ({
                 tipo: 'livro',
                 titulo: l.titulo,
@@ -142,54 +195,80 @@
                 arquivo: l.arquivo,
                 pasta: 'livros'
             })),
-            // Apostilas
             ...apostilas.map(a => ({
                 tipo: 'apostila',
                 titulo: a.titulo,
                 descricao: 'Apostila',
                 arquivo: a.arquivo,
                 pasta: 'apostilas'
+            })),
+            ...imagens.map(nome => ({
+                tipo: 'imagem',
+                titulo: nome.replace(/\.jpg$/i, '').replace(/_/g, ' '),
+                descricao: 'Foto da exposição',
+                arquivo: nome,
+                pasta: 'image'
             }))
         ];
 
-        // ============================================
-        // RENDERIZAÇÃO
-        // ============================================
-
-        const container = document.getElementById('acervo-container');
-        let currentFilter = 'todos';
-
-        function renderizarItens() {
-            const filtrados = currentFilter === 'todos'
+        function obterItensFiltrados() {
+            return currentFilter === 'todos'
                 ? itens
                 : itens.filter(item => item.tipo === currentFilter);
+        }
 
-            container.innerHTML = filtrados.map((item, index) => `
-                <div class="item-card" data-tipo="${item.tipo}" onclick="abrirItem('${item.tipo}', '${item.arquivo}', '${item.pasta}')">
-                    <div class="item-thumb" id="thumb-${index}"></div>
-                    <div class="item-tipo">${item.tipo}</div>
-                    <div class="item-titulo">${item.titulo}</div>
-                    <div class="item-desc">${item.descricao}</div>
-                </div>
-            `).join('');
+        function renderizarItens(reset = false) {
+            const filtrados = obterItensFiltrados();
 
-            filtrados.forEach((item, idx) => {
-                const thumbDiv = document.getElementById(`thumb-${idx}`);
+            if (reset) {
+                itensExibidos = 0;
+                renderToken += 1;
+                container.innerHTML = '';
+            }
+
+            const proximosItens = filtrados.slice(itensExibidos, itensExibidos + ITENS_POR_ETAPA);
+
+            if (!proximosItens.length) {
+                botaoVerMais.hidden = true;
+                return;
+            }
+
+            const tokenAtual = renderToken;
+            const html = proximosItens.map((item, offset) => {
+                const indiceReal = itensExibidos + offset;
+                return `
+                    <div class="item-card" data-tipo="${item.tipo}" onclick="abrirItem('${item.tipo}', '${item.arquivo}', '${item.pasta}')">
+                        <div class="item-thumb" id="thumb-${indiceReal}"></div>
+                        <div class="item-tipo">${item.tipo}</div>
+                        <div class="item-titulo">${item.titulo}</div>
+                        <div class="item-desc">${item.descricao}</div>
+                    </div>
+                `;
+            }).join('');
+
+            container.insertAdjacentHTML('beforeend', html);
+
+            proximosItens.forEach((item, offset) => {
+                const indiceReal = itensExibidos + offset;
+                const thumbDiv = document.getElementById(`thumb-${indiceReal}`);
                 if (!thumbDiv) return;
 
                 if (item.tipo === 'imagem') {
                     const img = document.createElement('img');
-                    img.src = `${item.pasta}/${item.arquivo}`;
+                    img.src = montarCaminho(item.pasta, item.arquivo);
                     img.alt = item.titulo;
                     thumbDiv.appendChild(img);
+                    return;
                 }
-                else {
-                    gerarThumbnailPDF(`${item.pasta}/${item.arquivo}`, thumbDiv);
-                }
+
+                gerarThumbnailPDF(montarCaminho(item.pasta, item.arquivo, true), thumbDiv, tokenAtual);
             });
+
+            itensExibidos += proximosItens.length;
+            botaoVerMais.hidden = itensExibidos >= filtrados.length;
         }
 
-        async function gerarThumbnailPDF(caminho, elemento) {
+        async function gerarThumbnailPDF(caminho, elemento, tokenAtual) {
             try {
                 const pdf = await pdfjsLib.getDocument(caminho).promise;
                 const page = await pdf.getPage(1);
@@ -198,33 +277,57 @@
                 const context = canvas.getContext('2d');
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
-                await page.render({ canvasContext: context, viewport: viewport }).promise;
+                await page.render({ canvasContext: context, viewport }).promise;
+
+                if (tokenAtual !== renderToken || !elemento.isConnected) {
+                    return;
+                }
+
                 elemento.appendChild(canvas);
             } catch {
+                if (tokenAtual !== renderToken || !elemento.isConnected) {
+                    return;
+                }
+
                 elemento.innerHTML = '<div class="icone-padrao">📄</div>';
             }
         }
 
+        function resetarListagem() {
+            botaoVerMais.hidden = false;
+            renderizarItens(true);
+        }
+
         window.abrirItem = function (tipo, arquivo, pasta) {
             if (tipo === 'imagem') {
-                window.open(`${pasta}/${arquivo}`, '_blank');
-            } else if (tipo === 'apresentacao') {
+                window.open(montarCaminho(pasta, arquivo), '_blank');
+            } else if (tipo === 'slide') {
                 window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
-            } else if (tipo === 'livro' || tipo === 'apostila') {
+            } else if (tipo === 'livro') {
                 window.open(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+            } else if (tipo === 'apostila') {
+                window.open(`visualizador-apostilas.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+            } else if (tipo === 'trabalho') {
+                window.open(`visualizador-trabalhos.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             }
         };
 
         document.querySelectorAll('.filtro-btn').forEach(btn => {
+            if (btn.dataset.filtro === currentFilter) {
+                document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+            }
+
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('ativo'));
                 btn.classList.add('ativo');
                 currentFilter = btn.dataset.filtro;
-                renderizarItens();
+                resetarListagem();
             });
         });
 
-        renderizarItens();
+        botaoVerMais.addEventListener('click', () => renderizarItens(false));
+        resetarListagem();
     </script>
 </body>
 

@@ -27,7 +27,7 @@ There is no backend and no build pipeline. The site is composed of static HTML, 
 - `/acervo.html`: unified archive for photos, slides, books, and handouts
 - `/sobre.html`: project/about page
 - `/visualizador-slide.html`: slide PDF viewer
-- `/visualizador-pdf.html`: generic PDF viewer
+- `/visualizador-apostilas.html`: handout viewer
 - `/visualizador-livro.html`: book-style PDF viewer with page flip behavior
 
 ## Subject routes
@@ -99,7 +99,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - If changing a shared route such as `slide.html` or a viewer page, review navbar links across root pages and subject pages.
 - Book and handout flows use `visualizador-livro.html`.
 - Presentation flows use `visualizador-slide.html`.
-- Generic PDF navigation flows use `visualizador-pdf.html`.
+- Apostila flows use `visualizador-apostilas.html`.
 
 ## Maintenance notes
 

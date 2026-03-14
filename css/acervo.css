@@ -74,12 +74,19 @@
     border-color: var(--green);
 }
 
-.item-thumb img,
-.item-thumb canvas {
+.item-thumb img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
+}
+
+.item-thumb canvas {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    background: #f8fafc;
 }
 
 .item-thumb .icone-padrao {
@@ -104,4 +111,14 @@
 .item-desc {
     font-size: 0.85rem;
     color: #475569;
+}
+
+.listagem-acoes {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.ver-mais-btn[hidden] {
+    display: none;
 }

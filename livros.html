@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Livros – Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/acervo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
+        <h1>Livros</h1>
+        <p>Clique em cada card para abrir os livros</p>
+    </header>
+
+    <section class="container">
+        <div class="acervo-grid" id="pdf-list"></div>
+        <div class="listagem-acoes">
+            <button type="button" class="btn ver-mais-btn" id="ver-mais-livros">Ver mais</button>
+        </div>
+    </section>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        const livros = [
+            {
+                arquivo: "caderno_cidadania_financeira.pdf",
+                titulo: "Caderno Cidadania Financeira",
+                descricao: "Livro didático de cidadania financeira."
+            },
+            {
+                arquivo: "educacao-financeira-ensino-medio-professor.pdf",
+                titulo: "Educação Financeira - Ensino Médio (Professor)",
+                descricao: "Material de apoio para ensino médio."
+            }
+        ];
+
+        const container = document.getElementById('pdf-list');
+        const botaoVerMais = document.getElementById('ver-mais-livros');
+        const ITENS_POR_ETAPA = 3;
+        let livrosExibidos = 0;
+
+        async function gerarThumbnail(pdfPath, index) {
+            try {
+                const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+                const page = await pdf.getPage(1);
+                const scale = 0.8;
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport }).promise;
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
+                if (thumbDiv) {
+                    thumbDiv.innerHTML = '';
+                    thumbDiv.appendChild(canvas);
+                }
+            } catch (error) {
+                console.error('Erro ao gerar thumbnail', pdfPath, error);
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
+                if (thumbDiv) {
+                    thumbDiv.innerHTML = '<div class="icone-padrao">📄</div>';
+                }
+            }
+        }
+
+        function criarCardLivro(livro, idx) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.setAttribute('data-index', idx);
+            card.onclick = () => abrirVisualizador(livro.arquivo);
+
+            card.innerHTML = `
+                <div class="item-thumb"></div>
+                <div class="item-tipo">livro</div>
+                <div class="item-titulo">${livro.titulo}</div>
+                <div class="item-desc">${livro.descricao}</div>
+            `;
+
+            return card;
+        }
+
+        function renderizarMaisLivros() {
+            const proximosLivros = livros.slice(livrosExibidos, livrosExibidos + ITENS_POR_ETAPA);
+
+            if (!proximosLivros.length) {
+                botaoVerMais.hidden = true;
+                return;
+            }
+
+            proximosLivros.forEach((livro, offset) => {
+                const indiceReal = livrosExibidos + offset;
+                const card = criarCardLivro(livro, indiceReal);
+                container.appendChild(card);
+                gerarThumbnail(`livros/${encodeURIComponent(livro.arquivo)}`, indiceReal);
+            });
+
+            livrosExibidos += proximosLivros.length;
+            botaoVerMais.hidden = livrosExibidos >= livros.length;
+        }
+
+        renderizarMaisLivros();
+        botaoVerMais.addEventListener('click', renderizarMaisLivros);
+
+        function abrirVisualizador(arquivo) {
+            window.open(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=livros`, '_blank');
+        }
+    </script>
+</body>
+
+</html>

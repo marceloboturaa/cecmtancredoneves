@@ -72,6 +72,16 @@ header.dark-bg p {
     transform: scale(1.02);
 }
 
+.gallery-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.gallery-more-btn[hidden] {
+    display: none;
+}
+
 /* ================= SLIDER INFINITO (antigo) ================= */
 .slider {
     overflow: hidden;

@@ -1,13 +1,13 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 12/03/2026, 22:27:03*
+*Generated on: 14/03/2026, 13:44:57*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 101 |
-| 📁 Total Folders | 14 |
+| 📄 Total Files | 109 |
+| 📁 Total Folders | 15 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
 
@@ -19,30 +19,31 @@
 
 ### By File Type
 
-- 🖼️ **.jpg** (JPEG images): 58 files (57.4%)
-- 🌐 **.html** (HTML files): 14 files (13.9%)
-- 📕 **.pdf** (PDF files): 9 files (8.9%)
-- 🎨 **.css** (Stylesheets): 8 files (7.9%)
-- 🎨 **.svg** (SVG images): 4 files (4.0%)
-- 📜 **.js** (JavaScript files): 3 files (3.0%)
-- 📄 **.** (Other files): 2 files (2.0%)
-- 📖 **.md** (Markdown files): 2 files (2.0%)
-- 📄 **.mp3** (Other files): 1 files (1.0%)
+- 🖼️ **.jpg** (JPEG images): 58 files (53.2%)
+- 🌐 **.html** (HTML files): 16 files (14.7%)
+- 📕 **.pdf** (PDF files): 12 files (11.0%)
+- 🎨 **.css** (Stylesheets): 10 files (9.2%)
+- 🎨 **.svg** (SVG images): 4 files (3.7%)
+- 📜 **.js** (JavaScript files): 3 files (2.8%)
+- 📄 **.** (Other files): 2 files (1.8%)
+- 📖 **.md** (Markdown files): 2 files (1.8%)
+- 📄 **.mp3** (Other files): 1 files (0.9%)
+- 📄 **.txt** (Text files): 1 files (0.9%)
 
 ### By Category
 
-- **Assets**: 62 files (61.4%)
-- **Web**: 14 files (13.9%)
-- **Docs**: 11 files (10.9%)
-- **Styles**: 8 files (7.9%)
-- **Other**: 3 files (3.0%)
-- **JavaScript**: 3 files (3.0%)
+- **Assets**: 62 files (56.9%)
+- **Web**: 16 files (14.7%)
+- **Docs**: 15 files (13.8%)
+- **Styles**: 10 files (9.2%)
+- **Other**: 3 files (2.8%)
+- **JavaScript**: 3 files (2.8%)
 
 ### 📁 Largest Directories
 
-- **root**: 101 files
+- **root**: 109 files
 - **image**: 58 files
-- **css**: 8 files
+- **css**: 10 files
 - **slide**: 6 files
 - **materias**: 5 files
 
@@ -70,6 +71,8 @@ cecmtancredoneves/
 │   ├── 🎨 slide.css
 │   ├── 🎨 style.css
 │   ├── 🎨 visualizador-livro.css
+│   ├── 🎨 visualizador-pdf.css
+│   ├── 🎨 visualizador-trabalhos.css
 │   └── 🎨 visualizador.css
 ├── 📂 image/
 │   ├── 🖼️ IMG_20260307_152257.jpg
@@ -138,7 +141,8 @@ cecmtancredoneves/
 ├── 📄 LICENSE
 ├── 📂 livros/
 │   ├── 📕 caderno_cidadania_financeira.pdf
-│   └── 📕 lviro-educacaeducacao-financeira-nas-escolas-ensino-medio-livro-do-professor.pdf
+│   └── 📕 educacao-financeira-ensino-medio-professor.pdf
+├── 📄 llms.txt
 ├── 📂 materias/
 │   ├── 📂 educacao-financeira/
 │   │   ├── 🌐 historia-do-dinheiro-brasil.html
@@ -162,9 +166,15 @@ cecmtancredoneves/
 │   └── 📕 Receitas-e-dispesas-otimizado.pdf
 ├── 🌐 slide.html
 ├── 🌐 sobre.html
+├── 📂 trabalhos/
+│   ├── 📕 adrana-valentina-2a-inflacao-hiperinflacao.pdf
+│   ├── 📕 evelin-santos-2a-inflacao-hiperinflacao.pdf
+│   └── 📕 maria-eduarda-2a-inflacao-hiperinflacao.pdf
+├── 🌐 trabalhos.html
+├── 🌐 visualizador-apostilas.html
 ├── 🌐 visualizador-livro.html
-├── 🌐 visualizador-pdf.html
-└── 🌐 visualizador-slide.html
+├── 🌐 visualizador-slide.html
+└── 🌐 visualizador-trabalhos.html
 ```
 
 ## 📖 Legend
@@ -177,6 +187,7 @@ cecmtancredoneves/
 - 🎨 Styles: Stylesheets
 - 🖼️ Assets: JPEG images
 - 📜 JavaScript: JavaScript files
+- 📄 Docs: Text files
 - 📖 Docs: Markdown files
 
 ### Importance Levels

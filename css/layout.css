@@ -22,10 +22,85 @@ nav {
     letter-spacing: -0.02em;
 }
 
+.logo a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 0;
+}
+
+.logo-text {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    white-space: nowrap;
+}
+
+.logo-short,
+.logo-full {
+    transition: opacity 0.22s ease, transform 0.22s ease, max-width 0.28s ease;
+}
+
+.logo-short {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.logo-full {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateX(-8px);
+}
+
+.logo a:hover .logo-short,
+.logo a:focus-visible .logo-short {
+    max-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-2px);
+}
+
+.logo a:hover .logo-full,
+.logo a:focus-visible .logo-full {
+    max-width: 420px;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.beta-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.18rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(23, 53, 87, 0.1);
+    border: 1px solid rgba(23, 53, 87, 0.16);
+    color: var(--blue);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
 .nav-links {
     list-style: none;
     display: flex;
     gap: 2.5rem;
+}
+
+.nav-links > li {
+    position: relative;
+}
+
+.has-submenu::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 0.8rem;
 }
 
 .nav-links a {
@@ -34,6 +109,84 @@ nav {
     font-size: 1rem;
     transition: color 0.2s;
     position: relative;
+}
+
+.nav-links > li > a {
+    display: inline-flex;
+    align-items: center;
+}
+
+.has-submenu > a {
+    gap: 0.45rem;
+}
+
+.has-submenu > a::before {
+    content: '▾';
+    order: 2;
+    font-size: 0.68rem;
+    color: currentColor;
+    opacity: 0.75;
+    transform: translateY(1px);
+}
+
+.submenu {
+    list-style: none;
+    position: absolute;
+    top: calc(100% + 0.35rem);
+    left: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 195px;
+    padding: 0.6rem;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid rgba(226, 232, 240, 0.95);
+    border-radius: 14px;
+    box-shadow: 0 14px 28px rgba(15, 42, 68, 0.12);
+    backdrop-filter: blur(8px);
+    z-index: 1100;
+}
+
+.has-submenu:hover > .submenu,
+.has-submenu:focus-within > .submenu,
+.has-submenu.submenu-open > .submenu {
+    display: flex;
+}
+
+.submenu a {
+    display: block;
+    padding: 0.55rem 0.8rem;
+    border-radius: 10px;
+    color: var(--dark);
+    font-size: 0.95rem;
+}
+
+.submenu a:hover {
+    color: var(--blue);
+    background: rgba(23, 53, 87, 0.08);
+}
+
+.submenu a::after {
+    display: none;
+}
+
+.nav-highlight > a {
+    color: var(--blue);
+    font-weight: 600;
+}
+
+.nav-highlight > a:hover {
+    color: var(--blue);
+}
+
+.nav-highlight > a::after {
+    width: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--green));
+    opacity: 0.95;
+}
+
+.nav-highlight > .submenu {
+    border-color: rgba(23, 53, 87, 0.14);
 }
 
 .nav-links a:hover {
@@ -88,22 +241,31 @@ nav {
 
 /* ================= FOOTER ================= */
 footer {
-    background: var(--dark);
+    background: linear-gradient(180deg, #203449, #172536);
     color: white;
     text-align: center;
-    padding: 3rem 2rem;
+    padding: 2.3rem 1.5rem;
     margin-top: 2rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 footer .container {
     padding: 0;
 }
 
+footer p {
+    margin: 0;
+    color: #d7e2ef;
+}
+
+footer strong {
+    color: #ffffff;
+}
+
 .footer-content {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 }
 
 .footer-brand .brand-title {
@@ -127,26 +289,34 @@ footer .container {
 
 .footer-bottom {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-    color: #cbd5e1;
+    justify-content: center;
+    gap: 0.8rem 1rem;
+    color: #d7e2ef;
+}
+
+.footer-copy {
+    line-height: 1.5;
 }
 
 .yt-link {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    padding: 0.42rem 0.9rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 40px;
     color: white;
-    transition: 0.3s;
+    font-weight: 500;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .yt-link:hover {
-    background: var(--green);
-    transform: translateY(-2px);
+    background: rgba(104, 129, 60, 0.22);
+    border-color: rgba(104, 129, 60, 0.42);
+    transform: translateY(-1px);
 }
 
 .yt-icon {
@@ -177,12 +347,52 @@ footer .container {
     .nav-links.active {
         display: flex;
     }
+
+    .nav-links > li {
+        width: 100%;
+    }
+
+    .nav-links > li > a {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .submenu {
+        position: static;
+        display: none;
+        min-width: 0;
+        margin-top: 0.5rem;
+        padding: 0.35rem 0 0 1rem;
+        border: 0;
+        border-left: 2px solid rgba(23, 53, 87, 0.12);
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+        backdrop-filter: none;
+    }
+
+    .submenu a {
+        padding: 0.4rem 0;
+    }
+
+    .has-submenu::after {
+        display: none;
+    }
+
+    .has-submenu.submenu-open > .submenu {
+        display: flex;
+    }
+
+    .nav-highlight > a {
+        justify-content: space-between;
+        width: 100%;
+    }
 }
 
 @media (min-width: 768px) {
     .footer-bottom {
-        flex-direction: row;
-        justify-content: space-between;
+        justify-content: center;
     }
 
     .footer-brand {
@@ -201,6 +411,26 @@ footer .container {
 @media (max-width: 480px) {
     .logo {
         font-size: 1.2rem;
+    }
+
+    .logo a {
+        gap: 0.4rem;
+    }
+
+    .beta-badge {
+        font-size: 0.6rem;
+        padding: 0.14rem 0.4rem;
+    }
+
+    .logo-full {
+        display: none;
+    }
+
+    .logo-short {
+        opacity: 1 !important;
+        max-width: none !important;
+        overflow: visible !important;
+        transform: none !important;
     }
 
     .nav-links a {

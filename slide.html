@@ -7,20 +7,35 @@
     <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
     <title>Apresentações – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/acervo.css">
     <link rel="stylesheet" href="css/slide.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 
 <body>
     <nav>
-        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
         <div class="menu-toggle">☰</div> <!-- Já existente, evita duplicação -->
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="materias.html">Matérias</a></li>
-            <li><a href="mural.html">Mural</a></li>
-            <li><a href="slide.html">Slides</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
@@ -32,7 +47,10 @@
     </header>
 
     <section class="container">
-        <div class="grid" id="pdf-list"></div>
+        <div class="acervo-grid slides-grid" id="pdf-list"></div>
+        <div class="slides-actions">
+            <button type="button" class="btn slides-more-btn" id="ver-mais-slides">Ver mais</button>
+        </div>
     </section>
 
     <!-- RODAPÉ PADRONIZADO -->
@@ -41,7 +59,7 @@
             <div class="footer-content">
                 <div class="footer-bottom">
                     <span class="footer-copy">
-                        © 2026 Colégio Tancredo Neves • <strong>Legado Digital:</strong> Exposição de Trabalhos Escolares
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
                     </span>
                     <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
                         <span>@sabormatematica</span>
@@ -59,12 +77,14 @@
             { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro", descricao: "Slides sobre orçamento familiar, inflação e poupança." },
             { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto", descricao: "Preparação para emergências financeiras." },
             { arquivo: "defincoes-e-metas-otimizado.pdf", titulo: "Definições e Metas", descricao: "Estabelecendo objetivos financeiros." },
-            { arquivo: "história-do-dinheiro-externo-otimizado.pdf", titulo: "História do Dinheiro", descricao: "Evolução do dinheiro e sistemas de troca." },
             { arquivo: "preparacao-para-imprevisto-otimizado.pdf", titulo: "Preparação para Imprevistos", descricao: "Como se planejar para o inesperado." },
             { arquivo: "Receitas-e-dispesas-otimizado.pdf", titulo: "Receitas e Despesas", descricao: "Gestão de entradas e saídas financeiras." }
         ];
 
+        const SLIDES_POR_ETAPA = 3;
         const container = document.getElementById('pdf-list');
+        const botaoVerMais = document.getElementById('ver-mais-slides');
+        let slidesExibidos = 0;
 
         async function gerarThumbnail(pdfPath, index) {
             try {
@@ -77,38 +97,58 @@
                 canvas.width = viewport.width;
                 canvas.height = viewport.height;
                 await page.render({ canvasContext: context, viewport: viewport }).promise;
-                const thumbDiv = document.querySelector(`.pdf-card[data-index="${index}"] .pdf-thumb`);
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
                 if (thumbDiv) {
                     thumbDiv.innerHTML = '';
                     thumbDiv.appendChild(canvas);
                 }
             } catch (error) {
                 console.error('Erro ao gerar thumbnail', pdfPath, error);
-                const thumbDiv = document.querySelector(`.pdf-card[data-index="${index}"] .pdf-thumb`);
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
                 if (thumbDiv) {
-                    thumbDiv.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; color: #888;">Sem prévia</div>';
+                    thumbDiv.innerHTML = '<div class="icone-padrao">Sem previa</div>';
                 }
             }
         }
 
-        slides.forEach((slide, idx) => {
+        function criarCardSlide(slide, idx) {
             const card = document.createElement('div');
-            card.className = 'pdf-card';
+            card.className = 'item-card';
             card.setAttribute('data-index', idx);
             card.onclick = () => abrirVisualizador(slide.arquivo);
 
             card.innerHTML = `
-                <div class="pdf-thumb"></div>
-                <h3>${slide.titulo}</h3>
-                <p>${slide.descricao}</p>
+                <div class="item-thumb slide-thumb"></div>
+                <span class="item-tipo">Slide</span>
+                <h3 class="item-titulo">${slide.titulo}</h3>
+                <p class="item-desc">${slide.descricao}</p>
             `;
-            container.appendChild(card);
-        });
+            return card;
+        }
 
-        slides.forEach((slide, idx) => {
-            const pdfPath = `slide/${slide.arquivo}`;
-            gerarThumbnail(pdfPath, idx);
-        });
+        function renderizarMaisSlides() {
+            const proximosSlides = slides.slice(slidesExibidos, slidesExibidos + SLIDES_POR_ETAPA);
+
+            if (!proximosSlides.length) {
+                return;
+            }
+
+            proximosSlides.forEach((slide, offset) => {
+                const indiceReal = slidesExibidos + offset;
+                const card = criarCardSlide(slide, indiceReal);
+                container.appendChild(card);
+                gerarThumbnail(`slide/${slide.arquivo}`, indiceReal);
+            });
+
+            slidesExibidos += proximosSlides.length;
+
+            if (slidesExibidos >= slides.length) {
+                botaoVerMais.hidden = true;
+            }
+        }
+
+        renderizarMaisSlides();
+        botaoVerMais.addEventListener('click', renderizarMaisSlides);
 
         function abrirVisualizador(arquivo) {
             window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=slide`, '_blank');

@@ -18,14 +18,29 @@
     <!-- NAVBAR -->
 
     <nav>
-        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
         <div class="menu-toggle">☰</div> <!-- Já existente, evita duplicação -->
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="materias.html">Matérias</a></li>
-            <li><a href="mural.html">Mural</a></li>
-            <li><a href="slide.html">Slides</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
@@ -36,9 +51,10 @@
 
     <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
 
-        <h1>Legado Digital</h1>
+        <h1>Mural Digital</h1>
 
-        <p>Espaço virtual dos trabalhos escolares</p>
+        <p>Espaço virtual dos trabalhos escolares<br>
+        Colégio Estadual Cívico Miltar Tancredo Almeida Neves</p>
 
     </header>
 
@@ -58,7 +74,7 @@
 
     <!-- mensagem de boas-vindas -->
 
-<section class="container">
+<!--<section class="container">
    
     <section class="materias-hero-panel">
         <div class="materias-copy">
@@ -95,7 +111,7 @@
         </aside>
     </section>
 
-</section>
+</section>-->
 
 
     <!-- RODAPÉ -->
@@ -111,9 +127,7 @@
                 <div class="footer-bottom">
     
                     <span class="footer-copy">
-    
-                        © 2026 Colégio Tancredo Neves • <strong>Legado Digital:</strong> Exposição de Trabalhos Escolares
-    
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
                     </span>
     
     
@@ -135,26 +149,8 @@
 
     <!-- SCRIPTS -->
 
+    <script src="js/main.js"></script>
     <script>
-
-
-        /* MENU MOBILE */
-
-        const toggle = document.querySelector(".menu-toggle")
-        const menu = document.querySelector(".nav-links")
-
-        if (toggle && menu) {
-
-            toggle.onclick = () => {
-
-                menu.classList.toggle("active")
-
-            }
-
-        }
-
-
-
         /* LISTA DE IMAGENS DO SLIDER */
 
         const imagensSlider = [

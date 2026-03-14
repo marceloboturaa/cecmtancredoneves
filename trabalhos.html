@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Trabalhos – Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/acervo.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
+        <h1>Trabalhos</h1>
+        <p>Clique em cada card para abrir os trabalhos em PDF</p>
+    </header>
+
+    <section class="container">
+        <div class="acervo-grid" id="pdf-list"></div>
+        <div class="listagem-acoes">
+            <button type="button" class="btn ver-mais-btn" id="ver-mais-trabalhos">Ver mais</button>
+        </div>
+    </section>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        const arquivosTrabalhos = [
+            "adrana-valentina-2a-inflacao-hiperinflacao.pdf",
+            "evelin-santos-2a-inflacao-hiperinflacao.pdf",
+            "maria-eduarda-2a-inflacao-hiperinflacao.pdf"
+        ];
+
+        const container = document.getElementById('pdf-list');
+        const botaoVerMais = document.getElementById('ver-mais-trabalhos');
+        const ITENS_POR_ETAPA = 3;
+        let trabalhosExibidos = 0;
+
+        function montarCaminho(pasta, arquivo) {
+            return `${pasta}/${encodeURIComponent(arquivo)}`;
+        }
+
+        function capitalizar(texto) {
+            return texto.charAt(0).toUpperCase() + texto.slice(1);
+        }
+
+        function formatarTituloTrabalho(arquivo) {
+            const nomeBase = arquivo.replace(/\.pdf$/i, '');
+            const partes = nomeBase.split('-');
+
+            if (partes.length < 4) {
+                return nomeBase.replace(/-/g, ' ');
+            }
+
+            const nome = partes.slice(0, 2).map(capitalizar).join(' ');
+            const turma = partes[2].toUpperCase();
+            const tema = partes
+                .slice(3)
+                .map(capitalizar)
+                .join(' ')
+                .replace('Inflacao Hiperinflacao', 'Inflação e Hiperinflação')
+                .replace('Inflacao', 'Inflação')
+                .replace('Hiperinflacao', 'Hiperinflação');
+
+            return `${nome} - ${turma} - ${tema}`;
+        }
+
+        const trabalhos = arquivosTrabalhos.map(arquivo => ({
+            arquivo,
+            titulo: formatarTituloTrabalho(arquivo),
+            descricao: 'Trabalho em PDF'
+        }));
+
+        async function gerarThumbnail(pdfPath, index) {
+            try {
+                const pdf = await pdfjsLib.getDocument(pdfPath).promise;
+                const page = await pdf.getPage(1);
+                const scale = 0.8;
+                const viewport = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+                await page.render({ canvasContext: context, viewport }).promise;
+
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
+                if (thumbDiv) {
+                    thumbDiv.innerHTML = '';
+                    thumbDiv.appendChild(canvas);
+                }
+            } catch (error) {
+                console.error('Erro ao gerar thumbnail', pdfPath, error);
+                const thumbDiv = document.querySelector(`.item-card[data-index="${index}"] .item-thumb`);
+                if (thumbDiv) {
+                    thumbDiv.innerHTML = '<div class="icone-padrao">📄</div>';
+                }
+            }
+        }
+
+        function criarCardTrabalho(trabalho, idx) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.setAttribute('data-index', idx);
+            card.onclick = () => abrirVisualizador(trabalho.arquivo);
+
+            card.innerHTML = `
+                <div class="item-thumb"></div>
+                <div class="item-tipo">trabalho</div>
+                <div class="item-titulo">${trabalho.titulo}</div>
+                <div class="item-desc">${trabalho.descricao}</div>
+            `;
+
+            return card;
+        }
+
+        function renderizarMaisTrabalhos() {
+            const proximosTrabalhos = trabalhos.slice(trabalhosExibidos, trabalhosExibidos + ITENS_POR_ETAPA);
+
+            if (!proximosTrabalhos.length) {
+                botaoVerMais.hidden = true;
+                return;
+            }
+
+            proximosTrabalhos.forEach((trabalho, offset) => {
+                const indiceReal = trabalhosExibidos + offset;
+                const card = criarCardTrabalho(trabalho, indiceReal);
+                container.appendChild(card);
+                gerarThumbnail(montarCaminho('trabalhos', trabalho.arquivo), indiceReal);
+            });
+
+            trabalhosExibidos += proximosTrabalhos.length;
+            botaoVerMais.hidden = trabalhosExibidos >= trabalhos.length;
+        }
+
+        renderizarMaisTrabalhos();
+        botaoVerMais.addEventListener('click', renderizarMaisTrabalhos);
+
+        function abrirVisualizador(arquivo) {
+            window.open(`visualizador-trabalhos.html?file=${encodeURIComponent(arquivo)}&pasta=trabalhos`, '_blank');
+        }
+    </script>
+</body>
+
+</html>

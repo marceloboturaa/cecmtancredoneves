@@ -12,14 +12,28 @@
 <body>
     <!-- NAVBAR -->
     <nav>
-        <div class="logo"><a href="index.html">Colégio Tancredo</a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
         <div class="menu-toggle">☰</div>
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
-            <li><a href="materias.html">Matérias</a></li>
-            <li><a href="mural.html">Mural</a></li>
-            <li><a href="slide.html">Slides</a></li>
-            <li><a href="acervo.html">Acervo</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Educação Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
             <li><a href="sobre.html">Sobre</a></li>
         </ul>
     </nav>
@@ -38,26 +52,18 @@
 
             <div class="materias-grid">
                 <article class="materia-card-clean" style="--accent: var(--green);">
-                    <span class="materia-badge">Destaque</span>
+                    <span class="materia-badge">Financeiro</span>
                     <h3>Educação Financeira</h3>
                     <p>Projetos sobre dinheiro, consumo consciente, orçamento familiar e planejamento.</p>
-                    <div class="materia-tags">
-                        <span>Moeda</span>
-                        <span>Planejamento</span>
-                        <span>Consumo</span>
-                    </div>
+                    
                     <a href="materias/educacao-financeira/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
                 <article class="materia-card-clean" style="--accent: #0ea5e9;">
                     <span class="materia-badge">Tecnologia</span>
-                    <h3>Robotiva</h3>
+                    <h3>Robotica</h3>
                     <p>Robótica educacional, lógica e pensamento computacional aplicados em atividades práticas.</p>
-                    <div class="materia-tags">
-                        <span>Robótica</span>
-                        <span>Lógica</span>
-                        <span>Projetos</span>
-                    </div>
+                    
                     <a href="materias/robotiva/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
@@ -65,11 +71,7 @@
                     <span class="materia-badge">Humanas</span>
                     <h3>Filosofia</h3>
                     <p>Reflexões, ética, cidadania e pensamento crítico desenvolvidos pelos estudantes.</p>
-                    <div class="materia-tags">
-                        <span>Ética</span>
-                        <span>Reflexão</span>
-                        <span>Cidadania</span>
-                    </div>
+                    
                     <a href="materias/filosofia/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
@@ -77,11 +79,7 @@
                     <span class="materia-badge">Criação</span>
                     <h3>Maker</h3>
                     <p>Cultura maker, prototipagem e criatividade em propostas construidas pela turma.</p>
-                    <div class="materia-tags">
-                        <span>Protótipos</span>
-                        <span>Criatividade</span>
-                        <span>Prática</span>
-                    </div>
+                  
                     <a href="materias/maker/index.html" class="btn">Entrar na matéria</a>
                 </article>
             </div>
@@ -93,7 +91,7 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-bottom">
-                    <span class="footer-copy">© 2026 Colégio Tancredo Neves • <strong>Legado Digital:</strong> Exposição de Trabalhos Escolares</span>
+                    <span class="footer-copy">© 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura</span>
                     <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
                         <span>@sabormatematica</span>
                     </a>
