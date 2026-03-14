@@ -8,132 +8,126 @@
     <title>Visualizador de Trabalhos</title>
     <link rel="stylesheet" href="css/visualizador-trabalhos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="js/loader.js"></script>
 </head>
 
 <body>
-    <div class="toolbar">
+    <header class="toolbar" aria-label="Ferramentas do visualizador">
         <div class="toolbar-title">
             <strong id="document-title">Trabalho</strong>
-            <span id="document-subtitle">Visualizador em livro</span>
         </div>
-        <button class="close-btn" onclick="fechar()">
-            <i class="fas fa-times"></i>
-        </button>
-        <button onclick="previousPage()">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-        <span>Página</span>
-        <input type="number" id="goto-page" value="1" min="1">
-        <span>de <span id="page-count">?</span></span>
-        <button onclick="goToPage()">Ir</button>
-        <button onclick="nextPage()">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-        <button onclick="zoomIn()">
-            <i class="fas fa-search-plus"></i>
-        </button>
-        <button onclick="zoomOut()">
-            <i class="fas fa-search-minus"></i>
-        </button>
-        <span id="zoom-level">100%</span>
-        <button id="sound-btn" onclick="toggleSound()">
-            <i class="fas fa-volume-up"></i>
-        </button>
-        <button onclick="toggleFullscreen()">
-            <i class="fas fa-expand"></i>
-        </button>
-    </div>
 
-    <div id="viewer">
-        <div class="viewer-stage">
-            <div class="book-shell">
-                <div id="book">
-                    <div class="spinner" id="loading-spinner"></div>
-                </div>
+        <div class="toolbar-group">
+            <button type="button" class="toolbar-btn toolbar-btn-danger" id="close-btn" aria-label="Fechar">
+                <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="toolbar-btn" id="prev-btn" aria-label="Página anterior">
+                <i class="fas fa-chevron-left" aria-hidden="true"></i>
+            </button>
+            <span class="toolbar-text">Página</span>
+            <input type="number" id="goto-page" class="toolbar-input" value="1" min="1" aria-label="Ir para página">
+            <span class="toolbar-text">de <span id="page-count">?</span></span>
+            <button type="button" class="toolbar-btn" id="goto-btn">Ir</button>
+            <button type="button" class="toolbar-btn" id="next-btn" aria-label="Próxima página">
+                <i class="fas fa-chevron-right" aria-hidden="true"></i>
+            </button>
+        </div>
+
+        <div class="toolbar-group">
+            <button type="button" class="toolbar-btn" id="zoom-out-btn" aria-label="Diminuir zoom">
+                <i class="fas fa-search-minus" aria-hidden="true"></i>
+            </button>
+            <span class="toolbar-chip" id="zoom-level">100%</span>
+            <button type="button" class="toolbar-btn" id="zoom-in-btn" aria-label="Aumentar zoom">
+                <i class="fas fa-search-plus" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="toolbar-btn" id="sound-btn" aria-label="Alternar som">
+                <i class="fas fa-volume-up" aria-hidden="true"></i>
+            </button>
+            <button type="button" class="toolbar-btn" id="fullscreen-btn" aria-label="Tela cheia">
+                <i class="fas fa-expand" aria-hidden="true"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="viewer">
+        <div id="viewer-status" class="viewer-status" role="status" aria-live="polite">
+            <div class="viewer-status-card">
+                <div class="spinner" aria-hidden="true"></div>
+                <strong id="viewer-status-title">Carregando trabalho</strong>
+                <p id="viewer-status-message">Preparando o visualizador.</p>
             </div>
         </div>
-    </div>
+
+        <section class="viewer-stage">
+            <div class="flipbook-shell">
+                <button type="button" class="viewer-nav viewer-nav-prev" id="viewer-prev-btn" aria-label="Página anterior">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+
+                <div class="flipbook-stage">
+                    <div id="sheet-stack" class="sheet-stack">
+                        <div class="sheet-slot is-under" id="slot-under"></div>
+                        <div class="sheet-slot is-active" id="slot-active"></div>
+                    </div>
+                    <div class="page-caption" id="page-caption">Página 1 de ?</div>
+                </div>
+
+                <button type="button" class="viewer-nav viewer-nav-next" id="viewer-next-btn" aria-label="Próxima página">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+            </div>
+        </section>
+    </main>
 
     <audio id="flip-sound">
         <source src="audio/page-flip.mp3" type="audio/mpeg">
     </audio>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
         (function () {
             const params = new URLSearchParams(window.location.search);
             const arquivo = params.get("file");
             const pasta = params.get("pasta") || "trabalhos";
 
-            if (!arquivo) {
-                document.body.innerHTML += "<h2>Arquivo não informado</h2>";
-                return;
-            }
-
-            const pdfPath = `${pasta}/${encodeURIComponent(arquivo)}`;
-
-            let pdfDoc = null;
-            let pdfPageCount = 0;
-            let scale = 1;
-            let currentView = 1;
-            let pageAspectRatio = 0.72;
-            let soundEnabled = true;
-            let resizeTimer;
-            let touchBound = false;
-            let preloadTimer = null;
-            const views = [null];
-
+            const titleElement = document.getElementById("document-title");
+            const pageCountElement = document.getElementById("page-count");
+            const gotoInput = document.getElementById("goto-page");
+            const zoomLabel = document.getElementById("zoom-level");
+            const pageCaption = document.getElementById("page-caption");
+            const stackElement = document.getElementById("sheet-stack");
+            const activeSlot = document.getElementById("slot-active");
+            const underSlot = document.getElementById("slot-under");
             const sound = document.getElementById("flip-sound");
             const soundBtn = document.getElementById("sound-btn");
-            const pageCountSpan = document.getElementById("page-count");
-            const gotoInput = document.getElementById("goto-page");
-            const zoomLevelSpan = document.getElementById("zoom-level");
-            const documentTitle = document.getElementById("document-title");
-            const bookElement = document.getElementById("book");
-            const bookShell = document.querySelector(".book-shell");
-            const viewer = document.getElementById("viewer");
+            const status = document.getElementById("viewer-status");
+            const statusTitle = document.getElementById("viewer-status-title");
+            const statusMessage = document.getElementById("viewer-status-message");
 
-            const dependencies = [
-                "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js",
-                "https://code.jquery.com/jquery-3.6.0.min.js",
-                "js/turn.min.js"
-            ];
+            let pdfDoc = null;
+            let totalPages = 0;
+            let currentPage = 1;
+            let zoom = 1;
+            let soundEnabled = false;
+            let isAnimating = false;
+            let resizeTimer = null;
+            const pageCache = new Map();
 
-            Loader.load(dependencies, iniciarPDF);
+            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-            function iniciarPDF() {
-                if (documentTitle) {
-                    documentTitle.textContent = formatarTitulo(arquivo);
-                }
+            function setStatus(title, message, isError) {
+                status.hidden = false;
+                status.classList.toggle("viewer-status-error", !!isError);
+                statusTitle.textContent = title;
+                statusMessage.textContent = message;
+            }
 
-                pdfjsLib.GlobalWorkerOptions.workerSrc =
-                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-
-                pdfjsLib.getDocument(pdfPath).promise.then(async function (pdf) {
-                    pdfDoc = pdf;
-                    pdfPageCount = pdf.numPages;
-
-                    const firstPage = await pdfDoc.getPage(1);
-                    const firstViewport = firstPage.getViewport({ scale: 1 });
-                    pageAspectRatio = firstViewport.width / firstViewport.height;
-
-                    pageCountSpan.textContent = pdfPageCount;
-                    gotoInput.max = pdfPageCount;
-
-                    document.getElementById("loading-spinner").remove();
-
-                    construirVisualizacoes();
-                    recriarLivro(1);
-                    vincularSwipe();
-                    ativarAberturaInicial();
-                    iniciarPreRender();
-                }).catch(() => {
-                    document.body.innerHTML += "<h2>Não foi possível carregar o trabalho.</h2>";
-                });
+            function hideStatus() {
+                status.hidden = true;
             }
 
             function formatarTitulo(nomeArquivo) {
-                return nomeArquivo
+                return decodeURIComponent(nomeArquivo)
                     .replace(/\.[^.]+$/, "")
                     .replace(/[-_]+/g, " ")
                     .replace(/\s+/g, " ")
@@ -141,316 +135,319 @@
                     .replace(/\b\w/g, letra => letra.toUpperCase());
             }
 
-            function construirVisualizacoes() {
-                views.length = 1;
-                views.push({ paginas: [1], dupla: false });
+            function updateUi() {
+                gotoInput.value = currentPage;
+                pageCountElement.textContent = totalPages;
+                pageCaption.textContent = `Página ${currentPage} de ${totalPages}`;
+                zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+                document.documentElement.style.setProperty("--work-zoom", zoom.toFixed(3));
 
-                for (let pagina = 2; pagina <= pdfPageCount; pagina += 2) {
-                    if (pagina + 1 <= pdfPageCount) {
-                        views.push({ paginas: [pagina, pagina + 1], dupla: true });
-                    } else {
-                        views.push({ paginas: [pagina], dupla: false });
-                    }
-                }
+                const isFirst = currentPage <= 1;
+                const isLast = currentPage >= totalPages;
+                document.getElementById("prev-btn").disabled = isFirst;
+                document.getElementById("viewer-prev-btn").disabled = isFirst;
+                document.getElementById("next-btn").disabled = isLast;
+                document.getElementById("viewer-next-btn").disabled = isLast;
             }
 
-            function obterVisualizacaoPorPaginaPdf(pdfPage) {
-                if (pdfPage <= 1) return 1;
-                return 1 + Math.ceil((pdfPage - 1) / 2);
-            }
-
-            function obterPrimeiraPaginaVisivel(viewIndex) {
-                return views[viewIndex]?.paginas[0] || 1;
-            }
-
-            function obterTamanhoLivro(viewIndex) {
-                const view = views[viewIndex] || views[1];
-                const maxWidth = Math.min(window.innerWidth * 0.96, 1400);
-                const maxHeight = window.innerHeight * 0.84;
-                const ratio = view.dupla ? pageAspectRatio * 2.08 : pageAspectRatio;
-
-                let width = Math.min(maxWidth, maxHeight * ratio);
-                let height = width / ratio;
-
-                if (height > maxHeight) {
-                    height = maxHeight;
-                    width = height * ratio;
-                }
-
-                return {
-                    width: Math.round(width),
-                    height: Math.round(height)
-                };
-            }
-
-            function criarEstruturaPaginas() {
-                bookElement.innerHTML = "";
-
-                for (let i = 1; i < views.length; i++) {
-                    const page = document.createElement("div");
-                    page.className = "page";
-                    page.id = "page-" + i;
-                    page.dataset.renderState = "idle";
-                    bookElement.appendChild(page);
-                }
-            }
-
-            function atualizarControles(viewIndex) {
-                currentView = viewIndex;
-                gotoInput.value = obterPrimeiraPaginaVisivel(viewIndex);
-                atualizarEstadoLivro(viewIndex);
-            }
-
-            function atualizarEstadoLivro(viewIndex) {
-                if (!bookShell) return;
-
-                const isCover = viewIndex === 1;
-                const isFinalSingle = !views[viewIndex]?.dupla && viewIndex === views.length - 1 && viewIndex !== 1;
-
-                bookShell.classList.toggle("is-cover-view", isCover);
-                bookShell.classList.toggle("is-open-view", !isCover);
-                bookShell.classList.toggle("is-ending-view", isFinalSingle);
-            }
-
-            function ativarAberturaInicial() {
-                if (!bookShell) return;
-
-                bookShell.classList.add("is-intro-opening");
-                requestAnimationFrame(() => {
-                    bookShell.classList.add("is-mounted");
-                });
-
-                setTimeout(() => {
-                    bookShell.classList.remove("is-intro-opening");
-                }, 900);
-            }
-
-            function renderizarPaginaPdf(pdfPage, container) {
-                return pdfDoc.getPage(pdfPage).then(function (page) {
-                    const viewport = page.getViewport({ scale });
-                    const canvas = document.createElement("canvas");
-                    const ctx = canvas.getContext("2d");
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-
-                    return page.render({
-                        canvasContext: ctx,
-                        viewport
-                    }).promise.then(() => {
-                        container.appendChild(canvas);
-                    });
-                });
-            }
-
-            function renderView(viewIndex) {
-                const container = document.getElementById("page-" + viewIndex);
-                const view = views[viewIndex];
-
-                if (!container || !view) return Promise.resolve();
-                if (container.dataset.renderState === "rendering" || container.dataset.renderState === "rendered") {
-                    return Promise.resolve();
-                }
-
-                container.dataset.renderState = "rendering";
-                container.innerHTML = "";
-
-                const spread = document.createElement("div");
-                spread.className = view.dupla ? "spread spread-double" : "spread spread-single";
-                if (viewIndex === 1) {
-                    spread.classList.add("spread-cover");
-                } else if (!view.dupla) {
-                    spread.classList.add("spread-ending");
-                }
-
-                const renderPromises = view.paginas.map(pdfPage => {
-                    const sheet = document.createElement("div");
-                    sheet.className = "pdf-sheet";
-                    if (viewIndex === 1) {
-                        sheet.classList.add("pdf-sheet-cover");
-                    } else if (!view.dupla) {
-                        sheet.classList.add("pdf-sheet-ending");
-                    }
-                    spread.appendChild(sheet);
-                    return renderizarPaginaPdf(pdfPage, sheet);
-                });
-
-                return Promise.all(renderPromises).then(() => {
-                    container.replaceChildren(spread);
-                    container.dataset.renderState = "rendered";
-                }).catch(() => {
-                    container.innerHTML = '<div class="blank-page">Erro ao renderizar</div>';
-                    container.dataset.renderState = "rendered";
-                });
-            }
-
-            function lazyLoad(viewIndex) {
-                [viewIndex - 1, viewIndex, viewIndex + 1].forEach(index => {
-                    if (index >= 1 && index < views.length) {
-                        renderView(index);
-                    }
-                });
-            }
-
-            function iniciarPreRender() {
-                if (preloadTimer) {
-                    clearTimeout(preloadTimer);
-                }
-
-                const proximoIndice = views.findIndex((view, index) => index >= 1 && view && document.getElementById("page-" + index)?.dataset.renderState === "idle");
-
-                if (proximoIndice === -1) {
+            function playFlipSound() {
+                if (!soundEnabled) {
                     return;
                 }
 
-                preloadTimer = setTimeout(() => {
-                    renderView(proximoIndice).finally(() => {
-                        iniciarPreRender();
-                    });
-                }, 40);
+                sound.currentTime = 0;
+                sound.play().catch(() => { });
             }
 
-            function bindTurn(viewIndex) {
-                const tamanho = obterTamanhoLivro(viewIndex);
+            function buildSheet(pageNumber, isPreview) {
+                const sheet = document.createElement("div");
+                let extraClass = "";
 
-                $("#book").turn({
-                    width: tamanho.width,
-                    height: tamanho.height,
-                    autoCenter: true,
-                    gradients: true,
-                    elevation: 50,
-                    display: "single",
-                    page: viewIndex,
-                    when: {
-                        turning: function (event, page) {
-                            if (bookShell && currentView === 1 && page > 1) {
-                                bookShell.classList.add("is-opening-turn");
-                            }
-                            atualizarControles(page);
-                            if (soundEnabled) {
-                                sound.currentTime = 0;
-                                sound.play();
-                            }
-                            lazyLoad(page);
-                            iniciarPreRender();
-                        },
-                        turned: function (event, page) {
-                            atualizarControles(page);
-                            if (bookShell) {
-                                bookShell.classList.remove("is-opening-turn");
-                            }
-                            const novoTamanho = obterTamanhoLivro(page);
-                            $("#book").turn("size", novoTamanho.width, novoTamanho.height);
-                            lazyLoad(page);
-                            iniciarPreRender();
-                        }
-                    }
-                });
-
-                atualizarControles(viewIndex);
-                lazyLoad(viewIndex);
-            }
-
-            function recriarLivro(viewIndex) {
-                if ($("#book").data("turn")) {
-                    $("#book").turn("destroy");
+                if (pageNumber === 1) {
+                    extraClass = "is-cover";
+                } else if (pageNumber === totalPages) {
+                    extraClass = "is-ending";
                 }
 
-                criarEstruturaPaginas();
-                bindTurn(viewIndex);
-            }
+                sheet.className = `sheet-page ${extraClass}`.trim();
 
-            function vincularSwipe() {
-                if (touchBound) return;
-                touchBound = true;
+                const frame = document.createElement("div");
+                frame.className = "page-frame";
 
-                let touchStartX = 0;
-
-                bookElement.addEventListener("touchstart", (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, { passive: true });
-
-                bookElement.addEventListener("touchend", (e) => {
-                    const touchEndX = e.changedTouches[0].screenX;
-                    const diff = touchEndX - touchStartX;
-
-                    if (Math.abs(diff) > 50) {
-                        if (diff < 0) nextPage();
-                        else previousPage();
+                if (pageNumber < 1 || pageNumber > totalPages) {
+                    const empty = document.createElement("div");
+                    empty.className = "sheet-empty";
+                    frame.appendChild(empty);
+                } else {
+                    const sourceCanvas = pageCache.get(pageNumber);
+                    if (sourceCanvas) {
+                        const canvas = document.createElement("canvas");
+                        const context = canvas.getContext("2d");
+                        canvas.width = sourceCanvas.width;
+                        canvas.height = sourceCanvas.height;
+                        context.drawImage(sourceCanvas, 0, 0);
+                        frame.appendChild(canvas);
+                    } else if (isPreview) {
+                        const empty = document.createElement("div");
+                        empty.className = "sheet-empty";
+                        frame.appendChild(empty);
                     }
-                }, { passive: true });
+                }
+
+                sheet.appendChild(frame);
+                return sheet;
             }
 
-            window.addEventListener("resize", function () {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(function () {
-                    if (!$("#book").data("turn")) return;
-                    const tamanho = obterTamanhoLivro(currentView);
-                    $("#book").turn("size", tamanho.width, tamanho.height);
-                }, 200);
-            });
+            async function renderPdfPage(pageNumber) {
+                if (pageCache.has(pageNumber)) {
+                    return pageCache.get(pageNumber);
+                }
 
-            window.previousPage = function () {
-                $("#book").turn("previous");
-            };
+                const pdfPage = await pdfDoc.getPage(pageNumber);
+                const viewport = pdfPage.getViewport({ scale: 1.55 });
+                const canvas = document.createElement("canvas");
+                const context = canvas.getContext("2d");
 
-            window.nextPage = function () {
-                $("#book").turn("next");
-            };
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
 
-            window.goToPage = function () {
-                let pdfPage = parseInt(gotoInput.value, 10);
-                if (Number.isNaN(pdfPage)) pdfPage = 1;
-                if (pdfPage < 1) pdfPage = 1;
-                if (pdfPage > pdfPageCount) pdfPage = pdfPageCount;
+                await pdfPage.render({
+                    canvasContext: context,
+                    viewport
+                }).promise;
 
-                const viewIndex = obterVisualizacaoPorPaginaPdf(pdfPage);
-                $("#book").turn("page", viewIndex);
-            };
+                pageCache.set(pageNumber, canvas);
+                return canvas;
+            }
 
-            window.zoomIn = function () {
-                scale += 0.2;
-                zoomLevelSpan.textContent = Math.round(scale * 100) + "%";
-                recriarLivro(currentView);
-            };
+            async function ensurePages(pageNumbers) {
+                const validPages = pageNumbers.filter(page => page >= 1 && page <= totalPages);
+                await Promise.all(validPages.map(page => renderPdfPage(page)));
+            }
 
-            window.zoomOut = function () {
-                scale -= 0.2;
-                if (scale < 0.6) scale = 0.6;
-                zoomLevelSpan.textContent = Math.round(scale * 100) + "%";
-                recriarLivro(currentView);
-            };
+            function atualizarZoomBase() {
+                const stage = document.querySelector(".flipbook-stage");
+                const sampleCanvas = pageCache.get(currentPage) || pageCache.get(1);
 
-            window.toggleFullscreen = function () {
+                if (!stage || !sampleCanvas) {
+                    return;
+                }
+
+                const stageWidth = Math.max(stage.clientWidth - 52, 220);
+                const stageHeight = Math.max(stage.clientHeight - 72, 220);
+                const ratio = sampleCanvas.width / sampleCanvas.height;
+
+                let fittedWidth = stageWidth;
+                let fittedHeight = fittedWidth / ratio;
+
+                if (fittedHeight > stageHeight) {
+                    fittedHeight = stageHeight;
+                    fittedWidth = fittedHeight * ratio;
+                }
+
+                document.documentElement.style.setProperty("--sheet-width", `${Math.round(fittedWidth)}px`);
+                document.documentElement.style.setProperty("--sheet-height", `${Math.round(fittedHeight)}px`);
+            }
+
+            async function renderCurrentView() {
+                await ensurePages([currentPage, currentPage + 1]);
+                atualizarZoomBase();
+
+                activeSlot.innerHTML = "";
+                underSlot.innerHTML = "";
+
+                activeSlot.appendChild(buildSheet(currentPage, false));
+                underSlot.appendChild(buildSheet(Math.min(currentPage + 1, totalPages), true));
+
+                stackElement.classList.remove("is-flipping-next", "is-flipping-prev");
+                updateUi();
+            }
+
+            async function goToPage(targetPage, direction) {
+                const nextPage = Math.min(Math.max(targetPage, 1), totalPages);
+
+                if (!pdfDoc || nextPage === currentPage || isAnimating) {
+                    if (!pdfDoc) {
+                        return;
+                    }
+
+                    currentPage = nextPage;
+                    updateUi();
+                    return;
+                }
+
+                isAnimating = true;
+                await ensurePages([nextPage, nextPage + 1]);
+
+                underSlot.innerHTML = "";
+                underSlot.appendChild(buildSheet(nextPage, false));
+
+                stackElement.classList.remove("is-flipping-next", "is-flipping-prev");
+                stackElement.offsetWidth;
+                stackElement.classList.add(direction === "prev" ? "is-flipping-prev" : "is-flipping-next");
+                playFlipSound();
+
+                window.setTimeout(async () => {
+                    currentPage = nextPage;
+                    await renderCurrentView();
+                    isAnimating = false;
+                }, 620);
+            }
+
+            function previousPage() {
+                goToPage(currentPage - 1, "prev");
+            }
+
+            function nextPage() {
+                goToPage(currentPage + 1, "next");
+            }
+
+            function handleGoToPage() {
+                const page = parseInt(gotoInput.value, 10);
+
+                if (Number.isNaN(page)) {
+                    updateUi();
+                    return;
+                }
+
+                goToPage(page, page < currentPage ? "prev" : "next");
+            }
+
+            function zoomIn() {
+                zoom = Math.min(zoom + 0.1, 2.2);
+                updateUi();
+            }
+
+            function zoomOut() {
+                zoom = Math.max(zoom - 0.1, 0.7);
+                updateUi();
+            }
+
+            function syncSoundButton() {
+                sound.muted = !soundEnabled;
+                soundBtn.innerHTML = soundEnabled
+                    ? '<i class="fas fa-volume-up" aria-hidden="true"></i>'
+                    : '<i class="fas fa-volume-mute" aria-hidden="true"></i>';
+            }
+
+            function toggleSound() {
+                soundEnabled = !soundEnabled;
+                syncSoundButton();
+            }
+
+            function toggleFullscreen() {
                 if (!document.fullscreenElement) {
                     document.documentElement.requestFullscreen();
                 } else {
                     document.exitFullscreen();
                 }
-            };
+            }
 
-            window.toggleSound = function () {
-                soundEnabled = !soundEnabled;
-                soundBtn.innerHTML = soundEnabled
-                    ? '<i class="fas fa-volume-up"></i>'
-                    : '<i class="fas fa-volume-mute"></i>';
-            };
+            function fechar() {
+                if (window.history.length > 1) {
+                    window.close();
+                    return;
+                }
 
-            window.fechar = function () {
-                window.close();
-            };
+                window.location.href = "trabalhos.html";
+            }
 
-            document.addEventListener("keydown", function (e) {
-                if (e.key === "ArrowRight") nextPage();
-                if (e.key === "ArrowLeft") previousPage();
+            async function carregarDocumento() {
+                if (!arquivo) {
+                    setStatus("Arquivo não informado", "Selecione um trabalho válido para abrir o visualizador.", true);
+                    return;
+                }
+
+                const titulo = formatarTitulo(arquivo);
+                titleElement.textContent = titulo;
+                document.title = `${titulo} | Visualizador de Trabalhos`;
+
+                try {
+                    const response = await fetch(`${pasta}/${encodeURIComponent(arquivo)}?v=${Date.now()}`, {
+                        cache: "no-store"
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`Resposta inesperada do servidor (${response.status})`);
+                    }
+
+                    const bytes = new Uint8Array(await response.arrayBuffer());
+                    pdfDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
+                    totalPages = pdfDoc.numPages;
+                    gotoInput.max = totalPages;
+                    await renderCurrentView();
+                    hideStatus();
+                } catch (error) {
+                    setStatus("Falha ao carregar", `Não foi possível abrir o trabalho: ${error.message}`, true);
+                }
+            }
+
+            document.getElementById("close-btn").addEventListener("click", fechar);
+            document.getElementById("prev-btn").addEventListener("click", previousPage);
+            document.getElementById("next-btn").addEventListener("click", nextPage);
+            document.getElementById("goto-btn").addEventListener("click", handleGoToPage);
+            document.getElementById("zoom-in-btn").addEventListener("click", zoomIn);
+            document.getElementById("zoom-out-btn").addEventListener("click", zoomOut);
+            document.getElementById("sound-btn").addEventListener("click", toggleSound);
+            document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
+            document.getElementById("viewer-prev-btn").addEventListener("click", previousPage);
+            document.getElementById("viewer-next-btn").addEventListener("click", nextPage);
+
+            gotoInput.addEventListener("keydown", event => {
+                if (event.key === "Enter") {
+                    handleGoToPage();
+                }
             });
 
-            viewer.addEventListener("wheel", function (e) {
-                if (e.ctrlKey) {
-                    e.preventDefault();
-                    if (e.deltaY < 0) zoomIn();
-                    else zoomOut();
+            document.addEventListener("keydown", event => {
+                if (event.target.tagName === "INPUT") {
+                    return;
+                }
+
+                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                    nextPage();
+                }
+
+                if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                    previousPage();
+                }
+            });
+
+            window.addEventListener("resize", () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    if (pdfDoc) {
+                        renderCurrentView();
+                    }
+                }, 180);
+            });
+
+            document.getElementById("viewer").addEventListener("wheel", event => {
+                event.preventDefault();
+
+                if (event.ctrlKey) {
+                    if (event.deltaY < 0) {
+                        zoomIn();
+                    } else {
+                        zoomOut();
+                    }
+                } else {
+                    if (isAnimating) {
+                        return;
+                    }
+
+                    if (event.deltaY > 0) {
+                        nextPage();
+                    } else if (event.deltaY < 0) {
+                        previousPage();
+                    }
                 }
             }, { passive: false });
+
+            updateUi();
+            syncSoundButton();
+            setStatus("Carregando trabalho", "Preparando o visualizador.", false);
+            carregarDocumento();
         })();
     </script>
 </body>

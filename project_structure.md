@@ -131,8 +131,7 @@ cecmtancredoneves/
 │   ├── 🖼️ IMG_20260307_165132.jpg
 │   ├── 🖼️ IMG_20260311_110958.jpg
 │   ├── 🖼️ IMG_20260311_111013.jpg
-│   ├── 🖼️ MVIMG_20260307_164254.jpg
-│   └── 🖼️ subcanal_ciencia_usp-150x150.jpg
+│   └── 🖼️ MVIMG_20260307_164254.jpg
 ├── 🌐 index.html
 ├── 📂 js/
 │   ├── 📜 loader.js

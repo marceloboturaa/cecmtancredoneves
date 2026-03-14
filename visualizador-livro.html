@@ -62,7 +62,8 @@
                 return;
             }
 
-            const pdfPath = `${pasta}/${arquivo}`;
+            const cacheKey = Date.now();
+            const pdfPath = `${pasta}/${arquivo}?v=${cacheKey}`;
 
             let pdfDoc = null;
             let pageCount = 0;
@@ -92,7 +93,17 @@
                 pdfjsLib.GlobalWorkerOptions.workerSrc =
                     "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-                pdfjsLib.getDocument(pdfPath).promise.then(function (pdf) {
+                fetch(pdfPath, {
+                    cache: "no-store"
+                }).then(function (response) {
+                    if (!response.ok) {
+                        throw new Error(`Resposta inesperada do servidor (${response.status})`);
+                    }
+
+                    return response.arrayBuffer();
+                }).then(function (buffer) {
+                    return pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
+                }).then(function (pdf) {
                     pdfDoc = pdf;
                     pageCount = pdf.numPages;
 
@@ -110,6 +121,8 @@
 
                     renderPage(1);
                     setTimeout(initTurn, 400);
+                }).catch(function (error) {
+                    viewer.innerHTML = `<div class="page-message viewer-message">Erro ao abrir este livro: ${error.message}</div>`;
                 });
             }
 
@@ -173,13 +186,10 @@
             function recreateBook() {
                 if (!$("#book").data("turn")) return;
 
-                // Salva página atual
                 const savedPage = currentPage;
 
-                // Destroi o livro
                 $("#book").turn("destroy").empty();
 
-                // Recria as páginas
                 for (let i = 1; i <= pageCount; i++) {
                     const page = document.createElement("div");
                     page.className = "page";
@@ -187,10 +197,8 @@
                     bookElement.appendChild(page);
                 }
 
-                // Renderiza a página atual novamente
                 renderPage(savedPage);
 
-                // Reinicializa o turn com as novas dimensões e display
                 setTimeout(() => {
                     const largura = Math.min(window.innerWidth * 0.9, 1200);
                     const altura = window.innerHeight * 0.85;
@@ -203,7 +211,7 @@
                         gradients: true,
                         elevation: 50,
                         display: display,
-                        page: savedPage, // vai direto para a página salva
+                        page: savedPage,
                         when: {
                             turning: function (event, page) {
                                 currentPage = page;
@@ -217,7 +225,6 @@
                         }
                     });
 
-                    // Atualiza o input
                     gotoInput.value = savedPage;
                     currentPage = savedPage;
                 }, 100);
@@ -230,11 +237,9 @@
                     if ($("#book").data("turn")) {
                         const currentDisplay = window.innerWidth < 600 ? "single" : "double";
                         if (currentDisplay !== lastDisplay) {
-                            // Mudou o modo de exibição → recria o livro
                             lastDisplay = currentDisplay;
                             recreateBook();
                         } else {
-                            // Apenas redimensiona
                             const novaLargura = Math.min(window.innerWidth * 0.9, 1200);
                             const novaAltura = window.innerHeight * 0.85;
                             $("#book").turn("size", novaLargura, novaAltura);
