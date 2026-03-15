@@ -102,12 +102,11 @@
         ];
 
         const slides = [
-            { arquivo: "conhecimento-financeiro-otimizado.pdf", titulo: "Conhecimento Financeiro" },
-            { arquivo: "conhecimento-imprevisto-otimizado.pdf", titulo: "Conhecimento Imprevisto" },
-            { arquivo: "defincoes-e-metas-otimizado.pdf", titulo: "Definições e Metas" },
-            { arquivo: "história-do-dinheiro-externo-otimizado.pdf", titulo: "História do Dinheiro" },
-            { arquivo: "preparacao-para-imprevisto-otimizado.pdf", titulo: "Preparação para Imprevistos" },
-            { arquivo: "Receitas-e-dispesas-otimizado.pdf", titulo: "Receitas e Despesas" }
+            { arquivo: "conhecimento-financeiro-3a.pdf", titulo: "Conhecimento Financeiro" },
+            { arquivo: "Definição-de-metas-3a.pdf", titulo: "Definição de Metas" },
+            { arquivo: "equilibrio-entre-despesas-receitas-3a.pdf", titulo: "Equilíbrio entre Despesas e Receitas" },
+            { arquivo: "planejmento-financeiro-3a.pdf", titulo: "Planejamento Financeiro" },
+            { arquivo: "preparação-para-imprevisto-3a.pdf", titulo: "Preparação para Imprevistos" }
         ];
 
         const livros = [
@@ -138,28 +137,32 @@
             return texto.charAt(0).toUpperCase() + texto.slice(1);
         }
 
-        function formatarTituloTrabalho(arquivo) {
-            const nomeBase = arquivo.replace(/\.pdf$/i, '');
-            const partes = nomeBase.split('-');
-
-            if (partes.length < 4) {
-                return nomeBase.replace(/-/g, ' ');
-            }
-
-            const nome = partes.slice(0, 2).map(capitalizar).join(' ');
-            const turma = partes[2].toUpperCase();
-            const tema = partes
-                .slice(3)
+        function formatarTemaTrabalho(partesTema) {
+            return partesTema
                 .map(capitalizar)
                 .join(' ')
                 .replace('Inflacao Hiperinflacao', 'Inflação e Hiperinflação')
                 .replace('Inflacao', 'Inflação')
                 .replace('Hiperinflacao', 'Hiperinflação');
-
-            return `${nome} - ${turma} - ${tema}`;
         }
 
-        const trabalhos = arquivosTrabalhos.map(arquivo => ({
+        function formatarTituloTrabalho(arquivo) {
+            const nomeBase = arquivo.replace(/\.pdf$/i, '');
+            const partes = nomeBase.split('-');
+            const indiceTurma = partes.findIndex(parte => /^\d+[a-z]$/i.test(parte));
+
+            if (indiceTurma === -1) {
+                return 'Trabalho de estudante';
+            }
+
+            const turma = partes[indiceTurma].toUpperCase();
+            const tema = formatarTemaTrabalho(partes.slice(indiceTurma + 1));
+
+            return tema ? `${turma} - ${tema}` : `Trabalho - ${turma}`;
+        }
+
+        const trabalhos = arquivosTrabalhos.map((arquivo, index) => ({
+            id: `trabalho-${index + 1}`,
             arquivo,
             titulo: formatarTituloTrabalho(arquivo)
         }));
@@ -167,6 +170,7 @@
         const itens = [
             ...trabalhos.map(t => ({
                 tipo: 'trabalho',
+                id: t.id,
                 titulo: t.titulo,
                 descricao: 'Trabalho em PDF',
                 arquivo: t.arquivo,
@@ -228,7 +232,7 @@
             const html = proximosItens.map((item, offset) => {
                 const indiceReal = itensExibidos + offset;
                 return `
-                    <div class="item-card" data-tipo="${item.tipo}" onclick="abrirItem('${item.tipo}', '${item.arquivo}', '${item.pasta}')">
+                    <div class="item-card" data-tipo="${item.tipo}" onclick="abrirItem('${item.tipo}', '${item.arquivo}', '${item.pasta}', '${item.id || ''}')">
                         <div class="item-thumb" id="thumb-${indiceReal}"></div>
                         <div class="item-tipo">${item.tipo}</div>
                         <div class="item-titulo">${item.titulo}</div>
@@ -289,7 +293,7 @@
             renderizarItens(true);
         }
 
-        window.abrirItem = function (tipo, arquivo, pasta) {
+        window.abrirItem = function (tipo, arquivo, pasta, id) {
             if (tipo === 'imagem') {
                 window.open(montarCaminho(pasta, arquivo), '_blank');
             } else if (tipo === 'slide') {
@@ -299,7 +303,7 @@
             } else if (tipo === 'apostila') {
                 window.open(`visualizador-apostilas.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             } else if (tipo === 'trabalho') {
-                window.open(`visualizador-trabalhos.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                window.open(`visualizador-trabalhos.html?id=${encodeURIComponent(id)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             }
         };
 

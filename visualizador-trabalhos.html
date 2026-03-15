@@ -8,446 +8,578 @@
     <title>Visualizador de Trabalhos</title>
     <link rel="stylesheet" href="css/visualizador-trabalhos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="js/loader.js"></script>
+    <script src="js/scroll-top.js"></script>
 </head>
 
 <body>
-    <header class="toolbar" aria-label="Ferramentas do visualizador">
+    <div class="toolbar">
         <div class="toolbar-title">
             <strong id="document-title">Trabalho</strong>
+            <span>Modo revista de trabalhos</span>
         </div>
 
-        <div class="toolbar-group">
-            <button type="button" class="toolbar-btn toolbar-btn-danger" id="close-btn" aria-label="Fechar">
-                <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="toolbar-btn" id="prev-btn" aria-label="Página anterior">
-                <i class="fas fa-chevron-left" aria-hidden="true"></i>
-            </button>
-            <span class="toolbar-text">Página</span>
-            <input type="number" id="goto-page" class="toolbar-input" value="1" min="1" aria-label="Ir para página">
-            <span class="toolbar-text">de <span id="page-count">?</span></span>
-            <button type="button" class="toolbar-btn" id="goto-btn">Ir</button>
-            <button type="button" class="toolbar-btn" id="next-btn" aria-label="Próxima página">
-                <i class="fas fa-chevron-right" aria-hidden="true"></i>
-            </button>
-        </div>
+        <button class="close-btn" onclick="fechar()" aria-label="Fechar">
+            <i class="fas fa-times"></i>
+        </button>
+        <button onclick="previousPage()" aria-label="Página anterior">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+        <span>Página</span>
+        <input type="number" id="goto-page" value="1" min="1" aria-label="Ir para página">
+        <span>de <span id="page-count">?</span></span>
+        <button onclick="goToPage()">Ir</button>
+        <button onclick="nextPage()" aria-label="Próxima página">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+        <button onclick="zoomIn()" aria-label="Aumentar zoom">
+            <i class="fas fa-search-plus"></i>
+        </button>
+        <button onclick="zoomOut()" aria-label="Diminuir zoom">
+            <i class="fas fa-search-minus"></i>
+        </button>
+        <span id="zoom-level">100%</span>
+        <button id="sound-btn" onclick="toggleSound()" aria-label="Alternar som">
+            <i class="fas fa-volume-up"></i>
+        </button>
+        <button onclick="toggleFullscreen()" aria-label="Tela cheia">
+            <i class="fas fa-expand"></i>
+        </button>
+    </div>
 
-        <div class="toolbar-group">
-            <button type="button" class="toolbar-btn" id="zoom-out-btn" aria-label="Diminuir zoom">
-                <i class="fas fa-search-minus" aria-hidden="true"></i>
-            </button>
-            <span class="toolbar-chip" id="zoom-level">100%</span>
-            <button type="button" class="toolbar-btn" id="zoom-in-btn" aria-label="Aumentar zoom">
-                <i class="fas fa-search-plus" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="toolbar-btn" id="sound-btn" aria-label="Alternar som">
-                <i class="fas fa-volume-up" aria-hidden="true"></i>
-            </button>
-            <button type="button" class="toolbar-btn" id="fullscreen-btn" aria-label="Tela cheia">
-                <i class="fas fa-expand" aria-hidden="true"></i>
-            </button>
-        </div>
-    </header>
-
-    <main id="viewer">
-        <div id="viewer-status" class="viewer-status" role="status" aria-live="polite">
-            <div class="viewer-status-card">
-                <div class="spinner" aria-hidden="true"></div>
-                <strong id="viewer-status-title">Carregando trabalho</strong>
-                <p id="viewer-status-message">Preparando o visualizador.</p>
+    <div id="viewer">
+        <div id="book-viewport">
+            <div id="book">
+                <div class="spinner" id="loading-spinner"></div>
             </div>
         </div>
-
-        <section class="viewer-stage">
-            <div class="flipbook-shell">
-                <button type="button" class="viewer-nav viewer-nav-prev" id="viewer-prev-btn" aria-label="Página anterior">
-                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-
-                <div class="flipbook-stage">
-                    <div id="sheet-stack" class="sheet-stack">
-                        <div class="sheet-slot is-under" id="slot-under"></div>
-                        <div class="sheet-slot is-active" id="slot-active"></div>
-                    </div>
-                    <div class="page-caption" id="page-caption">Página 1 de ?</div>
-                </div>
-
-                <button type="button" class="viewer-nav viewer-nav-next" id="viewer-next-btn" aria-label="Próxima página">
-                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
-            </div>
-        </section>
-    </main>
+    </div>
 
     <audio id="flip-sound">
         <source src="audio/page-flip.mp3" type="audio/mpeg">
     </audio>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
         (function () {
             const params = new URLSearchParams(window.location.search);
-            const arquivo = params.get("file");
+            const arquivosTrabalhos = [
+                "adrana-valentina-2a-inflacao-hiperinflacao.pdf",
+                "evelin-santos-2a-inflacao-hiperinflacao.pdf",
+                "maria-eduarda-2a-inflacao-hiperinflacao.pdf"
+            ];
+            const catalogoTrabalhos = Object.fromEntries(
+                arquivosTrabalhos.map((nomeArquivo, index) => [`trabalho-${index + 1}`, nomeArquivo])
+            );
+            const arquivo = catalogoTrabalhos[params.get("id")] || params.get("file");
             const pasta = params.get("pasta") || "trabalhos";
 
-            const titleElement = document.getElementById("document-title");
-            const pageCountElement = document.getElementById("page-count");
-            const gotoInput = document.getElementById("goto-page");
-            const zoomLabel = document.getElementById("zoom-level");
-            const pageCaption = document.getElementById("page-caption");
-            const stackElement = document.getElementById("sheet-stack");
-            const activeSlot = document.getElementById("slot-active");
-            const underSlot = document.getElementById("slot-under");
-            const sound = document.getElementById("flip-sound");
-            const soundBtn = document.getElementById("sound-btn");
-            const status = document.getElementById("viewer-status");
-            const statusTitle = document.getElementById("viewer-status-title");
-            const statusMessage = document.getElementById("viewer-status-message");
-
-            let pdfDoc = null;
-            let totalPages = 0;
-            let currentPage = 1;
-            let zoom = 1;
-            let soundEnabled = false;
-            let isAnimating = false;
-            let resizeTimer = null;
-            const pageCache = new Map();
-
-            pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
-
-            function setStatus(title, message, isError) {
-                status.hidden = false;
-                status.classList.toggle("viewer-status-error", !!isError);
-                statusTitle.textContent = title;
-                statusMessage.textContent = message;
+            if (!arquivo) {
+                document.body.innerHTML += "<h2>Arquivo não informado</h2>";
+                return;
             }
 
-            function hideStatus() {
-                status.hidden = true;
+            const cacheKey = Date.now();
+            const pdfPath = `${pasta}/${encodeURIComponent(arquivo)}?v=${cacheKey}`;
+            const pdfRenderScale = 1.45;
+
+            let pdfDoc = null;
+            let pageCount = 0;
+            let scale = 1;
+            let currentPage = 1;
+            let soundEnabled = true;
+            let isTurning = false;
+            let lastWheelTurn = 0;
+            let isPanning = false;
+            let panStartX = 0;
+            let panStartY = 0;
+            let panOriginX = 0;
+            let panOriginY = 0;
+            let resizeTimer;
+            let lastDisplay = window.innerWidth < 600 ? "single" : "double";
+
+            const sound = document.getElementById("flip-sound");
+            const soundBtn = document.getElementById("sound-btn");
+            const pageCountSpan = document.getElementById("page-count");
+            const gotoInput = document.getElementById("goto-page");
+            const zoomLevelSpan = document.getElementById("zoom-level");
+            const bookViewport = document.getElementById("book-viewport");
+            const bookElement = document.getElementById("book");
+            const viewer = document.getElementById("viewer");
+            const titleElement = document.getElementById("document-title");
+
+            const dependencies = [
+                "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js",
+                "https://code.jquery.com/jquery-3.6.0.min.js",
+                "js/turn.min.js"
+            ];
+
+            function capitalizar(texto) {
+                return texto.charAt(0).toUpperCase() + texto.slice(1);
+            }
+
+            function formatarTemaTrabalho(partesTema) {
+                return partesTema
+                    .map(capitalizar)
+                    .join(" ")
+                    .replace("Inflacao Hiperinflacao", "Inflação e Hiperinflação")
+                    .replace("Inflacao", "Inflação")
+                    .replace("Hiperinflacao", "Hiperinflação");
             }
 
             function formatarTitulo(nomeArquivo) {
-                return decodeURIComponent(nomeArquivo)
+                const nomeBase = decodeURIComponent(nomeArquivo)
                     .replace(/\.[^.]+$/, "")
-                    .replace(/[-_]+/g, " ")
-                    .replace(/\s+/g, " ")
-                    .trim()
-                    .replace(/\b\w/g, letra => letra.toUpperCase());
+                    .trim();
+                const partes = nomeBase.split(/[-_]+/).filter(Boolean);
+                const indiceTurma = partes.findIndex(parte => /^\d+[a-z]$/i.test(parte));
+
+                if (indiceTurma === -1) {
+                    return "Trabalho de estudante";
+                }
+
+                const turma = partes[indiceTurma].toUpperCase();
+                const tema = formatarTemaTrabalho(partes.slice(indiceTurma + 1));
+
+                return tema ? `${turma} - ${tema}` : `Trabalho - ${turma}`;
             }
 
-            function updateUi() {
-                gotoInput.value = currentPage;
-                pageCountElement.textContent = totalPages;
-                pageCaption.textContent = `Página ${currentPage} de ${totalPages}`;
-                zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
-                document.documentElement.style.setProperty("--work-zoom", zoom.toFixed(3));
+            titleElement.textContent = formatarTitulo(arquivo);
+            document.title = `${titleElement.textContent} | Visualizador de Trabalhos`;
 
-                const isFirst = currentPage <= 1;
-                const isLast = currentPage >= totalPages;
-                document.getElementById("prev-btn").disabled = isFirst;
-                document.getElementById("viewer-prev-btn").disabled = isFirst;
-                document.getElementById("next-btn").disabled = isLast;
-                document.getElementById("viewer-next-btn").disabled = isLast;
+            Loader.load(dependencies, iniciarPDF);
+
+            function iniciarPDF() {
+                pdfjsLib.GlobalWorkerOptions.workerSrc =
+                    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+                fetch(pdfPath, {
+                    cache: "no-store"
+                }).then(function (response) {
+                    if (!response.ok) {
+                        throw new Error(`Resposta inesperada do servidor (${response.status})`);
+                    }
+
+                    return response.arrayBuffer();
+                }).then(function (buffer) {
+                    return pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise;
+                }).then(function (pdf) {
+                    pdfDoc = pdf;
+                    pageCount = pdf.numPages;
+
+                    pageCountSpan.textContent = pageCount;
+                    gotoInput.max = pageCount;
+
+                    document.getElementById("loading-spinner").remove();
+
+                    for (let i = 1; i <= pageCount; i++) {
+                        const page = document.createElement("div");
+                        page.className = "page";
+                        page.id = "page-" + i;
+                        bookElement.appendChild(page);
+                    }
+
+                    renderPage(1);
+                    setTimeout(initTurn, 400);
+                }).catch(function (error) {
+                    viewer.innerHTML = `<div class="page-message viewer-message">Erro ao abrir este trabalho: ${error.message}</div>`;
+                });
             }
 
-            function playFlipSound() {
+            function renderPage(num) {
+                pdfDoc.getPage(num).then(function (page) {
+                    const viewport = page.getViewport({ scale: pdfRenderScale });
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext("2d");
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+                    page.render({
+                        canvasContext: ctx,
+                        viewport: viewport
+                    });
+                    document.getElementById("page-" + num).appendChild(canvas);
+                });
+            }
+
+            function tocarSom() {
                 if (!soundEnabled) {
                     return;
                 }
 
                 sound.currentTime = 0;
-                sound.play().catch(() => { });
+                sound.play().catch(function () { });
             }
 
-            function buildSheet(pageNumber, isPreview) {
-                const sheet = document.createElement("div");
-                let extraClass = "";
-
-                if (pageNumber === 1) {
-                    extraClass = "is-cover";
-                } else if (pageNumber === totalPages) {
-                    extraClass = "is-ending";
-                }
-
-                sheet.className = `sheet-page ${extraClass}`.trim();
-
-                const frame = document.createElement("div");
-                frame.className = "page-frame";
-
-                if (pageNumber < 1 || pageNumber > totalPages) {
-                    const empty = document.createElement("div");
-                    empty.className = "sheet-empty";
-                    frame.appendChild(empty);
-                } else {
-                    const sourceCanvas = pageCache.get(pageNumber);
-                    if (sourceCanvas) {
-                        const canvas = document.createElement("canvas");
-                        const context = canvas.getContext("2d");
-                        canvas.width = sourceCanvas.width;
-                        canvas.height = sourceCanvas.height;
-                        context.drawImage(sourceCanvas, 0, 0);
-                        frame.appendChild(canvas);
-                    } else if (isPreview) {
-                        const empty = document.createElement("div");
-                        empty.className = "sheet-empty";
-                        frame.appendChild(empty);
-                    }
-                }
-
-                sheet.appendChild(frame);
-                return sheet;
+            function updateZoomUi() {
+                zoomLevelSpan.textContent = Math.round(scale * 100) + "%";
+                document.documentElement.style.setProperty("--book-scale", scale.toFixed(2));
+                bookElement.classList.toggle("is-zoomed", scale > 1);
+                viewer.classList.toggle("is-zoomed", scale > 1);
+                viewer.classList.toggle("is-panning", isPanning);
             }
 
-            async function renderPdfPage(pageNumber) {
-                if (pageCache.has(pageNumber)) {
-                    return pageCache.get(pageNumber);
-                }
-
-                const pdfPage = await pdfDoc.getPage(pageNumber);
-                const viewport = pdfPage.getViewport({ scale: 1.55 });
-                const canvas = document.createElement("canvas");
-                const context = canvas.getContext("2d");
-
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                await pdfPage.render({
-                    canvasContext: context,
-                    viewport
-                }).promise;
-
-                pageCache.set(pageNumber, canvas);
-                return canvas;
-            }
-
-            async function ensurePages(pageNumbers) {
-                const validPages = pageNumbers.filter(page => page >= 1 && page <= totalPages);
-                await Promise.all(validPages.map(page => renderPdfPage(page)));
-            }
-
-            function atualizarZoomBase() {
-                const stage = document.querySelector(".flipbook-stage");
-                const sampleCanvas = pageCache.get(currentPage) || pageCache.get(1);
-
-                if (!stage || !sampleCanvas) {
+            function startPan(event) {
+                if (event.button !== 0 || scale <= 1) {
                     return;
                 }
 
-                const stageWidth = Math.max(stage.clientWidth - 52, 220);
-                const stageHeight = Math.max(stage.clientHeight - 72, 220);
-                const ratio = sampleCanvas.width / sampleCanvas.height;
-
-                let fittedWidth = stageWidth;
-                let fittedHeight = fittedWidth / ratio;
-
-                if (fittedHeight > stageHeight) {
-                    fittedHeight = stageHeight;
-                    fittedWidth = fittedHeight * ratio;
+                if (!event.target.closest("#book")) {
+                    return;
                 }
 
-                document.documentElement.style.setProperty("--sheet-width", `${Math.round(fittedWidth)}px`);
-                document.documentElement.style.setProperty("--sheet-height", `${Math.round(fittedHeight)}px`);
+                event.preventDefault();
+                event.stopPropagation();
+                isPanning = true;
+                panStartX = event.clientX;
+                panStartY = event.clientY;
+                panOriginX = viewer.scrollLeft;
+                panOriginY = viewer.scrollTop;
+                updateZoomUi();
             }
 
-            async function renderCurrentView() {
-                await ensurePages([currentPage, currentPage + 1]);
-                atualizarZoomBase();
+            function movePan(event) {
+                if (!isPanning) {
+                    return;
+                }
 
-                activeSlot.innerHTML = "";
-                underSlot.innerHTML = "";
-
-                activeSlot.appendChild(buildSheet(currentPage, false));
-                underSlot.appendChild(buildSheet(Math.min(currentPage + 1, totalPages), true));
-
-                stackElement.classList.remove("is-flipping-next", "is-flipping-prev");
-                updateUi();
+                event.preventDefault();
+                event.stopPropagation();
+                viewer.scrollLeft = panOriginX - (event.clientX - panStartX);
+                viewer.scrollTop = panOriginY - (event.clientY - panStartY);
             }
 
-            async function goToPage(targetPage, direction) {
-                const nextPage = Math.min(Math.max(targetPage, 1), totalPages);
+            function endPan() {
+                if (!isPanning) {
+                    return;
+                }
 
-                if (!pdfDoc || nextPage === currentPage || isAnimating) {
-                    if (!pdfDoc) {
+                isPanning = false;
+                updateZoomUi();
+            }
+
+            function getTurnConfig(display, page) {
+                const { largura, altura } = getBookSize();
+
+                return {
+                    width: largura,
+                    height: altura,
+                    autoCenter: true,
+                    gradients: true,
+                    elevation: 32,
+                    display: display,
+                    page: page,
+                    when: {
+                        turning: function (event, nextPage) {
+                            isTurning = true;
+                            currentPage = nextPage;
+                            gotoInput.value = nextPage;
+                            tocarSom();
+                            lazyLoad(nextPage);
+                        },
+                        turned: function (event, nextPage) {
+                            isTurning = false;
+                            currentPage = nextPage;
+                            gotoInput.value = nextPage;
+                        }
+                    }
+                };
+            }
+
+            function getBookSize() {
+                const altura = Math.min(window.innerHeight * 0.85, 900);
+
+                // Ajuste este multiplicador para controlar a proporcao do livro aberto.
+                // Aumente este valor para reduzir a sobra branca em cima e embaixo.
+                // Diminua este valor se quiser mais altura visual nas folhas.
+                const proporcaoLivroAberto = 1.42;
+
+                // Ajuste este limite se quiser permitir um livro mais largo em telas grandes.
+                const larguraMaxima = 1080;
+                const largura = Math.min(window.innerWidth * 0.86, altura * proporcaoLivroAberto, larguraMaxima);
+
+                return { largura, altura };
+            }
+
+            function updateBookViewport() {
+                const { largura, altura } = getBookSize();
+                bookViewport.style.width = `${Math.round(largura * scale)}px`;
+                bookViewport.style.height = `${Math.round(altura * scale)}px`;
+            }
+
+            function applyZoom(nextScale) {
+                const previousScale = scale;
+                const clampedScale = Math.min(Math.max(nextScale, 0.6), 2.4);
+
+                if (clampedScale === scale) {
+                    return;
+                }
+
+                const centerX = (viewer.scrollLeft + viewer.clientWidth / 2) / previousScale;
+                const centerY = (viewer.scrollTop + viewer.clientHeight / 2) / previousScale;
+
+                scale = clampedScale;
+                updateBookViewport();
+                updateZoomUi();
+
+                requestAnimationFrame(function () {
+                    if (scale <= 1) {
+                        viewer.scrollLeft = Math.max((bookViewport.scrollWidth - viewer.clientWidth) / 2, 0);
+                        viewer.scrollTop = Math.max((bookViewport.scrollHeight - viewer.clientHeight) / 2, 0);
                         return;
                     }
 
-                    currentPage = nextPage;
-                    updateUi();
+                    viewer.scrollLeft = Math.max(centerX * scale - viewer.clientWidth / 2, 0);
+                    viewer.scrollTop = Math.max(centerY * scale - viewer.clientHeight / 2, 0);
+                });
+            }
+
+            function getVisiblePages() {
+                if (!$("#book").data("turn")) {
+                    return [currentPage];
+                }
+
+                const view = $("#book").turn("view") || [currentPage];
+                return view.filter(function (page) {
+                    return page >= 1 && page <= pageCount;
+                });
+            }
+
+            function initTurn() {
+                const display = window.innerWidth < 600 ? "single" : "double";
+
+                $("#book").turn(getTurnConfig(display));
+                updateBookViewport();
+
+                let touchStartX = 0;
+                bookElement.addEventListener("touchstart", function (e) {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                bookElement.addEventListener("touchend", function (e) {
+                    const touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchEndX - touchStartX;
+
+                    if (Math.abs(diff) > 50) {
+                        if (diff < 0) {
+                            nextPage();
+                        } else {
+                            previousPage();
+                        }
+                    }
+                }, { passive: true });
+            }
+
+            function recreateBook() {
+                if (!$("#book").data("turn")) {
                     return;
                 }
 
-                isAnimating = true;
-                await ensurePages([nextPage, nextPage + 1]);
+                const savedPage = currentPage;
 
-                underSlot.innerHTML = "";
-                underSlot.appendChild(buildSheet(nextPage, false));
+                $("#book").turn("destroy").empty();
 
-                stackElement.classList.remove("is-flipping-next", "is-flipping-prev");
-                stackElement.offsetWidth;
-                stackElement.classList.add(direction === "prev" ? "is-flipping-prev" : "is-flipping-next");
-                playFlipSound();
-
-                window.setTimeout(async () => {
-                    currentPage = nextPage;
-                    await renderCurrentView();
-                    isAnimating = false;
-                }, 620);
-            }
-
-            function previousPage() {
-                goToPage(currentPage - 1, "prev");
-            }
-
-            function nextPage() {
-                goToPage(currentPage + 1, "next");
-            }
-
-            function handleGoToPage() {
-                const page = parseInt(gotoInput.value, 10);
-
-                if (Number.isNaN(page)) {
-                    updateUi();
-                    return;
+                for (let i = 1; i <= pageCount; i++) {
+                    const page = document.createElement("div");
+                    page.className = "page";
+                    page.id = "page-" + i;
+                    bookElement.appendChild(page);
                 }
 
-                goToPage(page, page < currentPage ? "prev" : "next");
+                renderPage(savedPage);
+
+                setTimeout(function () {
+                    const display = window.innerWidth < 600 ? "single" : "double";
+                    $("#book").turn(getTurnConfig(display, savedPage));
+                    updateBookViewport();
+
+                    gotoInput.value = savedPage;
+                    currentPage = savedPage;
+                }, 100);
             }
 
-            function zoomIn() {
-                zoom = Math.min(zoom + 0.1, 2.2);
-                updateUi();
+            window.addEventListener("resize", function () {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function () {
+                    if ($("#book").data("turn")) {
+                        const currentDisplay = window.innerWidth < 600 ? "single" : "double";
+
+                        if (currentDisplay !== lastDisplay) {
+                            lastDisplay = currentDisplay;
+                            recreateBook();
+                        } else {
+                            const { largura: novaLargura, altura: novaAltura } = getBookSize();
+                            $("#book").turn("size", novaLargura, novaAltura);
+                            updateBookViewport();
+                        }
+                    }
+                }, 200);
+            });
+
+            function lazyLoad(page) {
+                const pages = [page - 1, page, page + 1];
+
+                pages.forEach(function (p) {
+                    if (p >= 1 && p <= pageCount) {
+                        const el = document.getElementById("page-" + p);
+                        if (el && !el.hasChildNodes()) {
+                            renderPage(p);
+                        }
+                    }
+                });
             }
 
-            function zoomOut() {
-                zoom = Math.max(zoom - 0.1, 0.7);
-                updateUi();
+            window.previousPage = function () {
+                $("#book").turn("previous");
+            };
+
+            window.nextPage = function () {
+                $("#book").turn("next");
+            };
+
+            window.goToPage = function () {
+                let page = parseInt(gotoInput.value, 10);
+
+                if (page < 1) {
+                    page = 1;
+                }
+
+                if (page > pageCount) {
+                    page = pageCount;
+                }
+
+                $("#book").turn("page", page);
+            };
+
+            window.zoomIn = function () {
+                applyZoom(scale + 0.2);
+            };
+
+            window.zoomOut = function () {
+                applyZoom(scale - 0.2);
+            };
+
+            function reloadPages() {
+                for (let i = 1; i <= pageCount; i++) {
+                    document.getElementById("page-" + i).innerHTML = "";
+                }
+
+                const visiblePages = getVisiblePages();
+                visiblePages.forEach(function (page) {
+                    renderPage(page);
+                });
+
+                lazyLoad(currentPage);
             }
 
-            function syncSoundButton() {
-                sound.muted = !soundEnabled;
-                soundBtn.innerHTML = soundEnabled
-                    ? '<i class="fas fa-volume-up" aria-hidden="true"></i>'
-                    : '<i class="fas fa-volume-mute" aria-hidden="true"></i>';
-            }
-
-            function toggleSound() {
-                soundEnabled = !soundEnabled;
-                syncSoundButton();
-            }
-
-            function toggleFullscreen() {
+            window.toggleFullscreen = function () {
                 if (!document.fullscreenElement) {
                     document.documentElement.requestFullscreen();
                 } else {
                     document.exitFullscreen();
                 }
-            }
+            };
 
-            function fechar() {
+            window.toggleSound = function () {
+                soundEnabled = !soundEnabled;
+                soundBtn.innerHTML = soundEnabled
+                    ? '<i class="fas fa-volume-up"></i>'
+                    : '<i class="fas fa-volume-mute"></i>';
+            };
+
+            window.fechar = function () {
                 if (window.history.length > 1) {
                     window.close();
                     return;
                 }
 
                 window.location.href = "trabalhos.html";
-            }
+            };
 
-            async function carregarDocumento() {
-                if (!arquivo) {
-                    setStatus("Arquivo não informado", "Selecione um trabalho válido para abrir o visualizador.", true);
-                    return;
-                }
-
-                const titulo = formatarTitulo(arquivo);
-                titleElement.textContent = titulo;
-                document.title = `${titulo} | Visualizador de Trabalhos`;
-
-                try {
-                    const response = await fetch(`${pasta}/${encodeURIComponent(arquivo)}?v=${Date.now()}`, {
-                        cache: "no-store"
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Resposta inesperada do servidor (${response.status})`);
+            document.addEventListener("keydown", function (e) {
+                if (e.target.tagName === "INPUT") {
+                    if (e.key === "Enter") {
+                        goToPage();
                     }
-
-                    const bytes = new Uint8Array(await response.arrayBuffer());
-                    pdfDoc = await pdfjsLib.getDocument({ data: bytes }).promise;
-                    totalPages = pdfDoc.numPages;
-                    gotoInput.max = totalPages;
-                    await renderCurrentView();
-                    hideStatus();
-                } catch (error) {
-                    setStatus("Falha ao carregar", `Não foi possível abrir o trabalho: ${error.message}`, true);
-                }
-            }
-
-            document.getElementById("close-btn").addEventListener("click", fechar);
-            document.getElementById("prev-btn").addEventListener("click", previousPage);
-            document.getElementById("next-btn").addEventListener("click", nextPage);
-            document.getElementById("goto-btn").addEventListener("click", handleGoToPage);
-            document.getElementById("zoom-in-btn").addEventListener("click", zoomIn);
-            document.getElementById("zoom-out-btn").addEventListener("click", zoomOut);
-            document.getElementById("sound-btn").addEventListener("click", toggleSound);
-            document.getElementById("fullscreen-btn").addEventListener("click", toggleFullscreen);
-            document.getElementById("viewer-prev-btn").addEventListener("click", previousPage);
-            document.getElementById("viewer-next-btn").addEventListener("click", nextPage);
-
-            gotoInput.addEventListener("keydown", event => {
-                if (event.key === "Enter") {
-                    handleGoToPage();
-                }
-            });
-
-            document.addEventListener("keydown", event => {
-                if (event.target.tagName === "INPUT") {
                     return;
                 }
 
-                if (event.key === "ArrowRight" || event.key === "ArrowDown") {
+                if (e.key === "ArrowRight") {
+                    e.preventDefault();
                     nextPage();
                 }
 
-                if (event.key === "ArrowLeft" || event.key === "ArrowUp") {
+                if (e.key === "ArrowLeft") {
+                    e.preventDefault();
                     previousPage();
+                }
+
+                if (e.key === "ArrowDown") {
+                    e.preventDefault();
+                    nextPage();
+                }
+
+                if (e.key === "ArrowUp") {
+                    e.preventDefault();
+                    previousPage();
+                }
+
+                if (e.key === "+" || e.key === "=" || e.code === "NumpadAdd") {
+                    e.preventDefault();
+                    zoomIn();
+                }
+
+                if (e.key === "-" || e.code === "NumpadSubtract") {
+                    e.preventDefault();
+                    zoomOut();
                 }
             });
 
-            window.addEventListener("resize", () => {
-                clearTimeout(resizeTimer);
-                resizeTimer = setTimeout(() => {
-                    if (pdfDoc) {
-                        renderCurrentView();
-                    }
-                }, 180);
-            });
+            viewer.addEventListener("wheel", function (e) {
+                if (isPanning) {
+                    return;
+                }
 
-            document.getElementById("viewer").addEventListener("wheel", event => {
-                event.preventDefault();
+                if (e.ctrlKey) {
+                    e.preventDefault();
 
-                if (event.ctrlKey) {
-                    if (event.deltaY < 0) {
+                    if (e.deltaY < 0) {
                         zoomIn();
                     } else {
                         zoomOut();
                     }
-                } else {
-                    if (isAnimating) {
-                        return;
-                    }
+                    return;
+                }
 
-                    if (event.deltaY > 0) {
-                        nextPage();
-                    } else if (event.deltaY < 0) {
-                        previousPage();
-                    }
+                e.preventDefault();
+
+                if (isTurning) {
+                    return;
+                }
+
+                const now = Date.now();
+                if (now - lastWheelTurn < 420) {
+                    return;
+                }
+
+                lastWheelTurn = now;
+
+                if (e.deltaY > 0) {
+                    nextPage();
+                } else if (e.deltaY < 0) {
+                    previousPage();
                 }
             }, { passive: false });
 
-            updateUi();
-            syncSoundButton();
-            setStatus("Carregando trabalho", "Preparando o visualizador.", false);
-            carregarDocumento();
+            viewer.addEventListener("mousedown", startPan, true);
+            window.addEventListener("mousemove", movePan);
+            window.addEventListener("mouseup", endPan);
+            viewer.addEventListener("mouseleave", endPan);
+
+            initScrollTopButton({
+                scrollContainer: viewer,
+                threshold: 180
+            });
+
+            updateZoomUi();
         })();
     </script>
 </body>

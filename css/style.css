@@ -26,10 +26,18 @@
     box-sizing: border-box;
 }
 
+html {
+    min-height: 100%;
+    background: #172536;
+}
+
 body {
     font-family: "Poppins", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background: var(--white);
     color: var(--dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     line-height: 1.6;
 }
 

@@ -41,7 +41,7 @@
 
     <header class="dark-bg" style="background:linear-gradient(135deg,var(--blue),#0f2a44);">
         <h1>Trabalhos</h1>
-        <p>Clique em cada card para abrir os trabalhos em PDF</p>
+        <p>Clique para abrir e visualizar os trabalhos</p>
     </header>
 
     <section class="container">
@@ -89,28 +89,32 @@
             return texto.charAt(0).toUpperCase() + texto.slice(1);
         }
 
-        function formatarTituloTrabalho(arquivo) {
-            const nomeBase = arquivo.replace(/\.pdf$/i, '');
-            const partes = nomeBase.split('-');
-
-            if (partes.length < 4) {
-                return nomeBase.replace(/-/g, ' ');
-            }
-
-            const nome = partes.slice(0, 2).map(capitalizar).join(' ');
-            const turma = partes[2].toUpperCase();
-            const tema = partes
-                .slice(3)
+        function formatarTemaTrabalho(partesTema) {
+            return partesTema
                 .map(capitalizar)
                 .join(' ')
                 .replace('Inflacao Hiperinflacao', 'Inflação e Hiperinflação')
                 .replace('Inflacao', 'Inflação')
                 .replace('Hiperinflacao', 'Hiperinflação');
-
-            return `${nome} - ${turma} - ${tema}`;
         }
 
-        const trabalhos = arquivosTrabalhos.map(arquivo => ({
+        function formatarTituloTrabalho(arquivo) {
+            const nomeBase = arquivo.replace(/\.pdf$/i, '');
+            const partes = nomeBase.split('-');
+            const indiceTurma = partes.findIndex(parte => /^\d+[a-z]$/i.test(parte));
+
+            if (indiceTurma === -1) {
+                return 'Trabalho de estudante';
+            }
+
+            const turma = partes[indiceTurma].toUpperCase();
+            const tema = formatarTemaTrabalho(partes.slice(indiceTurma + 1));
+
+            return tema ? `${turma} - ${tema}` : `Trabalho - ${turma}`;
+        }
+
+        const trabalhos = arquivosTrabalhos.map((arquivo, index) => ({
+            id: `trabalho-${index + 1}`,
             arquivo,
             titulo: formatarTituloTrabalho(arquivo),
             descricao: 'Trabalho em PDF'
@@ -146,7 +150,7 @@
             const card = document.createElement('div');
             card.className = 'item-card';
             card.setAttribute('data-index', idx);
-            card.onclick = () => abrirVisualizador(trabalho.arquivo);
+            card.onclick = () => abrirVisualizador(trabalho);
 
             card.innerHTML = `
                 <div class="item-thumb"></div>
@@ -180,8 +184,8 @@
         renderizarMaisTrabalhos();
         botaoVerMais.addEventListener('click', renderizarMaisTrabalhos);
 
-        function abrirVisualizador(arquivo) {
-            window.open(`visualizador-trabalhos.html?file=${encodeURIComponent(arquivo)}&pasta=trabalhos`, '_blank');
+        function abrirVisualizador(trabalho) {
+            window.open(`visualizador-trabalhos.html?id=${encodeURIComponent(trabalho.id)}&pasta=trabalhos`, '_blank');
         }
     </script>
 </body>

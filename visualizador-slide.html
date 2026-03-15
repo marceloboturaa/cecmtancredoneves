@@ -9,13 +9,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <link rel="stylesheet" href="css/visualizador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="js/scroll-top.js"></script>
 </head>
 
 <body class="slide-viewer">
     <div class="slide-shell">
         <header class="slide-overlay slide-overlay-top">
             <div class="slide-header-copy">
-                <span class="slide-kicker">Apresentacao</span>
+                <span class="slide-kicker">Apresentação</span>
                 <strong id="slide-title">Slides</strong>
             </div>
 
@@ -48,7 +49,7 @@
         </main>
 
         <button type="button" class="hover-nav hover-nav-right" id="nav-next" onclick="nextPage()"
-            aria-label="Proximo slide">
+            aria-label="Próximo slide">
             <i class="fas fa-chevron-right"></i>
         </button>
 
@@ -94,6 +95,13 @@
         const params = new URLSearchParams(window.location.search);
         const arquivo = params.get('file');
         const pasta = params.get('pasta') || 'slide';
+        const slideCatalogo = {
+            'conhecimento-financeiro-3a.pdf': 'Conhecimento Financeiro',
+            'Definição-de-metas-3a.pdf': 'Definição de Metas',
+            'equilibrio-entre-despesas-receitas-3a.pdf': 'Equilíbrio entre Despesas e Receitas',
+            'planejmento-financeiro-3a.pdf': 'Planejamento Financeiro',
+            'preparação-para-imprevisto-3a.pdf': 'Preparação para Imprevistos'
+        };
 
         if (!arquivo) {
             alert('Nenhum PDF especificado.');
@@ -142,7 +150,7 @@
         let dragScrollTop = 0;
 
         const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
-        const titulo = formatarTitulo(arquivo);
+        const titulo = slideCatalogo[decodeURIComponent(arquivo)] || formatarTitulo(arquivo);
 
         titleElement.textContent = titulo;
         document.title = `${titulo} | Visualizador de Slides`;
@@ -153,6 +161,7 @@
                 .replace(/[-_]+/g, ' ')
                 .replace(/\s+/g, ' ')
                 .trim()
+                .replace(/\b(\d+[a-z])\b/gi, trecho => trecho.toUpperCase())
                 .replace(/\b\w/g, letra => letra.toUpperCase());
         }
 
@@ -512,6 +521,11 @@
         } else if (typeof pointerMedia.addListener === 'function') {
             pointerMedia.addListener(syncPointerMode);
         }
+
+        initScrollTopButton({
+            scrollContainer: container,
+            threshold: 180
+        });
 
         syncPointerMode();
         syncFullscreenUi();
