@@ -72,6 +72,73 @@ header.dark-bg p {
     transform: scale(1.02);
 }
 
+.gallery-item > a {
+    display: block;
+}
+
+.gallery-item--annotated {
+    background: var(--white);
+    border: 1px solid var(--border);
+}
+
+.gallery-note {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 0.95rem 1rem 1rem;
+    background: linear-gradient(180deg, rgba(248, 250, 252, 0.96), #ffffff);
+    border-top: 1px solid rgba(23, 53, 87, 0.08);
+}
+
+.gallery-note-text {
+    display: grid;
+    gap: 0.2rem;
+}
+
+.gallery-note-title {
+    color: var(--blue);
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.gallery-note-link {
+    padding: 0.5rem 1rem;
+    border-radius: 14px;
+    white-space: nowrap;
+}
+
+.gallery-caption-note {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.gallery-caption-note strong {
+    color: #ffffff;
+    font-size: 0.98rem;
+}
+
+.gallery-caption-note span {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 0.9rem;
+}
+
+.gallery-caption-link {
+    display: inline-flex;
+    width: fit-content;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: rgba(104, 129, 60, 0.92);
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.gallery-caption-link:hover {
+    background: rgba(90, 110, 52, 0.96);
+}
+
 .gallery-actions {
     display: flex;
     justify-content: center;
@@ -288,6 +355,12 @@ header.dark-bg p {
         width: 200px;
         height: 130px;
     }
+
+    .gallery-note {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.85rem;
+    }
 }
 
 .section-title {
@@ -326,6 +399,8 @@ header.dark-bg p {
 .materias-shell {
     display: grid;
     gap: 2.5rem;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
 }
 
 .materias-hero-panel {
@@ -484,6 +559,7 @@ header.dark-bg p {
     background: #eff6ff;
     border: 1px solid rgba(23, 53, 87, 0.08);
     color: #334155;
+    text-align: justify;
 }
 
 .legal-links-card h2 {
@@ -623,6 +699,64 @@ header.dark-bg p {
     color: #334155;
 }
 
+/* ================= MOEDAS ================= */
+.coin-periods {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.coin-period-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 0.95fr);
+    gap: 1.5rem;
+    align-items: start;
+    padding: 2rem;
+    border-radius: 30px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.coin-period-copy h2 {
+    color: var(--blue);
+    font-size: 1.9rem;
+    margin-bottom: 0.9rem;
+}
+
+.coin-period-copy p {
+    color: #475569;
+    margin-bottom: 0.9rem;
+    text-align: justify;
+}
+
+.coin-period-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.coin-figure {
+    margin: 0;
+    border-radius: 20px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(23, 53, 87, 0.04), rgba(104, 129, 60, 0.06));
+    border: 1px solid rgba(23, 53, 87, 0.08);
+}
+
+.coin-figure img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+}
+
+.coin-figure figcaption {
+    padding: 0.8rem 0.9rem 0.95rem;
+    color: var(--blue);
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
 @media (max-width: 640px) {
     .policy-card,
     .policy-intro {
@@ -637,6 +771,25 @@ header.dark-bg p {
     .site-map-card {
         padding: 1.5rem;
         border-radius: 24px;
+    }
+
+    .coin-period-card {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        border-radius: 24px;
+    }
+
+    .coin-period-copy h2 {
+        font-size: 1.5rem;
+    }
+
+    .coin-period-gallery {
+        grid-template-columns: 1fr;
+    }
+
+    .materias-shell {
+        padding-top: 2rem;
+        padding-bottom: 2.5rem;
     }
 }
 

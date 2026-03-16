@@ -8,6 +8,7 @@
     <title>Acervo – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/acervo.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
 
@@ -52,6 +53,7 @@
             <button class="filtro-btn" data-filtro="apostila">Apostilas</button>
             <button class="filtro-btn" data-filtro="slide">Slides</button>
             <button class="filtro-btn" data-filtro="livro">Livros</button>
+            <button class="filtro-btn" data-filtro="imagem">Imagens</button>
         </div>
 
         <!-- Grid de itens -->
@@ -78,21 +80,47 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
         const pdfCacheKey = Date.now();
 
         const imagens = [
-            "IMG_20260307_152257.jpg", "IMG_20260307_152438.jpg", "IMG_20260307_152625.jpg",
-            "IMG_20260307_152836.jpg", "IMG_20260307_153246.jpg", "IMG_20260307_154514.jpg",
-            "IMG_20260307_154931.jpg", "IMG_20260307_155132.jpg", "IMG_20260307_155355.jpg",
-            "IMG_20260307_155516.jpg", "IMG_20260307_155809.jpg", "IMG_20260307_160320.jpg",
-            "IMG_20260307_160419.jpg", "IMG_20260307_160837.jpg", "IMG_20260307_161007.jpg",
-            "IMG_20260307_161301.jpg", "IMG_20260307_161518.jpg", "IMG_20260307_161933.jpg",
-            "IMG_20260307_162213.jpg", "IMG_20260307_162308.jpg", "IMG_20260307_163223.jpg",
-            "IMG_20260307_163643.jpg", "IMG_20260307_164507.jpg", "IMG_20260307_164641.jpg",
-            "IMG_20260307_164854.jpg", "IMG_20260307_165010.jpg", "IMG_20260307_165132.jpg",
-            "IMG_20260311_110958.jpg", "MVIMG_20260307_164254.jpg"
+            "escambo-turma-9d-IMG_20260307_153246.jpg",
+            "escambo-turma-9d-IMG_20260307_164507.jpg",
+            "escambo-turma-9d-IMG_20260307_164641.jpg",
+            "escambo-turma-9d-IMG_20260307_164854.jpg",
+            "bizantina-turma-2a-IMG_20260307_160419.jpg",
+            "chinesa-turma-1A-IMG_20260307_161933.jpg",
+            "chinesa-turma-2a-IMG_20260307_161007.jpg",
+            "egito-truma-2a-IMG_20260307_161301.jpg",
+            "egito-turma-9e-IMG_20260315_224136.jpg",
+            "grecia-turma-9d-MVIMG_20260307_164254.jpg",
+            "idade-média-turma-2a-IMG_20260307_160320.jpg",
+            "idade-média-turma-9d-IMG_20260307_154931.jpg",
+            "idade-média-turma-9e-IMG_20260307_152625.jpg",
+            "idade-média-turma-2a-IMG_20260315_223423.jpg",
+            "idade-médias-turma-6c-IMG_20260307_165010.jpg",
+            "otomano-2a-IMG_20260315_223706.jpg",
+            "otomano-9e-IMG_20260315_225319.jpg",
+            "romano-turma-6c-IMG_20260311_110958.jpg",
+            "romano-turma-1a-IMG_20260307_155132.jpg",
+            "romano-turma-2a-IMG_20260307_161518.jpg",
+            "binzantino-truma-IMG_20260307_165132.jpg",
+            "bizantino-truma-IMG_20260307_155516.jpg",
+            "bizantino-turma-1a-IMG_20260307_162308.jpg",
+            "celta-truma-2a-IMG_20260315_223515.jpg",
+            "celta-truma-IMG_20260307_155355.jpg",
+            "celta-truma-IMG_20260307_163223.jpg",
+            "celta-turma-1a-IMG_20260307_155809.jpg",
+            "chinesa-turma-9e-IMG_20260307_152836.jpg",
+            "kushan-turma-2A-IMG_20260315_223314.jpg",
+            "kushan-turma-6c-IMG_20260307_152257.jpg",
+            "egito-turma-6c-IMG_20260307_152438.jpg",
+            "egito-IMG_20260307_154514.jpg",
+            "grecia-turma-6c-IMG_20260307_162213.jpg",
+            "persia-turma-2a-IMG_20260307_160837.jpg",
+            "persia-turma-6c-IMG_20260307_163643.jpg"
         ];
 
         const arquivosTrabalhos = [
@@ -104,6 +132,7 @@
         const slides = [
             { arquivo: "conhecimento-financeiro-3a.pdf", titulo: "Conhecimento Financeiro" },
             { arquivo: "Definição-de-metas-3a.pdf", titulo: "Definição de Metas" },
+            { arquivo: "entendimentos-de-habitos-e-consumo-3a.pdf", titulo: "Entendimentos de Hábitos e Consumo" },
             { arquivo: "equilibrio-entre-despesas-receitas-3a.pdf", titulo: "Equilíbrio entre Despesas e Receitas" },
             { arquivo: "planejmento-financeiro-3a.pdf", titulo: "Planejamento Financeiro" },
             { arquivo: "preparação-para-imprevisto-3a.pdf", titulo: "Preparação para Imprevistos" }
@@ -161,6 +190,27 @@
             return tema ? `${turma} - ${tema}` : `Trabalho - ${turma}`;
         }
 
+        function formatarTituloImagem(nome) {
+            const nomeNormalizado = nome
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+
+            if (nomeNormalizado.includes('escambo')) return 'Escambo';
+            if (nomeNormalizado.includes('egip') || nomeNormalizado.includes('egito')) return 'Egito';
+            if (nomeNormalizado.includes('chines')) return 'China';
+            if (nomeNormalizado.includes('grecia')) return 'Grécia';
+            if (nomeNormalizado.includes('rom')) return 'Roma';
+            if (nomeNormalizado.includes('bizant') || nomeNormalizado.includes('binzant')) return 'Bizâncio';
+            if (nomeNormalizado.includes('celta')) return 'Celtas';
+            if (nomeNormalizado.includes('kushan')) return 'Kushan';
+            if (nomeNormalizado.includes('persia')) return 'Pérsia';
+            if (nomeNormalizado.includes('otomano')) return 'Otomanos';
+            if (nomeNormalizado.includes('idade-media') || nomeNormalizado.includes('idade-medias')) return 'Idade Média';
+
+            return 'Foto da exposição';
+        }
+
         const trabalhos = arquivosTrabalhos.map((arquivo, index) => ({
             id: `trabalho-${index + 1}`,
             arquivo,
@@ -199,12 +249,20 @@
             })),
             ...imagens.map(nome => ({
                 tipo: 'imagem',
-                titulo: nome.replace(/\.jpg$/i, '').replace(/_/g, ' '),
+                titulo: formatarTituloImagem(nome),
                 descricao: 'Foto da exposição',
                 arquivo: nome,
                 pasta: 'image'
             }))
         ];
+        const galeriaImagens = itens
+            .filter(item => item.tipo === 'imagem')
+            .map(item => ({
+                src: montarCaminho(item.pasta, item.arquivo),
+                thumb: montarCaminho(item.pasta, item.arquivo),
+                type: 'image',
+                caption: item.titulo
+            }));
 
         function obterItensFiltrados() {
             return currentFilter === 'todos'
@@ -293,9 +351,19 @@
             renderizarItens(true);
         }
 
+        function abrirGaleriaImagem(arquivo) {
+            const indiceInicial = galeriaImagens.findIndex(item =>
+                decodeURIComponent(item.src.split('/').pop()) === arquivo
+            );
+
+            Fancybox.show(galeriaImagens, {
+                startIndex: indiceInicial >= 0 ? indiceInicial : 0
+            });
+        }
+
         window.abrirItem = function (tipo, arquivo, pasta, id) {
             if (tipo === 'imagem') {
-                window.open(montarCaminho(pasta, arquivo), '_blank');
+                abrirGaleriaImagem(arquivo);
             } else if (tipo === 'slide') {
                 window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
             } else if (tipo === 'livro') {

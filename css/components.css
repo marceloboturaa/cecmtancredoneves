@@ -385,32 +385,31 @@
     padding-left: 1rem;
 }
 
+.fontes p {
+    margin: 1rem 0 0.5rem;
+    color: var(--dark);
+    font-size: 1rem;
+}
+
 .fontes ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 0.8rem 2rem;
+    list-style: disc;
+    padding-left: 1.25rem;
+    margin: 0;
+    display: block;
 }
 
 .fontes li {
     color: #475569;
     font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.fontes li::before {
-    content: "📌";
-    color: var(--green);
-    font-size: 1rem;
+    display: list-item;
+    margin-bottom: 0.55rem;
+    line-height: 1.6;
 }
 
 .fontes a {
     color: var(--blue);
-    text-decoration: none;
-    border-bottom: 1px dotted var(--blue);
+    text-decoration: underline;
+    border-bottom: none;
 }
 
 .fontes a:hover {

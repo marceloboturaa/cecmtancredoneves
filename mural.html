@@ -70,48 +70,99 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         const fotos = [
-            "IMG_20260307_152257.jpg",
-            "IMG_20260307_152438.jpg",
-            "IMG_20260307_152625.jpg",
-            "IMG_20260307_152836.jpg",
-            "IMG_20260307_153246.jpg",
-            "IMG_20260307_154514.jpg",
-            "IMG_20260307_154931.jpg",
-            "IMG_20260307_155132.jpg",
-            "IMG_20260307_155355.jpg",
-            "IMG_20260307_155516.jpg",
-            "IMG_20260307_155809.jpg",
-            "IMG_20260307_160320.jpg",
-            "IMG_20260307_160419.jpg",
-            "IMG_20260307_160837.jpg",
-            "IMG_20260307_161007.jpg",
-            "IMG_20260307_161301.jpg",
-            "IMG_20260307_161518.jpg",
-            "IMG_20260307_161933.jpg",
-            "IMG_20260307_162213.jpg",
-            "IMG_20260307_162308.jpg",
-            "IMG_20260307_163223.jpg",
-            "IMG_20260307_163643.jpg",
-            "IMG_20260307_164507.jpg",
-            "IMG_20260307_164641.jpg",
-            "IMG_20260307_164854.jpg",
-            "IMG_20260307_165010.jpg",
-            "IMG_20260307_165132.jpg",
-            "MVIMG_20260307_164254.jpg",
-            "IMG_20260311_110958.jpg"
+            "escambo-turma-9d-IMG_20260307_153246.jpg",
+            "escambo-turma-9d-IMG_20260307_164507.jpg",
+            "escambo-turma-9d-IMG_20260307_164641.jpg",
+            "escambo-turma-9d-IMG_20260307_164854.jpg",
+            "bizantina-turma-2a-IMG_20260307_160419.jpg",
+            "chinesa-turma-1A-IMG_20260307_161933.jpg",
+            "chinesa-turma-2a-IMG_20260307_161007.jpg",
+            "egito-truma-2a-IMG_20260307_161301.jpg",
+            "egito-turma-9e-IMG_20260315_224136.jpg",
+            "grecia-turma-9d-MVIMG_20260307_164254.jpg",
+            "idade-média-turma-2a-IMG_20260307_160320.jpg",
+            "idade-média-turma-9d-IMG_20260307_154931.jpg",
+            "idade-média-turma-9e-IMG_20260307_152625.jpg",
+            "idade-média-turma-2a-IMG_20260315_223423.jpg",
+            "idade-médias-turma-6c-IMG_20260307_165010.jpg",
+            "otomano-2a-IMG_20260315_223706.jpg",
+            "otomano-9e-IMG_20260315_225319.jpg",
+            "romano-turma-6c-IMG_20260311_110958.jpg",
+            "romano-turma-1a-IMG_20260307_155132.jpg",
+            "romano-turma-2a-IMG_20260307_161518.jpg",
+            "binzantino-truma-IMG_20260307_165132.jpg",
+            "bizantino-truma-IMG_20260307_155516.jpg",
+            "bizantino-turma-1a-IMG_20260307_162308.jpg",
+            "celta-truma-2a-IMG_20260315_223515.jpg",
+            "celta-truma-IMG_20260307_155355.jpg",
+            "celta-truma-IMG_20260307_163223.jpg",
+            "celta-turma-1a-IMG_20260307_155809.jpg",
+            "chinesa-turma-9e-IMG_20260307_152836.jpg",
+            "kushan-turma-2A-IMG_20260315_223314.jpg",
+            "kushan-turma-6c-IMG_20260307_152257.jpg",
+            "egito-turma-6c-IMG_20260307_152438.jpg",
+            "egito-IMG_20260307_154514.jpg",
+            "grecia-turma-6c-IMG_20260307_162213.jpg",
+            "persia-turma-2a-IMG_20260307_160837.jpg",
+            "persia-turma-6c-IMG_20260307_163643.jpg"
         ];
 
         const FOTOS_POR_ETAPA = 6;
         const container = document.getElementById("galeria-fotos");
         const botaoVerMais = document.getElementById("ver-mais-fotos");
+        const paginaAnotacaoProfessor = "materias/educacao-financeira/moeda-nas-civilizacoes.html";
         let fotosExibidas = 0;
 
-        function criarCardFoto(foto) {
+        function obterTituloCartaz(foto) {
+            const nomeNormalizado = foto
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+
+            if (nomeNormalizado.includes("escambo")) return "Escambo";
+            if (nomeNormalizado.includes("egip") || nomeNormalizado.includes("egito")) return "Egito";
+            if (nomeNormalizado.includes("chines")) return "China";
+            if (nomeNormalizado.includes("grecia")) return "Grécia";
+            if (nomeNormalizado.includes("rom")) return "Roma";
+            if (nomeNormalizado.includes("bizant") || nomeNormalizado.includes("binzant")) return "Bizâncio";
+            if (nomeNormalizado.includes("celtas") || nomeNormalizado.includes("celta")) return "Celtas";
+            if (nomeNormalizado.includes("kushan")) return "Kushan";
+            if (nomeNormalizado.includes("persia")) return "Pérsia";
+            if (nomeNormalizado.includes("otomano")) return "Otomanos";
+            if (nomeNormalizado.includes("idade-media") || nomeNormalizado.includes("idade-medias")) return "Idade Média";
+
+            return "Trabalho escolar";
+        }
+
+        function obterDadosFoto(foto) {
+            return {
+                titulo: obterTituloCartaz(foto)
+            };
+        }
+
+        function criarCaptionHtml({ titulo }) {
             return `
-                <div class="gallery-item">
-                    <a href="image/${foto}" data-fancybox="gallery" data-caption="${foto.replace(/\.jpg$/, '').replace(/_/g, ' ')}">
-                        <img src="image/${foto}" alt="Trabalho escolar" loading="lazy">
+                <div class="gallery-caption-note">
+                    <strong>${titulo}</strong>
+                    <a href="${paginaAnotacaoProfessor}" class="gallery-caption-link">Veja anotação do professor</a>
+                </div>
+            `.replace(/\s+/g, ' ').trim();
+        }
+
+        function criarCardFoto(foto) {
+            const dadosFoto = obterDadosFoto(foto);
+
+            return `
+                <div class="gallery-item gallery-item--annotated">
+                    <a href="image/${foto}" data-fancybox="gallery" data-caption='${criarCaptionHtml(dadosFoto)}'>
+                        <img src="image/${foto}" alt="${dadosFoto.titulo}" loading="lazy">
                     </a>
+                    <div class="gallery-note">
+                        <div class="gallery-note-text">
+                            <strong class="gallery-note-title">${dadosFoto.titulo}</strong>
+                        </div>
+                        <a href="${paginaAnotacaoProfessor}" class="btn btn-outline gallery-note-link">Veja anotação do professor</a>
+                    </div>
                 </div>
             `;
         }

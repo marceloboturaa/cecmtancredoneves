@@ -98,6 +98,7 @@
         const slideCatalogo = {
             'conhecimento-financeiro-3a.pdf': 'Conhecimento Financeiro',
             'Definição-de-metas-3a.pdf': 'Definição de Metas',
+            'entendimentos-de-habitos-e-consumo-3a.pdf': 'Entendimentos de Hábitos e Consumo',
             'equilibrio-entre-despesas-receitas-3a.pdf': 'Equilíbrio entre Despesas e Receitas',
             'planejmento-financeiro-3a.pdf': 'Planejamento Financeiro',
             'preparação-para-imprevisto-3a.pdf': 'Preparação para Imprevistos'
@@ -109,7 +110,7 @@
             throw new Error('Arquivo PDF nao informado.');
         }
 
-        const pdfPath = `${pasta}/${arquivo}`;
+        const pdfPath = `${pasta}/${encodeURIComponent(arquivo)}`;
         const body = document.body;
         const viewer = document.getElementById('viewer');
         const container = document.getElementById('pdf-container');

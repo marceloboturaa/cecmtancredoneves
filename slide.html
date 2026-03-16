@@ -76,6 +76,7 @@
         const slides = [
             { arquivo: "conhecimento-financeiro-3a.pdf", titulo: "Conhecimento Financeiro", descricao: "Panorama introdutório sobre organização financeira e consumo consciente." },
             { arquivo: "Definição-de-metas-3a.pdf", titulo: "Definição de Metas", descricao: "Objetivos financeiros, prioridades e planejamento por etapas." },
+            { arquivo: "entendimentos-de-habitos-e-consumo-3a.pdf", titulo: "Entendimentos de Hábitos e Consumo", descricao: "Reflexão sobre consumo, escolhas do dia a dia e hábitos financeiros." },
             { arquivo: "equilibrio-entre-despesas-receitas-3a.pdf", titulo: "Equilíbrio entre Despesas e Receitas", descricao: "Leitura prática de entradas, saídas e equilíbrio do orçamento." },
             { arquivo: "planejmento-financeiro-3a.pdf", titulo: "Planejamento Financeiro", descricao: "Estratégias para planejar gastos e tomar decisões com mais segurança." },
             { arquivo: "preparação-para-imprevisto-3a.pdf", titulo: "Preparação para Imprevistos", descricao: "Reserva e organização para situações inesperadas." }
@@ -111,6 +112,10 @@
             }
         }
 
+        function montarCaminhoSlide(arquivo) {
+            return `slide/${encodeURIComponent(arquivo)}`;
+        }
+
         function criarCardSlide(slide, idx) {
             const card = document.createElement('div');
             card.className = 'item-card';
@@ -137,7 +142,7 @@
                 const indiceReal = slidesExibidos + offset;
                 const card = criarCardSlide(slide, indiceReal);
                 container.appendChild(card);
-                gerarThumbnail(`slide/${slide.arquivo}`, indiceReal);
+                gerarThumbnail(montarCaminhoSlide(slide.arquivo), indiceReal);
             });
 
             slidesExibidos += proximosSlides.length;

@@ -1,0 +1,103 @@
+HISTORICO DE MODIFICACOES DO SITE
+CECMTAN - Mural Digital
+
+Observacao:
+Este arquivo resume as principais alteracoes recentes feitas no site, organizado por dia, para facilitar a consulta.
+
+==================================================
+15/03/2026
+==================================================
+
+1. Privacidade, politicas e rodape
+- Foi criada a pagina de politicas do site.
+- Foram adicionadas informacoes sobre diretrizes do colegio, privacidade e LGPD.
+- Foi incluido aviso de cookies com botoes de aceitacao e recusa.
+- Foram colocados icones discretos no rodape para acesso a politica, privacidade e mapa do site.
+- Foi criada a pagina "Mapa do site".
+
+2. Ajustes de textos e pagina Sobre
+- Foi adicionada a secao "Informacoes do site" na pagina Sobre.
+- Foram reduzidos tamanhos de titulo e descricao dessa secao para ficar mais discreta.
+- Foi ajustado o alinhamento justificado em trechos da pagina de politicas.
+
+3. Trabalhos e anonimato dos estudantes
+- Foram ocultados os nomes dos estudantes nas paginas onde apareciam os trabalhos.
+- Os titulos passaram a mostrar apenas turma e tema, sem expor o nome do aluno.
+- O visualizador de trabalhos passou a usar identificacao interna em vez de depender do nome do arquivo.
+
+4. Slides e visualizador
+- Foram atualizadas as paginas de slides e do acervo com os PDFs corretos.
+- O visualizador de slides foi ajustado para abrir nomes de arquivos com mais seguranca.
+
+5. Mural e anotacao do professor
+- Foi criada a acao de acesso para a pagina "Moeda nas Civilizacoes" a partir do mural.
+- Foi colocado botao simples em cada imagem do mural apontando para a pagina de anotacao.
+
+6. Educacao Financeira
+- Foi criada e organizada a pagina "Moeda nas Civilizacoes".
+- Foram adicionadas imagens dos cartazes com explicacoes curtas por periodo historico.
+- O index de Educacao Financeira foi corrigido para apontar para as paginas certas.
+
+==================================================
+16/03/2026
+==================================================
+
+1. Expansao da pagina "Moeda nas Civilizacoes"
+- O conteudo foi ampliado com mais contexto historico sobre escambo e surgimento das moedas.
+- Foram separadas secoes por grupos historicos:
+  Escambo, Egito, Persia, China, Grecia, Roma, Celtas, Kushan, Bizancio, Idade Media e Otomanos.
+- Foram corrigidos pontos historicos importantes, como a origem da moeda na Lidia.
+- Foi adicionada uma linha do tempo historicamente mais correta.
+- Foi incluida nota do professor Marcelo Botura.
+- Foi criada uma secao de referencias em formato simples.
+- Foram removidos rotulos desnecessarios como "Correcao historica".
+
+2. Padronizacao de rodape
+- O rodape da pagina "Moeda nas Civilizacoes" e da pagina de Educacao Financeira foi alinhado ao padrao da pagina principal.
+
+3. Atualizacao das imagens renomeadas
+- Foram corrigidos os nomes novos das imagens da pasta image no:
+  index.html
+  mural.html
+  acervo.html
+  moeda-nas-civilizacoes.html
+- Foram atualizados os caminhos para evitar imagens quebradas.
+
+4. Titulos e nomes exibidos nas galerias
+- O mural foi ajustado para nao mostrar nome bruto do arquivo.
+- Os titulos passaram a mostrar apenas o nome da civilizacao ou periodo:
+  Escambo, Egito, China, Grecia, Roma, Bizancio, Celtas, Kushan, Persia, Otomanos e Idade Media.
+- Foi removida a exibicao de turma no mural.
+- O botao do mural foi alterado para "Veja anotacao do professor".
+
+5. Acervo
+- O acervo foi atualizado para reconhecer os novos nomes das imagens.
+- Foi criado filtro especifico para "Imagens".
+- Ao clicar em uma imagem do acervo, agora abre uma galeria com navegacao em sequencia.
+
+6. Melhorias visuais e de organizacao
+- Foram simplificadas as referencias da pagina de moedas.
+- Foram ajustadas legendas dos cartazes para nomes mais consistentes.
+- Foram feitos pequenos ajustes de tamanho e espacamento em paginas internas.
+
+==================================================
+ARQUIVOS PRINCIPAIS AFETADOS
+==================================================
+
+- index.html
+- mural.html
+- acervo.html
+- politicas.html
+- mapa-do-site.html
+- sobre.html
+- trabalhos.html
+- slide.html
+- visualizador-slide.html
+- visualizador-trabalhos.html
+- js/main.js
+- css/layout.css
+- css/pages.css
+- css/components.css
+- materias/educacao-financeira/index.html
+- materias/educacao-financeira/moeda-nas-civilizacoes.html
+
