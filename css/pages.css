@@ -1,8 +1,16 @@
-/* ============================= */
-/* PAGES.CSS - PÁGINAS ESPECÍFICAS */
+﻿/* ============================= */
+/* PAGES.CSS - PÃGINAS ESPECÃFICAS */
 /* ============================= */
 
 /* ================= HEADER (HERO) ================= */
+/*
+ * SISTEMA DE CORES DOS HEADERS
+ * ----------------------------
+ * As variaveis dos cabecalhos agora ficam centralizadas em `css/theme.css`.
+ * Cada pagina usa uma classe de tema no HTML, como:
+ * header-theme-default, header-theme-filosofia, header-theme-maker,
+ * header-theme-robotica, header-theme-matematica e header-theme-matematica-alt.
+ */
 header:not(nav header) {
     text-align: center;
     padding: 6rem 2rem;
@@ -36,10 +44,35 @@ header p {
     margin: 0 auto;
 }
 
-/* quando o cabeçalho tiver fundo escuro, texto deve ser branco */
+/* quando o cabeÃ§alho tiver fundo escuro, texto deve ser branco */
 header.dark-bg h1,
 header.dark-bg p {
     color: white;
+}
+
+/* Temas prontos para os cabeÃ§alhos escuros */
+header.dark-bg.header-theme-default {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-default-start), var(--header-default-mid-1), var(--header-default-mid-2), var(--header-default-end));
+}
+
+header.dark-bg.header-theme-filosofia {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-filosofia-start), var(--header-filosofia-mid-1), var(--header-filosofia-mid-2), var(--header-filosofia-end));
+}
+
+header.dark-bg.header-theme-maker {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-maker-start), var(--header-maker-mid-1), var(--header-maker-mid-2), var(--header-maker-end));
+}
+
+header.dark-bg.header-theme-robotica {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-robotica-start), var(--header-robotica-mid-1), var(--header-robotica-mid-2), var(--header-robotica-end));
+}
+
+header.dark-bg.header-theme-matematica {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-matematica-start), var(--header-matematica-mid-1), var(--header-matematica-mid-2), var(--header-matematica-end));
+}
+
+header.dark-bg.header-theme-matematica-alt {
+    background: linear-gradient(var(--header-gradient-angle), var(--header-matematica-alt-start), var(--header-matematica-alt-mid-1), var(--header-matematica-alt-mid-2), var(--header-matematica-alt-end));
 }
 
 /* ================= GALERIA MASONRY ================= */
@@ -279,12 +312,12 @@ header.dark-bg p {
 
 .hero-content .btn:hover {
     background: var(--green-dark);
-    /* substituído pelo verde escuro padronizado */
+    /* substituÃ­do pelo verde escuro padronizado */
     transform: scale(1.05);
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
 }
 
-/* ================= MEDIA QUERIES (PÁGINAS) ================= */
+/* ================= MEDIA QUERIES (PÃGINAS) ================= */
 @media (max-width: 900px) {
     .masonry-gallery {
         column-count: 2;
@@ -393,7 +426,7 @@ header.dark-bg p {
     border-radius: 2px;
 }
 
-/* linha de ícones/badges do README */
+/* linha de Ã­cones/badges do README */
 .badge-row {
     display: flex;
     flex-wrap: wrap;
@@ -692,7 +725,7 @@ header.dark-bg p {
 }
 
 .site-map-list a::after {
-    content: "→";
+    content: "â†’";
     color: var(--green-dark);
     font-weight: 700;
 }
@@ -1668,3 +1701,4 @@ header.dark-bg p {
         grid-template-columns: 1fr;
     }
 }
+

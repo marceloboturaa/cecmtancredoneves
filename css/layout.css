@@ -3,6 +3,13 @@
 /* ============================= */
 
 /* ================= NAVBAR ================= */
+/*
+ * SISTEMA DE CORES E DEGRADE DO RODAPE
+ * ------------------------------------
+ * As variaveis do rodape agora ficam centralizadas em `css/theme.css`.
+ * Altere esse arquivo para atualizar as cores e o degrade do footer.
+ */
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -326,12 +333,17 @@ nav {
 
 /* ================= FOOTER ================= */
 footer {
-    background: linear-gradient(180deg, #203449, #172536);
+    background:
+        linear-gradient(var(--footer-gradient-angle), var(--footer-gradient-start), var(--footer-gradient-mid-1), var(--footer-gradient-mid-2), var(--footer-gradient-end)),
+        linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 100% 100%, 22px 22px, 22px 22px;
+    background-position: 0 0, 0 0, 0 0;
     color: white;
     text-align: center;
     padding: 2.3rem 1.5rem;
     margin-top: auto;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-top: 1px solid var(--footer-border-top);
 }
 
 footer .container {
@@ -340,11 +352,11 @@ footer .container {
 
 footer p {
     margin: 0;
-    color: #d7e2ef;
+    color: var(--footer-text);
 }
 
 footer strong {
-    color: #ffffff;
+    color: var(--footer-strong);
 }
 
 .footer-content {
@@ -360,7 +372,7 @@ footer strong {
 }
 
 .footer-brand .brand-desc {
-    color: #cbd5e1;
+    color: var(--footer-muted);
     max-width: 600px;
     margin: 0 auto;
 }

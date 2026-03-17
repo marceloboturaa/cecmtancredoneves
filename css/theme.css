@@ -1,0 +1,118 @@
+/* ============================= */
+/* THEME.CSS - CORES DO SITE     */
+/* ============================= */
+
+/*
+ * ARQUIVO CENTRAL DE CORES E DEGRADES
+ * -----------------------------------
+ * Use este arquivo para manutencao visual do site.
+ * Aqui ficam as variaveis globais de:
+ * - cores principais
+ * - sombras
+ * - degradês dos headers
+ * - degradê e cores do rodape
+ *
+ * COMO EDITAR:
+ * - mudou a cor principal do site: ajuste em "CORES PRINCIPAIS"
+ * - mudou o visual dos cabecalhos: ajuste em "HEADER / HERO"
+ * - mudou o rodape: ajuste em "RODAPE"
+ */
+:root {
+    /* ================= CORES PRINCIPAIS ================= */
+    /* Cor base de fundo branco usada em secoes e componentes */
+    --white: #ffffff;
+
+    /* Verde principal da identidade visual do site */
+    --green: #68813c;
+
+    /* Verde mais escuro para hover, destaque e variacoes */
+    --green-dark: #5a6e34;
+
+    /* Azul principal usado na marca, menu e textos fortes */
+    --blue: #173557;
+
+    /* Cor escura base para textos e elementos institucionais */
+    --dark: #1e293b;
+
+    /* Fundo claro de secoes internas */
+    --light-gray: #f8fafc;
+
+    /* Cor padrao de bordas suaves */
+    --border: #e2e8f0;
+
+    /* ================= SOMBRAS ================= */
+    /* Sombra leve para cards, menus e blocos menores */
+    --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+
+    /* Sombra media para componentes com mais destaque */
+    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.05);
+
+    /* ================= HEADER / HERO ================= */
+    /* Angulo padrao do degrade dos headers */
+    /* Ex.: 90deg = esquerda para direita | 180deg = cima para baixo | 135deg = diagonal */
+    --header-gradient-angle:110deg;
+
+    /* Header padrao das paginas institucionais e de materias gerais */
+    /* Ordem do degrade: start > mid-1 > mid-2 > end */
+    --header-default-start: #173557;
+    --header-default-mid-1: #24526b;
+    --header-default-mid-2: #4f6b31;
+    --header-default-end: #68813ceb;
+
+    /* Header da area de Filosofia */
+    --header-filosofia-start: #173557;
+    --header-filosofia-mid-1: #284b63;
+    --header-filosofia-mid-2: #496f4f;
+    --header-filosofia-end: #68813c;
+
+    /* Header da area Maker */
+    --header-maker-start: #c17b12;
+    --header-maker-mid-1: #ad6f10;
+    --header-maker-mid-2: #9a630d;
+    --header-maker-end: #8a5a0a;
+
+    /* Header da area de Robotica */
+    --header-robotica-start: #173557;
+    --header-robotica-mid-1: #0ea5e9;
+    --header-robotica-mid-2: #2e8e8e;
+    --header-robotica-end: #68813c;
+
+    /* Header principal da area de Matematica */
+    --header-matematica-start: #173557;
+    --header-matematica-mid-1: #1d4ed8;
+    --header-matematica-mid-2: #2f77a4;
+    --header-matematica-end: #68813c;
+
+    /* Variacao alternativa de header para Matematica */
+    --header-matematica-alt-start: #173557;
+    --header-matematica-alt-mid-1: #2563eb;
+    --header-matematica-alt-mid-2: #3e7f98;
+    --header-matematica-alt-end: #68813c;
+
+    /* ================= RODAPE ================= */
+    /* Angulo do degrade do rodape */
+    /* Ex.: 90deg = esquerda para direita | 180deg = cima para baixo */
+    --footer-gradient-angle: 75deg;
+
+    /* Inicio do degrade do footer */
+    --footer-gradient-start: #173557;
+
+    /* Repita as cores do inicio e do fim para manter um degrade com visual de 2 cores */
+    --footer-gradient-mid-1: #173557;
+    --footer-gradient-mid-2: #173557;
+
+    /* Final do degrade do footer */
+    --footer-gradient-end: #112741;
+
+    /* Linha superior sutil do rodape */
+    --footer-border-top: rgba(255, 255, 255, 0.08);
+
+    /* Texto padrao do rodape */
+    --footer-text: #d7e2ef;
+
+    /* Texto secundario do rodape */
+    --footer-muted: #cbd5e1;
+
+    /* Texto com maior destaque no rodape */
+    --footer-strong: #ffffff;
+}

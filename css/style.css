@@ -1,24 +1,10 @@
-/* css/style.css */
+﻿/* css/style.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
+@import "theme.css";
 @import "layout.css";
 @import "components.css";
 @import "pages.css";
-
-:root {
-    --white: #ffffff;
-    --green: #68813c;
-    /* verde principal do colégio */
-    --green-dark: #5a6e34;
-    /* verde mais escuro para hovers e destaques */
-    --blue: #173557;
-    /* azul principal do colégio */
-    --dark: #1e293b;
-    --light-gray: #f8fafc;
-    --border: #e2e8f0;
-    --shadow-sm: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-    --shadow-md: 0 10px 15px -3px rgb(0 0 0 / 0.05);
-}
 
 * {
     margin: 0;
@@ -92,3 +78,4 @@ a {
         height: 42px;
     }
 }
+
