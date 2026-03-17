@@ -24,6 +24,7 @@
                     <li><a href="slide.html">Slides</a></li>
                     <li><a href="trabalhos.html">Trabalhos</a></li>
                     <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
@@ -96,11 +97,11 @@
             "egito-truma-2a-IMG_20260307_161301.jpg",
             "egito-turma-9e-IMG_20260315_224136.jpg",
             "grecia-turma-9d-MVIMG_20260307_164254.jpg",
-            "idade-média-turma-2a-IMG_20260307_160320.jpg",
-            "idade-média-turma-9d-IMG_20260307_154931.jpg",
-            "idade-média-turma-9e-IMG_20260307_152625.jpg",
-            "idade-média-turma-2a-IMG_20260315_223423.jpg",
-            "idade-médias-turma-6c-IMG_20260307_165010.jpg",
+            "medieval-turma-2a-IMG_20260307_160320.jpg",
+            "medieval-turma-9d-IMG_20260307_154931.jpg",
+            "medieval-turma-9e-IMG_20260307_152625.jpg",
+            "medieval-turma-2a-IMG_20260315_223423.jpg",
+            "medieval-turma-6c-IMG_20260307_165010.jpg",
             "otomano-2a-IMG_20260315_223706.jpg",
             "otomano-9e-IMG_20260315_225319.jpg",
             "romano-turma-6c-IMG_20260311_110958.jpg",
@@ -206,7 +207,7 @@
             if (nomeNormalizado.includes('kushan')) return 'Kushan';
             if (nomeNormalizado.includes('persia')) return 'Pérsia';
             if (nomeNormalizado.includes('otomano')) return 'Otomanos';
-            if (nomeNormalizado.includes('idade-media') || nomeNormalizado.includes('idade-medias')) return 'Idade Média';
+            if (nomeNormalizado.includes('idade-media') || nomeNormalizado.includes('idade-medias') || nomeNormalizado.includes('medieval')) return 'Idade Média';
 
             return 'Foto da exposição';
         }
@@ -361,17 +362,34 @@
             });
         }
 
+        function abrirDocumento(url) {
+            const novaJanela = window.open(url, '_blank');
+
+            if (novaJanela) {
+                novaJanela.focus();
+                return;
+            }
+
+            window.location.href = url;
+        }
+
         window.abrirItem = function (tipo, arquivo, pasta, id) {
+            const itemSelecionado = itens.find(item =>
+                item.tipo === tipo &&
+                item.arquivo === arquivo &&
+                item.pasta === pasta
+            );
+
             if (tipo === 'imagem') {
                 abrirGaleriaImagem(arquivo);
             } else if (tipo === 'slide') {
-                window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                abrirDocumento(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`);
             } else if (tipo === 'livro') {
-                window.open(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                abrirDocumento(`visualizador-livro.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`);
             } else if (tipo === 'apostila') {
-                window.open(`visualizador-apostilas.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                abrirDocumento(`visualizador-apostilas.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`);
             } else if (tipo === 'trabalho') {
-                window.open(`visualizador-trabalhos.html?id=${encodeURIComponent(id)}&pasta=${encodeURIComponent(pasta)}`, '_blank');
+                abrirDocumento(`visualizador-trabalhos.html?id=${encodeURIComponent(id)}&pasta=${encodeURIComponent(pasta)}`);
             }
         };
 

@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="css/visualizador-trabalhos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="js/loader.js"></script>
-    <script src="js/scroll-top.js"></script>
+    <script src="js/scroll-helper.js"></script>
 </head>
 
 <body>
@@ -574,10 +574,12 @@
             window.addEventListener("mouseup", endPan);
             viewer.addEventListener("mouseleave", endPan);
 
-            initScrollTopButton({
-                scrollContainer: viewer,
-                threshold: 180
-            });
+            if (typeof window.initScrollTopButton === "function") {
+                window.initScrollTopButton({
+                    scrollContainer: viewer,
+                    threshold: 180
+                });
+            }
 
             updateZoomUi();
         })();

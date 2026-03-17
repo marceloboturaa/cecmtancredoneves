@@ -24,6 +24,7 @@
                     <li><a href="slide.html">Slides</a></li>
                     <li><a href="trabalhos.html">Trabalhos</a></li>
                     <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
@@ -120,7 +121,7 @@
             const card = document.createElement('div');
             card.className = 'item-card';
             card.setAttribute('data-index', idx);
-            card.onclick = () => abrirVisualizador(slide.arquivo);
+            card.onclick = () => abrirVisualizador(slide);
 
             card.innerHTML = `
                 <div class="item-thumb slide-thumb"></div>
@@ -155,8 +156,19 @@
         renderizarMaisSlides();
         botaoVerMais.addEventListener('click', renderizarMaisSlides);
 
-        function abrirVisualizador(arquivo) {
-            window.open(`visualizador-slide.html?file=${encodeURIComponent(arquivo)}&pasta=slide`, '_blank');
+        function abrirDocumento(url) {
+            const novaJanela = window.open(url, '_blank');
+
+            if (novaJanela) {
+                novaJanela.focus();
+                return;
+            }
+
+            window.location.href = url;
+        }
+
+        function abrirVisualizador(slide) {
+            abrirDocumento(`visualizador-slide.html?file=${encodeURIComponent(slide.arquivo)}&pasta=slide`);
         }
     </script>
 </body>

@@ -9,7 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <link rel="stylesheet" href="css/visualizador.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <script src="js/scroll-top.js"></script>
+    <script src="js/scroll-helper.js"></script>
 </head>
 
 <body class="slide-viewer">
@@ -377,8 +377,30 @@
         }
 
         function fechar() {
-            if (window.history.length > 1) {
+            if (autoPlayActive) {
+                clearInterval(autoPlayInterval);
+                autoPlayActive = false;
+            }
+
+            if (window.opener && !window.opener.closed) {
                 window.close();
+
+                setTimeout(() => {
+                    if (!window.closed) {
+                        window.location.href = 'slide.html';
+                    }
+                }, 120);
+                return;
+            }
+
+            if (window.history.length > 1) {
+                window.history.back();
+
+                setTimeout(() => {
+                    if (document.visibilityState === 'visible') {
+                        window.location.href = 'slide.html';
+                    }
+                }, 180);
                 return;
             }
 
@@ -421,8 +443,9 @@
             }
         }, { passive: true });
 
-        viewer.addEventListener('wheel', event => {
+        function handleWheelZoom(event) {
             event.preventDefault();
+            event.stopPropagation();
             showControls();
 
             if (event.deltaY < 0) {
@@ -430,7 +453,11 @@
             } else {
                 zoomOut();
             }
-        }, { passive: false });
+        }
+
+        [viewer, container, content].forEach(element => {
+            element.addEventListener('wheel', handleWheelZoom, { passive: false });
+        });
 
         container.addEventListener('mousedown', event => {
             if (!container.classList.contains('is-draggable')) {
@@ -523,10 +550,12 @@
             pointerMedia.addListener(syncPointerMode);
         }
 
-        initScrollTopButton({
-            scrollContainer: container,
-            threshold: 180
-        });
+        if (typeof window.initScrollTopButton === 'function') {
+            window.initScrollTopButton({
+                scrollContainer: container,
+                threshold: 180
+            });
+        }
 
         syncPointerMode();
         syncFullscreenUi();
