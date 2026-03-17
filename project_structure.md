@@ -1,13 +1,13 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 15/03/2026, 17:58:35*
+*Generated on: 17/03/2026, 12:39:35*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 95 |
-| 📁 Total Folders | 16 |
+| 📄 Total Files | 110 |
+| 📁 Total Folders | 17 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
 
@@ -19,33 +19,33 @@
 
 ### By File Type
 
-- 🖼️ **.jpg** (JPEG images): 29 files (30.5%)
-- 🌐 **.html** (HTML files): 26 files (27.4%)
-- 📕 **.pdf** (PDF files): 15 files (15.8%)
-- 🎨 **.css** (Stylesheets): 10 files (10.5%)
-- 🎨 **.svg** (SVG images): 5 files (5.3%)
-- 📜 **.js** (JavaScript files): 4 files (4.2%)
-- 📄 **.** (Other files): 2 files (2.1%)
-- 📖 **.md** (Markdown files): 2 files (2.1%)
-- 📄 **.mp3** (Other files): 1 files (1.1%)
-- 📄 **.txt** (Text files): 1 files (1.1%)
+- 🌐 **.html** (HTML files): 35 files (31.8%)
+- 🖼️ **.jpg** (JPEG images): 35 files (31.8%)
+- 📕 **.pdf** (PDF files): 13 files (11.8%)
+- 🎨 **.css** (Stylesheets): 10 files (9.1%)
+- 🎨 **.svg** (SVG images): 5 files (4.5%)
+- 📜 **.js** (JavaScript files): 5 files (4.5%)
+- 📄 **.** (Other files): 2 files (1.8%)
+- 📄 **.txt** (Text files): 2 files (1.8%)
+- 📖 **.md** (Markdown files): 2 files (1.8%)
+- 📄 **.mp3** (Other files): 1 files (0.9%)
 
 ### By Category
 
-- **Assets**: 34 files (35.8%)
-- **Web**: 26 files (27.4%)
-- **Docs**: 18 files (18.9%)
-- **Styles**: 10 files (10.5%)
-- **JavaScript**: 4 files (4.2%)
-- **Other**: 3 files (3.2%)
+- **Assets**: 40 files (36.4%)
+- **Web**: 35 files (31.8%)
+- **Docs**: 17 files (15.5%)
+- **Styles**: 10 files (9.1%)
+- **JavaScript**: 5 files (4.5%)
+- **Other**: 3 files (2.7%)
 
 ### 📁 Largest Directories
 
-- **root**: 95 files
-- **image**: 29 files
-- **materias**: 14 files
+- **root**: 110 files
+- **image**: 35 files
+- **materias**: 20 files
 - **css**: 10 files
-- **slide**: 8 files
+- **slide**: 6 files
 
 ## 🌳 Directory Structure
 
@@ -55,6 +55,7 @@ cecmtancredoneves/
 ├── 🌐 acervo.html
 ├── 📂 apostilas/
 │   └── 📕 apostila-educacao-financeira-pessoal.pdf
+├── 🌐 apostilas.html
 ├── 📦 assets/
 │   ├── 📂 image/
 │   │   ├── 🎨 colegio-tancredo-almeida-neves_icon 180x180.svg
@@ -76,40 +77,48 @@ cecmtancredoneves/
 │   ├── 🎨 visualizador-pdf.css
 │   ├── 🎨 visualizador-trabalhos.css
 │   └── 🎨 visualizador.css
+├── 📄 history.txt
 ├── 📂 image/
-│   ├── 🖼️ IMG_20260307_152257.jpg
-│   ├── 🖼️ IMG_20260307_152438.jpg
-│   ├── 🖼️ IMG_20260307_152625.jpg
-│   ├── 🖼️ IMG_20260307_152836.jpg
-│   ├── 🖼️ IMG_20260307_153246.jpg
-│   ├── 🖼️ IMG_20260307_154514.jpg
-│   ├── 🖼️ IMG_20260307_154931.jpg
-│   ├── 🖼️ IMG_20260307_155132.jpg
-│   ├── 🖼️ IMG_20260307_155355.jpg
-│   ├── 🖼️ IMG_20260307_155516.jpg
-│   ├── 🖼️ IMG_20260307_155809.jpg
-│   ├── 🖼️ IMG_20260307_160320.jpg
-│   ├── 🖼️ IMG_20260307_160419.jpg
-│   ├── 🖼️ IMG_20260307_160837.jpg
-│   ├── 🖼️ IMG_20260307_161007.jpg
-│   ├── 🖼️ IMG_20260307_161301.jpg
-│   ├── 🖼️ IMG_20260307_161518.jpg
-│   ├── 🖼️ IMG_20260307_161933.jpg
-│   ├── 🖼️ IMG_20260307_162213.jpg
-│   ├── 🖼️ IMG_20260307_162308.jpg
-│   ├── 🖼️ IMG_20260307_163223.jpg
-│   ├── 🖼️ IMG_20260307_163643.jpg
-│   ├── 🖼️ IMG_20260307_164507.jpg
-│   ├── 🖼️ IMG_20260307_164641.jpg
-│   ├── 🖼️ IMG_20260307_164854.jpg
-│   ├── 🖼️ IMG_20260307_165010.jpg
-│   ├── 🖼️ IMG_20260307_165132.jpg
-│   ├── 🖼️ IMG_20260311_110958.jpg
-│   └── 🖼️ MVIMG_20260307_164254.jpg
+│   ├── 🖼️ binzantino-truma-IMG_20260307_165132.jpg
+│   ├── 🖼️ bizantina-turma-2a-IMG_20260307_160419.jpg
+│   ├── 🖼️ bizantino-truma-IMG_20260307_155516.jpg
+│   ├── 🖼️ bizantino-turma-1a-IMG_20260307_162308.jpg
+│   ├── 🖼️ celta-truma-2a-IMG_20260315_223515.jpg
+│   ├── 🖼️ celta-truma-IMG_20260307_155355.jpg
+│   ├── 🖼️ celta-truma-IMG_20260307_163223.jpg
+│   ├── 🖼️ celta-turma-1a-IMG_20260307_155809.jpg
+│   ├── 🖼️ chinesa-turma-1A-IMG_20260307_161933.jpg
+│   ├── 🖼️ chinesa-turma-2a-IMG_20260307_161007.jpg
+│   ├── 🖼️ chinesa-turma-9e-IMG_20260307_152836.jpg
+│   ├── 🖼️ egito-IMG_20260307_154514.jpg
+│   ├── 🖼️ egito-truma-2a-IMG_20260307_161301.jpg
+│   ├── 🖼️ egito-turma-6c-IMG_20260307_152438.jpg
+│   ├── 🖼️ egito-turma-9e-IMG_20260315_224136.jpg
+│   ├── 🖼️ escambo-turma-9d-IMG_20260307_153246.jpg
+│   ├── 🖼️ escambo-turma-9d-IMG_20260307_164507.jpg
+│   ├── 🖼️ escambo-turma-9d-IMG_20260307_164641.jpg
+│   ├── 🖼️ escambo-turma-9d-IMG_20260307_164854.jpg
+│   ├── 🖼️ grecia-turma-6c-IMG_20260307_162213.jpg
+│   ├── 🖼️ grecia-turma-9d-MVIMG_20260307_164254.jpg
+│   ├── 🖼️ kushan-turma-2A-IMG_20260315_223314.jpg
+│   ├── 🖼️ kushan-turma-6c-IMG_20260307_152257.jpg
+│   ├── 🖼️ medieval-turma-2a-IMG_20260307_160320.jpg
+│   ├── 🖼️ medieval-turma-2a-IMG_20260315_223423.jpg
+│   ├── 🖼️ medieval-turma-6c-IMG_20260307_165010.jpg
+│   ├── 🖼️ medieval-turma-9d-IMG_20260307_154931.jpg
+│   ├── 🖼️ medieval-turma-9e-IMG_20260307_152625.jpg
+│   ├── 🖼️ otomano-2a-IMG_20260315_223706.jpg
+│   ├── 🖼️ otomano-9e-IMG_20260315_225319.jpg
+│   ├── 🖼️ persia-turma-2a-IMG_20260307_160837.jpg
+│   ├── 🖼️ persia-turma-6c-IMG_20260307_163643.jpg
+│   ├── 🖼️ romano-turma-1a-IMG_20260307_155132.jpg
+│   ├── 🖼️ romano-turma-2a-IMG_20260307_161518.jpg
+│   └── 🖼️ romano-turma-6c-IMG_20260311_110958.jpg
 ├── 🌐 index.html
 ├── 📂 js/
 │   ├── 📜 loader.js
 │   ├── 📜 main.js
+│   ├── 📜 scroll-helper.js
 │   ├── 📜 scroll-top.js
 │   └── 📜 turn.min.js
 ├── 📄 LICENSE
@@ -118,10 +127,14 @@ cecmtancredoneves/
 │   └── 📕 educacao-financeira-ensino-medio-professor.pdf
 ├── 🌐 livros.html
 ├── 📄 llms.txt
+├── 🌐 mapa-do-site.html
 ├── 📂 materias/
 │   ├── 📂 educacao-financeira/
+│   │   ├── 🌐 conceitos-basicos.html
 │   │   ├── 🌐 historia-do-dinheiro-brasil.html
-│   │   └── 🌐 index.html
+│   │   ├── 🌐 index.html
+│   │   ├── 🌐 moeda-nas-civilizacoes.html
+│   │   └── 🌐 o-que-e-educacao-financeira.html
 │   ├── 📂 filosofia/
 │   │   ├── 🌐 etica-e-cidadania.html
 │   │   ├── 🌐 filosofia-no-cotidiano.html
@@ -132,6 +145,10 @@ cecmtancredoneves/
 │   │   ├── 🌐 index.html
 │   │   ├── 🌐 materiais-e-reutilizacao.html
 │   │   └── 🌐 prototipagem-criativa.html
+│   ├── 📂 matematica/
+│   │   ├── 🌐 fracoes-financeiras.html
+│   │   ├── 🌐 index.html
+│   │   └── 🌐 porcentagem-financeira.html
 │   └── 📂 robotica/
 │   │   ├── 🌐 index.html
 │   │   ├── 🌐 logica-e-programacao.html
@@ -139,17 +156,16 @@ cecmtancredoneves/
 │   │   └── 🌐 sensores-e-automacao.html
 ├── 🌐 materias.html
 ├── 🌐 mural.html
+├── 🌐 politicas.html
 ├── 📖 project_structure.md
 ├── 🔴 📖 **README.md**
 ├── 📂 slide/
-│   ├── 📕 conhecimento-financeiro-otimizado.pdf
-│   ├── 📕 conhecimento-imprevisto-otimizado.pdf
-│   ├── 📕 defincoes-e-metas-otimizado.pdf
-│   ├── 📕 história-do-dinheiro-externo-otimizado.pdf
-│   ├── 📕 planejamento-financeiro-3a.pdf
-│   ├── 📕 preparacao-para-imprevisto-otimizado.pdf
-│   ├── 📕 preparacao-para-um-imprevisto.pdf
-│   └── 📕 Receitas-e-dispesas-otimizado.pdf
+│   ├── 📕 conhecimento-financeiro-3a.pdf
+│   ├── 📕 Definição-de-metas-3a.pdf
+│   ├── 📕 entendimentos-de-habitos-e-consumo-3a.pdf
+│   ├── 📕 equilibrio-entre-despesas-receitas-3a.pdf
+│   ├── 📕 planejmento-financeiro-3a.pdf
+│   └── 📕 preparação-para-imprevisto-3a.pdf
 ├── 🌐 slide.html
 ├── 🌐 sobre.html
 ├── 📂 trabalhos/
@@ -172,9 +188,9 @@ cecmtancredoneves/
 - 📕 Docs: PDF files
 - 🎨 Assets: SVG images
 - 🎨 Styles: Stylesheets
+- 📄 Docs: Text files
 - 🖼️ Assets: JPEG images
 - 📜 JavaScript: JavaScript files
-- 📄 Docs: Text files
 - 📖 Docs: Markdown files
 
 ### Importance Levels

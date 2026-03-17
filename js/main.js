@@ -25,6 +25,37 @@ function storeConsent(choice) {
     }
 }
 
+function enhanceBetaBadges() {
+    const betaBadges = document.querySelectorAll('.beta-badge');
+
+    if (!betaBadges.length) {
+        return;
+    }
+
+    betaBadges.forEach(function (badge) {
+        if (badge.querySelector('.beta-badge__label')) {
+            return;
+        }
+
+        const labelText = (badge.textContent || '').trim() || 'Beta';
+        badge.textContent = '';
+
+        const label = document.createElement('span');
+        label.className = 'beta-badge__label';
+        label.textContent = labelText;
+
+        const message = document.createElement('span');
+        message.className = 'beta-badge__message';
+
+        const text = document.createElement('span');
+        text.textContent = 'Novidades em breve';
+
+        message.appendChild(text);
+        badge.appendChild(label);
+        badge.appendChild(message);
+    });
+}
+
 function getLegalIconMarkup(type) {
     if (type === 'mapa') {
         return '<svg class="footer-legal-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5.5 9 3 3 5.5v15L9 18l6 2.5 6-2.5v-15L15 5.5zM9 16.3l-4 1.67V6.83L9 5.17v11.13zm2 0V5.17l4 1.66v11.14L11 16.3zm8 1.67-4 1.67V8.53l4-1.7v11.14z"/></svg>';
@@ -141,6 +172,8 @@ function createCookieBanner() {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+    enhanceBetaBadges();
+
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const submenuParents = document.querySelectorAll('.has-submenu');

@@ -11,6 +11,7 @@ This project is a digital exhibition website for student work from Colegio Tancr
 It showcases photos, subject pages, slides, books, handouts, and interactive educational content.
 There is no backend and no build pipeline. The site is composed of static HTML, CSS, JavaScript, local assets, and PDF viewers.
 Recent additions also include a policy/privacy area, a site map page, a cookie consent banner, and anonymized display of student work titles.
+The site also now includes a Mathematics subject area with finance-oriented content and a responsive article page for financial education.
 
 ## Runtime model
 
@@ -38,7 +39,11 @@ Recent additions also include a policy/privacy area, a site map page, a cookie c
 ## Subject routes
 
 - `/materias/educacao-financeira/index.html`
+- `/materias/educacao-financeira/o-que-e-educacao-financeira.html`
 - `/materias/educacao-financeira/historia-do-dinheiro-brasil.html`
+- `/materias/matematica/index.html`
+- `/materias/matematica/porcentagem-financeira.html`
+- `/materias/matematica/fracoes-financeiras.html`
 - `/materias/robotica/index.html`
 - `/materias/filosofia/index.html`
 - `/materias/maker/index.html`
@@ -70,7 +75,7 @@ Additional page-specific styles:
 
 ## JavaScript architecture
 
-- `/js/main.js`: shared mobile menu toggle, footer legal icons, cookie banner, and scroll-to-top button
+- `/js/main.js`: shared mobile menu toggle, footer legal icons, cookie banner, scroll-to-top button, and progressive enhancement for the Beta badge label
 - `/js/loader.js`: helper loader for the book viewer
 - `/js/turn.min.js`: page flip dependency used by `visualizador-livro.html`
 
@@ -90,6 +95,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - Subject cards and archive entries are not generated from a CMS; they are maintained manually.
 - Footer legal access is injected globally by `js/main.js`, including links for site map, policy, and privacy/LGPD.
 - Cookie consent is stored in local browser storage under `cecmtan.cookies.choice`.
+- The navbar logo transitions from blue to green on interaction, and the `Beta` badge expands inline to show "Novidades em breve".
 - Public titles for student work should avoid exposing student names and prefer turma + tema formatting.
 
 ## Where content lists live

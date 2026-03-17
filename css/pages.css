@@ -1170,6 +1170,15 @@ header.dark-bg p {
         padding: 1rem 0.85rem 0.95rem;
     }
 
+    .page-o-que-e-educacao-financeira header:not(nav header) {
+        padding: 4.5rem 1rem 4rem;
+        clip-path: none;
+    }
+
+    .page-o-que-e-educacao-financeira .container {
+        padding: 2.5rem 1rem;
+    }
+
     .page-o-que-e-educacao-financeira .enem-essay-title {
         font-size: 1.28rem;
     }
@@ -1189,6 +1198,13 @@ header.dark-bg p {
 
     .page-o-que-e-educacao-financeira .finance-level-card,
     .page-o-que-e-educacao-financeira .finance-final-card {
+        padding: 1.5rem;
+        border-radius: 24px;
+    }
+
+    .page-o-que-e-educacao-financeira .policy-note,
+    .page-o-que-e-educacao-financeira .history-section,
+    .page-o-que-e-educacao-financeira .fontes {
         padding: 1.5rem;
         border-radius: 24px;
     }
@@ -1229,6 +1245,34 @@ header.dark-bg p {
         padding-top: 2rem;
         padding-bottom: 2.5rem;
     }
+
+    .page-o-que-e-educacao-financeira .finance-status-bar,
+    .page-o-que-e-educacao-financeira .finance-level-grid,
+    .page-o-que-e-educacao-financeira .finance-skill-grid,
+    .page-o-que-e-educacao-financeira .finance-versus-grid,
+    .page-o-que-e-educacao-financeira .finance-boss-grid,
+    .page-o-que-e-educacao-financeira .finance-power-grid,
+    .page-o-que-e-educacao-financeira .finance-checkpoint-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .page-o-que-e-educacao-financeira .finance-status-item,
+    .page-o-que-e-educacao-financeira .finance-quest-card,
+    .page-o-que-e-educacao-financeira .finance-skill-card,
+    .page-o-que-e-educacao-financeira .finance-versus-card,
+    .page-o-que-e-educacao-financeira .finance-boss-card,
+    .page-o-que-e-educacao-financeira .finance-power-card,
+    .page-o-que-e-educacao-financeira .finance-checkpoint-card,
+    .page-o-que-e-educacao-financeira .finance-level-card,
+    .page-o-que-e-educacao-financeira .finance-final-card {
+        padding: 1.25rem;
+        border-radius: 20px;
+    }
+
+    .page-o-que-e-educacao-financeira .finance-level-card h2,
+    .page-o-que-e-educacao-financeira .finance-final-card h2 {
+        font-size: 1.45rem;
+    }
 }
 
 @media (max-width: 560px) {
@@ -1266,6 +1310,39 @@ header.dark-bg p {
     .page-moeda-civilizacoes .coin-period-copy h2,
     .page-moeda-civilizacoes .policy-card h2 {
         font-size: 1.35rem;
+    }
+
+    .page-o-que-e-educacao-financeira .policy-note,
+    .page-o-que-e-educacao-financeira .history-section,
+    .page-o-que-e-educacao-financeira .fontes,
+    .page-o-que-e-educacao-financeira .enem-essay-sheet {
+        padding: 1.15rem;
+        border-radius: 20px;
+    }
+
+    .page-o-que-e-educacao-financeira .enem-essay-body {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .page-o-que-e-educacao-financeira .enem-line-numbers {
+        display: none;
+    }
+
+    .page-o-que-e-educacao-financeira .enem-essay-text {
+        min-height: auto;
+        padding: 0.25rem 0.15rem;
+    }
+
+    .page-o-que-e-educacao-financeira .enem-essay-text p {
+        line-height: 1.9rem;
+        text-indent: 1.2rem;
+        font-size: 0.96rem;
+    }
+
+    .page-o-que-e-educacao-financeira .enem-essay-footer {
+        text-align: left;
+        font-size: 0.88rem;
     }
 }
 

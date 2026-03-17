@@ -101,3 +101,43 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - materias/educacao-financeira/index.html
 - materias/educacao-financeira/moeda-nas-civilizacoes.html
 
+==================================================
+17/03/2026
+==================================================
+
+1. Nova pagina de Educacao Financeira
+- Foi criada a pagina "O que e Educacao Financeira?".
+- A pagina recebeu bloco de texto em formato de redacao e secoes gamificadas.
+- Foram feitos ajustes de responsividade para melhorar a leitura em celulares.
+
+2. Nova materia de Matematica
+- Foi criada a materia "Matematica" na pagina de materias.
+- Foram adicionadas duas paginas novas com foco financeiro:
+  porcentagem-financeira.html
+  fracoes-financeiras.html
+- O submenu de materias foi atualizado para incluir Matematica nas paginas principais.
+
+3. Logo e selo Beta
+- A transicao do nome CECMTAN foi suavizada com passagem visual do azul para o verde do site.
+- O selo Beta passou a acompanhar a mesma identidade visual da logo.
+- A informacao do Beta foi ajustada para expandir no proprio selo com a mensagem "Novidades em breve", evitando conflito de tooltip.
+
+4. Ajustes visuais globais
+- Foram feitos refinamentos em css/layout.css e css/pages.css para navegacao e paginas internas.
+- js/main.js foi atualizado para melhorar o comportamento progressivo do selo Beta sem depender de alteracao manual em cada HTML.
+
+5. Arquivos principais afetados em 17/03/2026
+- materias.html
+- index.html
+- js/main.js
+- css/layout.css
+- css/pages.css
+- materias/educacao-financeira/index.html
+- materias/educacao-financeira/o-que-e-educacao-financeira.html
+- materias/filosofia/index.html
+- materias/maker/index.html
+- materias/robotica/index.html
+- materias/matematica/index.html
+- materias/matematica/porcentagem-financeira.html
+- materias/matematica/fracoes-financeiras.html
+
