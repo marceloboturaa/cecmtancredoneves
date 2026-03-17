@@ -48,7 +48,7 @@ function enhanceBetaBadges() {
         message.className = 'beta-badge__message';
 
         const text = document.createElement('span');
-        text.textContent = 'Novidades em breve';
+        text.textContent = 'Em desenvolvimento';
 
         message.appendChild(text);
         badge.appendChild(label);
