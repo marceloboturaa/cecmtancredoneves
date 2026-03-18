@@ -55,8 +55,7 @@
 
         <h1>Mural Digital</h1>
 
-        <p>Espaço virtual dos trabalhos escolares<br>
-        Colégio Estadual Cívico-Militar Tancredo Almeida Neves</p>
+        <p>Espaço virtual dos trabalhos escolares</p>
 
     </header>
 
@@ -64,15 +63,11 @@
 
     <!-- SLIDER -->
 
-    <a href="mural.html">
+    <section class="slider">
 
-        <section class="slider">
+        <div class="slider-track" id="slider-home"></div>
 
-            <div class="slider-track" id="slider-home"></div>
-
-        </section>
-
-    </a>
+    </section>
 
     <!-- RODAPÉ -->
     
@@ -153,37 +148,71 @@
 
         ]
 
-
-
-        /* GERAR SLIDER INFINITO */
+        /* GERAR SLIDER COM IDA E VOLTA */
 
         const sliderHome = document.getElementById("slider-home")
 
         if (sliderHome) {
 
-            let html = ""
+            const sliderViewport = sliderHome.parentElement
 
-            /* duplicar imagens para criar efeito infinito */
-
-            for (let i = 0; i < 3; i++) {
-
-                imagensSlider.forEach(img => {
-
-                    html += `
-
+            sliderHome.innerHTML = imagensSlider.map(img => `
 <img 
 src="image/${img}"
 alt="Trabalho escolar"
 loading="lazy">
+`).join("")
 
-`
+            let currentOffset = 0
+            let direction = 1
+            let maxOffset = 0
+            let lastTimestamp = 0
+            const speed = 48
 
-                })
-
+            function updateSliderPosition() {
+                sliderHome.style.transform = `translateX(${-currentOffset}px)`
             }
 
-            sliderHome.innerHTML = html
+            function recalculateSliderBounds() {
+                maxOffset = Math.max(0, sliderHome.scrollWidth - sliderViewport.clientWidth)
+                currentOffset = Math.min(currentOffset, maxOffset)
+                updateSliderPosition()
+            }
 
+            function animateSlider(timestamp) {
+                if (!lastTimestamp) {
+                    lastTimestamp = timestamp
+                }
+
+                const deltaSeconds = (timestamp - lastTimestamp) / 1000
+                lastTimestamp = timestamp
+
+                if (maxOffset > 0) {
+                    currentOffset += direction * speed * deltaSeconds
+
+                    if (currentOffset >= maxOffset) {
+                        currentOffset = maxOffset
+                        direction = -1
+                    } else if (currentOffset <= 0) {
+                        currentOffset = 0
+                        direction = 1
+                    }
+
+                    updateSliderPosition()
+                }
+
+                window.requestAnimationFrame(animateSlider)
+            }
+
+            window.addEventListener("resize", function () {
+                recalculateSliderBounds()
+                lastTimestamp = 0
+            })
+
+            window.requestAnimationFrame(function () {
+                recalculateSliderBounds()
+                window.requestAnimationFrame(animateSlider)
+            })
         }
 
     </script>

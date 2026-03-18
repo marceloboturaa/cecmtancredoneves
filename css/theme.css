@@ -55,9 +55,9 @@
     /* Header padrao das paginas institucionais e de materias gerais */
     /* Ordem do degrade: start > mid-1 > mid-2 > end */
     --header-default-start: #173557;
-    --header-default-mid-1: #24526b;
-    --header-default-mid-2: #4f6b31;
-    --header-default-end: #68813ceb;
+    --header-default-mid-1: #173557;
+    --header-default-mid-2: #173557;
+    --header-default-end: #0f2a4a;
 
     /* Header da area de Filosofia */
     --header-filosofia-start: #173557;

@@ -184,17 +184,17 @@ header.dark-bg.header-theme-matematica-alt {
 
 /* ================= SLIDER INFINITO (antigo) ================= */
 .slider {
-    overflow: hidden;
     background: var(--white);
     padding: 40px 0;
     border-bottom: 1px solid var(--border);
+    overflow: hidden;
 }
 
 .slider-track {
     display: flex;
     gap: 20px;
-    animation: scroll 60s linear infinite;
     will-change: transform;
+    transform: translateX(0);
 }
 
 .slider-track img {
@@ -204,16 +204,6 @@ header.dark-bg.header-theme-matematica-alt {
     border-radius: 12px;
     box-shadow: var(--shadow-sm);
     flex-shrink: 0;
-}
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        transform: translateX(-50%);
-    }
 }
 
 /* ================= HERO COM SLIDER DE FUNDO ================= */
