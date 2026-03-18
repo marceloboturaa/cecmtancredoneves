@@ -7,6 +7,29 @@
     flex-wrap: wrap;
 }
 
+.busca-acervo {
+    display: flex;
+    justify-content: center;
+    margin: -0.5rem auto 2rem;
+    max-width: 620px;
+}
+
+.busca-acervo__input {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+    color: var(--dark);
+    box-shadow: var(--shadow-sm);
+    font: inherit;
+}
+
+.busca-acervo__input:focus {
+    outline: 2px solid rgba(104, 129, 60, 0.18);
+    border-color: var(--green);
+}
+
 .filtro-btn {
     background: var(--light-gray);
     border: 1px solid var(--border);
@@ -68,6 +91,10 @@
     border: 2px solid transparent;
     transition: border-color 0.2s;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.item-thumb-video {
+    aspect-ratio: 16 / 9;
 }
 
 .item-card:hover .item-thumb {

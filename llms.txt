@@ -10,8 +10,8 @@ Language: pt-BR content, file naming mostly lowercase and path-based
 This project is a digital exhibition website for student work from Colegio Tancredo Neves.
 It showcases photos, subject pages, slides, books, handouts, and interactive educational content.
 There is no backend and no build pipeline. The site is composed of static HTML, CSS, JavaScript, local assets, and PDF viewers.
-Recent additions also include a policy/privacy area, a site map page, a cookie consent banner, and anonymized display of student work titles.
-The site also now includes a Mathematics subject area with finance-oriented content and a responsive article page for financial education.
+Recent additions also include a policy/privacy area, a site map page, a cookie consent banner, anonymized display of student work titles, and a dedicated video catalog/viewer flow.
+The site also now includes a Mathematics subject area with finance-oriented content, a responsive article page for financial education, and a unified archive that includes videos.
 
 ## Runtime model
 
@@ -27,7 +27,8 @@ The site also now includes a Mathematics subject area with finance-oriented cont
 - `/mural.html`: photo wall
 - `/slide.html`: presentation listing page
 - `/trabalhos.html`: student work listing page with anonymized public titles
-- `/acervo.html`: unified archive for photos, slides, books, and handouts
+- `/acervo.html`: unified archive for photos, slides, books, handouts, and videos
+- `/videos.html`: video listing page with search
 - `/sobre.html`: project/about page
 - `/politicas.html`: policy, privacy/LGPD, and cookies information page
 - `/mapa-do-site.html`: site map page with grouped navigation links
@@ -35,6 +36,7 @@ The site also now includes a Mathematics subject area with finance-oriented cont
 - `/visualizador-apostilas.html`: handout viewer
 - `/visualizador-livro.html`: book-style PDF viewer with page flip behavior
 - `/visualizador-trabalhos.html`: work viewer in magazine/book style
+- `/visualizador-video.html`: video viewer with presentation mode and previous/next navigation
 
 ## Subject routes
 
@@ -75,6 +77,7 @@ Additional page-specific styles:
 - `/css/slide.css`
 - `/css/visualizador.css`
 - `/css/visualizador-livro.css`
+- `/css/theme.css`
 
 ## JavaScript architecture
 
@@ -98,7 +101,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - Subject cards and archive entries are not generated from a CMS; they are maintained manually.
 - Footer legal access is injected globally by `js/main.js`, including links for site map, policy, and privacy/LGPD.
 - Cookie consent is stored in local browser storage under `cecmtan.cookies.choice`.
-- The navbar logo transitions from blue to green on interaction, and the `Beta` badge expands inline to show "Novidades em breve".
+- The navbar logo transitions from blue to green on interaction, and the `Beta` badge expands inline to show "Em desenvolvimento".
 - In navigation menus, the subject label may appear abbreviated as `Ed. Financeira`, while page titles should preserve `Educação Financeira`.
 - Public titles for student work should avoid exposing student names and prefer turma + tema formatting.
 
@@ -107,7 +110,8 @@ Viewer dependencies loaded from CDN inside HTML:
 - `/index.html`: image slider file list
 - `/slide.html`: presentation list and thumbnail generation
 - `/trabalhos.html`: work list and anonymized card titles
-- `/acervo.html`: master archive lists for images, slides, books, and handouts
+- `/acervo.html`: master archive lists for images, slides, books, handouts, and videos
+- `/videos.html`: hardcoded YouTube catalog with local search
 
 ## Editing guidance for agents
 
@@ -121,6 +125,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - Presentation flows use `visualizador-slide.html`.
 - Apostila flows use `visualizador-apostilas.html`.
 - Work flows use `visualizador-trabalhos.html`.
+- Video flows use `visualizador-video.html`.
 
 ## Maintenance notes
 

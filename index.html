@@ -29,6 +29,7 @@
                     <li><a href="trabalhos.html">Trabalhos</a></li>
                     <li><a href="livros.html">Livros</a></li>
                     <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
@@ -157,10 +158,12 @@
             const sliderViewport = sliderHome.parentElement
 
             sliderHome.innerHTML = imagensSlider.map(img => `
+<a href="mural.html" class="slider-home-link" aria-label="Abrir mural">
 <img 
 src="image/${img}"
 alt="Trabalho escolar"
 loading="lazy">
+</a>
 `).join("")
 
             let currentOffset = 0

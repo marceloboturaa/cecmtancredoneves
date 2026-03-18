@@ -25,6 +25,7 @@
                     <li><a href="trabalhos.html">Trabalhos</a></li>
                     <li><a href="livros.html">Livros</a></li>
                     <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
@@ -43,7 +44,7 @@
 
     <header class="dark-bg header-theme-default">
         <h1>Acervo</h1>
-        <p>Imagens, apresentações, livros e apostilas</p>
+        <p>Imagens, apresentações, livros, apostilas e vídeos</p>
     </header>
 
     <section class="container">
@@ -54,7 +55,12 @@
             <button class="filtro-btn" data-filtro="apostila">Apostilas</button>
             <button class="filtro-btn" data-filtro="slide">Slides</button>
             <button class="filtro-btn" data-filtro="livro">Livros</button>
+            <button class="filtro-btn" data-filtro="video">Vídeos</button>
             <button class="filtro-btn" data-filtro="imagem">Imagens</button>
+        </div>
+
+        <div class="busca-acervo">
+            <input type="search" id="busca-acervo" class="busca-acervo__input" placeholder="Buscar no acervo por título ou descrição">
         </div>
 
         <!-- Grid de itens -->
@@ -148,12 +154,71 @@
             { arquivo: "apostila-educacao-financeira-pessoal.pdf", titulo: "Apostila Educação Financeira Pessoal" }
         ];
 
+        const videos = [
+            {
+                youtubeId: "-7Az6V2oAD4",
+                titulo: "Banco Central do Brasil",
+                descricao: "Vídeo de apoio sobre a história do dinheiro e educação financeira.",
+                thumb: "https://img.youtube.com/vi/-7Az6V2oAD4/hqdefault.jpg"
+            },
+            {
+                youtubeId: "T5I1s_NEnx8",
+                titulo: "Educação Financeira na prática",
+                descricao: "Vídeo complementar para ampliar a leitura sobre escolhas financeiras e consumo consciente.",
+                thumb: "https://img.youtube.com/vi/T5I1s_NEnx8/hqdefault.jpg"
+            },
+            {
+                youtubeId: "Popa7dOjOMU",
+                titulo: "Educação Financeira - vídeo complementar 1",
+                descricao: "Conteúdo em vídeo para aprofundar noções de consumo, planejamento e organização financeira.",
+                thumb: "https://img.youtube.com/vi/Popa7dOjOMU/hqdefault.jpg"
+            },
+            {
+                youtubeId: "5vpixQc3b2M",
+                titulo: "Educação Financeira - vídeo complementar 2",
+                descricao: "Material em vídeo para reforçar escolhas conscientes e uso responsável do dinheiro.",
+                thumb: "https://img.youtube.com/vi/5vpixQc3b2M/hqdefault.jpg"
+            },
+            {
+                youtubeId: "3PKiaQJdzrM",
+                titulo: "Educação Financeira - vídeo complementar 3",
+                descricao: "Vídeo de apoio para ampliar a reflexão sobre orçamento, metas e decisões financeiras.",
+                thumb: "https://img.youtube.com/vi/3PKiaQJdzrM/hqdefault.jpg"
+            },
+            {
+                youtubeId: "anBcX9yLYdc",
+                titulo: "Educação Financeira - vídeo complementar 4",
+                descricao: "Conteúdo em vídeo para estudo e aprofundamento dos temas de educação financeira.",
+                thumb: "https://img.youtube.com/vi/anBcX9yLYdc/hqdefault.jpg"
+            },
+            {
+                youtubeId: "6aolLKTHo-I",
+                titulo: "Educação Financeira - vídeo complementar 5",
+                descricao: "Vídeo extra para reforçar hábitos de consumo consciente e planejamento do dia a dia.",
+                thumb: "https://img.youtube.com/vi/6aolLKTHo-I/hqdefault.jpg"
+            },
+            {
+                youtubeId: "35QkwQrJzwY",
+                titulo: "Educação Financeira - vídeo complementar 6",
+                descricao: "Material em vídeo com apoio para leitura, análise e discussão em educação financeira.",
+                thumb: "https://img.youtube.com/vi/35QkwQrJzwY/hqdefault.jpg"
+            },
+            {
+                youtubeId: "AnZge4m995w",
+                titulo: "Educação Financeira - vídeo complementar 7",
+                descricao: "Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.",
+                thumb: "https://img.youtube.com/vi/AnZge4m995w/hqdefault.jpg"
+            }
+        ];
+
         const container = document.getElementById('acervo-container');
         const botaoVerMais = document.getElementById('ver-mais-acervo');
+        const buscaAcervoInput = document.getElementById('busca-acervo');
         const urlParams = new URLSearchParams(window.location.search);
         const filtroInicial = urlParams.get('filtro');
-        const filtrosValidos = ['todos', 'trabalho', 'apostila', 'slide', 'livro', 'imagem'];
+        const filtrosValidos = ['todos', 'trabalho', 'apostila', 'slide', 'livro', 'video', 'imagem'];
         let currentFilter = filtrosValidos.includes(filtroInicial) ? filtroInicial : 'todos';
+        let searchTerm = '';
         let itensExibidos = 0;
         let renderToken = 0;
         const ITENS_POR_ETAPA = 8;
@@ -248,6 +313,14 @@
                 arquivo: a.arquivo,
                 pasta: 'apostilas'
             })),
+            ...videos.map(v => ({
+                tipo: 'video',
+                titulo: v.titulo,
+                descricao: v.descricao,
+                arquivo: v.youtubeId,
+                pasta: 'videos',
+                thumb: v.thumb
+            })),
             ...imagens.map(nome => ({
                 tipo: 'imagem',
                 titulo: formatarTituloImagem(nome),
@@ -266,9 +339,19 @@
             }));
 
         function obterItensFiltrados() {
-            return currentFilter === 'todos'
+            const base = currentFilter === 'todos'
                 ? itens
                 : itens.filter(item => item.tipo === currentFilter);
+
+            if (!searchTerm) {
+                return base;
+            }
+
+            return base.filter(item => {
+                const titulo = (item.titulo || '').toLowerCase();
+                const descricao = (item.descricao || '').toLowerCase();
+                return titulo.includes(searchTerm) || descricao.includes(searchTerm);
+            });
         }
 
         function renderizarItens(reset = false) {
@@ -311,6 +394,15 @@
                     const img = document.createElement('img');
                     img.src = montarCaminho(item.pasta, item.arquivo);
                     img.alt = item.titulo;
+                    thumbDiv.appendChild(img);
+                    return;
+                }
+
+                if (item.tipo === 'video') {
+                    const img = document.createElement('img');
+                    img.src = item.thumb;
+                    img.alt = item.titulo;
+                    thumbDiv.classList.add('item-thumb-video');
                     thumbDiv.appendChild(img);
                     return;
                 }
@@ -390,6 +482,8 @@
                 abrirDocumento(`visualizador-apostilas.html?file=${encodeURIComponent(arquivo)}&pasta=${encodeURIComponent(pasta)}`);
             } else if (tipo === 'trabalho') {
                 abrirDocumento(`visualizador-trabalhos.html?id=${encodeURIComponent(id)}&pasta=${encodeURIComponent(pasta)}`);
+            } else if (tipo === 'video' && itemSelecionado) {
+                abrirDocumento(`visualizador-video.html?youtube=${encodeURIComponent(itemSelecionado.arquivo)}&titulo=${encodeURIComponent(itemSelecionado.titulo)}&descricao=${encodeURIComponent(itemSelecionado.descricao)}`);
             }
         };
 
@@ -405,6 +499,11 @@
                 currentFilter = btn.dataset.filtro;
                 resetarListagem();
             });
+        });
+
+        buscaAcervoInput.addEventListener('input', () => {
+            searchTerm = buscaAcervoInput.value.trim().toLowerCase();
+            resetarListagem();
         });
 
         botaoVerMais.addEventListener('click', () => renderizarItens(false));

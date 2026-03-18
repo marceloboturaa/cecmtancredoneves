@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Vídeos - Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/acervo.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg header-theme-default">
+        <h1>Vídeos</h1>
+        <p>Clique em cada card para abrir os vídeos do acervo</p>
+    </header>
+
+    <section class="container">
+        <div class="busca-acervo">
+            <input type="search" id="busca-videos" class="busca-acervo__input" placeholder="Buscar vídeos por título ou descrição">
+        </div>
+        <div class="acervo-grid" id="video-list"></div>
+    </section>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        const videos = [
+            {
+                youtubeId: "-7Az6V2oAD4",
+                titulo: "Banco Central do Brasil",
+                descricao: "Vídeo de apoio sobre a história do dinheiro e educação financeira.",
+                thumb: "https://img.youtube.com/vi/-7Az6V2oAD4/hqdefault.jpg"
+            },
+            {
+                youtubeId: "T5I1s_NEnx8",
+                titulo: "Educação Financeira na prática",
+                descricao: "Vídeo complementar para ampliar a leitura sobre escolhas financeiras e consumo consciente.",
+                thumb: "https://img.youtube.com/vi/T5I1s_NEnx8/hqdefault.jpg"
+            },
+            {
+                youtubeId: "Popa7dOjOMU",
+                titulo: "Educação Financeira - vídeo complementar 1",
+                descricao: "Conteúdo em vídeo para aprofundar noções de consumo, planejamento e organização financeira.",
+                thumb: "https://img.youtube.com/vi/Popa7dOjOMU/hqdefault.jpg"
+            },
+            {
+                youtubeId: "5vpixQc3b2M",
+                titulo: "Educação Financeira - vídeo complementar 2",
+                descricao: "Material em vídeo para reforçar escolhas conscientes e uso responsável do dinheiro.",
+                thumb: "https://img.youtube.com/vi/5vpixQc3b2M/hqdefault.jpg"
+            },
+            {
+                youtubeId: "3PKiaQJdzrM",
+                titulo: "Educação Financeira - vídeo complementar 3",
+                descricao: "Vídeo de apoio para ampliar a reflexão sobre orçamento, metas e decisões financeiras.",
+                thumb: "https://img.youtube.com/vi/3PKiaQJdzrM/hqdefault.jpg"
+            },
+            {
+                youtubeId: "anBcX9yLYdc",
+                titulo: "Educação Financeira - vídeo complementar 4",
+                descricao: "Conteúdo em vídeo para estudo e aprofundamento dos temas de educação financeira.",
+                thumb: "https://img.youtube.com/vi/anBcX9yLYdc/hqdefault.jpg"
+            },
+            {
+                youtubeId: "6aolLKTHo-I",
+                titulo: "Educação Financeira - vídeo complementar 5",
+                descricao: "Vídeo extra para reforçar hábitos de consumo consciente e planejamento do dia a dia.",
+                thumb: "https://img.youtube.com/vi/6aolLKTHo-I/hqdefault.jpg"
+            },
+            {
+                youtubeId: "35QkwQrJzwY",
+                titulo: "Educação Financeira - vídeo complementar 6",
+                descricao: "Material em vídeo com apoio para leitura, análise e discussão em educação financeira.",
+                thumb: "https://img.youtube.com/vi/35QkwQrJzwY/hqdefault.jpg"
+            },
+            {
+                youtubeId: "AnZge4m995w",
+                titulo: "Educação Financeira - vídeo complementar 7",
+                descricao: "Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.",
+                thumb: "https://img.youtube.com/vi/AnZge4m995w/hqdefault.jpg"
+            }
+        ];
+
+        const container = document.getElementById('video-list');
+        const buscaVideosInput = document.getElementById('busca-videos');
+
+        function abrirDocumento(url) {
+            const novaJanela = window.open(url, '_blank');
+
+            if (novaJanela) {
+                novaJanela.focus();
+                return;
+            }
+
+            window.location.href = url;
+        }
+
+        function abrirVisualizador(video) {
+            abrirDocumento(`visualizador-video.html?youtube=${encodeURIComponent(video.youtubeId)}&titulo=${encodeURIComponent(video.titulo)}&descricao=${encodeURIComponent(video.descricao)}`);
+        }
+
+        function renderizarVideos(lista) {
+            container.innerHTML = '';
+
+            lista.forEach((video, index) => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.setAttribute('data-index', index);
+                card.addEventListener('click', function () {
+                    abrirVisualizador(video);
+                });
+
+                card.innerHTML = `
+                    <div class="item-thumb item-thumb-video">
+                        <img src="${video.thumb}" alt="${video.titulo}" loading="lazy">
+                    </div>
+                    <div class="item-tipo">vídeo</div>
+                    <div class="item-titulo">${video.titulo}</div>
+                    <div class="item-desc">${video.descricao}</div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        buscaVideosInput.addEventListener('input', function () {
+            const termo = buscaVideosInput.value.trim().toLowerCase();
+            const filtrados = !termo
+                ? videos
+                : videos.filter(video =>
+                    video.titulo.toLowerCase().includes(termo) ||
+                    video.descricao.toLowerCase().includes(termo)
+                );
+
+            renderizarVideos(filtrados);
+        });
+
+        renderizarVideos(videos);
+    </script>
+</body>
+
+</html>

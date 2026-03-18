@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Visualizador de Vídeo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/visualizador.css">
+</head>
+
+<body class="slide-viewer has-pointer controls-visible">
+    <div class="slide-shell">
+        <div class="slide-stage-shell" id="video-stage-shell">
+            <div class="slide-stage-grid"></div>
+            <div class="slide-stage-glow"></div>
+
+            <div class="slide-overlay slide-overlay-top">
+                <div class="slide-header-copy">
+                    <span class="slide-kicker">Vídeo</span>
+                    <h1 id="slide-title">Carregando vídeo...</h1>
+                    <div class="slide-header-meta" id="video-description"></div>
+                </div>
+            </div>
+
+            <button type="button" class="hover-nav hover-nav-left" id="prev-video-btn" aria-label="Vídeo anterior">❮</button>
+            <button type="button" class="hover-nav hover-nav-right" id="next-video-btn" aria-label="Próximo vídeo">❯</button>
+
+            <div class="slide-stage">
+                <div class="slide-frame" id="video-frame-shell" style="padding: 0; overflow: hidden;">
+                    <div class="slide-canvas-wrap" style="width: 100%;">
+                        <iframe
+                            id="video-frame"
+                            title="Visualizador de vídeo"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                            style="display:block;width:min(100%, 1180px);aspect-ratio:16/9;border:0;background:#000;border-radius:24px;box-shadow:0 40px 90px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05);">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slide-overlay slide-overlay-bottom">
+                <div class="slide-controls">
+                    <button type="button" id="close-video-btn"><span>Fechar</span></button>
+                    <button type="button" id="open-youtube-btn"><span>Abrir no YouTube</span></button>
+                    <button type="button" id="fullscreen-video-btn" aria-label="Modo apresentação" title="Modo apresentação"><span>⛶</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const videoCatalog = [
+                {
+                    youtubeId: '-7Az6V2oAD4',
+                    titulo: 'Banco Central do Brasil',
+                    descricao: 'Vídeo de apoio sobre a história do dinheiro e educação financeira.'
+                },
+                {
+                    youtubeId: 'T5I1s_NEnx8',
+                    titulo: 'Educação Financeira na prática',
+                    descricao: 'Vídeo complementar para ampliar a leitura sobre escolhas financeiras e consumo consciente.'
+                },
+                {
+                    youtubeId: 'Popa7dOjOMU',
+                    titulo: 'Educação Financeira - vídeo complementar 1',
+                    descricao: 'Conteúdo em vídeo para aprofundar noções de consumo, planejamento e organização financeira.'
+                },
+                {
+                    youtubeId: '5vpixQc3b2M',
+                    titulo: 'Educação Financeira - vídeo complementar 2',
+                    descricao: 'Material em vídeo para reforçar escolhas conscientes e uso responsável do dinheiro.'
+                },
+                {
+                    youtubeId: '3PKiaQJdzrM',
+                    titulo: 'Educação Financeira - vídeo complementar 3',
+                    descricao: 'Vídeo de apoio para ampliar a reflexão sobre orçamento, metas e decisões financeiras.'
+                },
+                {
+                    youtubeId: 'anBcX9yLYdc',
+                    titulo: 'Educação Financeira - vídeo complementar 4',
+                    descricao: 'Conteúdo em vídeo para estudo e aprofundamento dos temas de educação financeira.'
+                },
+                {
+                    youtubeId: '6aolLKTHo-I',
+                    titulo: 'Educação Financeira - vídeo complementar 5',
+                    descricao: 'Vídeo extra para reforçar hábitos de consumo consciente e planejamento do dia a dia.'
+                },
+                {
+                    youtubeId: '35QkwQrJzwY',
+                    titulo: 'Educação Financeira - vídeo complementar 6',
+                    descricao: 'Material em vídeo com apoio para leitura, análise e discussão em educação financeira.'
+                },
+                {
+                    youtubeId: 'AnZge4m995w',
+                    titulo: 'Educação Financeira - vídeo complementar 7',
+                    descricao: 'Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.'
+                }
+            ];
+
+            const params = new URLSearchParams(window.location.search);
+            const requestedYoutubeId = params.get('youtube');
+            const titleElement = document.getElementById('slide-title');
+            const descriptionElement = document.getElementById('video-description');
+            const iframe = document.getElementById('video-frame');
+            const body = document.body;
+            const prevBtn = document.getElementById('prev-video-btn');
+            const nextBtn = document.getElementById('next-video-btn');
+            const closeBtn = document.getElementById('close-video-btn');
+            const openYoutubeBtn = document.getElementById('open-youtube-btn');
+            const fullscreenBtn = document.getElementById('fullscreen-video-btn');
+            const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
+            let controlsTimer = null;
+            let currentIndex = Math.max(0, videoCatalog.findIndex(video => video.youtubeId === requestedYoutubeId));
+
+            function updateControlsVisibility(forceVisible) {
+                body.classList.toggle('has-pointer', pointerMedia.matches);
+                body.classList.toggle('controls-visible', forceVisible || !pointerMedia.matches);
+            }
+
+            function showControlsTemporarily() {
+                updateControlsVisibility(true);
+                clearTimeout(controlsTimer);
+
+                if (!pointerMedia.matches) {
+                    return;
+                }
+
+                controlsTimer = window.setTimeout(function () {
+                    body.classList.remove('controls-visible');
+                }, 1800);
+            }
+
+            function getCurrentVideo() {
+                return videoCatalog[currentIndex] || null;
+            }
+
+            function updateNavButtons() {
+                prevBtn.disabled = currentIndex <= 0;
+                nextBtn.disabled = currentIndex >= videoCatalog.length - 1;
+            }
+
+            function renderCurrentVideo() {
+                const video = getCurrentVideo();
+
+                if (!video) {
+                    titleElement.textContent = 'Vídeo não encontrado';
+                    descriptionElement.textContent = 'Nenhum vídeo foi informado para visualização.';
+                    iframe.removeAttribute('src');
+                    openYoutubeBtn.disabled = true;
+                    fullscreenBtn.disabled = true;
+                    prevBtn.disabled = true;
+                    nextBtn.disabled = true;
+                    return;
+                }
+
+                titleElement.textContent = video.titulo;
+                descriptionElement.textContent = video.descricao;
+                document.title = `${video.titulo} | Visualizador de Vídeo`;
+                iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(video.youtubeId)}?rel=0&modestbranding=1`;
+                const nextUrl = `visualizador-video.html?youtube=${encodeURIComponent(video.youtubeId)}&titulo=${encodeURIComponent(video.titulo)}&descricao=${encodeURIComponent(video.descricao)}`;
+                window.history.replaceState({ youtubeId: video.youtubeId }, '', nextUrl);
+                openYoutubeBtn.disabled = false;
+                fullscreenBtn.disabled = false;
+                updateNavButtons();
+                showControlsTemporarily();
+            }
+
+            function openYoutube() {
+                const video = getCurrentVideo();
+                if (!video) return;
+
+                const youtubeUrl = `https://www.youtube.com/watch?v=${encodeURIComponent(video.youtubeId)}`;
+                const novaJanela = window.open(youtubeUrl, '_blank');
+
+                if (novaJanela) {
+                    novaJanela.focus();
+                    return;
+                }
+
+                window.location.href = youtubeUrl;
+            }
+
+            function closeViewer() {
+                if (window.history.length > 1) {
+                    window.history.back();
+                    return;
+                }
+
+                window.location.href = 'videos.html';
+            }
+
+            function goToPreviousVideo() {
+                if (currentIndex <= 0) return;
+                currentIndex -= 1;
+                renderCurrentVideo();
+            }
+
+            function goToNextVideo() {
+                if (currentIndex >= videoCatalog.length - 1) return;
+                currentIndex += 1;
+                renderCurrentVideo();
+            }
+
+            async function togglePresentationMode() {
+                const stage = document.getElementById('video-stage-shell');
+
+                if (!document.fullscreenElement) {
+                    await stage.requestFullscreen();
+                    return;
+                }
+
+                await document.exitFullscreen();
+            }
+
+            prevBtn.addEventListener('click', goToPreviousVideo);
+            nextBtn.addEventListener('click', goToNextVideo);
+            closeBtn.addEventListener('click', closeViewer);
+            openYoutubeBtn.addEventListener('click', openYoutube);
+            fullscreenBtn.addEventListener('click', function () {
+                togglePresentationMode().catch(function () { });
+            });
+
+            document.addEventListener('mousemove', showControlsTemporarily, { passive: true });
+            document.addEventListener('pointerdown', showControlsTemporarily, { passive: true });
+            document.addEventListener('touchstart', showControlsTemporarily, { passive: true });
+            pointerMedia.addEventListener('change', function () {
+                updateControlsVisibility(true);
+            });
+
+            document.addEventListener('keydown', function (event) {
+                if (event.key === 'ArrowLeft') {
+                    goToPreviousVideo();
+                } else if (event.key === 'ArrowRight') {
+                    goToNextVideo();
+                } else if (event.key === 'Escape') {
+                    closeViewer();
+                } else if (event.key.toLowerCase() === 'f') {
+                    togglePresentationMode().catch(function () { });
+                }
+            });
+
+            window.fechar = closeViewer;
+            renderCurrentVideo();
+        })();
+    </script>
+</body>
+
+</html>

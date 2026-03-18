@@ -50,6 +50,41 @@ header.dark-bg p {
     color: white;
 }
 
+header.dark-bg {
+    position: relative;
+    overflow: hidden;
+}
+
+header.dark-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 24px 24px, 24px 24px;
+    background-position: 0 0, 0 0;
+    opacity: 0.9;
+    pointer-events: none;
+    will-change: background-position;
+    animation: headerGridDrift 7s linear infinite;
+}
+
+header.dark-bg > * {
+    position: relative;
+    z-index: 1;
+}
+
+@keyframes headerGridDrift {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 24px 12px, 24px 12px;
+    }
+}
+
 /* Temas prontos para os cabeÃ§alhos escuros */
 header.dark-bg.header-theme-default {
     background: linear-gradient(var(--header-gradient-angle), var(--header-default-start), var(--header-default-mid-1), var(--header-default-mid-2), var(--header-default-end));
@@ -195,6 +230,11 @@ header.dark-bg.header-theme-matematica-alt {
     gap: 20px;
     will-change: transform;
     transform: translateX(0);
+}
+
+.slider-home-link {
+    display: block;
+    flex-shrink: 0;
 }
 
 .slider-track img {

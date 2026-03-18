@@ -141,3 +141,69 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - materias/matematica/porcentagem-financeira.html
 - materias/matematica/fracoes-financeiras.html
 
+==================================================
+18/03/2026
+==================================================
+
+1. Sistema visual centralizado
+- Foi criado o arquivo css/theme.css para centralizar cores, sombras e degradês do site.
+- Os degradês dos headers e do rodapé passaram a aceitar controle por variáveis.
+- Foram adicionadas variáveis para ângulo de gradiente e suporte a até quatro cores.
+- O rodapé foi simplificado para visual de duas cores com configuração centralizada.
+
+2. Header, rodapé e navegação
+- O padrão quadriculado suave saiu do rodapé e foi aplicado aos headers escuros.
+- O quadriculado do header recebeu animação leve de movimento.
+- Itens de Matemática, Filosofia, Maker e Robótica foram ocultados visualmente no submenu de matérias, sem remoção do HTML.
+- O ajuste do menu foi corrigido para esconder o item inteiro, evitando espaços em branco no submenu.
+
+3. Home e visualizadores PDF
+- O slider da página inicial passou a abrir o mural ao clicar nas imagens.
+- O som dos visualizadores foi ajustado:
+  livros com volume reduzido
+  trabalhos com volume ainda mais baixo
+- Foi mantido o comportamento original do selo Beta após tentativa de troca por botão social.
+
+4. Nova área de vídeos
+- Foi criada a página videos.html com cards de vídeo e busca por título e descrição.
+- Foi criado o visualizador-video.html para abrir vídeos em página própria.
+- O acervo passou a incluir vídeos com filtro específico e busca integrada.
+- O submenu do mural foi atualizado para incluir o acesso a vídeos.
+- Foram adicionados vários vídeos do YouTube com thumbnails automáticas.
+
+5. Melhorias no visualizador de vídeos
+- O visualizador passou a ter controles que aparecem no hover e somem depois.
+- Foram incluídos botões de fechar, abrir no YouTube e modo apresentação.
+- Foi adicionada navegação entre vídeos com setas laterais e teclado.
+- O player recebeu cantos arredondados fora do fullscreen.
+- O modo apresentação passou a ocupar a tela inteira de forma mais correta.
+- A troca de vídeo agora atualiza a URL e mantém o vídeo atual, sem voltar ao primeiro.
+
+6. Documentação e navegação do projeto
+- O mapa do site foi atualizado para incluir vídeos e atalhos para vídeos dentro do acervo.
+- O llms.txt foi atualizado com as novas rotas, convenções e fluxo de vídeos.
+
+7. Arquivos principais afetados em 18/03/2026
+- css/theme.css
+- css/style.css
+- css/layout.css
+- css/pages.css
+- css/acervo.css
+- css/visualizador.css
+- index.html
+- mural.html
+- materias.html
+- sobre.html
+- acervo.html
+- slide.html
+- trabalhos.html
+- livros.html
+- apostilas.html
+- videos.html
+- visualizador-video.html
+- visualizador-livro.html
+- visualizador-trabalhos.html
+- js/main.js
+- mapa-do-site.html
+- llms.txt
+
