@@ -207,3 +207,40 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - mapa-do-site.html
 - llms.txt
 
+==================================================
+19/03/2026
+==================================================
+
+1. Pagina de questoes
+- Foi criada a pagina questoes.html com formato de simulado.
+- Foram adicionados filtro por area, correcao final, embaralhamento e banco de perguntas por disciplina.
+- O simulado passou a ter recursos de ajuda:
+  cartas
+  50/50
+  pular pergunta com limite
+- Foram adicionadas questoes de Quimica ao banco.
+
+2. Videos
+- A pagina videos.html foi ajustada para exibir 3 cards no desktop mantendo responsividade.
+- Foi adicionada rotacao automatica da ordem dos videos a cada 5 minutos.
+- Foi incluido um video de Quimica sobre tabela periodica no catalogo.
+
+3. Materias
+- Foi criada a nova materia Quimica, sem exibicao no menu global.
+- Foram criadas as paginas:
+  materias/quimica/index.html
+  materias/quimica/misturas-e-separacao.html
+  materias/quimica/transformacoes-da-materia.html
+  materias/quimica/video-tabela-periodica.html
+- A pagina materias.html foi atualizada para incluir Quimica e reorganizada visualmente com foco direto nos cards.
+- Foi removido o bloco introdutorio acima da grade para deixar o acesso mais direto.
+
+4. Mural e anotacao do professor
+- O mural passou a enviar cada botao "Veja anotacao do professor" para a secao correta dentro de moeda-nas-civilizacoes.html.
+- Foram criadas ancoras por tema em moeda-nas-civilizacoes.html.
+- Foi ajustado o scroll da pagina de destino para o topo da secao nao ficar escondido pelo menu fixo.
+
+5. Documentacao e navegacao
+- llms.txt foi atualizado com as novas rotas de Quimica, questoes e convencoes recentes do projeto.
+- mapa-do-site.html foi atualizado para incluir Questoes e a nova area de Quimica.
+

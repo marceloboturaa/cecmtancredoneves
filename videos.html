@@ -8,6 +8,35 @@
     <title>Vídeos - Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/acervo.css">
+    <style>
+        .videos-container {
+            max-width: 1200px;
+        }
+
+        #video-list {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+
+        @media (min-width: 700px) {
+            #video-list {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (min-width: 1100px) {
+            .videos-container {
+                max-width: 1500px;
+            }
+
+            #video-list {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+
+            #video-list .item-card {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -27,6 +56,7 @@
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
+            <li><a href="questoes.html">Questões</a></li>
             <li class="has-submenu">
                 <a href="materias.html">Matérias</a>
                 <ul class="submenu">
@@ -45,7 +75,7 @@
         <p>Clique em cada card para abrir os vídeos do acervo</p>
     </header>
 
-    <section class="container">
+    <section class="container videos-container">
         <div class="busca-acervo">
             <input type="search" id="busca-videos" class="busca-acervo__input" placeholder="Buscar vídeos por título ou descrição">
         </div>
@@ -123,11 +153,18 @@
                 titulo: "Educação Financeira - vídeo complementar 7",
                 descricao: "Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.",
                 thumb: "https://img.youtube.com/vi/AnZge4m995w/hqdefault.jpg"
+            },
+            {
+                youtubeId: "gB6p6d5c-tY",
+                titulo: "Química - Tabela Periódica",
+                descricao: "Vídeo complementar de Química para revisar famílias, períodos e organização dos elementos químicos.",
+                thumb: "https://img.youtube.com/vi/gB6p6d5c-tY/hqdefault.jpg"
             }
         ];
 
         const container = document.getElementById('video-list');
         const buscaVideosInput = document.getElementById('busca-videos');
+        const intervaloRotacaoEmMs = 5 * 60 * 1000;
 
         function abrirDocumento(url) {
             const novaJanela = window.open(url, '_blank');
@@ -142,6 +179,17 @@
 
         function abrirVisualizador(video) {
             abrirDocumento(`visualizador-video.html?youtube=${encodeURIComponent(video.youtubeId)}&titulo=${encodeURIComponent(video.titulo)}&descricao=${encodeURIComponent(video.descricao)}`);
+        }
+
+        function obterVideosFiltrados() {
+            const termo = buscaVideosInput.value.trim().toLowerCase();
+
+            return !termo
+                ? videos
+                : videos.filter(video =>
+                    video.titulo.toLowerCase().includes(termo) ||
+                    video.descricao.toLowerCase().includes(termo)
+                );
         }
 
         function renderizarVideos(lista) {
@@ -168,19 +216,24 @@
             });
         }
 
-        buscaVideosInput.addEventListener('input', function () {
-            const termo = buscaVideosInput.value.trim().toLowerCase();
-            const filtrados = !termo
-                ? videos
-                : videos.filter(video =>
-                    video.titulo.toLowerCase().includes(termo) ||
-                    video.descricao.toLowerCase().includes(termo)
-                );
+        function atualizarListagem() {
+            renderizarVideos(obterVideosFiltrados());
+        }
 
-            renderizarVideos(filtrados);
-        });
+        function rotacionarVideos() {
+            if (videos.length < 2) {
+                return;
+            }
 
-        renderizarVideos(videos);
+            const primeiroVideo = videos.shift();
+            videos.push(primeiroVideo);
+            atualizarListagem();
+        }
+
+        buscaVideosInput.addEventListener('input', atualizarListagem);
+
+        atualizarListagem();
+        window.setInterval(rotacionarVideos, intervaloRotacaoEmMs);
     </script>
 </body>
 

@@ -1,12 +1,12 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 17/03/2026, 12:39:35*
+*Generated on: 19/03/2026, 14:18:08*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 110 |
+| 📄 Total Files | 114 |
 | 📁 Total Folders | 17 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
@@ -19,12 +19,12 @@
 
 ### By File Type
 
-- 🌐 **.html** (HTML files): 35 files (31.8%)
-- 🖼️ **.jpg** (JPEG images): 35 files (31.8%)
-- 📕 **.pdf** (PDF files): 13 files (11.8%)
-- 🎨 **.css** (Stylesheets): 10 files (9.1%)
-- 🎨 **.svg** (SVG images): 5 files (4.5%)
-- 📜 **.js** (JavaScript files): 5 files (4.5%)
+- 🌐 **.html** (HTML files): 38 files (33.3%)
+- 🖼️ **.jpg** (JPEG images): 35 files (30.7%)
+- 📕 **.pdf** (PDF files): 13 files (11.4%)
+- 🎨 **.css** (Stylesheets): 11 files (9.6%)
+- 🎨 **.svg** (SVG images): 5 files (4.4%)
+- 📜 **.js** (JavaScript files): 5 files (4.4%)
 - 📄 **.** (Other files): 2 files (1.8%)
 - 📄 **.txt** (Text files): 2 files (1.8%)
 - 📖 **.md** (Markdown files): 2 files (1.8%)
@@ -32,20 +32,20 @@
 
 ### By Category
 
-- **Assets**: 40 files (36.4%)
-- **Web**: 35 files (31.8%)
-- **Docs**: 17 files (15.5%)
-- **Styles**: 10 files (9.1%)
-- **JavaScript**: 5 files (4.5%)
-- **Other**: 3 files (2.7%)
+- **Assets**: 40 files (35.1%)
+- **Web**: 38 files (33.3%)
+- **Docs**: 17 files (14.9%)
+- **Styles**: 11 files (9.6%)
+- **JavaScript**: 5 files (4.4%)
+- **Other**: 3 files (2.6%)
 
 ### 📁 Largest Directories
 
-- **root**: 110 files
+- **root**: 114 files
 - **image**: 35 files
-- **materias**: 20 files
-- **css**: 10 files
-- **slide**: 6 files
+- **materias**: 21 files
+- **css**: 11 files
+- **materias\educacao-financeira**: 6 files
 
 ## 🌳 Directory Structure
 
@@ -73,6 +73,7 @@ cecmtancredoneves/
 │   ├── 🎨 pages.css
 │   ├── 🎨 slide.css
 │   ├── 🎨 style.css
+│   ├── 🎨 theme.css
 │   ├── 🎨 visualizador-livro.css
 │   ├── 🎨 visualizador-pdf.css
 │   ├── 🎨 visualizador-trabalhos.css
@@ -134,7 +135,8 @@ cecmtancredoneves/
 │   │   ├── 🌐 historia-do-dinheiro-brasil.html
 │   │   ├── 🌐 index.html
 │   │   ├── 🌐 moeda-nas-civilizacoes.html
-│   │   └── 🌐 o-que-e-educacao-financeira.html
+│   │   ├── 🌐 o-que-e-educacao-financeira.html
+│   │   └── 🌐 planejamento-ao-consumo.html
 │   ├── 📂 filosofia/
 │   │   ├── 🌐 etica-e-cidadania.html
 │   │   ├── 🌐 filosofia-no-cotidiano.html
@@ -174,10 +176,12 @@ cecmtancredoneves/
 │   ├── 📕 evelin-santos-2a-inflacao-hiperinflacao.pdf
 │   └── 📕 maria-eduarda-2a-inflacao-hiperinflacao.pdf
 ├── 🌐 trabalhos.html
+├── 🌐 videos.html
 ├── 🌐 visualizador-apostilas.html
 ├── 🌐 visualizador-livro.html
 ├── 🌐 visualizador-slide.html
-└── 🌐 visualizador-trabalhos.html
+├── 🌐 visualizador-trabalhos.html
+└── 🌐 visualizador-video.html
 ```
 
 ## 📖 Legend

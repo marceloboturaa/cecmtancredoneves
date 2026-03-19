@@ -27,6 +27,7 @@
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
+            <li><a href="questoes.html">Questões</a></li>
             <li class="has-submenu">
                 <a href="materias.html">Matérias</a>
                 <ul class="submenu">
@@ -142,11 +143,33 @@
             };
         }
 
+        function obterAncoraAnotacao(titulo) {
+            const ancoraPorTitulo = {
+                "Escambo": "escambo",
+                "Egito": "egito",
+                "China": "china",
+                "Grécia": "grecia",
+                "Roma": "roma",
+                "Bizâncio": "bizancio",
+                "Celtas": "celtas",
+                "Kushan": "kushan",
+                "Pérsia": "persia",
+                "Otomanos": "otomanos",
+                "Idade Média": "idade-media"
+            };
+
+            return ancoraPorTitulo[titulo] || "linha-do-tempo";
+        }
+
+        function obterLinkAnotacao({ titulo }) {
+            return `${paginaAnotacaoProfessor}#${obterAncoraAnotacao(titulo)}`;
+        }
+
         function criarCaptionHtml({ titulo }) {
             return `
                 <div class="gallery-caption-note">
                     <strong>${titulo}</strong>
-                    <a href="${paginaAnotacaoProfessor}" class="gallery-caption-link">Veja anotação do professor</a>
+                    <a href="${obterLinkAnotacao({ titulo })}" class="gallery-caption-link">Veja anotação do professor</a>
                 </div>
             `.replace(/\s+/g, ' ').trim();
         }
@@ -163,7 +186,7 @@
                         <div class="gallery-note-text">
                             <strong class="gallery-note-title">${dadosFoto.titulo}</strong>
                         </div>
-                        <a href="${paginaAnotacaoProfessor}" class="btn btn-outline gallery-note-link">Veja anotação do professor</a>
+                        <a href="${obterLinkAnotacao(dadosFoto)}" class="btn btn-outline gallery-note-link">Veja anotação do professor</a>
                     </div>
                 </div>
             `;

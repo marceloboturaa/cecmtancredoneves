@@ -1,0 +1,1745 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Questões - Exposição Escolar | Colégio Tancredo</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .questoes-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1.6fr) minmax(320px, 0.85fr);
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .questoes-coluna {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .questoes-resumo,
+        .questao-card,
+        .questoes-filtros {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .questoes-filtros,
+        .questao-card,
+        .questoes-resumo {
+            padding: 1.5rem;
+        }
+
+        .questoes-resumo p,
+        .questoes-filtros p {
+            color: #475569;
+        }
+
+        .questoes-resumo h2,
+        .questoes-filtros h2 {
+            color: var(--blue);
+            font-size: 1.35rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .questoes-filtros-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto auto;
+            gap: 1rem;
+            align-items: end;
+            margin-top: 1rem;
+        }
+
+        .questoes-campo {
+            display: grid;
+            gap: 0.45rem;
+        }
+
+        .questoes-campo label {
+            color: var(--blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .questoes-campo select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            font: inherit;
+            background: var(--white);
+            color: var(--dark);
+        }
+
+        .questoes-filtros .btn,
+        .questoes-resumo .btn {
+            min-height: 46px;
+        }
+
+        .questoes-resumo {
+            position: sticky;
+            top: 100px;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .questoes-status {
+            display: grid;
+            gap: 0.85rem;
+        }
+
+        .questoes-pill {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            color: #334155;
+        }
+
+        .questoes-pill strong {
+            color: var(--blue);
+        }
+
+        .resultado-box {
+            padding: 1rem 1.1rem;
+            border-radius: 18px;
+            border: 1px solid rgba(23, 53, 87, 0.12);
+            background: linear-gradient(180deg, rgba(23, 53, 87, 0.08), rgba(104, 129, 60, 0.12));
+            color: #1e293b;
+        }
+
+        .resultado-box strong {
+            display: block;
+            font-size: 1.45rem;
+            color: var(--blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .resultado-box small {
+            display: block;
+            margin-top: 0.35rem;
+            color: #475569;
+        }
+
+        .questoes-acoes {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .questao-card {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .questao-topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .questao-topo-esquerda {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .questao-numero {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            height: 42px;
+            padding: 0 0.85rem;
+            border-radius: 999px;
+            background: var(--blue);
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .questao-disciplina,
+        .questao-ajuda-tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.42rem 0.8rem;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+        }
+
+        .questao-disciplina {
+            background: rgba(104, 129, 60, 0.12);
+            color: var(--green-dark);
+            text-transform: uppercase;
+        }
+
+        .questao-ajuda-tag {
+            background: rgba(23, 53, 87, 0.08);
+            color: var(--blue);
+        }
+
+        .questao-enunciado {
+            color: var(--blue);
+            font-size: 1.08rem;
+        }
+
+        .questao-acoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .questao-acao {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0.7rem 1rem;
+            border-radius: 14px;
+            border: 1px solid rgba(23, 53, 87, 0.12);
+            background: #f8fafc;
+            color: var(--blue);
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.22s ease, color 0.22s ease, border-color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .questao-acao:hover:not(:disabled) {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .questao-acao:disabled {
+            cursor: not-allowed;
+            opacity: 0.55;
+        }
+
+        .questao-acao::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.3) 45%, transparent 100%);
+            transform: translateX(-120%);
+            transition: transform 0.45s ease;
+        }
+
+        .questao-acao:hover:not(:disabled)::after {
+            transform: translateX(120%);
+        }
+
+        .questao-acao--pular {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.16), rgba(37, 99, 235, 0.12));
+            border-color: rgba(37, 99, 235, 0.24);
+            color: #1d4ed8;
+        }
+
+        .questao-acao--pular:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.24), rgba(37, 99, 235, 0.18));
+        }
+
+        .questao-acao--cartas {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.18), rgba(249, 115, 22, 0.16));
+            border-color: rgba(236, 72, 153, 0.24);
+            color: #be185d;
+        }
+
+        .questao-acao--cartas:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.28), rgba(249, 115, 22, 0.22));
+        }
+
+        .questao-acao--cinquenta {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.18), rgba(234, 179, 8, 0.18));
+            border-color: rgba(101, 163, 13, 0.28);
+            color: #3f6212;
+            animation: pulse5050 2.2s ease-in-out infinite;
+        }
+
+        .questao-acao--cinquenta:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.28), rgba(234, 179, 8, 0.24));
+        }
+
+        @keyframes pulse5050 {
+            0%,
+            100% {
+                box-shadow: 0 0 0 rgba(132, 204, 22, 0);
+            }
+
+            50% {
+                box-shadow: 0 0 0 6px rgba(132, 204, 22, 0.1);
+            }
+        }
+
+        .cartas-painel {
+            display: grid;
+            gap: 0.8rem;
+            padding: 1rem;
+            border-radius: 18px;
+            border: 1px dashed rgba(23, 53, 87, 0.18);
+            background: #f8fafc;
+        }
+
+        .cartas-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.75rem;
+        }
+
+        .carta-btn {
+            min-height: 96px;
+            border-radius: 16px;
+            border: 1px solid rgba(23, 53, 87, 0.14);
+            background: linear-gradient(180deg, #24476f, #173557);
+            color: #fff;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.5s ease, box-shadow 0.24s ease, filter 0.24s ease, background 0.24s ease;
+            position: relative;
+            overflow: hidden;
+            text-align: left;
+            padding: 0.65rem;
+            transform-style: preserve-3d;
+            animation: cardIdle 2.8s ease-in-out infinite;
+        }
+
+        .carta-btn:hover:not(:disabled) {
+            transform: translateY(-4px) rotate(-1.2deg) scale(1.02);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18);
+            filter: saturate(1.08);
+        }
+
+        .carta-btn:disabled {
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        .carta-btn.revelada {
+            background: linear-gradient(180deg, #ffffff, #e6eef8);
+            color: #0f172a;
+            transform: rotateY(180deg) scale(1.04);
+            animation: cardReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .carta-btn.carta-rei {
+            background: linear-gradient(180deg, #f97316, #c2410c);
+        }
+
+        .carta-btn.carta-dama {
+            background: linear-gradient(180deg, #e11d48, #9f1239);
+        }
+
+        .carta-btn.carta-valete {
+            background: linear-gradient(180deg, #0ea5e9, #1d4ed8);
+        }
+
+        .carta-btn.carta-as {
+            background: linear-gradient(180deg, #334155, #020617);
+        }
+
+        .carta-btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.24), transparent 58%);
+            pointer-events: none;
+        }
+
+        .carta-btn::after {
+            content: "";
+            position: absolute;
+            inset: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .carta-btn:not(.revelada)::before {
+            animation: cardShine 2.4s linear infinite;
+        }
+
+        .carta-indice {
+            display: inline-flex;
+            width: 26px;
+            height: 26px;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            font-size: 0.76rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
+            text-shadow: 0 1px 2px rgba(15, 23, 42, 0.28);
+        }
+
+        .carta-simbolo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 58px;
+            font-size: 2.25rem;
+            line-height: 1;
+            margin-top: 0.05rem;
+            position: relative;
+            z-index: 1;
+            color: inherit;
+            text-shadow:
+                0 2px 0 rgba(255, 255, 255, 0.18),
+                0 4px 14px rgba(15, 23, 42, 0.28);
+            font-weight: 900;
+        }
+
+        .carta-btn.revelada .carta-indice {
+            background: rgba(15, 23, 42, 0.08);
+            color: #0f172a;
+        }
+
+        .carta-btn.revelada .carta-simbolo {
+            color: #0f172a;
+            text-shadow: none;
+        }
+
+        .carta-btn:not(.revelada) .carta-simbolo {
+            animation: cardFloat 1.8s ease-in-out infinite;
+        }
+
+        @keyframes cardFloat {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg) scale(1);
+            }
+
+            50% {
+                transform: translateY(-7px) rotate(8deg) scale(1.08);
+            }
+        }
+
+        @keyframes cardIdle {
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-1px) rotate(-0.6deg);
+            }
+        }
+
+        @keyframes cardShine {
+            0% {
+                transform: translateX(-120%);
+            }
+
+            100% {
+                transform: translateX(120%);
+            }
+        }
+
+        @keyframes cardReveal {
+            0% {
+                transform: rotateY(0deg) scale(0.96);
+                filter: brightness(1);
+            }
+
+            55% {
+                transform: rotateY(200deg) scale(1.08);
+                filter: brightness(1.18);
+            }
+
+            100% {
+                transform: rotateY(180deg) scale(1.04);
+                filter: brightness(1);
+            }
+        }
+
+        .cartas-resultado {
+            color: #475569;
+            font-size: 0.95rem;
+            padding: 0.85rem 1rem;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.68);
+            border: 1px solid rgba(23, 53, 87, 0.08);
+        }
+
+        .questao-alternativas {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .alternativa {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            padding: 0.95rem 1rem;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: #fff;
+            cursor: pointer;
+            transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+        }
+
+        .alternativa:hover {
+            transform: translateY(-2px);
+            border-color: rgba(23, 53, 87, 0.18);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .alternativa input {
+            margin-top: 0.25rem;
+            accent-color: var(--green);
+            transform: scale(1.1);
+        }
+
+        .alternativa strong {
+            display: block;
+            color: var(--blue);
+            margin-bottom: 0.12rem;
+        }
+
+        .alternativa span {
+            color: #475569;
+        }
+
+        .alternativa.selecionada {
+            border-color: rgba(104, 129, 60, 0.45);
+            background: rgba(104, 129, 60, 0.08);
+        }
+
+        .alternativa.oculta-ajuda {
+            opacity: 0.38;
+            pointer-events: none;
+            filter: grayscale(0.2);
+        }
+
+        .alternativa.oculta-ajuda span {
+            text-decoration: line-through;
+        }
+
+        .alternativa.correta {
+            border-color: rgba(22, 163, 74, 0.45);
+            background: rgba(22, 163, 74, 0.08);
+            opacity: 1;
+            filter: none;
+        }
+
+        .alternativa.incorreta {
+            border-color: rgba(220, 38, 38, 0.35);
+            background: rgba(220, 38, 38, 0.06);
+            opacity: 1;
+            filter: none;
+        }
+
+        .questao-feedback {
+            display: none;
+            padding: 0.95rem 1rem;
+            border-radius: 16px;
+            border: 1px dashed rgba(23, 53, 87, 0.18);
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        .questao-feedback.visivel {
+            display: block;
+        }
+
+        .questao-card.corrigida-certa {
+            border-color: rgba(22, 163, 74, 0.24);
+            box-shadow: 0 16px 34px rgba(22, 163, 74, 0.08);
+        }
+
+        .questao-card.corrigida-errada {
+            border-color: rgba(220, 38, 38, 0.22);
+            box-shadow: 0 16px 34px rgba(220, 38, 38, 0.07);
+        }
+
+        .questao-card.corrigida-certa .questao-numero {
+            background: #16a34a;
+        }
+
+        .questao-card.corrigida-errada .questao-numero {
+            background: #dc2626;
+        }
+
+        .questoes-vazio {
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px dashed rgba(23, 53, 87, 0.2);
+            background: #f8fafc;
+            color: #475569;
+            text-align: center;
+        }
+
+        @media (max-width: 1180px) {
+            .questoes-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .questoes-resumo {
+                position: static;
+            }
+        }
+
+        @media (max-width: 820px) {
+            .questoes-filtros-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .questoes-filtros .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .questoes-filtros,
+            .questao-card,
+            .questoes-resumo {
+                padding: 1.15rem;
+                border-radius: 20px;
+            }
+
+            .questao-topo,
+            .questao-topo-esquerda,
+            .questao-acoes {
+                display: grid;
+            }
+
+            .cartas-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .alternativa {
+                padding: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .questao-acao,
+            .questoes-resumo .btn,
+            .questoes-filtros .btn {
+                width: 100%;
+            }
+
+            .cartas-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li><a href="questoes.html">Questões</a></li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="materias/matematica/index.html">Matemática</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg header-theme-matematica">
+        <h1>Questões Tipo Prova</h1>
+        <p>Escolha a área, responda o simulado, use cartas ou 50/50 e pule até 3 perguntas com substituição automática.</p>
+    </header>
+
+    <main class="container">
+        <section class="questoes-shell">
+            <div class="questoes-coluna">
+                <article class="questoes-filtros">
+                    <h2>Configurar Prova</h2>
+                    <p>Escolha a área que deseja praticar. Ao limpar, a ordem das perguntas e das alternativas muda novamente.</p>
+                    <div class="questoes-filtros-grid">
+                        <div class="questoes-campo">
+                            <label for="filtro-area">Área</label>
+                            <select id="filtro-area"></select>
+                        </div>
+                        <button type="button" class="btn" id="aplicar-filtro">Atualizar prova</button>
+                        <button type="button" class="btn btn-outline" id="limpar-prova-topo">Nova mistura</button>
+                    </div>
+                </article>
+
+                <div id="questoes-lista" class="questoes-coluna"></div>
+            </div>
+
+            <aside class="questoes-resumo">
+                <h2>Resumo da Prova</h2>
+                <div class="questoes-status">
+                    <div class="questoes-pill">
+                        <span>Área escolhida</span>
+                        <strong id="status-area">Todas</strong>
+                    </div>
+                    <div class="questoes-pill">
+                        <span>Respondidas</span>
+                        <strong id="status-respondidas">0/0</strong>
+                    </div>
+                    <div class="questoes-pill">
+                        <span>Em branco</span>
+                        <strong id="status-em-branco">0</strong>
+                    </div>
+                    <div class="questoes-pill">
+                        <span>Pulos restantes</span>
+                        <strong id="status-pulos">3</strong>
+                    </div>
+                    <div class="questoes-pill">
+                        <span>Pulos usados</span>
+                        <strong id="status-pulos-usados">0</strong>
+                    </div>
+                </div>
+
+                <div id="resultado-final" class="resultado-box">
+                    <strong>Aguardando envio</strong>
+                    <span>Responda às questões e clique em corrigir.</span>
+                    <small>Você também pode usar cartas, 50/50 e até 3 pulos antes da correção.</small>
+                </div>
+
+                <div class="questoes-acoes">
+                    <button type="button" class="btn" id="corrigir-prova">Corrigir prova</button>
+                    <button type="button" class="btn btn-outline" id="limpar-prova">Limpar</button>
+                </div>
+            </aside>
+        </section>
+    </main>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        const LIMITE_PULOS = 3;
+        const TAMANHO_PROVA_TODAS = 10;
+        const TAMANHO_PROVA_AREA = 8;
+        const CARTAS = [
+            { nome: 'Rei', rank: 'K', simbolo: '♦', classe: 'rei', elimina: 3, descricao: 'eliminou 3 alternativas erradas.' },
+            { nome: 'Dama', rank: 'Q', simbolo: '♥', classe: 'dama', elimina: 2, descricao: 'eliminou 2 alternativas erradas.' },
+            { nome: 'Valete', rank: 'J', simbolo: '♣', classe: 'valete', elimina: 1, descricao: 'eliminou 1 alternativa errada.' },
+            { nome: 'Ás', rank: 'A', simbolo: '♠', classe: 'as', elimina: 0, descricao: 'não eliminou nenhuma alternativa.' }
+        ];
+
+        const bancoQuestoes = [
+            {
+                id: 'ef-01',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Quando uma pessoa anota seus ganhos e gastos do mês, ela está organizando principalmente o:',
+                alternativas: ['patrimônio cultural', 'orçamento pessoal', 'horário escolar', 'roteiro de viagem'],
+                correta: 1,
+                explicacao: 'Orçamento pessoal é o registro das entradas e saídas de dinheiro.'
+            },
+            {
+                id: 'ef-02',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Guardar parte da renda para imprevistos ajuda a formar:',
+                alternativas: ['dívida rotativa', 'reserva de emergência', 'consumo impulsivo', 'juros compostos negativos'],
+                correta: 1,
+                explicacao: 'A reserva de emergência reduz o impacto financeiro de situações inesperadas.'
+            },
+            {
+                id: 'ef-03',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Comprar algo apenas por impulso, sem planejamento, pode prejudicar:',
+                alternativas: ['o controle financeiro', 'a memória histórica', 'a atividade física', 'o calendário escolar'],
+                correta: 0,
+                explicacao: 'O consumo por impulso desorganiza o orçamento e dificulta metas.'
+            },
+            {
+                id: 'ef-04',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Antes de parcelar uma compra, o mais importante é verificar:',
+                alternativas: ['a cor do produto', 'o total final e se cabe no orçamento', 'a embalagem mais bonita', 'o nome da loja'],
+                correta: 1,
+                explicacao: 'Parcelas pequenas podem esconder um valor final alto e comprometer meses futuros.'
+            },
+            {
+                id: 'ef-05',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Uma meta financeira de curto prazo pode ser:',
+                alternativas: ['comprar material escolar no próximo mês', 'se aposentar em 30 anos', 'comprar uma casa em outra cidade', 'mudar toda a carreira amanhã'],
+                correta: 0,
+                explicacao: 'Metas de curto prazo costumam ter prazo menor e valor mais controlável.'
+            },
+            {
+                id: 'ef-06',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Pesquisar preços antes de comprar ajuda principalmente a:',
+                alternativas: ['gastar mais rápido', 'comparar opções e economizar', 'aumentar parcelas', 'evitar qualquer decisão'],
+                correta: 1,
+                explicacao: 'Comparar preços amplia a chance de fazer uma compra consciente.'
+            },
+            {
+                id: 'ef-07',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Se a pessoa ganha R$ 1.500 e gasta R$ 1.700 no mês, o resultado foi de:',
+                alternativas: ['equilíbrio financeiro', 'superávit', 'déficit', 'investimento automático'],
+                correta: 2,
+                explicacao: 'Quando os gastos são maiores que a renda, existe déficit.'
+            },
+            {
+                id: 'ef-08',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Consumir com consciência significa:',
+                alternativas: ['comprar sempre a primeira opção', 'avaliar necessidade, preço e impacto da compra', 'gastar tudo para aproveitar promoções', 'evitar qualquer tipo de compra'],
+                correta: 1,
+                explicacao: 'Consumo consciente considera utilidade, orçamento e consequências da compra.'
+            },
+            {
+                id: 'ef-09',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Uma planilha de controle financeiro serve para:',
+                alternativas: ['desenhar produtos', 'acompanhar receitas e despesas', 'substituir todas as decisões', 'eliminar contas fixas'],
+                correta: 1,
+                explicacao: 'A planilha ajuda a visualizar como o dinheiro está sendo usado.'
+            },
+            {
+                id: 'ef-10',
+                area: 'educacao-financeira',
+                disciplina: 'Educação Financeira',
+                enunciado: 'Ao receber dinheiro, separar uma parte para objetivos futuros é uma atitude de:',
+                alternativas: ['improviso', 'planejamento', 'desorganização', 'risco elevado'],
+                correta: 1,
+                explicacao: 'Planejar o uso do dinheiro facilita alcançar metas e evita desperdícios.'
+            },
+            {
+                id: 'mat-01',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Um produto de R$ 200 recebeu 15% de desconto. Qual foi o valor do desconto?',
+                alternativas: ['R$ 15', 'R$ 20', 'R$ 30', 'R$ 35'],
+                correta: 2,
+                explicacao: '15% de 200 é 0,15 x 200 = 30.'
+            },
+            {
+                id: 'mat-02',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Se uma turma acertou 18 de 24 questões, o percentual de acertos foi:',
+                alternativas: ['25%', '50%', '75%', '90%'],
+                correta: 2,
+                explicacao: '18 dividido por 24 é 0,75, ou 75%.'
+            },
+            {
+                id: 'mat-03',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Qual fração representa metade de uma quantidade?',
+                alternativas: ['1/4', '1/3', '1/2', '2/3'],
+                correta: 2,
+                explicacao: 'A fração 1/2 representa a metade.'
+            },
+            {
+                id: 'mat-04',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Se 3 cadernos custam R$ 27, mantendo o mesmo preço, 1 caderno custa:',
+                alternativas: ['R$ 6', 'R$ 7', 'R$ 8', 'R$ 9'],
+                correta: 3,
+                explicacao: '27 dividido por 3 resulta em 9.'
+            },
+            {
+                id: 'mat-05',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Qual é o resultado de 25% de 80?',
+                alternativas: ['10', '15', '20', '25'],
+                correta: 2,
+                explicacao: '25% de 80 é 0,25 x 80 = 20.'
+            },
+            {
+                id: 'mat-06',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Se um valor passa de R$ 50 para R$ 65, o aumento foi de:',
+                alternativas: ['R$ 10', 'R$ 12', 'R$ 15', 'R$ 20'],
+                correta: 2,
+                explicacao: '65 menos 50 é igual a 15.'
+            },
+            {
+                id: 'mat-07',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'A escrita decimal de 3/4 é:',
+                alternativas: ['0,25', '0,5', '0,75', '1,25'],
+                correta: 2,
+                explicacao: '3 dividido por 4 é igual a 0,75.'
+            },
+            {
+                id: 'mat-08',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Um aluno economizou R$ 12 por semana durante 5 semanas. Quanto juntou?',
+                alternativas: ['R$ 50', 'R$ 55', 'R$ 60', 'R$ 65'],
+                correta: 2,
+                explicacao: '12 x 5 = 60.'
+            },
+            {
+                id: 'mat-09',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Qual operação resolve a divisão de uma conta em 4 partes iguais?',
+                alternativas: ['adição', 'subtração', 'multiplicação', 'divisão'],
+                correta: 3,
+                explicacao: 'Dividir reparte uma quantidade em partes iguais.'
+            },
+            {
+                id: 'mat-10',
+                area: 'matematica',
+                disciplina: 'Matemática',
+                enunciado: 'Se uma mochila custava R$ 120 e passou para R$ 108, houve desconto de:',
+                alternativas: ['R$ 8', 'R$ 10', 'R$ 12', 'R$ 15'],
+                correta: 2,
+                explicacao: '120 menos 108 é igual a 12.'
+            },
+            {
+                id: 'fil-01',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Uma atitude ética no ambiente escolar está relacionada a:',
+                alternativas: ['respeitar colegas e consequências das ações', 'agir sempre sem pensar', 'ignorar regras de convivência', 'falar sem ouvir ninguém'],
+                correta: 0,
+                explicacao: 'A ética envolve responsabilidade, diálogo e respeito ao outro.'
+            },
+            {
+                id: 'fil-02',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Pensamento crítico significa principalmente:',
+                alternativas: ['aceitar tudo sem análise', 'refletir e questionar com argumentos', 'decorar frases prontas', 'evitar qualquer dúvida'],
+                correta: 1,
+                explicacao: 'Pensar criticamente é analisar, comparar ideias e justificar posições.'
+            },
+            {
+                id: 'fil-03',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Na convivência social, o diálogo é importante porque:',
+                alternativas: ['elimina toda diferença', 'permite escuta e construção de entendimento', 'substitui toda responsabilidade', 'dispensa regras'],
+                correta: 1,
+                explicacao: 'O diálogo ajuda a compreender perspectivas diferentes e resolver conflitos.'
+            },
+            {
+                id: 'fil-04',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Quando alguém pensa nas consequências de sua atitude antes de agir, está exercendo:',
+                alternativas: ['consumo automático', 'reflexão moral', 'azar estatístico', 'imitação mecânica'],
+                correta: 1,
+                explicacao: 'Reflexão moral é avaliar se uma ação é justa, correta e responsável.'
+            },
+            {
+                id: 'fil-05',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Cidadania está ligada ao exercício de:',
+                alternativas: ['direitos e deveres', 'somente obrigações financeiras', 'apenas opinião individual', 'nenhuma participação social'],
+                correta: 0,
+                explicacao: 'Ser cidadão envolve direitos, deveres e participação na vida coletiva.'
+            },
+            {
+                id: 'fil-06',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Respeitar opiniões diferentes sem agressão mostra:',
+                alternativas: ['intolerância', 'apatia', 'convivência democrática', 'falta de pensamento'],
+                correta: 2,
+                explicacao: 'A convivência democrática depende de respeito e escuta.'
+            },
+            {
+                id: 'fil-07',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Questionar notícias antes de compartilhar é uma prática de:',
+                alternativas: ['pensamento crítico', 'consumo impulsivo', 'repetição automática', 'descuido ético'],
+                correta: 0,
+                explicacao: 'Verificar informações evita erros e amplia a responsabilidade social.'
+            },
+            {
+                id: 'fil-08',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Uma decisão justa tende a considerar:',
+                alternativas: ['somente o benefício pessoal', 'as regras, o contexto e o impacto sobre os outros', 'apenas a pressa do momento', 'o que é mais fácil'],
+                correta: 1,
+                explicacao: 'A justiça requer análise equilibrada e consideração do coletivo.'
+            },
+            {
+                id: 'fil-09',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Filosofar no cotidiano significa:',
+                alternativas: ['decorar nomes sem entender', 'refletir sobre problemas e escolhas da vida real', 'evitar perguntas difíceis', 'repetir ideias sem pensar'],
+                correta: 1,
+                explicacao: 'A filosofia ajuda a pensar sobre valores, sociedade e decisões.'
+            },
+            {
+                id: 'fil-10',
+                area: 'filosofia',
+                disciplina: 'Filosofia',
+                enunciado: 'Uma atitude antiética em grupo seria:',
+                alternativas: ['cooperar com responsabilidade', 'ouvir argumentos diferentes', 'enganar os colegas para obter vantagem', 'cumprir combinados'],
+                correta: 2,
+                explicacao: 'Agir com engano e vantagem indevida rompe princípios éticos.'
+            },
+            {
+                id: 'mak-01',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'A cultura maker valoriza principalmente:',
+                alternativas: ['aprender fazendo, testando e ajustando', 'copiar tudo sem experimentar', 'evitar erros a qualquer custo', 'trabalhar sempre isolado'],
+                correta: 0,
+                explicacao: 'No fazer maker, prototipar e corrigir faz parte do aprendizado.'
+            },
+            {
+                id: 'mak-02',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Um protótipo é:',
+                alternativas: ['o produto final sem testes', 'uma versão inicial para testar ideias', 'um texto sem prática', 'uma regra fixa'],
+                correta: 1,
+                explicacao: 'Protótipos servem para validar soluções antes da versão final.'
+            },
+            {
+                id: 'mak-03',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Reutilizar materiais em projetos maker contribui para:',
+                alternativas: ['mais desperdício', 'criatividade e sustentabilidade', 'menos experimentação', 'eliminação de ideias'],
+                correta: 1,
+                explicacao: 'Reuso estimula soluções criativas e consciência ambiental.'
+            },
+            {
+                id: 'mak-04',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Se um projeto não funciona na primeira tentativa, a atitude maker mais adequada é:',
+                alternativas: ['abandonar imediatamente', 'testar ajustes e tentar novamente', 'culpar o material', 'evitar qualquer mudança'],
+                correta: 1,
+                explicacao: 'Iterar e corrigir falhas faz parte do processo maker.'
+            },
+            {
+                id: 'mak-05',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Trabalhar em equipe em um projeto maker ajuda a:',
+                alternativas: ['somar ideias e dividir tarefas', 'impedir a criatividade', 'eliminar a aprendizagem', 'substituir todos os testes'],
+                correta: 0,
+                explicacao: 'A colaboração fortalece a construção e a troca de soluções.'
+            },
+            {
+                id: 'mak-06',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Planejar antes de montar um protótipo ajuda a:',
+                alternativas: ['reduzir improvisos desnecessários', 'eliminar toda adaptação', 'dispensar testes', 'garantir erro'],
+                correta: 0,
+                explicacao: 'O planejamento orienta a montagem e melhora o uso de materiais.'
+            },
+            {
+                id: 'mak-07',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Documentar etapas de um projeto serve para:',
+                alternativas: ['esconder o processo', 'acompanhar decisões e melhorias', 'parar a criação', 'substituir o protótipo'],
+                correta: 1,
+                explicacao: 'Registrar etapas facilita análise, apresentação e revisão.'
+            },
+            {
+                id: 'mak-08',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'No movimento maker, errar durante testes pode ser visto como:',
+                alternativas: ['fracasso definitivo', 'parte do aprendizado', 'motivo para desistir', 'perda total'],
+                correta: 1,
+                explicacao: 'O erro fornece informação para melhorar a solução.'
+            },
+            {
+                id: 'mak-09',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'Uma solução criativa em sala maker costuma surgir de:',
+                alternativas: ['experimentação prática', 'cópia automática', 'ausência de observação', 'medo de testar'],
+                correta: 0,
+                explicacao: 'Criatividade aparece quando ideias são colocadas em prática e avaliadas.'
+            },
+            {
+                id: 'mak-10',
+                area: 'maker',
+                disciplina: 'Maker',
+                enunciado: 'O objetivo de melhorar um projeto após feedback é:',
+                alternativas: ['ignorar usuários', 'aperfeiçoar a solução', 'voltar ao início sem motivo', 'parar a colaboração'],
+                correta: 1,
+                explicacao: 'Feedback bem usado ajuda a refinar o projeto.'
+            },
+            {
+                id: 'rob-01',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Na robótica educacional, sensores são usados para:',
+                alternativas: ['captar dados do ambiente', 'decorar o robô', 'substituir toda a programação', 'aumentar apenas o peso'],
+                correta: 0,
+                explicacao: 'Sensores permitem que o robô perceba luz, distância, toque e outros dados.'
+            },
+            {
+                id: 'rob-02',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Um algoritmo é:',
+                alternativas: ['uma peça metálica', 'uma sequência de passos para resolver um problema', 'um tipo de bateria', 'uma capa de proteção'],
+                correta: 1,
+                explicacao: 'Algoritmo é uma sequência lógica de instruções.'
+            },
+            {
+                id: 'rob-03',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Programar um robô significa:',
+                alternativas: ['dar instruções para executar ações', 'apenas pintar o equipamento', 'trocar o nome do projeto', 'deixar tudo aleatório'],
+                correta: 0,
+                explicacao: 'A programação define o comportamento do robô diante das situações.'
+            },
+            {
+                id: 'rob-04',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Quando o robô repete uma ação várias vezes, a estrutura lógica usada pode ser:',
+                alternativas: ['repetição', 'pausa eterna', 'contradição', 'silêncio'],
+                correta: 0,
+                explicacao: 'Estruturas de repetição executam comandos mais de uma vez.'
+            },
+            {
+                id: 'rob-05',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Motores em projetos robóticos servem para:',
+                alternativas: ['movimentar partes do robô', 'apenas iluminar sensores', 'guardar dados', 'substituir comandos'],
+                correta: 0,
+                explicacao: 'Motores transformam energia em movimento.'
+            },
+            {
+                id: 'rob-06',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Se o robô deve parar ao encontrar obstáculo, o programa precisa:',
+                alternativas: ['ignorar leituras do sensor', 'usar condição baseada na leitura do sensor', 'remover o motor', 'desligar o projeto sempre'],
+                correta: 1,
+                explicacao: 'Decisões condicionais fazem o robô reagir aos dados recebidos.'
+            },
+            {
+                id: 'rob-07',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Pensamento computacional envolve:',
+                alternativas: ['resolver problemas de forma lógica e organizada', 'decorar telas', 'evitar etapas', 'eliminar testes'],
+                correta: 0,
+                explicacao: 'Ele envolve decomposição, lógica, padrões e algoritmos.'
+            },
+            {
+                id: 'rob-08',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Testar um programa após alterações é importante para:',
+                alternativas: ['verificar se a solução continua funcionando', 'aumentar o peso do robô', 'dispensar sensores', 'ignorar erros'],
+                correta: 0,
+                explicacao: 'Testes confirmam se a mudança produziu o efeito esperado.'
+            },
+            {
+                id: 'rob-09',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Quando o robô reage à luz do ambiente, ele depende de:',
+                alternativas: ['sensor adequado', 'apenas da carcaça', 'somente da bateria', 'cor da mesa'],
+                correta: 0,
+                explicacao: 'A percepção do ambiente depende do sensor compatível com o dado desejado.'
+            },
+            {
+                id: 'rob-10',
+                area: 'robotica',
+                disciplina: 'Robótica',
+                enunciado: 'Corrigir falhas no código de um robô faz parte do processo de:',
+                alternativas: ['depuração', 'decoração', 'improviso visual', 'armazenamento'],
+                correta: 0,
+                explicacao: 'Depuração é o processo de encontrar e corrigir erros no código.'
+            },
+            {
+                id: 'qui-01',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Uma mistura homogênea apresenta:',
+                alternativas: ['mais de uma fase visível', 'aspecto uniforme em toda a extensão', 'componentes sempre sólidos', 'separação espontânea imediata'],
+                correta: 1,
+                explicacao: 'Misturas homogêneas têm aparência uniforme, como água com sal dissolvido.'
+            },
+            {
+                id: 'qui-02',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Água e óleo juntos formam uma mistura:',
+                alternativas: ['homogênea', 'simples', 'heterogênea', 'gasosa'],
+                correta: 2,
+                explicacao: 'Água e óleo não se misturam completamente e formam fases visíveis.'
+            },
+            {
+                id: 'qui-03',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Qual método de separação é adequado para separar areia da água?',
+                alternativas: ['filtração', 'fusão', 'condensação', 'sublimação'],
+                correta: 0,
+                explicacao: 'A filtração retém o sólido e permite a passagem do líquido.'
+            },
+            {
+                id: 'qui-04',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Derreter gelo é um exemplo de transformação:',
+                alternativas: ['química', 'nuclear', 'física', 'irreversível'],
+                correta: 2,
+                explicacao: 'Nesse caso a substância continua sendo água, mudando apenas o estado físico.'
+            },
+            {
+                id: 'qui-05',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'A ferrugem em um pedaço de ferro indica uma transformação:',
+                alternativas: ['física', 'química', 'mecânica', 'geométrica'],
+                correta: 1,
+                explicacao: 'A ferrugem forma uma nova substância, mostrando mudança química.'
+            },
+            {
+                id: 'qui-06',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Na tabela periódica, os elementos estão organizados principalmente de acordo com:',
+                alternativas: ['cor', 'massa do objeto encontrado', 'número atômico', 'estado físico apenas'],
+                correta: 2,
+                explicacao: 'A organização moderna da tabela periódica usa o número atômico crescente.'
+            },
+            {
+                id: 'qui-07',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Um indício comum de reação química é:',
+                alternativas: ['mudança de sala', 'formação de gás ou mudança de cor', 'apenas corte do material', 'redução do tamanho por divisão'],
+                correta: 1,
+                explicacao: 'Mudança de cor, liberação de gás e formação de resíduos podem indicar reação química.'
+            },
+            {
+                id: 'qui-08',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Quando a água evapora e continua sendo água, ocorreu mudança:',
+                alternativas: ['química', 'física', 'radioativa', 'biológica'],
+                correta: 1,
+                explicacao: 'A evaporação altera o estado físico sem formar outra substância.'
+            },
+            {
+                id: 'qui-09',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Os elementos de uma mesma família na tabela periódica costumam ter:',
+                alternativas: ['comportamentos químicos semelhantes', 'o mesmo nome', 'a mesma cor natural', 'igual quantidade de massa em qualquer amostra'],
+                correta: 0,
+                explicacao: 'Elementos de uma mesma família compartilham propriedades químicas parecidas.'
+            },
+            {
+                id: 'qui-10',
+                area: 'quimica',
+                disciplina: 'Química',
+                enunciado: 'Separar grãos maiores de menores com peneira é um exemplo de:',
+                alternativas: ['peneiração', 'destilação', 'combustão', 'oxidação'],
+                correta: 0,
+                explicacao: 'A peneiração separa sólidos com tamanhos diferentes de partículas.'
+            }
+        ];
+
+        const areas = [
+            { id: 'todas', nome: 'Todas as áreas' },
+            { id: 'educacao-financeira', nome: 'Educação Financeira' },
+            { id: 'matematica', nome: 'Matemática' },
+            { id: 'filosofia', nome: 'Filosofia' },
+            { id: 'quimica', nome: 'Química' },
+            { id: 'maker', nome: 'Maker' },
+            { id: 'robotica', nome: 'Robótica' }
+        ];
+
+        const questoesLista = document.getElementById('questoes-lista');
+        const filtroArea = document.getElementById('filtro-area');
+        const aplicarFiltroBtn = document.getElementById('aplicar-filtro');
+        const limparProvaTopoBtn = document.getElementById('limpar-prova-topo');
+        const corrigirBtn = document.getElementById('corrigir-prova');
+        const limparBtn = document.getElementById('limpar-prova');
+        const statusArea = document.getElementById('status-area');
+        const statusRespondidas = document.getElementById('status-respondidas');
+        const statusEmBranco = document.getElementById('status-em-branco');
+        const statusPulos = document.getElementById('status-pulos');
+        const statusPulosUsados = document.getElementById('status-pulos-usados');
+        const resultadoFinal = document.getElementById('resultado-final');
+
+        const estado = {
+            areaAtual: 'todas',
+            questoesAtivas: [],
+            reserva: [],
+            pulosRestantes: LIMITE_PULOS,
+            corrigida: false,
+            acertos: null
+        };
+
+        function embaralhar(lista) {
+            const copia = [...lista];
+
+            for (let i = copia.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copia[i], copia[j]] = [copia[j], copia[i]];
+            }
+
+            return copia;
+        }
+
+        function escaparHtml(texto) {
+            return String(texto)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;')
+                .replaceAll("'", '&#39;');
+        }
+
+        function nomeDaArea(areaId) {
+            const area = areas.find((item) => item.id === areaId);
+            return area ? area.nome : 'Todas as áreas';
+        }
+
+        function obterBancoFiltrado(areaId) {
+            return areaId === 'todas'
+                ? bancoQuestoes
+                : bancoQuestoes.filter((questao) => questao.area === areaId);
+        }
+
+        function criarInstanciaQuestao(questaoBase) {
+            const alternativasMisturadas = embaralhar(
+                questaoBase.alternativas.map((texto, indice) => ({
+                    texto,
+                    correta: indice === questaoBase.correta
+                }))
+            ).map((alternativa) => ({
+                texto: alternativa.texto,
+                correta: alternativa.correta,
+                oculta: false
+            }));
+
+            return {
+                ...questaoBase,
+                alternativas: alternativasMisturadas,
+                selecionada: null,
+                usou5050: false,
+                usouCarta: false,
+                cartasDisponiveis: embaralhar(CARTAS),
+                cartaEscolhida: null,
+                mensagemCarta: '',
+                mostrarCartas: false
+            };
+        }
+
+        function tamanhoDaRodada(areaId) {
+            const totalDisponivel = obterBancoFiltrado(areaId).length;
+            const base = areaId === 'todas' ? TAMANHO_PROVA_TODAS : TAMANHO_PROVA_AREA;
+            return Math.min(base, totalDisponivel);
+        }
+
+        function reiniciarResultado() {
+            estado.corrigida = false;
+            estado.acertos = null;
+            resultadoFinal.innerHTML = `
+                <strong>Aguardando envio</strong>
+                <span>Responda às questões e clique em corrigir.</span>
+                <small>Você também pode usar cartas, 50/50 e até 3 pulos antes da correção.</small>
+            `;
+        }
+
+        function montarNovaProva() {
+            const bancoFiltrado = embaralhar(obterBancoFiltrado(estado.areaAtual));
+            const tamanho = tamanhoDaRodada(estado.areaAtual);
+
+            estado.questoesAtivas = bancoFiltrado.slice(0, tamanho).map(criarInstanciaQuestao);
+            estado.reserva = bancoFiltrado.slice(tamanho);
+            estado.pulosRestantes = LIMITE_PULOS;
+            reiniciarResultado();
+            renderizarTudo();
+        }
+
+        function eliminarAlternativasErradas(questao, quantidade) {
+            const erradasVisiveis = questao.alternativas
+                .map((alternativa, indice) => ({ alternativa, indice }))
+                .filter((item) => !item.alternativa.correta && !item.alternativa.oculta && item.indice !== questao.selecionada);
+
+            const sorteadas = embaralhar(erradasVisiveis).slice(0, quantidade);
+            sorteadas.forEach((item) => {
+                item.alternativa.oculta = true;
+            });
+        }
+
+        function selecionarResposta(indiceQuestao, indiceAlternativa) {
+            if (estado.corrigida) {
+                return;
+            }
+
+            estado.questoesAtivas[indiceQuestao].selecionada = indiceAlternativa;
+            atualizarResumo();
+            renderizarQuestoes();
+        }
+
+        function aplicarCinquenta(indiceQuestao) {
+            const questao = estado.questoesAtivas[indiceQuestao];
+
+            if (estado.corrigida || questao.usou5050) {
+                return;
+            }
+
+            eliminarAlternativasErradas(questao, 2);
+            questao.usou5050 = true;
+            renderizarQuestoes();
+        }
+
+        function alternarCartas(indiceQuestao) {
+            const questao = estado.questoesAtivas[indiceQuestao];
+
+            if (estado.corrigida || questao.usouCarta) {
+                return;
+            }
+
+            questao.mostrarCartas = !questao.mostrarCartas;
+            renderizarQuestoes();
+        }
+
+        function escolherCarta(indiceQuestao, indiceCarta) {
+            const questao = estado.questoesAtivas[indiceQuestao];
+
+            if (estado.corrigida || questao.usouCarta || !questao.cartasDisponiveis[indiceCarta]) {
+                return;
+            }
+
+            const carta = questao.cartasDisponiveis[indiceCarta];
+            eliminarAlternativasErradas(questao, carta.elimina);
+            questao.usouCarta = true;
+            questao.cartaEscolhida = carta.nome;
+            questao.mensagemCarta = `${carta.nome}: ${carta.descricao}`;
+            questao.mostrarCartas = true;
+            renderizarQuestoes();
+        }
+
+        function obterQuestaoReserva(areaId, idAtual) {
+            const indiceReserva = estado.reserva.findIndex((questao) => questao.area === areaId && questao.id !== idAtual);
+
+            if (indiceReserva === -1) {
+                return null;
+            }
+
+            return estado.reserva.splice(indiceReserva, 1)[0];
+        }
+
+        function pularQuestao(indiceQuestao) {
+            const questaoAtual = estado.questoesAtivas[indiceQuestao];
+
+            if (estado.corrigida || estado.pulosRestantes <= 0) {
+                return;
+            }
+
+            const substituta = obterQuestaoReserva(questaoAtual.area, questaoAtual.id);
+
+            if (!substituta) {
+                resultadoFinal.innerHTML = `
+                    <strong>Sem reserva disponível</strong>
+                    <span>Não há outra questão da mesma área para substituir esta neste momento.</span>
+                    <small>Troque a área ou gere uma nova mistura para renovar o banco disponível.</small>
+                `;
+                return;
+            }
+
+            estado.reserva.push({
+                id: questaoAtual.id,
+                area: questaoAtual.area,
+                disciplina: questaoAtual.disciplina,
+                enunciado: questaoAtual.enunciado,
+                alternativas: questaoAtual.alternativas.map((alternativa) => alternativa.texto),
+                correta: questaoAtual.alternativas.findIndex((alternativa) => alternativa.correta),
+                explicacao: questaoAtual.explicacao
+            });
+
+            estado.questoesAtivas[indiceQuestao] = criarInstanciaQuestao(substituta);
+            estado.pulosRestantes -= 1;
+            renderizarTudo();
+        }
+
+        function corrigirProva() {
+            let acertos = 0;
+
+            estado.questoesAtivas.forEach((questao) => {
+                questao.alternativas.forEach((alternativa) => {
+                    alternativa.oculta = false;
+                });
+
+                if (questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta) {
+                    acertos += 1;
+                }
+            });
+
+            estado.corrigida = true;
+            estado.acertos = acertos;
+
+            const percentual = Math.round((acertos / estado.questoesAtivas.length) * 100);
+            resultadoFinal.innerHTML = `
+                <strong>${acertos}/${estado.questoesAtivas.length} acertos</strong>
+                <span>Desempenho final: ${percentual}%.</span>
+                <small>${percentual >= 70 ? 'Bom resultado. Continue revisando para consolidar o conteúdo.' : 'Vale revisar os comentários das questões para reforçar os pontos principais.'}</small>
+            `;
+
+            renderizarTudo();
+        }
+
+        function limparEEmbaralhar() {
+            montarNovaProva();
+        }
+
+        function atualizarResumo() {
+            const respondidas = estado.questoesAtivas.filter((questao) => questao.selecionada !== null).length;
+
+            statusArea.textContent = nomeDaArea(estado.areaAtual);
+            statusRespondidas.textContent = `${respondidas}/${estado.questoesAtivas.length}`;
+            statusEmBranco.textContent = estado.questoesAtivas.length - respondidas;
+            statusPulos.textContent = estado.pulosRestantes;
+            statusPulosUsados.textContent = LIMITE_PULOS - estado.pulosRestantes;
+        }
+
+        function renderizarQuestoes() {
+            if (!estado.questoesAtivas.length) {
+                questoesLista.innerHTML = '<div class="questoes-vazio">Nenhuma questão encontrada para esta área.</div>';
+                return;
+            }
+
+            questoesLista.innerHTML = estado.questoesAtivas.map((questao, indiceQuestao) => {
+                const ajudaTags = [];
+
+                if (questao.usou5050) {
+                    ajudaTags.push('<span class="questao-ajuda-tag">50/50 usado</span>');
+                }
+
+                if (questao.cartaEscolhida) {
+                    ajudaTags.push(`<span class="questao-ajuda-tag">Carta: ${escaparHtml(questao.cartaEscolhida)}</span>`);
+                }
+
+                const alternativasHtml = questao.alternativas.map((alternativa, indiceAlternativa) => {
+                    const classes = ['alternativa'];
+
+                    if (questao.selecionada === indiceAlternativa) {
+                        classes.push('selecionada');
+                    }
+
+                    if (!estado.corrigida && alternativa.oculta) {
+                        classes.push('oculta-ajuda');
+                    }
+
+                    if (estado.corrigida && alternativa.correta) {
+                        classes.push('correta');
+                    }
+
+                    if (estado.corrigida && questao.selecionada === indiceAlternativa && !alternativa.correta) {
+                        classes.push('incorreta');
+                    }
+
+                    const checked = questao.selecionada === indiceAlternativa ? 'checked' : '';
+                    const disabled = estado.corrigida || alternativa.oculta ? 'disabled' : '';
+
+                    return `
+                        <label class="${classes.join(' ')}" data-action="selecionar" data-questao-index="${indiceQuestao}" data-alternativa-index="${indiceAlternativa}">
+                            <input type="radio" name="questao-${indiceQuestao}" value="${indiceAlternativa}" ${checked} ${disabled}>
+                            <div>
+                                <strong>${String.fromCharCode(65 + indiceAlternativa)}</strong>
+                                <span>${escaparHtml(alternativa.texto)}</span>
+                            </div>
+                        </label>
+                    `;
+                }).join('');
+
+                const cartasHtml = questao.mostrarCartas ? `
+                    <div class="cartas-painel">
+                        <div class="cartas-grid">
+                            ${questao.cartasDisponiveis.map((carta, indiceCarta) => {
+                                const revelou = questao.cartaEscolhida && questao.cartasDisponiveis[indiceCarta].nome === questao.cartaEscolhida;
+                                const disabled = questao.usouCarta ? 'disabled' : '';
+                                const classes = ['carta-btn', `carta-${carta.classe}`];
+                                if (revelou) {
+                                    classes.push('revelada');
+                                }
+
+                                return `
+                                    <button type="button" class="${classes.join(' ')}" data-action="escolher-carta" data-questao-index="${indiceQuestao}" data-carta-index="${indiceCarta}" ${disabled}>
+                                        <span class="carta-indice">${indiceCarta + 1}</span>
+                                        <span class="carta-simbolo">${escaparHtml(carta.simbolo)}</span>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+                        <div class="cartas-resultado">${escaparHtml(questao.mensagemCarta || 'Escolha uma carta para descobrir quantas alternativas erradas serão eliminadas.')}</div>
+                    </div>
+                ` : '';
+
+                const cardClasses = ['questao-card'];
+                if (estado.corrigida) {
+                    const acertou = questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta;
+                    cardClasses.push(acertou ? 'corrigida-certa' : 'corrigida-errada');
+                }
+
+                return `
+                    <article class="${cardClasses.join(' ')}">
+                        <div class="questao-topo">
+                            <div class="questao-topo-esquerda">
+                                <span class="questao-numero">${indiceQuestao + 1}</span>
+                                <span class="questao-disciplina">${escaparHtml(questao.disciplina)}</span>
+                                ${ajudaTags.join('')}
+                            </div>
+                        </div>
+
+                        <p class="questao-enunciado">${escaparHtml(questao.enunciado)}</p>
+
+                        <div class="questao-acoes">
+                            <button type="button" class="questao-acao questao-acao--pular" data-action="pular" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.pulosRestantes <= 0 ? 'disabled' : ''}>Pular (${estado.pulosRestantes})</button>
+                            <button type="button" class="questao-acao questao-acao--cartas" data-action="cartas" data-questao-index="${indiceQuestao}" ${estado.corrigida || questao.usouCarta ? 'disabled' : ''}>Cartas</button>
+                            <button type="button" class="questao-acao questao-acao--cinquenta" data-action="cinquenta" data-questao-index="${indiceQuestao}" ${estado.corrigida || questao.usou5050 ? 'disabled' : ''}>50/50</button>
+                        </div>
+
+                        ${cartasHtml}
+
+                        <div class="questao-alternativas">${alternativasHtml}</div>
+
+                        <div class="questao-feedback ${estado.corrigida ? 'visivel' : ''}">
+                            <strong>Comentário:</strong>
+                            <span>${escaparHtml(questao.explicacao)}</span>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function renderizarTudo() {
+            atualizarResumo();
+            renderizarQuestoes();
+        }
+
+        function preencherFiltro() {
+            filtroArea.innerHTML = areas.map((area) => `<option value="${area.id}">${escaparHtml(area.nome)}</option>`).join('');
+            filtroArea.value = estado.areaAtual;
+        }
+
+        function aplicarFiltro() {
+            estado.areaAtual = filtroArea.value;
+            montarNovaProva();
+        }
+
+        questoesLista.addEventListener('click', (event) => {
+            const elemento = event.target.closest('[data-action]');
+
+            if (!elemento) {
+                return;
+            }
+
+            const indiceQuestao = Number(elemento.dataset.questaoIndex);
+            const acao = elemento.dataset.action;
+
+            if (acao === 'selecionar') {
+                selecionarResposta(indiceQuestao, Number(elemento.dataset.alternativaIndex));
+                return;
+            }
+
+            if (acao === 'pular') {
+                pularQuestao(indiceQuestao);
+                return;
+            }
+
+            if (acao === 'cartas') {
+                alternarCartas(indiceQuestao);
+                return;
+            }
+
+            if (acao === 'escolher-carta') {
+                escolherCarta(indiceQuestao, Number(elemento.dataset.cartaIndex));
+                return;
+            }
+
+            if (acao === 'cinquenta') {
+                aplicarCinquenta(indiceQuestao);
+            }
+        });
+
+        questoesLista.addEventListener('change', (event) => {
+            if (event.target.matches('input[type="radio"]')) {
+                selecionarResposta(Number(event.target.name.replace('questao-', '')), Number(event.target.value));
+            }
+        });
+
+        aplicarFiltroBtn.addEventListener('click', aplicarFiltro);
+        limparProvaTopoBtn.addEventListener('click', limparEEmbaralhar);
+        limparBtn.addEventListener('click', limparEEmbaralhar);
+        corrigirBtn.addEventListener('click', corrigirProva);
+
+        preencherFiltro();
+        montarNovaProva();
+    </script>
+</body>
+
+</html>
