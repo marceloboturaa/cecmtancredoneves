@@ -244,3 +244,31 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - llms.txt foi atualizado com as novas rotas de Quimica, questoes e convencoes recentes do projeto.
 - mapa-do-site.html foi atualizado para incluir Questoes e a nova area de Quimica.
 
+==================================================
+20/03/2026
+==================================================
+
+1. Navegacao institucional e organizacao de rotas
+- A pagina de politicas passou a usar o nome diretrizes.html.
+- A antiga pagina mapa-do-site foi reorganizada e passou a usar o nome sitemap.html.
+- O menu global e os acessos institucionais foram ajustados para refletir os novos enderecos.
+
+2. Balcao de novidade e responsividade
+- O aviso flutuante da home foi reorganizado com foco em Questoes.
+- O card ganhou icone Lordicon, visual translucido e som de aparicao.
+- No celular, o balcao ficou menor e com estrutura vertical.
+- No desktop, o aviso tambem passou a seguir a mesma estrutura compacta.
+
+3. Menu, materias e ajustes de exibicao
+- O menu mobile recebeu refinamentos de abertura, fechamento e leitura em telas pequenas.
+- O submenu de materias foi mantido com exibicao prioritaria apenas para Educacao Financeira, preservando as outras paginas ocultas.
+- A pagina de materias foi reorganizada para trabalhar com tres cards no desktop e destacar apenas Educacao Financeira com o professor Marcelo.
+
+4. Sitemap e diretrizes
+- sitemap.html foi reformulado para ficar mais claro, leve e alinhado a identidade do site.
+- diretrizes.html passou a ter aviso simples apontando para o sitemap.
+
+5. Documentacao viva do projeto
+- Foi planejada e criada a pagina atualizacoes.html para contar a evolucao do site em formato mais visual.
+- history.txt e llms.txt foram atualizados para refletir as rotas atuais, os novos fluxos e a pagina de atualizacoes.
+

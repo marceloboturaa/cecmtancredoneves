@@ -1,13 +1,13 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 19/03/2026, 14:18:08*
+*Generated on: 20/03/2026, 19:45:31*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 114 |
-| 📁 Total Folders | 17 |
+| 📄 Total Files | 120 |
+| 📁 Total Folders | 18 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
 
@@ -19,33 +19,33 @@
 
 ### By File Type
 
-- 🌐 **.html** (HTML files): 38 files (33.3%)
-- 🖼️ **.jpg** (JPEG images): 35 files (30.7%)
-- 📕 **.pdf** (PDF files): 13 files (11.4%)
-- 🎨 **.css** (Stylesheets): 11 files (9.6%)
-- 🎨 **.svg** (SVG images): 5 files (4.4%)
-- 📜 **.js** (JavaScript files): 5 files (4.4%)
-- 📄 **.** (Other files): 2 files (1.8%)
-- 📄 **.txt** (Text files): 2 files (1.8%)
-- 📖 **.md** (Markdown files): 2 files (1.8%)
-- 📄 **.mp3** (Other files): 1 files (0.9%)
+- 🌐 **.html** (HTML files): 43 files (35.8%)
+- 🖼️ **.jpg** (JPEG images): 35 files (29.2%)
+- 📕 **.pdf** (PDF files): 13 files (10.8%)
+- 🎨 **.css** (Stylesheets): 11 files (9.2%)
+- 🎨 **.svg** (SVG images): 5 files (4.2%)
+- 📜 **.js** (JavaScript files): 5 files (4.2%)
+- 📄 **.** (Other files): 2 files (1.7%)
+- 📄 **.mp3** (Other files): 2 files (1.7%)
+- 📄 **.txt** (Text files): 2 files (1.7%)
+- 📖 **.md** (Markdown files): 2 files (1.7%)
 
 ### By Category
 
-- **Assets**: 40 files (35.1%)
-- **Web**: 38 files (33.3%)
-- **Docs**: 17 files (14.9%)
-- **Styles**: 11 files (9.6%)
-- **JavaScript**: 5 files (4.4%)
-- **Other**: 3 files (2.6%)
+- **Web**: 43 files (35.8%)
+- **Assets**: 40 files (33.3%)
+- **Docs**: 17 files (14.2%)
+- **Styles**: 11 files (9.2%)
+- **JavaScript**: 5 files (4.2%)
+- **Other**: 4 files (3.3%)
 
 ### 📁 Largest Directories
 
-- **root**: 114 files
+- **root**: 120 files
 - **image**: 35 files
-- **materias**: 21 files
+- **materias**: 25 files
 - **css**: 11 files
-- **materias\educacao-financeira**: 6 files
+- **assets**: 7 files
 
 ## 🌳 Directory Structure
 
@@ -57,6 +57,9 @@ cecmtancredoneves/
 │   └── 📕 apostila-educacao-financeira-pessoal.pdf
 ├── 🌐 apostilas.html
 ├── 📦 assets/
+│   ├── 📂 audio/
+│   │   ├── 📄 alerta-botão-novidade-flutuante.mp3
+│   │   └── 📄 page-flip.mp3
 │   ├── 📂 image/
 │   │   ├── 🎨 colegio-tancredo-almeida-neves_icon 180x180.svg
 │   │   ├── 🎨 colegio-tancredo-almeida-neves_icon 192x192.svg
@@ -64,8 +67,6 @@ cecmtancredoneves/
 │   │   └── 🎨 colegio-tancredo-almeida-neves_icon 512x512.svg
 │   └── 📂 logo/
 │   │   └── 🎨 colegio-estadual-c-vico-militar-tancredo-de-almeida-neves-foz-do-igua-logomarcar-logo.svg
-├── 📂 audio/
-│   └── 📄 page-flip.mp3
 ├── 🎨 css/
 │   ├── 🎨 acervo.css
 │   ├── 🎨 components.css
@@ -78,6 +79,7 @@ cecmtancredoneves/
 │   ├── 🎨 visualizador-pdf.css
 │   ├── 🎨 visualizador-trabalhos.css
 │   └── 🎨 visualizador.css
+├── 🌐 diretrizes.html
 ├── 📄 history.txt
 ├── 📂 image/
 │   ├── 🖼️ binzantino-truma-IMG_20260307_165132.jpg
@@ -128,7 +130,6 @@ cecmtancredoneves/
 │   └── 📕 educacao-financeira-ensino-medio-professor.pdf
 ├── 🌐 livros.html
 ├── 📄 llms.txt
-├── 🌐 mapa-do-site.html
 ├── 📂 materias/
 │   ├── 📂 educacao-financeira/
 │   │   ├── 🌐 conceitos-basicos.html
@@ -151,6 +152,11 @@ cecmtancredoneves/
 │   │   ├── 🌐 fracoes-financeiras.html
 │   │   ├── 🌐 index.html
 │   │   └── 🌐 porcentagem-financeira.html
+│   ├── 📂 quimica/
+│   │   ├── 🌐 index.html
+│   │   ├── 🌐 misturas-e-separacao.html
+│   │   ├── 🌐 transformacoes-da-materia.html
+│   │   └── 🌐 video-tabela-periodica.html
 │   └── 📂 robotica/
 │   │   ├── 🌐 index.html
 │   │   ├── 🌐 logica-e-programacao.html
@@ -158,9 +164,10 @@ cecmtancredoneves/
 │   │   └── 🌐 sensores-e-automacao.html
 ├── 🌐 materias.html
 ├── 🌐 mural.html
-├── 🌐 politicas.html
 ├── 📖 project_structure.md
+├── 🌐 questoes.html
 ├── 🔴 📖 **README.md**
+├── 🌐 sitemap.html
 ├── 📂 slide/
 │   ├── 📕 conhecimento-financeiro-3a.pdf
 │   ├── 📕 Definição-de-metas-3a.pdf

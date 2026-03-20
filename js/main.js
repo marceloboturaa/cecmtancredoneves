@@ -25,6 +25,23 @@ function storeConsent(choice) {
     }
 }
 
+function playUiSound(relativePath, volume) {
+    try {
+        const sound = new Audio(resolveSiteUrl(relativePath));
+        sound.volume = volume;
+        sound.currentTime = 0;
+        const playPromise = sound.play();
+
+        if (playPromise && typeof playPromise.catch === 'function') {
+            playPromise.catch(function () {
+                /* audio bloqueado pelo navegador */
+            });
+        }
+    } catch (error) {
+        /* audio indisponivel */
+    }
+}
+
 function enhanceBetaBadges() {
     const betaBadges = document.querySelectorAll('.beta-badge');
 
@@ -56,61 +73,228 @@ function enhanceBetaBadges() {
     });
 }
 
-function getLegalIconMarkup(type) {
-    if (type === 'mapa') {
-        return '<svg class="footer-legal-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5.5 9 3 3 5.5v15L9 18l6 2.5 6-2.5v-15L15 5.5zM9 16.3l-4 1.67V6.83L9 5.17v11.13zm2 0V5.17l4 1.66v11.14L11 16.3zm8 1.67-4 1.67V8.53l4-1.7v11.14z"/></svg>';
-    }
-
-    if (type === 'privacidade') {
-        return '<svg class="footer-legal-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9h-1V7a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2zm-7-2a2 2 0 1 1 4 0v2h-4V7zm7 12H7v-8h10v8z"/></svg>';
-    }
-
-    return '<svg class="footer-legal-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 5 5v6c0 5.05 3.41 9.57 7 11 3.59-1.43 7-5.95 7-11V5l-7-3zm0 2.18L17 6.32v4.62c0 3.98-2.53 7.67-5 8.86-2.47-1.19-5-4.88-5-8.86V6.32l5-2.14z"/></svg>';
-}
-
 function createFooterLegalLinks() {
     const footer = document.querySelector('footer');
-    if (!footer || footer.querySelector('.footer-legal')) {
+    if (!footer) {
         return;
     }
 
-    const legalContainer = document.createElement('div');
-    legalContainer.className = 'footer-legal';
-
-    [
-        {
-            href: resolveSiteUrl('mapa-do-site.html'),
-            label: 'Mapa do site',
-            icon: getLegalIconMarkup('mapa')
-        },
-        {
-            href: resolveSiteUrl('politicas.html#diretrizes'),
-            label: 'Política e diretrizes do site',
-            icon: getLegalIconMarkup('politica')
-        },
-        {
-            href: resolveSiteUrl('politicas.html#privacidade'),
-            label: 'Privacidade e LGPD',
-            icon: getLegalIconMarkup('privacidade')
-        }
-    ].forEach(function (item) {
-        const link = document.createElement('a');
-        link.className = 'footer-legal-link';
-        link.href = item.href;
-        link.setAttribute('aria-label', item.label);
-        link.title = item.label;
-        link.innerHTML = `${item.icon}<span class="footer-legal-label">${item.label}</span>`;
-        legalContainer.appendChild(link);
+    footer.querySelectorAll('.footer-legal, .footer-brand, .footer-divider, .footer-site-map').forEach(function (node) {
+        node.remove();
     });
+}
 
-    const footerBottom = footer.querySelector('.footer-bottom');
+function ensureQuestoesLink() {
+    document.querySelectorAll('.nav-links').forEach(function (navLinks) {
+        const topLevelItems = Array.from(navLinks.children);
+        const hasQuestoes = topLevelItems.some(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
 
-    if (footerBottom) {
-        footerBottom.appendChild(legalContainer);
-        return;
-    }
+            const href = link.getAttribute('href') || '';
+            return href.includes('questoes.html');
+        });
 
-    footer.appendChild(legalContainer);
+        if (hasQuestoes) {
+            return;
+        }
+
+        const questoesItem = document.createElement('li');
+        const questoesLink = document.createElement('a');
+        questoesLink.href = resolveSiteUrl('questoes.html');
+        questoesLink.textContent = 'Questões';
+        questoesItem.appendChild(questoesLink);
+
+        const materiasItem = topLevelItems.find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
+
+            const href = link.getAttribute('href') || '';
+            return href.includes('materias.html');
+        });
+
+        if (materiasItem) {
+            navLinks.insertBefore(questoesItem, materiasItem);
+            return;
+        }
+
+        navLinks.appendChild(questoesItem);
+    });
+}
+
+function ensureSubmenuLinks() {
+    const submenuConfigs = [
+        {
+            menuHref: 'mural.html',
+            items: [
+                { href: 'slide.html', label: 'Slides' },
+                { href: 'trabalhos.html', label: 'Trabalhos' },
+                { href: 'livros.html', label: 'Livros' },
+                { href: 'apostilas.html', label: 'Apostilas' },
+                { href: 'videos.html', label: 'Vídeos' },
+                { href: 'acervo.html', label: 'Acervo' }
+            ]
+        }
+    ];
+
+    submenuConfigs.forEach(function (config) {
+        document.querySelectorAll('.has-submenu').forEach(function (menuItem) {
+            const trigger = menuItem.querySelector(':scope > a');
+            const submenu = menuItem.querySelector(':scope > .submenu');
+            if (!trigger || !submenu) {
+                return;
+            }
+
+            const href = trigger.getAttribute('href') || '';
+            if (!href.includes(config.menuHref)) {
+                return;
+            }
+
+            config.items.forEach(function (item) {
+                const exists = Array.from(submenu.querySelectorAll(':scope > li > a')).some(function (link) {
+                    const linkHref = link.getAttribute('href') || '';
+                    return linkHref.includes(item.href);
+                });
+
+                if (exists) {
+                    return;
+                }
+
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = resolveSiteUrl(item.href);
+                link.textContent = item.label;
+                li.appendChild(link);
+                submenu.appendChild(li);
+            });
+        });
+    });
+}
+
+function ensureEdFinanceiraLink() {
+    document.querySelectorAll('.has-submenu').forEach(function (menuItem) {
+        const trigger = menuItem.querySelector(':scope > a');
+        const submenu = menuItem.querySelector(':scope > .submenu');
+        if (!trigger || !submenu) {
+            return;
+        }
+
+        const href = trigger.getAttribute('href') || '';
+        if (!href.includes('materias.html')) {
+            return;
+        }
+
+        const exists = Array.from(submenu.querySelectorAll(':scope > li > a')).some(function (link) {
+            const linkHref = link.getAttribute('href') || '';
+            return linkHref.includes('materias/educacao-financeira/index.html');
+        });
+
+        if (exists) {
+            return;
+        }
+
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = resolveSiteUrl('materias/educacao-financeira/index.html');
+        link.textContent = 'Ed. Financeira';
+        li.appendChild(link);
+        submenu.insertBefore(li, submenu.firstChild);
+    });
+}
+
+function ensurePrivacyMenuIcon() {
+    document.querySelectorAll('.nav-links').forEach(function (navLinks) {
+        const topLevelItems = Array.from(navLinks.children);
+        const hasPrivacyIcon = topLevelItems.some(function (item) {
+            const link = item.querySelector(':scope > a');
+            return link && link.classList.contains('nav-privacy-link');
+        });
+
+        if (hasPrivacyIcon) {
+            return;
+        }
+
+        const privacyItem = document.createElement('li');
+        privacyItem.className = 'nav-privacy-item';
+
+        const privacyLink = document.createElement('a');
+        privacyLink.href = resolveSiteUrl('diretrizes.html#diretrizes');
+        privacyLink.className = 'nav-privacy-link';
+        privacyLink.setAttribute('aria-label', 'Política e diretrizes do site');
+        privacyLink.title = 'Política e diretrizes do site';
+        privacyLink.innerHTML = '<svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 5 5v6c0 5.05 3.41 9.57 7 11 3.59-1.43 7-5.95 7-11V5l-7-3zm0 2.18L17 6.32v4.62c0 3.98-2.53 7.67-5 8.86-2.47-1.19-5-4.88-5-8.86V6.32l5-2.14z"/></svg>';
+        privacyItem.appendChild(privacyLink);
+
+        const sobreItem = topLevelItems.find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
+
+            const href = link.getAttribute('href') || '';
+            return href.includes('sobre.html');
+        });
+
+        if (sobreItem && sobreItem.nextSibling) {
+            navLinks.insertBefore(privacyItem, sobreItem.nextSibling);
+            return;
+        }
+
+        navLinks.appendChild(privacyItem);
+    });
+}
+
+function setupFloatingAlerts() {
+    document.querySelectorAll('[data-floating-alert]').forEach(function (alertElement) {
+        const alertId = alertElement.getAttribute('data-floating-alert');
+        if (!alertId) {
+            return;
+        }
+
+        const storageKey = `cecmtan.alert.dismissed.${alertId}`;
+
+        try {
+            if (window.localStorage.getItem(storageKey) === '1') {
+                alertElement.remove();
+                return;
+            }
+        } catch (error) {
+            /* armazenamento indisponivel */
+        }
+
+        const closeButton = alertElement.querySelector('.floating-alert__close');
+        if (!closeButton) {
+            return;
+        }
+
+        window.requestAnimationFrame(function () {
+            alertElement.classList.add('is-visible');
+        });
+
+        window.setTimeout(function () {
+            if (document.body.contains(alertElement)) {
+                playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
+            }
+        }, 180);
+
+        closeButton.addEventListener('click', function () {
+            try {
+                window.localStorage.setItem(storageKey, '1');
+            } catch (error) {
+                /* armazenamento indisponivel */
+            }
+
+            alertElement.classList.remove('is-visible');
+
+            window.setTimeout(function () {
+                alertElement.remove();
+            }, 220);
+        });
+    });
 }
 
 function createCookieBanner() {
@@ -140,9 +324,9 @@ function createCookieBanner() {
                 <p>
                     O projeto segue as diretrizes institucionais do colégio e apresenta orientações de
                     privacidade alinhadas à LGPD. Leia mais em
-                    <a href="${resolveSiteUrl('politicas.html#diretrizes')}">Diretrizes do Site</a>
+                    <a href="${resolveSiteUrl('diretrizes.html#diretrizes')}">Diretrizes do Site</a>
                     e
-                    <a href="${resolveSiteUrl('politicas.html#privacidade')}">Privacidade e LGPD</a>.
+                    <a href="${resolveSiteUrl('diretrizes.html#privacidade')}">Privacidade e LGPD</a>.
                 </p>
             </details>
         </div>
@@ -173,15 +357,53 @@ function createCookieBanner() {
 
 document.addEventListener('DOMContentLoaded', function () {
     enhanceBetaBadges();
+    ensureSubmenuLinks();
+    ensureEdFinanceiraLink();
+    ensureQuestoesLink();
+    ensurePrivacyMenuIcon();
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
     const submenuParents = document.querySelectorAll('.has-submenu');
+    let navScrim = document.querySelector('.nav-scrim');
+
+    if (!navScrim) {
+        navScrim = document.createElement('button');
+        navScrim.type = 'button';
+        navScrim.className = 'nav-scrim';
+        navScrim.setAttribute('aria-label', 'Fechar menu');
+        document.body.appendChild(navScrim);
+    }
+
+    const closeMobileMenu = function () {
+        if (!navLinks || !menuToggle) {
+            return;
+        }
+
+        navLinks.classList.remove('active');
+        menuToggle.classList.remove('is-active');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('nav-open');
+
+        submenuParents.forEach(function (item) {
+            item.classList.remove('submenu-open');
+        });
+    };
 
     if (menuToggle && navLinks) {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Abrir menu');
+
         menuToggle.addEventListener('click', function () {
-            navLinks.classList.toggle('active');
+            const isOpen = navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('is-active', isOpen);
+            menuToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            document.body.classList.toggle('nav-open', isOpen);
         });
+    }
+
+    if (navScrim) {
+        navScrim.addEventListener('click', closeMobileMenu);
     }
 
     const usesTapSubmenu = function () {
@@ -215,13 +437,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 item.classList.remove('submenu-open');
             }
         });
+
+        if (!navLinks || !menuToggle || window.innerWidth > 768) {
+            return;
+        }
+
+        if (!navLinks.contains(event.target) && !menuToggle.contains(event.target)) {
+            closeMobileMenu();
+        }
     });
 
     window.addEventListener('resize', function () {
         if (!usesTapSubmenu()) {
-            submenuParents.forEach(function (item) {
-                item.classList.remove('submenu-open');
-            });
+            closeMobileMenu();
+        }
+    });
+
+    document.querySelectorAll('.nav-links a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            const parentItem = link.closest('.has-submenu');
+
+            if (window.innerWidth <= 768 && (!parentItem || parentItem.classList.contains('submenu-open'))) {
+                closeMobileMenu();
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && window.innerWidth <= 768) {
+            closeMobileMenu();
         }
     });
 
@@ -233,6 +477,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollTopBtn.innerHTML = '&#8593;';
 
         scrollTopBtn.addEventListener('click', function () {
+            playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
@@ -248,5 +493,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     createFooterLegalLinks();
+    setupFloatingAlerts();
     createCookieBanner();
 });
+

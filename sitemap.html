@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Sitemap | CECMTAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .sitemap-shell {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .sitemap-intro {
+            display: grid;
+            gap: 1rem;
+            padding: 2rem;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(23, 53, 87, 0.05), rgba(104, 129, 60, 0.08));
+            border: 1px solid rgba(23, 53, 87, 0.08);
+            animation: sitemapRise 0.7s ease both;
+        }
+
+        .sitemap-kicker {
+            width: fit-content;
+            padding: 0.34rem 0.82rem;
+            border-radius: 999px;
+            background: rgba(23, 53, 87, 0.08);
+            color: var(--blue);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .sitemap-intro h2 {
+            color: var(--blue);
+            font-size: 2rem;
+        }
+
+        .sitemap-intro p {
+            max-width: 66ch;
+            color: #475569;
+        }
+
+        .sitemap-quicklinks {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .sitemap-quicklinks a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.72rem 1rem;
+            border-radius: 999px;
+            background: var(--white);
+            border: 1px solid rgba(23, 53, 87, 0.1);
+            color: var(--blue);
+            font-weight: 600;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .sitemap-quicklinks a:hover {
+            transform: translateY(-2px);
+            border-color: rgba(104, 129, 60, 0.34);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .sitemap-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.5rem;
+        }
+
+        .sitemap-panel {
+            display: grid;
+            gap: 1rem;
+            padding: 1.7rem;
+            border-radius: 26px;
+            background: var(--white);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-sm);
+            animation: sitemapRise 0.7s ease both;
+        }
+
+        .sitemap-panel:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .sitemap-panel:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .sitemap-panel:nth-child(4) {
+            animation-delay: 0.24s;
+        }
+
+        .sitemap-panel--primary {
+            background: linear-gradient(180deg, rgba(37, 99, 235, 0.05), rgba(255, 255, 255, 0.98));
+            border-color: rgba(37, 99, 235, 0.14);
+        }
+
+        .sitemap-panel--finance {
+            background: linear-gradient(180deg, rgba(104, 129, 60, 0.12), rgba(255, 255, 255, 0.98));
+            border-color: rgba(104, 129, 60, 0.2);
+        }
+
+        .sitemap-panel h3 {
+            color: var(--blue);
+            font-size: 1.35rem;
+        }
+
+        .sitemap-panel p {
+            color: #64748b;
+        }
+
+        .sitemap-list-clean {
+            list-style: none;
+            display: grid;
+            gap: 0.75rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sitemap-list-clean a {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            min-height: 48px;
+            padding: 0.85rem 1rem;
+            border-radius: 16px;
+            background: #f8fafc;
+            border: 1px solid rgba(23, 53, 87, 0.08);
+            color: var(--blue);
+            font-weight: 500;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .sitemap-list-clean a:hover {
+            transform: translateY(-2px);
+            background: rgba(104, 129, 60, 0.08);
+            border-color: rgba(104, 129, 60, 0.28);
+        }
+
+        .sitemap-link-icon {
+            width: 22px;
+            height: 22px;
+            flex: 0 0 auto;
+        }
+
+        .sitemap-note {
+            padding: 1.25rem 1.4rem;
+            border-radius: 22px;
+            background: rgba(104, 129, 60, 0.08);
+            border: 1px solid rgba(104, 129, 60, 0.18);
+            color: #334155;
+            animation: sitemapRise 0.7s ease both;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes sitemapRise {
+            from {
+                opacity: 0;
+                transform: translateY(14px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .sitemap-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .sitemap-intro,
+            .sitemap-panel {
+                padding: 1.35rem;
+                border-radius: 24px;
+            }
+
+            .sitemap-intro h2 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li><a href="questoes.html">Questões</a></li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="materias/matematica/index.html">Matemática</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg header-theme-default">
+        <h1>Sitemap</h1>
+        <p>Visualize os principais caminhos do site em uma página única.</p>
+    </header>
+
+    <main class="container sitemap-shell">
+        <section class="sitemap-intro">
+            <span class="sitemap-kicker">Navegação geral</span>
+            <h2>Encontre cada área do projeto com mais rapidez</h2>
+            <p>O sitemap reúne páginas principais, materiais, conteúdos de Educação Financeira e acessos institucionais em um formato direto, sem excesso visual.</p>
+            <div class="sitemap-quicklinks">
+                <a href="mural.html">Mural</a>
+                <a href="questoes.html">Questões</a>
+                <a href="materias.html">Matérias</a>
+                <a href="diretrizes.html">Diretrizes</a>
+            </div>
+        </section>
+
+        <section class="sitemap-grid" aria-label="Links do sitemap">
+            <article class="sitemap-panel sitemap-panel--primary">
+                <h3>Páginas principais</h3>
+                <p>Acessos centrais do projeto e páginas de contexto institucional.</p>
+                <ul class="sitemap-list-clean">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="mural.html">Mural</a></li>
+                    <li><a href="questoes.html">Questões</a></li>
+                    <li><a href="materias.html">Matérias</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="diretrizes.html">Diretrizes do site</a></li>
+                    <li><a href="atualizacoes.html">Atualizações do site</a></li>
+                </ul>
+            </article>
+
+            <article class="sitemap-panel">
+                <h3>Materiais do mural</h3>
+                <p>Páginas com apresentações, trabalhos e materiais de apoio.</p>
+                <ul class="sitemap-list-clean">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </article>
+
+            <article class="sitemap-panel sitemap-panel--finance">
+                <h3>Educação Financeira</h3>
+                <p>Conteúdo da área atualmente destacada e já aprovada para navegação principal.</p>
+                <ul class="sitemap-list-clean">
+                    <li><a href="materias/educacao-financeira/index.html">Página da matéria</a></li>
+                    <li><a href="materias/educacao-financeira/planejamento-ao-consumo.html">Planejamento ao consumo</a></li>
+                    <li><a href="materias/educacao-financeira/o-que-e-educacao-financeira.html">O que é educação financeira?</a></li>
+                    <li><a href="materias/educacao-financeira/conceitos-basicos.html">Conceitos básicos</a></li>
+                    <li><a href="materias/educacao-financeira/moeda-nas-civilizacoes.html">Moeda nas Civilizações</a></li>
+                    <li><a href="materias/educacao-financeira/historia-do-dinheiro-brasil.html">História do dinheiro</a></li>
+                </ul>
+            </article>
+
+            <article class="sitemap-panel">
+                <h3>Outras páginas internas</h3>
+                <p>Áreas que existem no projeto e podem ser usadas conforme a organização do site evoluir.</p>
+                <ul class="sitemap-list-clean">
+                    <li><a href="materias/matematica/index.html">Matemática</a></li>
+                    <li><a href="materias/quimica/index.html">Química</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                    
+                </ul>
+            </article>
+        </section>
+
+        <div class="sitemap-note">
+            Esta página pode ser atualizada sempre que novos conteúdos forem publicados ou reorganizados no projeto.
+        </div>
+    </main>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script>
+        document.querySelectorAll('.sitemap-list-clean a').forEach(function (link) {
+            if (link.querySelector('lord-icon')) {
+                return;
+            }
+
+            const icon = document.createElement('lord-icon');
+            icon.className = 'sitemap-link-icon';
+            icon.setAttribute('src', 'https://cdn.lordicon.com/zllgguxq.json');
+            icon.setAttribute('trigger', 'hover');
+            link.appendChild(icon);
+        });
+    </script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

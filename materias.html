@@ -15,7 +15,7 @@
 
         .materias-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 1.2rem;
         }
 
@@ -50,6 +50,12 @@
             min-height: 72px;
         }
 
+        .materia-professor {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
         .materia-card .btn {
             margin-top: auto;
             width: fit-content;
@@ -74,6 +80,45 @@
             font-weight: 700;
             letter-spacing: 0.03em;
             text-transform: uppercase;
+        }
+
+        .materia-card--pending {
+            background: linear-gradient(180deg, #f2f4f7, #e5e7eb);
+            border-color: rgba(148, 163, 184, 0.24);
+            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .materia-card--pending:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.08);
+            border-color: rgba(148, 163, 184, 0.32);
+        }
+
+        .materia-card--pending h3 {
+            color: #334155;
+            text-shadow: none;
+        }
+
+        .materia-card--pending p,
+        .materia-card--pending .materia-professor {
+            color: #64748b;
+        }
+
+        .materia-card--pending .materia-badge {
+            background: rgba(148, 163, 184, 0.16);
+            border-color: rgba(148, 163, 184, 0.28);
+            color: #475569;
+        }
+
+        .materia-card--pending .btn {
+            background: rgba(255, 255, 255, 0.96);
+            color: #475569;
+        }
+
+        @media (max-width: 1024px) {
+            .materias-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
         }
 
         @media (max-width: 640px) {
@@ -135,46 +180,52 @@
                     <span class="materia-badge">Financeiro</span>
                     <h3>Educação Financeira</h3>
                     <p>Projetos sobre dinheiro, consumo consciente, orçamento familiar e planejamento.</p>
+                    <span class="materia-professor">Prof. Marcelo</span>
                     
                     <a href="materias/educacao-financeira/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card" style="--accent: #2563eb; --accent-soft: #4f83f1; --accent-deep: #163f9e;">
+                <article class="materia-card materia-card--pending" style="--accent: #2563eb; --accent-soft: #4f83f1; --accent-deep: #163f9e;">
                     <span class="materia-badge">Exatas</span>
                     <h3>Matemática</h3>
                     <p>Conteúdos aplicados ao cotidiano financeiro, com porcentagem e frações usadas em situações reais.</p>
+                    <span class="materia-professor">Aguardando aprovação</span>
 
                     <a href="materias/matematica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card" style="--accent: #0ea5e9; --accent-soft: #38bdf8; --accent-deep: #0b5f87;">
+                <article class="materia-card materia-card--pending" style="--accent: #0ea5e9; --accent-soft: #38bdf8; --accent-deep: #0b5f87;">
                     <span class="materia-badge">Tecnologia</span>
                     <h3>Robótica</h3>
                     <p>Robótica educacional, lógica e pensamento computacional aplicados em atividades práticas.</p>
+                    <span class="materia-professor">Aguardando aprovação</span>
                     
                     <a href="materias/robotica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card" style="--accent: #14b8a6; --accent-soft: #2dd4bf; --accent-deep: #0c6b61;">
+                <article class="materia-card materia-card--pending" style="--accent: #14b8a6; --accent-soft: #2dd4bf; --accent-deep: #0c6b61;">
                     <span class="materia-badge">Ciências</span>
                     <h3>Química</h3>
                     <p>Misturas, transformações da matéria e conteúdos introdutórios para observar fenômenos químicos.</p>
+                    <span class="materia-professor">Aguardando aprovação</span>
 
                     <a href="materias/quimica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card" style="--accent: #9333ea; --accent-soft: #a855f7; --accent-deep: #5f1f98;">
+                <article class="materia-card materia-card--pending" style="--accent: #9333ea; --accent-soft: #a855f7; --accent-deep: #5f1f98;">
                     <span class="materia-badge">Humanas</span>
                     <h3>Filosofia</h3>
                     <p>Reflexões, ética, cidadania e pensamento crítico desenvolvidos pelos estudantes.</p>
+                    <span class="materia-professor">Aguardando aprovação</span>
                     
                     <a href="materias/filosofia/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card" style="--accent: #d97706; --accent-soft: #f59e0b; --accent-deep: #8a4d05;">
+                <article class="materia-card materia-card--pending" style="--accent: #d97706; --accent-soft: #f59e0b; --accent-deep: #8a4d05;">
                     <span class="materia-badge">Criação</span>
                     <h3>Maker</h3>
                     <p>Cultura maker, prototipagem e criatividade em propostas construídas pela turma.</p>
+                    <span class="materia-professor">Aguardando aprovação</span>
                   
                     <a href="materias/maker/index.html" class="btn">Entrar na matéria</a>
                 </article>

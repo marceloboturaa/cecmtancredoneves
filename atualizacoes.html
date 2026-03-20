@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Atualizações do Site | CECMTAN</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .updates-shell {
+            display: grid;
+            gap: 1.6rem;
+        }
+
+        .updates-hero {
+            position: relative;
+            display: grid;
+            gap: 1.2rem;
+            padding: 2rem;
+            border-radius: 30px;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top right, rgba(104, 129, 60, 0.18), transparent 30%),
+                linear-gradient(135deg, rgba(23, 53, 87, 0.08), rgba(104, 129, 60, 0.1));
+            border: 1px solid rgba(23, 53, 87, 0.09);
+            box-shadow: var(--shadow-sm);
+            animation: updatesRise 0.75s ease both;
+        }
+
+        .updates-hero::after {
+            content: "";
+            position: absolute;
+            inset: auto -4rem -4rem auto;
+            width: 220px;
+            height: 220px;
+            border-radius: 999px;
+            background: radial-gradient(circle, rgba(104, 129, 60, 0.18), transparent 70%);
+            pointer-events: none;
+        }
+
+        .updates-kicker {
+            width: fit-content;
+            padding: 0.34rem 0.82rem;
+            border-radius: 999px;
+            background: rgba(23, 53, 87, 0.08);
+            color: var(--blue);
+            font-size: 0.76rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .updates-hero h2 {
+            max-width: 16ch;
+            color: var(--blue);
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.02;
+        }
+
+        .updates-hero p {
+            max-width: 62ch;
+            color: #475569;
+        }
+
+        .updates-hero-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .updates-hero-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 44px;
+            padding: 0.72rem 1.1rem;
+            border-radius: 999px;
+            font-weight: 600;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .updates-hero-links .btn-primary {
+            background: linear-gradient(90deg, #173557, #68813c);
+            color: #ffffff;
+            box-shadow: 0 14px 28px rgba(23, 53, 87, 0.16);
+        }
+
+        .updates-hero-links .btn-secondary {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(23, 53, 87, 0.12);
+            color: var(--blue);
+        }
+
+        .updates-hero-links a:hover {
+            transform: translateY(-2px);
+        }
+
+        .updates-overview {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .updates-stat {
+            display: grid;
+            gap: 0.3rem;
+            padding: 1.25rem 1.35rem;
+            border-radius: 24px;
+            background: var(--white);
+            border: 1px solid rgba(23, 53, 87, 0.08);
+            box-shadow: var(--shadow-sm);
+            animation: updatesRise 0.75s ease both;
+        }
+
+        .updates-stat:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .updates-stat:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .updates-stat strong {
+            color: var(--blue);
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .updates-stat span {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .updates-chapters {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1rem;
+        }
+
+        .updates-chapter {
+            display: grid;
+            gap: 0.8rem;
+            padding: 1.4rem;
+            border-radius: 26px;
+            border: 1px solid rgba(23, 53, 87, 0.08);
+            box-shadow: var(--shadow-sm);
+            animation: updatesRise 0.75s ease both;
+        }
+
+        .updates-chapter:nth-child(1) {
+            background: linear-gradient(180deg, rgba(23, 53, 87, 0.06), rgba(255, 255, 255, 0.96));
+        }
+
+        .updates-chapter:nth-child(2) {
+            background: linear-gradient(180deg, rgba(104, 129, 60, 0.12), rgba(255, 255, 255, 0.98));
+            animation-delay: 0.08s;
+        }
+
+        .updates-chapter:nth-child(3) {
+            background: linear-gradient(180deg, rgba(23, 53, 87, 0.08), rgba(104, 129, 60, 0.08));
+            animation-delay: 0.16s;
+        }
+
+        .updates-chapter span {
+            color: var(--green-dark);
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .updates-chapter h3 {
+            color: var(--blue);
+            font-size: 1.28rem;
+        }
+
+        .updates-chapter p {
+            color: #475569;
+        }
+
+        .updates-timeline {
+            position: relative;
+            display: grid;
+            gap: 1rem;
+            padding-left: 1.2rem;
+        }
+
+        .updates-timeline::before {
+            content: "";
+            position: absolute;
+            top: 0.4rem;
+            bottom: 0.4rem;
+            left: 0;
+            width: 3px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(23, 53, 87, 0.16), rgba(104, 129, 60, 0.42));
+        }
+
+        .timeline-card {
+            position: relative;
+            display: grid;
+            gap: 0.9rem;
+            padding: 1.45rem 1.45rem 1.35rem;
+            margin-left: 0.65rem;
+            border-radius: 28px;
+            background: var(--white);
+            border: 1px solid rgba(23, 53, 87, 0.08);
+            box-shadow: var(--shadow-sm);
+            animation: updatesRise 0.75s ease both;
+        }
+
+        .timeline-card::before {
+            content: "";
+            position: absolute;
+            left: -1.52rem;
+            top: 1.5rem;
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            background: linear-gradient(180deg, #173557, #68813c);
+            box-shadow: 0 0 0 6px rgba(104, 129, 60, 0.12);
+        }
+
+        .timeline-card:nth-child(2) {
+            animation-delay: 0.06s;
+        }
+
+        .timeline-card:nth-child(3) {
+            animation-delay: 0.12s;
+        }
+
+        .timeline-card:nth-child(4) {
+            animation-delay: 0.18s;
+        }
+
+        .timeline-card:nth-child(5) {
+            animation-delay: 0.24s;
+        }
+
+        .timeline-card:nth-child(6) {
+            animation-delay: 0.3s;
+        }
+
+        .timeline-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.7rem;
+        }
+
+        .timeline-date {
+            display: inline-flex;
+            align-items: center;
+            min-height: 34px;
+            padding: 0.28rem 0.72rem;
+            border-radius: 999px;
+            background: rgba(23, 53, 87, 0.08);
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .timeline-label {
+            color: var(--green-dark);
+            font-size: 0.84rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .timeline-card h3 {
+            color: var(--blue);
+            font-size: 1.36rem;
+        }
+
+        .timeline-points {
+            list-style: none;
+            display: grid;
+            gap: 0.65rem;
+            padding: 0;
+            margin: 0;
+        }
+
+        .timeline-points li {
+            position: relative;
+            padding-left: 1rem;
+            color: #475569;
+        }
+
+        .timeline-points li::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0.55rem;
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: #68813c;
+        }
+
+        .updates-closure {
+            display: grid;
+            gap: 0.8rem;
+            padding: 1.5rem 1.6rem;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(23, 53, 87, 0.92), rgba(104, 129, 60, 0.9));
+            color: #ffffff;
+            box-shadow: 0 20px 40px rgba(23, 53, 87, 0.18);
+            animation: updatesRise 0.75s ease both;
+            animation-delay: 0.22s;
+        }
+
+        .updates-closure h3 {
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .updates-closure p {
+            max-width: 64ch;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .updates-closure-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .updates-closure-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0.68rem 1rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        @keyframes updatesRise {
+            from {
+                opacity: 0;
+                transform: translateY(16px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 960px) {
+            .updates-overview,
+            .updates-chapters {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .updates-hero,
+            .updates-stat,
+            .updates-chapter,
+            .timeline-card,
+            .updates-closure {
+                padding: 1.3rem;
+                border-radius: 24px;
+            }
+
+            .updates-timeline {
+                padding-left: 0.95rem;
+            }
+
+            .timeline-card {
+                margin-left: 0.5rem;
+            }
+
+            .timeline-card::before {
+                left: -1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="slide.html">Slides</a></li>
+                    <li><a href="trabalhos.html">Trabalhos</a></li>
+                    <li><a href="livros.html">Livros</a></li>
+                    <li><a href="apostilas.html">Apostilas</a></li>
+                    <li><a href="videos.html">Vídeos</a></li>
+                    <li><a href="acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li><a href="questoes.html">Questões</a></li>
+            <li class="has-submenu">
+                <a href="materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="materias/maker/index.html">Maker</a></li>
+                    <li><a href="materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg header-theme-default">
+        <h1>Atualizações do Site</h1>
+        <p>A evolução do Mural Digital em capítulos curtos, <br> visuais e organizados.</p>
+    </header>
+
+    <main class="container updates-shell">
+        <section class="updates-hero">
+            <span class="updates-kicker">Diário do projeto</span>
+            <h2>Como o site foi crescendo dia após dia</h2>
+            <p>Esta página transforma o histórico técnico do projeto em uma narrativa visual. Aqui estão as mudanças mais importantes que ajudaram o CECMTAN a ganhar identidade, organização e novas áreas de conteúdo.</p>
+            <div class="updates-hero-links">
+                <a href="sitemap.html" class="btn-primary">Ver sitemap</a>
+                <a href="diretrizes.html" class="btn-secondary">Ler diretrizes</a>
+            </div>
+        </section>
+
+        <section class="updates-overview" aria-label="Resumo das atualizações">
+            <article class="updates-stat">
+                <strong>6 dias</strong>
+                <span>de marcos organizados nesta linha do tempo visual.</span>
+            </article>
+            <article class="updates-stat">
+                <strong>+10 frentes</strong>
+                <span>entre páginas, menu, matérias, visualizadores e documentação.</span>
+            </article>
+            <article class="updates-stat">
+                <strong>1 projeto vivo</strong>
+                <span>com ajustes constantes para escola, acervo e navegação.</span>
+            </article>
+        </section>
+
+        <section class="updates-chapters" aria-label="Capítulos da evolução do site">
+            <article class="updates-chapter">
+                <span>Capítulo 1</span>
+                <h3>Estrutura e cuidado institucional</h3>
+                <p>O site começou a consolidar políticas, privacidade, rodapé e uma exposição pública mais cuidadosa com dados e autoria.</p>
+            </article>
+            <article class="updates-chapter">
+                <span>Capítulo 2</span>
+                <h3>Conteúdo pedagógico em expansão</h3>
+                <p>Educação Financeira, Matemática, Química, vídeos e simulados ampliaram o uso do mural para além de uma simples vitrine.</p>
+            </article>
+            <article class="updates-chapter">
+                <span>Capítulo 3</span>
+                <h3>Identidade e experiência</h3>
+                <p>As últimas mudanças focaram em menu, sitemap, diretrizes, responsividade e avisos visuais mais claros para o público.</p>
+            </article>
+        </section>
+
+        <section class="updates-timeline" aria-label="Linha do tempo do projeto">
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">15/03/2026</span>
+                    <span class="timeline-label">Base institucional</span>
+                </div>
+                <h3>O projeto ganhou diretrizes e uma forma mais segura de se apresentar</h3>
+                <ul class="timeline-points">
+                    <li>Entraram as páginas de políticas, privacidade, cookies e o primeiro mapa do site.</li>
+                    <li>A página Sobre foi reforçada para explicar melhor o propósito do mural.</li>
+                    <li>Os trabalhos começaram a ser exibidos com mais cuidado para evitar exposição desnecessária de estudantes.</li>
+                </ul>
+            </article>
+
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">16/03/2026</span>
+                    <span class="timeline-label">História e acervo</span>
+                </div>
+                <h3>Moeda nas Civilizações virou uma peça forte do conteúdo pedagógico</h3>
+                <ul class="timeline-points">
+                    <li>A página foi ampliada com linha do tempo, referências, correções históricas e nota do professor.</li>
+                    <li>Mural e acervo passaram a organizar melhor títulos, imagens e navegação por sequência.</li>
+                    <li>O rodapé começou a ser padronizado entre as páginas da área de Educação Financeira.</li>
+                </ul>
+            </article>
+
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">17/03/2026</span>
+                    <span class="timeline-label">Novas matérias</span>
+                </div>
+                <h3>O mural deixou de ser só exposição e passou a ter mais trilhas de estudo</h3>
+                <ul class="timeline-points">
+                    <li>Nasceu a página "O que é Educação Financeira?" com formato mais editorial e responsivo.</li>
+                    <li>Matemática ganhou páginas próprias ligadas a finanças, ampliando a proposta interdisciplinar.</li>
+                    <li>Logo e selo Beta receberam ajustes de identidade para conversar melhor com as cores do site.</li>
+                </ul>
+            </article>
+
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">18/03/2026</span>
+                    <span class="timeline-label">Sistema visual</span>
+                </div>
+                <h3>O site começou a funcionar como um ecossistema visual mais consistente</h3>
+                <ul class="timeline-points">
+                    <li>Foi criado um sistema de tema compartilhado para cores, sombras e degradês.</li>
+                    <li>Os menus passaram a esconder visualmente áreas ainda não aprovadas, sem apagar as páginas internas.</li>
+                    <li>Entraram vídeos, novo visualizador e um acervo mais completo com busca e filtros.</li>
+                </ul>
+            </article>
+
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">19/03/2026</span>
+                    <span class="timeline-label">Interatividade</span>
+                </div>
+                <h3>Questões e Química ampliaram o alcance pedagógico do projeto</h3>
+                <ul class="timeline-points">
+                    <li>Foi criada a página de questões com estrutura de simulado e recursos de ajuda.</li>
+                    <li>Química entrou como nova área interna do site, mas ainda fora do menu principal.</li>
+                    <li>As anotações do professor passaram a levar o visitante para pontos exatos do conteúdo histórico.</li>
+                </ul>
+            </article>
+
+            <article class="timeline-card">
+                <div class="timeline-meta">
+                    <span class="timeline-date">20/03/2026</span>
+                    <span class="timeline-label">Refino de navegação</span>
+                </div>
+                <h3>As rotas ficaram mais claras e a experiência passou por uma limpeza geral</h3>
+                <ul class="timeline-points">
+                    <li><strong>politicas.html</strong> foi substituída por <strong>diretrizes.html</strong> e o antigo mapa migrou para <strong>sitemap.html</strong>.</li>
+                    <li>O aviso flutuante de novidades foi reorganizado, ganhou som, animação e ajuste específico para celular.</li>
+                    <li>Esta própria página foi criada para transformar o histórico técnico em memória visual do projeto.</li>
+                </ul>
+            </article>
+        </section>
+
+        <section class="updates-closure">
+            <h3>O site continua em construção, mas já tem uma identidade própria</h3>
+            <p>O histórico mostra uma evolução clara: primeiro veio a estrutura, depois o conteúdo, em seguida a identidade visual e agora a navegação mais refinada. A ideia desta página é registrar isso de forma mais humana, sem perder a organização técnica do projeto.</p>
+            <div class="updates-closure-links">
+                <a href="history.txt">Abrir histórico técnico</a>
+                <a href="sobre.html">Conhecer o projeto</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

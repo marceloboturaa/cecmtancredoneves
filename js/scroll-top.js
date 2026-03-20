@@ -1,4 +1,20 @@
 (function () {
+    function playScrollTopSound() {
+        try {
+            const sound = new Audio(new URL('../assets/audio/alerta-botão-novidade-flutuante.mp3', window.location.href).href);
+            sound.volume = 0.7;
+            const playPromise = sound.play();
+
+            if (playPromise && typeof playPromise.catch === 'function') {
+                playPromise.catch(function () {
+                    /* audio bloqueado pelo navegador */
+                });
+            }
+        } catch (error) {
+            /* audio indisponivel */
+        }
+    }
+
     function injectScrollTopStyles() {
         if (document.getElementById('scroll-top-inline-styles')) {
             return;
@@ -88,6 +104,8 @@
         }
 
         button.addEventListener('click', function () {
+            playScrollTopSound();
+
             if (target === window) {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;

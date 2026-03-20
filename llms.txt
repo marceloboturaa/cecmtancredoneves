@@ -12,7 +12,7 @@ It showcases photos, subject pages, slides, books, handouts, and interactive edu
 There is no backend and no build pipeline. The site is composed of static HTML, CSS, JavaScript, local assets, and PDF viewers.
 Recent additions also include a policy/privacy area, a site map page, a cookie consent banner, anonymized display of student work titles, and a dedicated video catalog/viewer flow.
 The site also now includes a Mathematics subject area with finance-oriented content, a responsive article page for financial education, and a unified archive that includes videos.
-Recent work also added a quiz/simulado page, a Chemistry subject area kept out of the global menus, and direct mural links to anchored sections inside the historical currency page.
+Recent work also added a quiz/simulado page, a Chemistry subject area kept out of the global menus, direct mural links to anchored sections inside the historical currency page, a renamed `diretrizes.html` route, a renamed `sitemap.html` route, and a dedicated visual updates/history page.
 
 ## Runtime model
 
@@ -32,8 +32,9 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 - `/videos.html`: video listing page with search
 - `/questoes.html`: quiz/simulado page with area filters and interactive help actions
 - `/sobre.html`: project/about page
-- `/politicas.html`: policy, privacy/LGPD, and cookies information page
-- `/mapa-do-site.html`: site map page with grouped navigation links
+- `/diretrizes.html`: diretrizes, privacy/LGPD, and cookies information page
+- `/sitemap.html`: site map page with grouped navigation links
+- `/atualizacoes.html`: visual timeline/story page that summarizes major site updates
 - `/visualizador-slide.html`: slide PDF viewer
 - `/visualizador-apostilas.html`: handout viewer
 - `/visualizador-livro.html`: book-style PDF viewer with page flip behavior
@@ -65,8 +66,8 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 - `/slide/`: presentation PDFs
 - `/livros/`: PDF books
 - `/apostilas/`: PDF handouts
-- `/audio/`: sound effects used by the book viewer
 - `/assets/image/`: icons and favicon assets
+- `/assets/audio/`: sound effects used by viewers and UI interactions
 
 ## CSS architecture
 
@@ -87,7 +88,7 @@ Additional page-specific styles:
 
 ## JavaScript architecture
 
-- `/js/main.js`: shared mobile menu toggle, footer legal icons, cookie banner, scroll-to-top button, and progressive enhancement for the Beta badge label
+- `/js/main.js`: shared mobile menu toggle, menu normalization, privacy icon injection, floating alert behavior, cookie banner, scroll-to-top button, and progressive enhancement for the Beta badge label
 - `/js/loader.js`: helper loader for the book viewer
 - `/js/turn.min.js`: page flip dependency used by `visualizador-livro.html`
 
@@ -104,13 +105,15 @@ Viewer dependencies loaded from CDN inside HTML:
 - Do not reintroduce the old `slaides` naming pattern.
 - Keep `slide.html`, `acervo.html`, and the real `/slide/` folder contents in sync; the current slide files use `-3a` naming.
 - Navigation links are duplicated across many HTML files, so link changes usually need to be applied in multiple pages.
+- The canonical institutional routes are now `diretrizes.html` and `sitemap.html`; avoid reintroducing the older `politicas.html` and `mapa-do-site.html` names.
 - Subject cards and archive entries are not generated from a CMS; they are maintained manually.
 - Chemistry exists as a real subject route but should remain hidden from the global navigation menus unless explicitly requested otherwise.
-- Footer legal access is injected globally by `js/main.js`, including links for site map, policy, and privacy/LGPD.
+- The navbar receives progressive normalization via `js/main.js`, including a privacy/diretrizes icon and missing `Questões`/submenu links when needed.
 - Cookie consent is stored in local browser storage under `cecmtan.cookies.choice`.
 - The navbar logo transitions from blue to green on interaction, and the `Beta` badge expands inline to show "Em desenvolvimento".
 - In navigation menus, the subject label may appear abbreviated as `Ed. Financeira`, while page titles should preserve `Educação Financeira`.
 - Public titles for student work should avoid exposing student names and prefer turma + tema formatting.
+- The floating home alert is intentionally compact and stacked vertically, with stronger mobile-specific adjustments.
 
 ## Where content lists live
 
@@ -128,7 +131,8 @@ Viewer dependencies loaded from CDN inside HTML:
 - Preserve static hosting compatibility. Avoid introducing Node, build tools, or framework-specific assumptions unless explicitly requested.
 - When renaming folders or files, update all hardcoded paths in HTML and inline JavaScript.
 - If adding new assets, verify whether they also need to be added to `slide.html`, `acervo.html`, or home page sliders.
-- If adding new subject content, check whether it should also appear in `materias.html`, `questoes.html`, `videos.html`, and `mapa-do-site.html`.
+- If adding new subject content, check whether it should also appear in `materias.html`, `questoes.html`, `videos.html`, and `sitemap.html`.
+- If adding or renaming major public pages, also review `history.txt`, `llms.txt`, and `atualizacoes.html`.
 - If changing a shared route such as `slide.html` or a viewer page, review navbar links across root pages and subject pages.
 - Book and handout flows use `visualizador-livro.html`.
 - Presentation flows use `visualizador-slide.html`.
@@ -141,3 +145,4 @@ Viewer dependencies loaded from CDN inside HTML:
 - `project_structure.md` is a generated structure snapshot and may need regeneration after large file moves.
 - The repository may contain local content updates not reflected in README text.
 - The project is content-heavy; asset path correctness matters more than code abstraction.
+
