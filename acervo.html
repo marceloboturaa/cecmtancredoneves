@@ -67,7 +67,7 @@
         <!-- Grid de itens -->
         <div class="acervo-grid" id="acervo-container"></div>
         <div class="listagem-acoes">
-            <button type="button" class="btn ver-mais-btn" id="ver-mais-acervo">Ver mais</button>
+            <button type="button" class="btn ver-mais-btn" id="ver-mais-acervo" hidden>Ver mais</button>
         </div>
     </section>
 
@@ -87,6 +87,7 @@
         </div>
     </footer>
 
+    <script src="js/questoes-videos.js"></script>
     <script src="js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
@@ -155,7 +156,9 @@
             { arquivo: "apostila-educacao-financeira-pessoal.pdf", titulo: "Apostila Educação Financeira Pessoal" }
         ];
 
-        const videos = [
+        const videos = window.videoCatalogCompleto && window.videoCatalogCompleto.length
+            ? [...window.videoCatalogCompleto]
+            : [
             {
                 youtubeId: "-7Az6V2oAD4",
                 titulo: "Banco Central do Brasil",
@@ -222,7 +225,8 @@
         let searchTerm = '';
         let itensExibidos = 0;
         let renderToken = 0;
-        const ITENS_POR_ETAPA = 8;
+        let carregandoMais = false;
+        const ITENS_POR_ETAPA = 6;
 
         function montarCaminho(pasta, arquivo, usarCache = false) {
             const sufixo = usarCache ? `?v=${pdfCacheKey}` : '';
@@ -357,6 +361,7 @@
 
         function renderizarItens(reset = false) {
             const filtrados = obterItensFiltrados();
+            const buscaAtiva = searchTerm.length > 0;
 
             if (reset) {
                 itensExibidos = 0;
@@ -364,10 +369,14 @@
                 container.innerHTML = '';
             }
 
-            const proximosItens = filtrados.slice(itensExibidos, itensExibidos + ITENS_POR_ETAPA);
+            const limiteFinal = buscaAtiva
+                ? filtrados.length
+                : itensExibidos + ITENS_POR_ETAPA;
+            const proximosItens = filtrados.slice(itensExibidos, limiteFinal);
 
             if (!proximosItens.length) {
                 botaoVerMais.hidden = true;
+                carregandoMais = false;
                 return;
             }
 
@@ -412,7 +421,8 @@
             });
 
             itensExibidos += proximosItens.length;
-            botaoVerMais.hidden = itensExibidos >= filtrados.length;
+            botaoVerMais.hidden = buscaAtiva || itensExibidos >= filtrados.length;
+            carregandoMais = false;
         }
 
         async function gerarThumbnailPDF(caminho, elemento, tokenAtual) {
@@ -441,8 +451,16 @@
         }
 
         function resetarListagem() {
-            botaoVerMais.hidden = false;
             renderizarItens(true);
+        }
+
+        function carregarMaisItens() {
+            if (carregandoMais || botaoVerMais.hidden) {
+                return;
+            }
+
+            carregandoMais = true;
+            renderizarItens(false);
         }
 
         function abrirGaleriaImagem(arquivo) {
@@ -507,7 +525,20 @@
             resetarListagem();
         });
 
-        botaoVerMais.addEventListener('click', () => renderizarItens(false));
+        botaoVerMais.addEventListener('click', carregarMaisItens);
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        carregarMaisItens();
+                    }
+                });
+            }, { rootMargin: '240px 0px' });
+
+            observer.observe(botaoVerMais);
+        }
+
         resetarListagem();
     </script>
 </body>

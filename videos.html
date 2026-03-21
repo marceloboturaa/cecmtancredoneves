@@ -51,6 +51,9 @@
             <input type="search" id="busca-videos" class="busca-acervo__input" placeholder="Buscar vídeos por título ou descrição">
         </div>
         <div class="acervo-grid" id="video-list"></div>
+        <div class="listagem-acoes">
+            <button type="button" class="btn ver-mais-btn" id="ver-mais-videos" hidden>Ver mais</button>
+        </div>
     </section>
 
     <footer id="rodape">
@@ -68,9 +71,12 @@
         </div>
     </footer>
 
+    <script src="js/questoes-videos.js"></script>
     <script src="js/main.js"></script>
     <script>
-        const videos = [
+        const videos = window.videoCatalogCompleto && window.videoCatalogCompleto.length
+            ? [...window.videoCatalogCompleto]
+            : [
             {
                 youtubeId: "-7Az6V2oAD4",
                 titulo: "Banco Central do Brasil",
@@ -135,7 +141,11 @@
 
         const container = document.getElementById('video-list');
         const buscaVideosInput = document.getElementById('busca-videos');
+        const verMaisBtn = document.getElementById('ver-mais-videos');
         const intervaloRotacaoEmMs = 5 * 60 * 1000;
+        const ITENS_POR_ETAPA = 6;
+        let itensExibidos = 0;
+        let carregandoMais = false;
 
         function abrirDocumento(url) {
             const novaJanela = window.open(url, '_blank');
@@ -163,32 +173,64 @@
                 );
         }
 
-        function renderizarVideos(lista) {
-            container.innerHTML = '';
-
-            lista.forEach((video, index) => {
-                const card = document.createElement('div');
-                card.className = 'item-card';
-                card.setAttribute('data-index', index);
-                card.addEventListener('click', function () {
-                    abrirVisualizador(video);
-                });
-
-                card.innerHTML = `
-                    <div class="item-thumb item-thumb-video">
-                        <img src="${video.thumb}" alt="${video.titulo}" loading="lazy">
-                    </div>
-                    <div class="item-tipo">vídeo</div>
-                    <div class="item-titulo">${video.titulo}</div>
-                    <div class="item-desc">${video.descricao}</div>
-                `;
-
-                container.appendChild(card);
+        function criarCardVideo(video, index) {
+            const card = document.createElement('div');
+            card.className = 'item-card';
+            card.setAttribute('data-index', index);
+            card.addEventListener('click', function () {
+                abrirVisualizador(video);
             });
+
+            card.innerHTML = `
+                <div class="item-thumb item-thumb-video">
+                    <img src="${video.thumb}" alt="${video.titulo}" loading="lazy">
+                </div>
+                <div class="item-tipo">vídeo</div>
+                <div class="item-titulo">${video.titulo}</div>
+                <div class="item-desc">${video.descricao}</div>
+            `;
+
+            return card;
+        }
+
+        function atualizarBotaoVerMais(total) {
+            verMaisBtn.hidden = itensExibidos >= total;
+        }
+
+        function renderizarVideos(reset = false) {
+            const lista = obterVideosFiltrados();
+            const buscaAtiva = buscaVideosInput.value.trim().length > 0;
+
+            if (reset) {
+                itensExibidos = 0;
+                container.innerHTML = '';
+            }
+
+            const proximoLimite = buscaAtiva
+                ? lista.length
+                : Math.min(itensExibidos + ITENS_POR_ETAPA, lista.length);
+            const lote = lista.slice(itensExibidos, proximoLimite);
+
+            lote.forEach((video, index) => {
+                container.appendChild(criarCardVideo(video, itensExibidos + index));
+            });
+
+            itensExibidos = proximoLimite;
+            verMaisBtn.hidden = buscaAtiva || itensExibidos >= lista.length;
+            carregandoMais = false;
         }
 
         function atualizarListagem() {
-            renderizarVideos(obterVideosFiltrados());
+            renderizarVideos(true);
+        }
+
+        function carregarMaisVideos() {
+            if (carregandoMais || verMaisBtn.hidden) {
+                return;
+            }
+
+            carregandoMais = true;
+            renderizarVideos(false);
         }
 
         function rotacionarVideos() {
@@ -202,6 +244,19 @@
         }
 
         buscaVideosInput.addEventListener('input', atualizarListagem);
+        verMaisBtn.addEventListener('click', carregarMaisVideos);
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        carregarMaisVideos();
+                    }
+                });
+            }, { rootMargin: '240px 0px' });
+
+            observer.observe(verMaisBtn);
+        }
 
         atualizarListagem();
         window.setInterval(rotacionarVideos, intervaloRotacaoEmMs);

@@ -296,3 +296,15 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - questoes.html passou a usar o arquivo externo css/questoes.css.
 - As paginas principais e internas recentes foram alinhadas ao padrao de manutencao para facilitar futuras atualizacoes.
 
+5. Simulado, videos e acervo
+- questoes.html foi reformulada para exibir uma questao por vez, com avanço automatico apos resposta e tela final com acertos, erros e aproveitamento.
+- O modo apresentacao foi adicionado ao simulado, com foco visual na questao e retorno correto ao layout normal ao sair.
+- Os recursos Cartas, 50/50 e Universitario foram reorganizados no painel lateral, com uso unico por prova e video de apoio por questao.
+- Foi criado o catalogo compartilhado js/questoes-videos.js para centralizar os videos de apoio das questoes e os videos institucionais ja existentes.
+- videos.html e acervo.html passaram a carregar resultados em etapas de 6 itens, com botao Ver mais e carregamento automatico ao descer a pagina.
+- A busca em videos.html e acervo.html foi ajustada para mostrar todos os resultados encontrados imediatamente quando houver pesquisa ativa.
+
+6. Documentacao e limpeza
+- llms.txt foi atualizado para refletir o novo catalogo compartilhado de videos, o fluxo de carregamento progressivo nas galerias e o comportamento atual do simulado.
+- Arquivos temporarios .tmp_questoes_video_map.txt e .tmp_questoes_video_gallery_lines.txt foram removidos por nao fazerem parte do site publicado.
+

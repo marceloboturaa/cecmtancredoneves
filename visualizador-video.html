@@ -52,9 +52,10 @@
         </div>
     </div>
 
+    <script src="js/questoes-videos.js"></script>
     <script>
         (function () {
-            const videoCatalog = [
+            const fallbackCatalog = [
                 {
                     youtubeId: '-7Az6V2oAD4',
                     titulo: 'Banco Central do Brasil',
@@ -99,11 +100,25 @@
                     youtubeId: 'AnZge4m995w',
                     titulo: 'Educação Financeira - vídeo complementar 7',
                     descricao: 'Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.'
+                },
+                {
+                    youtubeId: 'gB6p6d5c-tY',
+                    titulo: 'Química - Tabela Periódica',
+                    descricao: 'Vídeo complementar de Química para revisar famílias, períodos e organização dos elementos químicos.'
                 }
             ];
+            const videoCatalog = window.videoCatalogCompleto && window.videoCatalogCompleto.length
+                ? window.videoCatalogCompleto.map(video => ({
+                    youtubeId: video.youtubeId,
+                    titulo: video.titulo,
+                    descricao: video.descricao
+                }))
+                : fallbackCatalog;
 
             const params = new URLSearchParams(window.location.search);
             const requestedYoutubeId = params.get('youtube');
+            const requestedTitle = params.get('titulo');
+            const requestedDescription = params.get('descricao');
             const titleElement = document.getElementById('slide-title');
             const descriptionElement = document.getElementById('video-description');
             const iframe = document.getElementById('video-frame');
@@ -115,7 +130,8 @@
             const fullscreenBtn = document.getElementById('fullscreen-video-btn');
             const pointerMedia = window.matchMedia('(hover: hover) and (pointer: fine)');
             let controlsTimer = null;
-            let currentIndex = Math.max(0, videoCatalog.findIndex(video => video.youtubeId === requestedYoutubeId));
+            const requestedIndex = videoCatalog.findIndex(video => video.youtubeId === requestedYoutubeId);
+            let currentIndex = requestedIndex === -1 ? 0 : requestedIndex;
 
             function updateControlsVisibility(forceVisible) {
                 body.classList.toggle('has-pointer', pointerMedia.matches);
@@ -136,10 +152,46 @@
             }
 
             function getCurrentVideo() {
-                return videoCatalog[currentIndex] || null;
+                const video = videoCatalog[currentIndex] || null;
+
+                if (requestedYoutubeId && requestedIndex === -1) {
+                    return {
+                        youtubeId: requestedYoutubeId,
+                        titulo: requestedTitle || 'Vídeo de apoio',
+                        descricao: requestedDescription || 'Conteúdo enviado pela página anterior.'
+                    };
+                }
+
+                if (!video) {
+                    if (!requestedYoutubeId) {
+                        return null;
+                    }
+
+                    return {
+                        youtubeId: requestedYoutubeId,
+                        titulo: requestedTitle || 'Vídeo de apoio',
+                        descricao: requestedDescription || 'Conteúdo enviado pela página anterior.'
+                    };
+                }
+
+                if (video.youtubeId === requestedYoutubeId && (requestedTitle || requestedDescription)) {
+                    return {
+                        ...video,
+                        titulo: requestedTitle || video.titulo,
+                        descricao: requestedDescription || video.descricao
+                    };
+                }
+
+                return video;
             }
 
             function updateNavButtons() {
+                if (requestedYoutubeId && requestedIndex === -1) {
+                    prevBtn.disabled = true;
+                    nextBtn.disabled = true;
+                    return;
+                }
+
                 prevBtn.disabled = currentIndex <= 0;
                 nextBtn.disabled = currentIndex >= videoCatalog.length - 1;
             }

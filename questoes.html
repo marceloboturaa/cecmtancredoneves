@@ -44,57 +44,64 @@
 
     <header class="dark-bg header-theme-matematica">
         <h1>Questões Tipo Prova</h1>
-        <p>Escolha a área, responda o simulado, use cartas ou 50/50 e pule até 3 perguntas com substituição automática.</p>
+        <p>Escolha a área, responda uma questão por vez, use cartas ou 50/50 apenas uma vez por prova e abra o vídeo Universitário ligado ao tema atual.</p>
     </header>
 
     <main class="container">
         <section class="questoes-shell">
             <div class="questoes-coluna">
-                <article class="questoes-filtros">
-                    <h2>Configurar Prova</h2>
-                    <p>Escolha a área que deseja praticar. Ao limpar, a ordem das perguntas e das alternativas muda novamente.</p>
+                <div id="questoes-lista" class="questoes-coluna"></div>
+            </div>
+
+            <aside class="questoes-resumo">
+                <article class="questoes-filtros questoes-filtros--resumo">
                     <div class="questoes-filtros-grid">
                         <div class="questoes-campo">
                             <label for="filtro-area">Área</label>
                             <select id="filtro-area"></select>
                         </div>
-                        <button type="button" class="btn" id="aplicar-filtro">Atualizar prova</button>
-                        <button type="button" class="btn btn-outline" id="limpar-prova-topo">Nova mistura</button>
+                        <button type="button" class="btn" id="aplicar-filtro">Aplicar área</button>
+                        <button type="button" class="btn btn-outline" id="limpar-prova-topo">Embaralhar</button>
                     </div>
                 </article>
 
-                <div id="questoes-lista" class="questoes-coluna"></div>
-            </div>
-
-            <aside class="questoes-resumo">
-                <h2>Resumo da Prova</h2>
                 <div class="questoes-status">
                     <div class="questoes-pill">
                         <span>Área escolhida</span>
                         <strong id="status-area">Todas</strong>
                     </div>
                     <div class="questoes-pill">
+                        <span>Progresso</span>
+                        <strong id="status-progresso">1/0</strong>
+                    </div>
+                    <div class="questoes-pill">
                         <span>Respondidas</span>
                         <strong id="status-respondidas">0/0</strong>
                     </div>
                     <div class="questoes-pill">
-                        <span>Em branco</span>
-                        <strong id="status-em-branco">0</strong>
+                        <span>Em branco e pulos</span>
+                        <strong id="status-pulos">0 em branco • 3 pulos</strong>
+                    </div>
+                </div>
+
+                <div class="questoes-status questoes-status--recursos">
+                    <div class="questoes-pill">
+                        <span>Cartas</span>
+                        <strong id="status-cartas">1 uso</strong>
                     </div>
                     <div class="questoes-pill">
-                        <span>Pulos restantes</span>
-                        <strong id="status-pulos">3</strong>
+                        <span>50/50</span>
+                        <strong id="status-cinquenta">1 uso</strong>
                     </div>
                     <div class="questoes-pill">
-                        <span>Pulos usados</span>
-                        <strong id="status-pulos-usados">0</strong>
+                        <span>Universitário</span>
+                        <strong>1 vídeo</strong>
                     </div>
                 </div>
 
                 <div id="resultado-final" class="resultado-box">
                     <strong>Aguardando envio</strong>
-                    <span>Responda às questões e clique em corrigir.</span>
-                    <small>Você também pode usar cartas, 50/50 e até 3 pulos antes da correção.</small>
+                  
                 </div>
 
                 <div class="questoes-acoes">
@@ -120,6 +127,7 @@
         </div>
     </footer>
 
+    <script src="js/questoes-videos.js"></script>
     <script src="js/main.js"></script>
     <script>
         const LIMITE_PULOS = 3;
@@ -692,10 +700,11 @@
         const corrigirBtn = document.getElementById('corrigir-prova');
         const limparBtn = document.getElementById('limpar-prova');
         const statusArea = document.getElementById('status-area');
+        const statusProgresso = document.getElementById('status-progresso');
         const statusRespondidas = document.getElementById('status-respondidas');
-        const statusEmBranco = document.getElementById('status-em-branco');
         const statusPulos = document.getElementById('status-pulos');
-        const statusPulosUsados = document.getElementById('status-pulos-usados');
+        const statusCartas = document.getElementById('status-cartas');
+        const statusCinquenta = document.getElementById('status-cinquenta');
         const resultadoFinal = document.getElementById('resultado-final');
 
         const estado = {
@@ -704,7 +713,15 @@
             reserva: [],
             pulosRestantes: LIMITE_PULOS,
             corrigida: false,
-            acertos: null
+            acertos: null,
+            erros: null,
+            indiceAtual: 0,
+            cinquentaUsado: false,
+            cartaConsumida: false,
+            questaoCartasId: null,
+            baralhoCartas: embaralhar(CARTAS),
+            telaFinal: false,
+            apresentacaoFallback: false
         };
 
         function embaralhar(lista) {
@@ -752,11 +769,11 @@
 
             return {
                 ...questaoBase,
+                base: { ...questaoBase },
                 alternativas: alternativasMisturadas,
                 selecionada: null,
                 usou5050: false,
                 usouCarta: false,
-                cartasDisponiveis: embaralhar(CARTAS),
                 cartaEscolhida: null,
                 mensagemCarta: '',
                 mostrarCartas: false
@@ -772,10 +789,11 @@
         function reiniciarResultado() {
             estado.corrigida = false;
             estado.acertos = null;
+            estado.erros = null;
+            estado.telaFinal = false;
             resultadoFinal.innerHTML = `
                 <strong>Aguardando envio</strong>
-                <span>Responda às questões e clique em corrigir.</span>
-                <small>Você também pode usar cartas, 50/50 e até 3 pulos antes da correção.</small>
+                <span>O resultado final aparece automaticamente quando você responder a última questão.</span>
             `;
         }
 
@@ -786,6 +804,11 @@
             estado.questoesAtivas = bancoFiltrado.slice(0, tamanho).map(criarInstanciaQuestao);
             estado.reserva = bancoFiltrado.slice(tamanho);
             estado.pulosRestantes = LIMITE_PULOS;
+            estado.indiceAtual = 0;
+            estado.cinquentaUsado = false;
+            estado.cartaConsumida = false;
+            estado.questaoCartasId = null;
+            estado.baralhoCartas = embaralhar(CARTAS);
             reiniciarResultado();
             renderizarTudo();
         }
@@ -806,48 +829,70 @@
                 return;
             }
 
-            estado.questoesAtivas[indiceQuestao].selecionada = indiceAlternativa;
-            atualizarResumo();
-            renderizarQuestoes();
+            const questao = estado.questoesAtivas[indiceQuestao];
+
+            if (!questao) {
+                return;
+            }
+
+            questao.selecionada = indiceAlternativa;
+
+            const todasRespondidas = estado.questoesAtivas.every((item) => item.selecionada !== null);
+
+            if (todasRespondidas) {
+                corrigirProva();
+                return;
+            }
+
+            const proximaQuestaoEmBranco = estado.questoesAtivas.findIndex((item, indice) => indice > indiceQuestao && item.selecionada === null);
+            estado.indiceAtual = proximaQuestaoEmBranco !== -1
+                ? proximaQuestaoEmBranco
+                : estado.questoesAtivas.findIndex((item) => item.selecionada === null);
+
+            renderizarTudo();
         }
 
         function aplicarCinquenta(indiceQuestao) {
             const questao = estado.questoesAtivas[indiceQuestao];
 
-            if (estado.corrigida || questao.usou5050) {
+            if (!questao || estado.corrigida || estado.cinquentaUsado) {
                 return;
             }
 
             eliminarAlternativasErradas(questao, 2);
             questao.usou5050 = true;
-            renderizarQuestoes();
+            estado.cinquentaUsado = true;
+            renderizarTudo();
         }
 
         function alternarCartas(indiceQuestao) {
             const questao = estado.questoesAtivas[indiceQuestao];
 
-            if (estado.corrigida || questao.usouCarta) {
+            if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId) {
                 return;
             }
 
-            questao.mostrarCartas = !questao.mostrarCartas;
-            renderizarQuestoes();
+            questao.mostrarCartas = true;
+            estado.questaoCartasId = questao.id;
+            estado.indiceAtual = indiceQuestao;
+            renderizarTudo();
         }
 
         function escolherCarta(indiceQuestao, indiceCarta) {
             const questao = estado.questoesAtivas[indiceQuestao];
 
-            if (estado.corrigida || questao.usouCarta || !questao.cartasDisponiveis[indiceCarta]) {
+            if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId !== questao.id || !estado.baralhoCartas[indiceCarta]) {
                 return;
             }
 
-            const carta = questao.cartasDisponiveis[indiceCarta];
+            const carta = estado.baralhoCartas[indiceCarta];
             eliminarAlternativasErradas(questao, carta.elimina);
             questao.usouCarta = true;
             questao.cartaEscolhida = carta.nome;
             questao.mensagemCarta = `${carta.nome}: ${carta.descricao}`;
             questao.mostrarCartas = true;
-            renderizarQuestoes();
+            estado.cartaConsumida = true;
+            renderizarTudo();
         }
 
         function obterQuestaoReserva(areaId, idAtual) {
@@ -863,7 +908,16 @@
         function pularQuestao(indiceQuestao) {
             const questaoAtual = estado.questoesAtivas[indiceQuestao];
 
-            if (estado.corrigida || estado.pulosRestantes <= 0) {
+            if (!questaoAtual || estado.corrigida || estado.pulosRestantes <= 0) {
+                return;
+            }
+
+            if (estado.questaoCartasId === questaoAtual.id && !estado.cartaConsumida) {
+                resultadoFinal.innerHTML = `
+                    <strong>Escolha a carta primeiro</strong>
+                    <span>As cartas já foram abertas para esta questão.</span>
+                    <small>Escolha uma delas antes de pular ou siga para outra questão usando a navegação inferior.</small>
+                `;
                 return;
             }
 
@@ -878,18 +932,11 @@
                 return;
             }
 
-            estado.reserva.push({
-                id: questaoAtual.id,
-                area: questaoAtual.area,
-                disciplina: questaoAtual.disciplina,
-                enunciado: questaoAtual.enunciado,
-                alternativas: questaoAtual.alternativas.map((alternativa) => alternativa.texto),
-                correta: questaoAtual.alternativas.findIndex((alternativa) => alternativa.correta),
-                explicacao: questaoAtual.explicacao
-            });
+            estado.reserva.push(questaoAtual.base);
 
             estado.questoesAtivas[indiceQuestao] = criarInstanciaQuestao(substituta);
             estado.pulosRestantes -= 1;
+            estado.indiceAtual = indiceQuestao;
             renderizarTudo();
         }
 
@@ -908,6 +955,9 @@
 
             estado.corrigida = true;
             estado.acertos = acertos;
+            estado.erros = estado.questoesAtivas.length - acertos;
+            estado.indiceAtual = 0;
+            estado.telaFinal = true;
 
             const percentual = Math.round((acertos / estado.questoesAtivas.length) * 100);
             resultadoFinal.innerHTML = `
@@ -923,14 +973,91 @@
             montarNovaProva();
         }
 
+        function revisarRespostas() {
+            if (!estado.corrigida) {
+                return;
+            }
+
+            estado.telaFinal = false;
+            estado.indiceAtual = 0;
+            renderizarTudo();
+        }
+
+        function irParaQuestao(indice) {
+            if (indice < 0 || indice >= estado.questoesAtivas.length) {
+                return;
+            }
+
+            estado.indiceAtual = indice;
+            renderizarTudo();
+        }
+
+        function obterVideoUniversitario(questao) {
+            if (!questao) {
+                return null;
+            }
+
+            if (window.questoesVideoMap && window.questoesVideoMap[questao.id]) {
+                return window.questoesVideoMap[questao.id];
+            }
+
+            return null;
+        }
+
+        function abrirVideoUniversitario(indiceQuestao) {
+            const questao = estado.questoesAtivas[indiceQuestao];
+            const video = obterVideoUniversitario(questao);
+
+            if (!video) {
+                return;
+            }
+
+            const destino = `visualizador-video.html?youtube=${encodeURIComponent(video.youtubeId)}&titulo=${encodeURIComponent(video.titulo)}&descricao=${encodeURIComponent(video.descricao)}`;
+            const novaJanela = window.open(destino, '_blank');
+
+            if (novaJanela) {
+                novaJanela.focus();
+                return;
+            }
+
+            window.location.href = destino;
+        }
+
         function atualizarResumo() {
             const respondidas = estado.questoesAtivas.filter((questao) => questao.selecionada !== null).length;
+            const emBranco = estado.questoesAtivas.length - respondidas;
 
             statusArea.textContent = nomeDaArea(estado.areaAtual);
+            statusProgresso.textContent = estado.questoesAtivas.length ? `${estado.indiceAtual + 1}/${estado.questoesAtivas.length}` : '0/0';
             statusRespondidas.textContent = `${respondidas}/${estado.questoesAtivas.length}`;
-            statusEmBranco.textContent = estado.questoesAtivas.length - respondidas;
-            statusPulos.textContent = estado.pulosRestantes;
-            statusPulosUsados.textContent = LIMITE_PULOS - estado.pulosRestantes;
+            statusPulos.textContent = `${emBranco} em branco • ${estado.pulosRestantes} pulos`;
+            statusCartas.textContent = estado.cartaConsumida ? '0 uso' : '1 uso';
+            statusCinquenta.textContent = estado.cinquentaUsado ? '0 uso' : '1 uso';
+        }
+
+        function sincronizarModoApresentacao() {
+            const ativo = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
+            document.body.classList.toggle('questoes-apresentacao', ativo);
+        }
+
+        async function alternarModoApresentacao() {
+            if (estado.apresentacaoFallback) {
+                estado.apresentacaoFallback = false;
+                sincronizarModoApresentacao();
+                return;
+            }
+
+            try {
+                if (!document.fullscreenElement) {
+                    await document.documentElement.requestFullscreen();
+                } else {
+                    await document.exitFullscreen();
+                }
+            } catch (erro) {
+                estado.apresentacaoFallback = !estado.apresentacaoFallback;
+            }
+
+            sincronizarModoApresentacao();
         }
 
         function renderizarQuestoes() {
@@ -939,108 +1066,153 @@
                 return;
             }
 
-            questoesLista.innerHTML = estado.questoesAtivas.map((questao, indiceQuestao) => {
-                const ajudaTags = [];
+            if (estado.telaFinal) {
+                const percentual = Math.round((estado.acertos / estado.questoesAtivas.length) * 100);
 
-                if (questao.usou5050) {
-                    ajudaTags.push('<span class="questao-ajuda-tag">50/50 usado</span>');
-                }
-
-                if (questao.cartaEscolhida) {
-                    ajudaTags.push(`<span class="questao-ajuda-tag">Carta: ${escaparHtml(questao.cartaEscolhida)}</span>`);
-                }
-
-                const alternativasHtml = questao.alternativas.map((alternativa, indiceAlternativa) => {
-                    const classes = ['alternativa'];
-
-                    if (questao.selecionada === indiceAlternativa) {
-                        classes.push('selecionada');
-                    }
-
-                    if (!estado.corrigida && alternativa.oculta) {
-                        classes.push('oculta-ajuda');
-                    }
-
-                    if (estado.corrigida && alternativa.correta) {
-                        classes.push('correta');
-                    }
-
-                    if (estado.corrigida && questao.selecionada === indiceAlternativa && !alternativa.correta) {
-                        classes.push('incorreta');
-                    }
-
-                    const checked = questao.selecionada === indiceAlternativa ? 'checked' : '';
-                    const disabled = estado.corrigida || alternativa.oculta ? 'disabled' : '';
-
-                    return `
-                        <label class="${classes.join(' ')}" data-action="selecionar" data-questao-index="${indiceQuestao}" data-alternativa-index="${indiceAlternativa}">
-                            <input type="radio" name="questao-${indiceQuestao}" value="${indiceAlternativa}" ${checked} ${disabled}>
-                            <div>
-                                <strong>${String.fromCharCode(65 + indiceAlternativa)}</strong>
-                                <span>${escaparHtml(alternativa.texto)}</span>
+                questoesLista.innerHTML = `
+                    <article class="questao-card questao-card--final">
+                        <div class="questao-final-kicker">Resultado final</div>
+                        <h2 class="questao-final-titulo">Prova concluída</h2>
+                        <p class="questao-final-texto">Você terminou o simulado. Veja o resumo com acertos, erros e aproveitamento geral.</p>
+                        <div class="questao-final-grid">
+                            <div class="questao-final-box">
+                                <span>Acertos</span>
+                                <strong>${estado.acertos}</strong>
                             </div>
-                        </label>
-                    `;
-                }).join('');
-
-                const cartasHtml = questao.mostrarCartas ? `
-                    <div class="cartas-painel">
-                        <div class="cartas-grid">
-                            ${questao.cartasDisponiveis.map((carta, indiceCarta) => {
-                                const revelou = questao.cartaEscolhida && questao.cartasDisponiveis[indiceCarta].nome === questao.cartaEscolhida;
-                                const disabled = questao.usouCarta ? 'disabled' : '';
-                                const classes = ['carta-btn', `carta-${carta.classe}`];
-                                if (revelou) {
-                                    classes.push('revelada');
-                                }
-
-                                return `
-                                    <button type="button" class="${classes.join(' ')}" data-action="escolher-carta" data-questao-index="${indiceQuestao}" data-carta-index="${indiceCarta}" ${disabled}>
-                                        <span class="carta-indice">${indiceCarta + 1}</span>
-                                        <span class="carta-simbolo">${escaparHtml(carta.simbolo)}</span>
-                                    </button>
-                                `;
-                            }).join('')}
-                        </div>
-                        <div class="cartas-resultado">${escaparHtml(questao.mensagemCarta || 'Escolha uma carta para descobrir quantas alternativas erradas serão eliminadas.')}</div>
-                    </div>
-                ` : '';
-
-                const cardClasses = ['questao-card'];
-                if (estado.corrigida) {
-                    const acertou = questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta;
-                    cardClasses.push(acertou ? 'corrigida-certa' : 'corrigida-errada');
-                }
-
-                return `
-                    <article class="${cardClasses.join(' ')}">
-                        <div class="questao-topo">
-                            <div class="questao-topo-esquerda">
-                                <span class="questao-numero">${indiceQuestao + 1}</span>
-                                <span class="questao-disciplina">${escaparHtml(questao.disciplina)}</span>
-                                ${ajudaTags.join('')}
+                            <div class="questao-final-box questao-final-box--erro">
+                                <span>Erros</span>
+                                <strong>${estado.erros}</strong>
+                            </div>
+                            <div class="questao-final-box">
+                                <span>Aproveitamento</span>
+                                <strong>${percentual}%</strong>
                             </div>
                         </div>
-
-                        <p class="questao-enunciado">${escaparHtml(questao.enunciado)}</p>
-
-                        <div class="questao-acoes">
-                            <button type="button" class="questao-acao questao-acao--pular" data-action="pular" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.pulosRestantes <= 0 ? 'disabled' : ''}>Pular (${estado.pulosRestantes})</button>
-                            <button type="button" class="questao-acao questao-acao--cartas" data-action="cartas" data-questao-index="${indiceQuestao}" ${estado.corrigida || questao.usouCarta ? 'disabled' : ''}>Cartas</button>
-                            <button type="button" class="questao-acao questao-acao--cinquenta" data-action="cinquenta" data-questao-index="${indiceQuestao}" ${estado.corrigida || questao.usou5050 ? 'disabled' : ''}>50/50</button>
-                        </div>
-
-                        ${cartasHtml}
-
-                        <div class="questao-alternativas">${alternativasHtml}</div>
-
-                        <div class="questao-feedback ${estado.corrigida ? 'visivel' : ''}">
-                            <strong>Comentário:</strong>
-                            <span>${escaparHtml(questao.explicacao)}</span>
+                        <div class="questao-final-acoes">
+                            <button type="button" class="btn" data-action="revisar">Rever respostas</button>
+                            <button type="button" class="btn btn-outline" data-action="reiniciar">Nova tentativa</button>
                         </div>
                     </article>
                 `;
+                return;
+            }
+
+            const indiceQuestao = estado.indiceAtual;
+            const questao = estado.questoesAtivas[indiceQuestao];
+            const ajudaTags = [];
+            const videoAtual = obterVideoUniversitario(questao);
+            const apresentacaoAtiva = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
+
+            if (questao.usou5050) {
+                ajudaTags.push('<span class="questao-ajuda-tag">50/50 usado</span>');
+            }
+
+            if (questao.cartaEscolhida) {
+                ajudaTags.push(`<span class="questao-ajuda-tag">Carta: ${escaparHtml(questao.cartaEscolhida)}</span>`);
+            }
+
+            if (estado.questaoCartasId === questao.id && !questao.cartaEscolhida) {
+                ajudaTags.push('<span class="questao-ajuda-tag">Cartas abertas</span>');
+            }
+
+            const alternativasHtml = questao.alternativas.map((alternativa, indiceAlternativa) => {
+                const classes = ['alternativa'];
+
+                if (questao.selecionada === indiceAlternativa) {
+                    classes.push('selecionada');
+                }
+
+                if (!estado.corrigida && alternativa.oculta) {
+                    classes.push('oculta-ajuda');
+                }
+
+                if (estado.corrigida && alternativa.correta) {
+                    classes.push('correta');
+                }
+
+                if (estado.corrigida && questao.selecionada === indiceAlternativa && !alternativa.correta) {
+                    classes.push('incorreta');
+                }
+
+                const checked = questao.selecionada === indiceAlternativa ? 'checked' : '';
+                const disabled = estado.corrigida || alternativa.oculta ? 'disabled' : '';
+
+                return `
+                    <label class="${classes.join(' ')}">
+                        <input type="radio" name="questao-${indiceQuestao}" value="${indiceAlternativa}" ${checked} ${disabled}>
+                        <div>
+                            <strong>${String.fromCharCode(65 + indiceAlternativa)}</strong>
+                            <span>${escaparHtml(alternativa.texto)}</span>
+                        </div>
+                    </label>
+                `;
             }).join('');
+
+            const cartasHtml = estado.questaoCartasId === questao.id ? `
+                <div class="cartas-painel">
+                    <div class="cartas-grid">
+                        ${estado.baralhoCartas.map((carta, indiceCarta) => {
+                            const revelou = questao.cartaEscolhida && estado.baralhoCartas[indiceCarta].nome === questao.cartaEscolhida;
+                            const disabled = questao.usouCarta ? 'disabled' : '';
+                            const classes = ['carta-btn', `carta-${carta.classe}`];
+                            if (revelou) {
+                                classes.push('revelada');
+                            }
+
+                            return `
+                                <button type="button" class="${classes.join(' ')}" data-action="escolher-carta" data-questao-index="${indiceQuestao}" data-carta-index="${indiceCarta}" ${disabled}>
+                                    <span class="carta-indice">${indiceCarta + 1}</span>
+                                    <span class="carta-simbolo">${escaparHtml(carta.simbolo)}</span>
+                                </button>
+                            `;
+                        }).join('')}
+                    </div>
+                    <div class="cartas-resultado">${escaparHtml(questao.mensagemCarta || 'Escolha uma única carta. Ela será o único uso de cartas disponível nesta prova.')}</div>
+                </div>
+            ` : '';
+
+            const cardClasses = ['questao-card'];
+            if (estado.corrigida) {
+                const acertou = questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta;
+                cardClasses.push(acertou ? 'corrigida-certa' : 'corrigida-errada');
+            }
+
+            questoesLista.innerHTML = `
+                <article class="${cardClasses.join(' ')}">
+                    <div class="questao-topo">
+                        <div class="questao-topo-esquerda">
+                            <span class="questao-numero">${indiceQuestao + 1}</span>
+                            <span class="questao-disciplina">${escaparHtml(questao.disciplina)}</span>
+                            ${ajudaTags.join('')}
+                        </div>
+                        <button type="button" class="questao-topo-icone" data-action="apresentacao" aria-label="${apresentacaoAtiva ? 'Sair do modo apresentação' : 'Entrar no modo apresentação'}" title="${apresentacaoAtiva ? 'Sair do modo apresentação' : 'Modo apresentação'}">${apresentacaoAtiva ? '×' : '⛶'}</button>
+                    </div>
+
+                    <p class="questao-enunciado">${escaparHtml(questao.enunciado)}</p>
+
+                    <div class="questao-acoes">
+                        <button type="button" class="questao-acao questao-acao--pular" data-action="pular" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.pulosRestantes <= 0 || (estado.questaoCartasId === questao.id && !questao.cartaEscolhida) ? 'disabled' : ''}>Pular (${estado.pulosRestantes})</button>
+                        <button type="button" class="questao-acao questao-acao--cartas" data-action="cartas" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.cartaConsumida || estado.questaoCartasId ? 'disabled' : ''}>Cartas</button>
+                        <button type="button" class="questao-acao questao-acao--cinquenta" data-action="cinquenta" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.cinquentaUsado ? 'disabled' : ''}>50/50</button>
+                        <button type="button" class="questao-acao questao-acao--universitario" data-action="universitario" data-questao-index="${indiceQuestao}" ${videoAtual ? '' : 'disabled'}>Universitário</button>
+                    </div>
+
+                    ${cartasHtml}
+
+                    <div class="questao-alternativas">${alternativasHtml}</div>
+
+                    <div class="questao-feedback ${estado.corrigida ? 'visivel' : ''}">
+                        <strong>Comentário:</strong>
+                        <span>${escaparHtml(questao.explicacao)}</span>
+                    </div>
+
+                    <div class="questao-navegacao">
+                        <button type="button" class="questao-nav-btn" data-action="anterior" ${indiceQuestao === 0 ? 'disabled' : ''}>Questão anterior</button>
+                        <div class="questao-navegacao-status">Questão ${indiceQuestao + 1} de ${estado.questoesAtivas.length}</div>
+                        <button type="button" class="questao-nav-btn" data-action="proxima" ${indiceQuestao >= estado.questoesAtivas.length - 1 ? 'disabled' : ''}>Próxima questão</button>
+                    </div>
+                </article>
+            `;
         }
 
         function renderizarTudo() {
@@ -1068,11 +1240,6 @@
             const indiceQuestao = Number(elemento.dataset.questaoIndex);
             const acao = elemento.dataset.action;
 
-            if (acao === 'selecionar') {
-                selecionarResposta(indiceQuestao, Number(elemento.dataset.alternativaIndex));
-                return;
-            }
-
             if (acao === 'pular') {
                 pularQuestao(indiceQuestao);
                 return;
@@ -1090,6 +1257,36 @@
 
             if (acao === 'cinquenta') {
                 aplicarCinquenta(indiceQuestao);
+                return;
+            }
+
+            if (acao === 'universitario') {
+                abrirVideoUniversitario(indiceQuestao);
+                return;
+            }
+
+            if (acao === 'anterior') {
+                irParaQuestao(estado.indiceAtual - 1);
+                return;
+            }
+
+            if (acao === 'proxima') {
+                irParaQuestao(estado.indiceAtual + 1);
+                return;
+            }
+
+            if (acao === 'apresentacao') {
+                alternarModoApresentacao();
+                return;
+            }
+
+            if (acao === 'revisar') {
+                revisarRespostas();
+                return;
+            }
+
+            if (acao === 'reiniciar') {
+                limparEEmbaralhar();
             }
         });
 
@@ -1103,6 +1300,7 @@
         limparProvaTopoBtn.addEventListener('click', limparEEmbaralhar);
         limparBtn.addEventListener('click', limparEEmbaralhar);
         corrigirBtn.addEventListener('click', corrigirProva);
+        document.addEventListener('fullscreenchange', sincronizarModoApresentacao);
 
         preencherFiltro();
         montarNovaProva();

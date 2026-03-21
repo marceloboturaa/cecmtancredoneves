@@ -29,8 +29,8 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 - `/slide.html`: presentation listing page
 - `/trabalhos.html`: student work listing page with anonymized public titles
 - `/acervo.html`: unified archive for photos, slides, books, handouts, and videos
-- `/videos.html`: video listing page with search
-- `/questoes.html`: quiz/simulado page with area filters and interactive help actions
+- `/videos.html`: video listing page with search, progressive loading, and automatic reveal while scrolling
+- `/questoes.html`: quiz/simulado page with area filters, one-question flow, presentation mode, and interactive help actions
 - `/sobre.html`: project/about page
 - `/diretrizes.html`: diretrizes, privacy/LGPD, and cookies information page
 - `/sitemap.html`: site map page with grouped navigation links
@@ -90,6 +90,7 @@ Additional page-specific styles:
 ## JavaScript architecture
 
 - `/js/main.js`: shared mobile menu toggle, menu normalization, privacy icon injection, floating alert behavior, cookie banner, scroll-to-top button, and progressive enhancement for the Beta badge label
+- `/js/questoes-videos.js`: shared video catalog for per-question support videos and gallery/archive reuse
 - `/js/loader.js`: helper loader for the book viewer
 - `/js/turn.min.js`: page flip dependency used by `visualizador-livro.html`
 
@@ -115,6 +116,10 @@ Viewer dependencies loaded from CDN inside HTML:
 - In navigation menus, the subject label may appear abbreviated as `Ed. Financeira`, while page titles should preserve `Educação Financeira`.
 - Public titles for student work should avoid exposing student names and prefer turma + tema formatting.
 - The floating home alert is intentionally compact and stacked vertically, with stronger mobile-specific adjustments.
+- The quiz currently shows one question at a time, supports presentation mode, and reveals the final result screen automatically after the last answer.
+- Help actions in the quiz sidebar are compact and use the short states `1 uso` and `0 uso`.
+- Per-question support videos are centralized in `js/questoes-videos.js` and should stay consistent with `videos.html`, `acervo.html`, and `visualizador-video.html`.
+- In `videos.html` and `acervo.html`, normal browsing loads cards in groups of 6; when search is active, all matching results should be shown immediately.
 
 ## Where content lists live
 
@@ -122,8 +127,9 @@ Viewer dependencies loaded from CDN inside HTML:
 - `/slide.html`: presentation list and thumbnail generation
 - `/trabalhos.html`: work list and anonymized card titles
 - `/acervo.html`: master archive lists for images, slides, books, handouts, and videos
-- `/videos.html`: hardcoded YouTube catalog with local search
-- `/questoes.html`: hardcoded question bank by subject area
+- `/videos.html`: gallery view backed by the shared video catalog and local search
+- `/questoes.html`: hardcoded question bank by subject area plus per-question video links
+- `/js/questoes-videos.js`: canonical shared catalog for support and gallery videos
 
 ## Editing guidance for agents
 
@@ -136,6 +142,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - If adding new subject content, check whether it should also appear in `materias.html`, `questoes.html`, `videos.html`, and `sitemap.html`.
 - If adding or renaming major public pages, also review `history.txt`, `llms.txt`, and `atualizacoes.html`.
 - In math/exact-sciences pages, prefer rendering formulas with LaTeX via MathJax instead of plain text when formulas are shown to users.
+- If adding or changing question support videos, update `js/questoes-videos.js` first and let `videos.html`, `acervo.html`, and `visualizador-video.html` consume that shared catalog.
 - If changing a shared route such as `slide.html` or a viewer page, review navbar links across root pages and subject pages.
 - Book and handout flows use `visualizador-livro.html`.
 - Presentation flows use `visualizador-slide.html`.
