@@ -45,6 +45,7 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 
 - `/materias/educacao-financeira/index.html`
 - `/materias/educacao-financeira/planejamento-ao-consumo.html`
+- `/materias/educacao-financeira/juros-compostos.html`
 - `/materias/educacao-financeira/o-que-e-educacao-financeira.html`
 - `/materias/educacao-financeira/conceitos-basicos.html`
 - `/materias/educacao-financeira/moeda-nas-civilizacoes.html`
@@ -127,12 +128,14 @@ Viewer dependencies loaded from CDN inside HTML:
 ## Editing guidance for agents
 
 - Prefer editing shared CSS files before adding inline styles.
+- Prefer `css/pages.css`, `css/components.css`, `css/layout.css`, `css/visualizador.css`, or `css/visualizador-pdf.css` over `<style>` blocks or `style=""` attributes inside HTML files.
 - Keep existing visual identity: blue `#173557`, green `#68813c`, white backgrounds, rounded cards.
 - Preserve static hosting compatibility. Avoid introducing Node, build tools, or framework-specific assumptions unless explicitly requested.
 - When renaming folders or files, update all hardcoded paths in HTML and inline JavaScript.
 - If adding new assets, verify whether they also need to be added to `slide.html`, `acervo.html`, or home page sliders.
 - If adding new subject content, check whether it should also appear in `materias.html`, `questoes.html`, `videos.html`, and `sitemap.html`.
 - If adding or renaming major public pages, also review `history.txt`, `llms.txt`, and `atualizacoes.html`.
+- In math/exact-sciences pages, prefer rendering formulas with LaTeX via MathJax instead of plain text when formulas are shown to users.
 - If changing a shared route such as `slide.html` or a viewer page, review navbar links across root pages and subject pages.
 - Book and handout flows use `visualizador-livro.html`.
 - Presentation flows use `visualizador-slide.html`.

@@ -7,130 +7,6 @@
     <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
     <title>Matérias – Exposição Escolar | Colégio Tancredo</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        .materias-shell {
-            display: grid;
-            gap: 1.8rem;
-        }
-
-        .materias-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 1.2rem;
-        }
-
-        .materia-card {
-            display: grid;
-            gap: 0.85rem;
-            min-height: 100%;
-            padding: 1.5rem;
-            border-radius: 24px;
-            border: 1px solid rgba(23, 53, 87, 0.06);
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
-                linear-gradient(135deg, var(--accent-soft), var(--accent));
-            box-shadow: 0 18px 34px rgba(15, 23, 42, 0.1);
-            transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-        }
-
-        .materia-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 24px 42px rgba(15, 23, 42, 0.16);
-            border-color: rgba(255, 255, 255, 0.22);
-        }
-
-        .materia-card h3 {
-            font-size: 1.35rem;
-            color: #ffffff;
-            text-shadow: 0 2px 10px rgba(15, 23, 42, 0.18);
-        }
-
-        .materia-card p {
-            color: rgba(255, 255, 255, 0.92);
-            min-height: 72px;
-        }
-
-        .materia-professor {
-            color: rgba(255, 255, 255, 0.88);
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-
-        .materia-card .btn {
-            margin-top: auto;
-            width: fit-content;
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--accent-deep);
-            font-weight: 700;
-        }
-
-        .materia-card .btn:hover {
-            background: #ffffff;
-            filter: none;
-        }
-
-        .materia-badge {
-            width: fit-content;
-            padding: 0.45rem 0.85rem;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.16);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.82rem;
-            font-weight: 700;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
-        }
-
-        .materia-card--pending {
-            background: linear-gradient(180deg, #f2f4f7, #e5e7eb);
-            border-color: rgba(148, 163, 184, 0.24);
-            box-shadow: 0 14px 28px rgba(15, 23, 42, 0.06);
-        }
-
-        .materia-card--pending:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 18px 30px rgba(15, 23, 42, 0.08);
-            border-color: rgba(148, 163, 184, 0.32);
-        }
-
-        .materia-card--pending h3 {
-            color: #334155;
-            text-shadow: none;
-        }
-
-        .materia-card--pending p,
-        .materia-card--pending .materia-professor {
-            color: #64748b;
-        }
-
-        .materia-card--pending .materia-badge {
-            background: rgba(148, 163, 184, 0.16);
-            border-color: rgba(148, 163, 184, 0.28);
-            color: #475569;
-        }
-
-        .materia-card--pending .btn {
-            background: rgba(255, 255, 255, 0.96);
-            color: #475569;
-        }
-
-        @media (max-width: 1024px) {
-            .materias-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
-        }
-
-        @media (max-width: 640px) {
-            .materia-card {
-                padding: 1.15rem;
-            }
-
-            .materias-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -176,7 +52,7 @@
     <main class="container materias-shell">
         <section>
             <div class="materias-grid">
-                <article class="materia-card" style="--accent: #68813c; --accent-soft: #8faa57; --accent-deep: #445728;">
+                <article class="materia-card materia-card--financeiro">
                     <span class="materia-badge">Financeiro</span>
                     <h3>Educação Financeira</h3>
                     <p>Projetos sobre dinheiro, consumo consciente, orçamento familiar e planejamento.</p>
@@ -185,7 +61,7 @@
                     <a href="materias/educacao-financeira/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card materia-card--pending" style="--accent: #2563eb; --accent-soft: #4f83f1; --accent-deep: #163f9e;">
+                <article class="materia-card materia-card--pending materia-card--matematica">
                     <span class="materia-badge">Exatas</span>
                     <h3>Matemática</h3>
                     <p>Conteúdos aplicados ao cotidiano financeiro, com porcentagem e frações usadas em situações reais.</p>
@@ -194,7 +70,7 @@
                     <a href="materias/matematica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card materia-card--pending" style="--accent: #0ea5e9; --accent-soft: #38bdf8; --accent-deep: #0b5f87;">
+                <article class="materia-card materia-card--pending materia-card--robotica">
                     <span class="materia-badge">Tecnologia</span>
                     <h3>Robótica</h3>
                     <p>Robótica educacional, lógica e pensamento computacional aplicados em atividades práticas.</p>
@@ -203,7 +79,7 @@
                     <a href="materias/robotica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card materia-card--pending" style="--accent: #14b8a6; --accent-soft: #2dd4bf; --accent-deep: #0c6b61;">
+                <article class="materia-card materia-card--pending materia-card--quimica">
                     <span class="materia-badge">Ciências</span>
                     <h3>Química</h3>
                     <p>Misturas, transformações da matéria e conteúdos introdutórios para observar fenômenos químicos.</p>
@@ -212,7 +88,7 @@
                     <a href="materias/quimica/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card materia-card--pending" style="--accent: #9333ea; --accent-soft: #a855f7; --accent-deep: #5f1f98;">
+                <article class="materia-card materia-card--pending materia-card--filosofia">
                     <span class="materia-badge">Humanas</span>
                     <h3>Filosofia</h3>
                     <p>Reflexões, ética, cidadania e pensamento crítico desenvolvidos pelos estudantes.</p>
@@ -221,7 +97,7 @@
                     <a href="materias/filosofia/index.html" class="btn">Entrar na matéria</a>
                 </article>
 
-                <article class="materia-card materia-card--pending" style="--accent: #d97706; --accent-soft: #f59e0b; --accent-deep: #8a4d05;">
+                <article class="materia-card materia-card--pending materia-card--maker">
                     <span class="materia-badge">Criação</span>
                     <h3>Maker</h3>
                     <p>Cultura maker, prototipagem e criatividade em propostas construídas pela turma.</p>

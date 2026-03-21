@@ -58,11 +58,11 @@
 
             if (!arquivo) {
                 viewer.innerHTML = `
-                    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:#6c757d;">
-                        <i class="fas fa-file-pdf" style="font-size:3rem;margin-bottom:1rem;"></i>
+                    <div class="viewer-empty-state">
+                        <i class="fas fa-file-pdf viewer-empty-state__icon"></i>
                         <h2>Nenhuma apostila especificada</h2>
                         <p>Por favor, acesse o acervo para selecionar uma apostila.</p>
-                        <button onclick="window.location.href='acervo.html'" style="margin-top:1rem;padding:0.5rem 1rem;background:#007bff;color:white;border:none;border-radius:4px;cursor:pointer;">
+                        <button onclick="window.location.href='acervo.html'" class="viewer-empty-state__button">
                             Ir para Acervo
                         </button>
                     </div>

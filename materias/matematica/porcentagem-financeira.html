@@ -47,7 +47,7 @@
     </header>
 
     <section class="container">
-        <div class="policy-note" style="margin-bottom: 2rem;">
+        <div class="policy-note section-gap">
             <strong>Ideia principal:</strong> porcentagem representa uma parte de cada 100 e ajuda a comparar valores
             com rapidez em contextos financeiros.
         </div>
@@ -75,22 +75,22 @@
 
         <section class="history-section">
             <h2>Como calcular</h2>
-            <p style="margin-bottom: 1rem;">Para descobrir uma porcentagem de um valor, pode-se multiplicar o valor pela taxa e dividir por 100.</p>
+            <p class="text-muted-paragraph">Para descobrir uma porcentagem de um valor, pode-se multiplicar o valor pela taxa e dividir por 100.</p>
             <div class="grid">
                 <article class="card">
                     <h3>Exemplo 1</h3>
-                    <p>20% de R$ 150</p>
-                    <p><strong>150 × 20 ÷ 100 = 30</strong></p>
+                    <p>\( 20\% \) de R$ 150</p>
+                    <p class="math-formula math-formula--block">\( \frac{150 \times 20}{100} = 30 \)</p>
                 </article>
                 <article class="card">
                     <h3>Exemplo 2</h3>
-                    <p>5% de R$ 320</p>
-                    <p><strong>320 × 5 ÷ 100 = 16</strong></p>
+                    <p>\( 5\% \) de R$ 320</p>
+                    <p class="math-formula math-formula--block">\( \frac{320 \times 5}{100} = 16 \)</p>
                 </article>
                 <article class="card">
                     <h3>Exemplo 3</h3>
-                    <p>12% de R$ 90</p>
-                    <p><strong>90 × 12 ÷ 100 = 10,8</strong></p>
+                    <p>\( 12\% \) de R$ 90</p>
+                    <p class="math-formula math-formula--block">\( \frac{90 \times 12}{100} = 10{,}8 \)</p>
                 </article>
             </div>
         </section>
@@ -139,6 +139,17 @@
         </div>
     </footer>
 
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <script src="../../js/main.js"></script>
 </body>
 

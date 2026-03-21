@@ -272,3 +272,27 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - Foi planejada e criada a pagina atualizacoes.html para contar a evolucao do site em formato mais visual.
 - history.txt e llms.txt foram atualizados para refletir as rotas atuais, os novos fluxos e a pagina de atualizacoes.
 
+==================================================
+21/03/2026
+==================================================
+
+1. Nova postagem em Educacao Financeira
+- Foi criada a pagina juros-compostos.html dentro da area de Educacao Financeira.
+- O novo conteudo explica definicao, formula, exemplo pratico, usos no cotidiano e reflexoes sobre dividas e investimentos.
+
+2. Navegacao e documentacao
+- A pagina index da materia de Educacao Financeira recebeu um novo card para Juros Compostos.
+- O sitemap foi atualizado para incluir a nova rota.
+- O llms.txt foi atualizado com a nova pagina da area.
+
+3. Formulas em linguagem LaTeX
+- A pagina de Juros Compostos passou a exibir a formula principal com renderizacao em LaTeX.
+- As paginas de Porcentagem Financeira e Fracoes Financeiras tambem foram ajustadas para mostrar expressoes e fracoes com MathJax.
+- Foi registrada a convencao de usar LaTeX em conteudos de exatas sempre que houver formulas visiveis ao usuario.
+
+4. Organizacao do CSS do projeto
+- Blocos locais de CSS que estavam dentro de HTML foram centralizados em arquivos da pasta css.
+- Foram criadas classes utilitarias para espacamento, texto e acoes recorrentes, reduzindo uso de style inline.
+- questoes.html passou a usar o arquivo externo css/questoes.css.
+- As paginas principais e internas recentes foram alinhadas ao padrao de manutencao para facilitar futuras atualizacoes.
+

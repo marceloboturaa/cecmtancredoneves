@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+    <title>Juros Compostos | Educação Financeira</title>
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo"><a href="../../index.html"><span class="logo-text"><span
+                        class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida
+                        Neves</span></span><span class="beta-badge">Beta</span></a></div>
+        <div class="menu-toggle">☰</div>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Início</a></li>
+            <li class="has-submenu nav-highlight">
+                <a href="../../mural.html">Mural</a>
+                <ul class="submenu">
+                    <li><a href="../../slide.html">Slides</a></li>
+                    <li><a href="../../trabalhos.html">Trabalhos</a></li>
+                    <li><a href="../../livros.html">Livros</a></li>
+                    <li><a href="../../apostilas.html">Apostilas</a></li>
+                    <li><a href="../../acervo.html">Acervo</a></li>
+                </ul>
+            </li>
+            <li class="has-submenu">
+                <a href="../../materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="../../materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="../../materias/filosofia/index.html">Filosofia</a></li>
+                    <li><a href="../../materias/maker/index.html">Maker</a></li>
+                    <li><a href="../../materias/robotica/index.html">Robótica</a></li>
+                </ul>
+            </li>
+            <li><a href="../../sobre.html">Sobre</a></li>
+        </ul>
+    </nav>
+
+    <header class="dark-bg header-theme-default">
+        <h1>Juros Compostos</h1>
+        <p>Entenda como o dinheiro cresce ao longo do tempo e por que os juros podem ajudar ou atrapalhar decisões financeiras.</p>
+    </header>
+
+    <section class="container">
+        <section class="history-section section-gap">
+            <h2>Calculadora de juros compostos</h2>
+            <div class="compound-calculator">
+                <div class="compound-calculator__intro">
+                    <h3>Veja o crescimento ao longo do tempo</h3>
+                    <p>Altere os controles para comparar o montante final, os juros gerados e a diferença entre juros compostos, juros simples e total investido.</p>
+                </div>
+
+                <div class="compound-calculator__controls">
+                    <div class="compound-calculator__control">
+                        <label for="principal">Capital inicial</label>
+                        <div class="compound-calculator__row">
+                            <input type="range" id="principal" min="1000" max="100000" step="1000" value="10000">
+                            <span class="compound-calculator__value" id="principalVal">R$ 10.000</span>
+                        </div>
+                    </div>
+
+                    <div class="compound-calculator__control">
+                        <label for="rate">Taxa de juros anual</label>
+                        <div class="compound-calculator__row">
+                            <input type="range" id="rate" min="1" max="30" step="0.5" value="10">
+                            <span class="compound-calculator__value" id="rateVal">10%</span>
+                        </div>
+                    </div>
+
+                    <div class="compound-calculator__control">
+                        <label for="years">Período em anos</label>
+                        <div class="compound-calculator__row">
+                            <input type="range" id="years" min="1" max="40" step="1" value="20">
+                            <span class="compound-calculator__value" id="yearsVal">20 anos</span>
+                        </div>
+                    </div>
+
+                    <div class="compound-calculator__control">
+                        <label for="monthly">Aporte mensal</label>
+                        <div class="compound-calculator__row">
+                            <input type="range" id="monthly" min="0" max="5000" step="100" value="0">
+                            <span class="compound-calculator__value" id="monthlyVal">R$ 0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="compound-calculator__cards">
+                    <article class="compound-calculator__card">
+                        <div class="compound-calculator__card-label">Valor final</div>
+                        <div class="compound-calculator__card-value compound-calculator__card-value--green" id="total">-</div>
+                        <div class="compound-calculator__card-sub">montante total</div>
+                    </article>
+
+                    <article class="compound-calculator__card">
+                        <div class="compound-calculator__card-label">Total investido</div>
+                        <div class="compound-calculator__card-value" id="invested">-</div>
+                        <div class="compound-calculator__card-sub">capital inicial + aportes</div>
+                    </article>
+
+                    <article class="compound-calculator__card">
+                        <div class="compound-calculator__card-label">Juros gerados</div>
+                        <div class="compound-calculator__card-value compound-calculator__card-value--blue" id="interest">-</div>
+                        <div class="compound-calculator__card-sub" id="multiplier">-</div>
+                    </article>
+                </div>
+
+                <div class="compound-calculator__insight" id="insight"></div>
+
+                <div class="compound-calculator__legend">
+                    <span><i class="compound-calculator__dot compound-calculator__dot--compound"></i>Juros compostos</span>
+                    <span><i class="compound-calculator__dot compound-calculator__dot--simple"></i>Juros simples</span>
+                    <span><i class="compound-calculator__dot compound-calculator__dot--invested"></i>Total investido</span>
+                </div>
+
+                <div class="compound-calculator__chart-wrap">
+                    <canvas id="chart" aria-label="Gráfico de comparação de juros compostos"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <div class="policy-note section-gap">
+            <strong>Como funcionam os juros compostos</strong><br>
+            A ideia central é simples: os juros de cada período são incorporados ao capital, e no período seguinte você ganha juros sobre os juros anteriores. Isso cria um efeito de bola de neve que acelera o crescimento ao longo do tempo.
+        </div>
+
+        <section class="history-section section-gap">
+            <h2>Entendendo a lógica do crescimento</h2>
+            <div class="policy-grid">
+                <article class="policy-card">
+                    <h2>A fórmula</h2>
+                    <span class="math-formula math-formula--block">\( M = P \times (1 + i)^n \)</span>
+                    <p>
+                        Onde \( M \) é o montante final, \( P \) é o capital inicial,
+                        \( i \) é a taxa e \( n \) é o número de períodos.
+                    </p>
+                </article>
+
+                <article class="policy-card">
+                    <h2>Por que isso importa</h2>
+                    <p>
+                        Quanto mais tempo o capital fica rendendo, maior fica a base sobre a qual os juros são calculados.
+                        É por isso que o tempo costuma ser um dos fatores mais poderosos nesse tipo de crescimento.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <section class="history-section section-gap">
+            <h2>Por que o gráfico tem formato de curva?</h2>
+            <div class="policy-intro section-gap-sm">
+                <p>
+                    Com juros simples, o crescimento é linear: você sempre ganha o mesmo valor por ano. Com juros compostos,
+                    o crescimento é exponencial: quanto mais tempo passa, mais rápido o dinheiro cresce, porque a base que
+                    rende juros fica cada vez maior.
+                </p>
+            </div>
+
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Juros simples</h3>
+                    <p>O rendimento cresce em linha reta, sem aceleração ao longo do tempo.</p>
+                </div>
+                <div class="card">
+                    <h3>Juros compostos</h3>
+                    <p>O rendimento ganha força com o passar dos períodos e por isso o gráfico forma uma curva.</p>
+                </div>
+                <div class="card">
+                    <h3>Tempo</h3>
+                    <p>Quanto maior o tempo, maior o impacto desse efeito acumulado sobre o resultado final.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="history-section section-gap">
+            <h2>Regra dos 72</h2>
+            <div class="policy-note section-gap-sm">
+                A Regra dos 72 é um atalho prático: divida 72 pela taxa de juros anual e você obtém o número aproximado
+                de anos para dobrar o capital. Em LaTeX, isso pode ser escrito como
+                <span class="math-formula">\( \frac{72}{10} \approx 7{,}2 \)</span>.
+            </div>
+            <div class="policy-intro">
+                <p>
+                    Use os controles acima para explorar como cada variável afeta o resultado. Experimente aumentar o
+                    tempo: ele costuma ser o fator mais poderoso de todos.
+                </p>
+            </div>
+        </section>
+
+        <section class="history-section section-gap">
+            <h2>Onde isso aparece no cotidiano</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <h3>Investimentos</h3>
+                    <p>Aplicações podem crescer ao longo do tempo quando os rendimentos são reinvestidos.</p>
+                </div>
+                <div class="card">
+                    <h3>Cartão de crédito</h3>
+                    <p>Quando a dívida não é paga, os juros podem se acumular rapidamente e elevar muito o valor final.</p>
+                </div>
+                <div class="card">
+                    <h3>Financiamentos</h3>
+                    <p>Parcelamentos longos exigem atenção, pois o total pago pode ficar bem acima do valor do produto.</p>
+                </div>
+                <div class="card">
+                    <h3>Metas futuras</h3>
+                    <p>Guardar dinheiro cedo pode ajudar mais do que guardar muito apenas no fim, por causa do tempo de rendimento.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="policy-grid section-gap">
+            <article class="policy-card">
+                <span class="policy-kicker">A favor</span>
+                <h2>Quando os juros ajudam</h2>
+                <p>
+                    Em aplicações e metas financeiras, os juros compostos podem ampliar resultados. Tempo, constância e
+                    disciplina fazem diferença.
+                </p>
+            </article>
+
+            <article class="policy-card">
+                <span class="policy-kicker">Contra</span>
+                <h2>Quando os juros viram problema</h2>
+                <p>
+                    Em dívidas, atraso de pagamento e crédito mal planejado, os juros compostos podem aumentar
+                    rapidamente o valor devido.
+                </p>
+            </article>
+
+            <article class="policy-card">
+                <span class="policy-kicker">Reflexão</span>
+                <h2>O tempo pesa</h2>
+                <p>
+                    Muitas vezes, o tempo é mais decisivo do que o valor inicial. Pequenas taxas podem gerar diferenças
+                    grandes quando incidem por muitos meses ou anos.
+                </p>
+            </article>
+        </div>
+
+        <section class="fontes">
+            <h4>Referências sugeridas</h4>
+            <ul>
+                <li><a href="https://www.bcb.gov.br" target="_blank" rel="noopener noreferrer">Banco Central do Brasil</a></li>
+                <li><a href="https://www.gov.br/cvm" target="_blank" rel="noopener noreferrer">Comissão de Valores Mobiliários</a></li>
+                <li><a href="https://www.gov.br/investidor/pt-br" target="_blank" rel="noopener noreferrer">Portal do Investidor</a></li>
+            </ul>
+        </section>
+    </section>
+
+    <footer id="rodape">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-bottom">
+                    <span class="footer-copy">
+                        © 2026 CECMTAN • <strong><a href="../../sobre.html">Mural Digital</a></strong> • Marcelo Botura
+                    </span>
+                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
+                        <span>@sabormatematica</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+    <script src="../../js/main.js"></script>
+    <script>
+        const moneyFormat = function (value) {
+            return 'R$ ' + Math.round(value).toLocaleString('pt-BR');
+        };
+
+        let chartInstance = null;
+
+        function updateCompoundCalculator() {
+            const principalInput = document.getElementById('principal');
+            const rateInput = document.getElementById('rate');
+            const yearsInput = document.getElementById('years');
+            const monthlyInput = document.getElementById('monthly');
+
+            if (!principalInput || !rateInput || !yearsInput || !monthlyInput) {
+                return;
+            }
+
+            const principal = Number(principalInput.value);
+            const annualRateDisplay = Number(rateInput.value);
+            const annualRate = annualRateDisplay / 100;
+            const years = Number(yearsInput.value);
+            const monthlyContribution = Number(monthlyInput.value);
+
+            document.getElementById('principalVal').textContent = moneyFormat(principal);
+            document.getElementById('rateVal').textContent = annualRateDisplay.toLocaleString('pt-BR') + '%';
+            document.getElementById('yearsVal').textContent = years + ' anos';
+            document.getElementById('monthlyVal').textContent = moneyFormat(monthlyContribution);
+
+            const labels = [];
+            const compoundSeries = [];
+            const simpleSeries = [];
+            const investedSeries = [];
+            const monthlyRate = annualRate / 12;
+
+            for (let year = 0; year <= years; year += 1) {
+                labels.push(year === 0 ? 'Início' : 'Ano ' + year);
+
+                const months = year * 12;
+                const compoundValue = principal * Math.pow(1 + annualRate, year) + (
+                    monthlyContribution > 0
+                        ? monthlyContribution * ((Math.pow(1 + monthlyRate, months) - 1) / monthlyRate)
+                        : 0
+                );
+                const simpleValue = principal * (1 + annualRate * year) + monthlyContribution * 12 * year;
+                const investedValue = principal + monthlyContribution * 12 * year;
+
+                compoundSeries.push(Math.round(compoundValue));
+                simpleSeries.push(Math.round(simpleValue));
+                investedSeries.push(Math.round(investedValue));
+            }
+
+            const finalCompound = compoundSeries[years];
+            const totalInvested = principal + monthlyContribution * 12 * years;
+            const earnedInterest = finalCompound - totalInvested;
+            const multiplier = (finalCompound / totalInvested).toFixed(1);
+            const estimatedDoubleYears = Math.ceil(72 / annualRateDisplay);
+
+            document.getElementById('total').textContent = moneyFormat(finalCompound);
+            document.getElementById('invested').textContent = moneyFormat(totalInvested);
+            document.getElementById('interest').textContent = moneyFormat(earnedInterest);
+            document.getElementById('multiplier').textContent = multiplier + 'x o valor investido';
+            document.getElementById('insight').textContent =
+                'Regra dos 72: com taxa de ' + annualRateDisplay.toLocaleString('pt-BR') +
+                '% ao ano, o capital tende a dobrar em aproximadamente ' + estimatedDoubleYears +
+                ' anos. Neste cenário, o montante final chega a ' + multiplier + 'x do valor investido.';
+
+            const skipFactor = years > 20 ? Math.ceil(years / 20) : 1;
+            const chartLabels = labels.filter(function (_, index) {
+                return index % skipFactor === 0 || index === years;
+            });
+            const chartCompound = compoundSeries.filter(function (_, index) {
+                return index % skipFactor === 0 || index === years;
+            });
+            const chartSimple = simpleSeries.filter(function (_, index) {
+                return index % skipFactor === 0 || index === years;
+            });
+            const chartInvested = investedSeries.filter(function (_, index) {
+                return index % skipFactor === 0 || index === years;
+            });
+
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+
+            chartInstance = new Chart(document.getElementById('chart'), {
+                type: 'line',
+                data: {
+                    labels: chartLabels,
+                    datasets: [
+                        {
+                            label: 'Juros compostos',
+                            data: chartCompound,
+                            borderColor: '#68813c',
+                            backgroundColor: 'rgba(104, 129, 60, 0.10)',
+                            fill: true,
+                            tension: 0.28,
+                            pointRadius: 2,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Juros simples',
+                            data: chartSimple,
+                            borderColor: '#2563eb',
+                            borderDash: [6, 4],
+                            backgroundColor: 'transparent',
+                            tension: 0.12,
+                            pointRadius: 2,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Total investido',
+                            data: chartInvested,
+                            borderColor: '#94a3b8',
+                            borderDash: [3, 3],
+                            backgroundColor: 'transparent',
+                            tension: 0,
+                            pointRadius: 0,
+                            borderWidth: 1.5
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    return ' ' + context.dataset.label + ': ' + moneyFormat(context.parsed.y);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                maxRotation: 0,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                callback: function (value) {
+                                    if (value >= 1000000) {
+                                        return 'R$' + (value / 1000000).toFixed(1) + 'M';
+                                    }
+
+                                    return 'R$' + (value / 1000).toFixed(0) + 'k';
+                                },
+                                font: {
+                                    size: 11
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(148, 163, 184, 0.18)'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        ['principal', 'rate', 'years', 'monthly'].forEach(function (id) {
+            const input = document.getElementById(id);
+            if (input) {
+                input.addEventListener('input', updateCompoundCalculator);
+            }
+        });
+
+        updateCompoundCalculator();
+    </script>
+</body>
+
+</html>

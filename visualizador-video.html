@@ -28,15 +28,15 @@
             <button type="button" class="hover-nav hover-nav-right" id="next-video-btn" aria-label="Próximo vídeo">❯</button>
 
             <div class="slide-stage">
-                <div class="slide-frame" id="video-frame-shell" style="padding: 0; overflow: hidden;">
-                    <div class="slide-canvas-wrap" style="width: 100%;">
+                <div class="slide-frame video-frame-shell--clean" id="video-frame-shell">
+                    <div class="slide-canvas-wrap slide-canvas-wrap--full">
                         <iframe
                             id="video-frame"
+                            class="video-embed-frame"
                             title="Visualizador de vídeo"
                             loading="lazy"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowfullscreen
-                            style="display:block;width:min(100%, 1180px);aspect-ratio:16/9;border:0;background:#000;border-radius:24px;box-shadow:0 40px 90px rgba(0,0,0,0.5),0 0 0 1px rgba(255,255,255,0.05);">
+                            allowfullscreen>
                         </iframe>
                     </div>
                 </div>

@@ -486,3 +486,42 @@
     background: var(--light-gray);
     border-radius: 0 16px 16px 0;
 }
+
+/* ================= UTILITÁRIOS DE CONTEÚDO ================= */
+.section-gap-sm {
+    margin-bottom: 1rem;
+}
+
+.section-gap {
+    margin-bottom: 2rem;
+}
+
+.section-gap-y {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.btn-top-gap {
+    margin-top: 1rem;
+}
+
+.card-action-gap {
+    margin-top: 1rem;
+}
+
+.text-muted-body {
+    color: #475569;
+}
+
+.text-muted-paragraph {
+    margin-bottom: 1rem;
+    color: #475569;
+}
+
+.text-justify {
+    text-align: justify;
+}
+
+.content-card-spaced {
+    margin-bottom: 2rem;
+}

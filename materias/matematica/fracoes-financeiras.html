@@ -47,7 +47,7 @@
     </header>
 
     <section class="container">
-        <div class="policy-note" style="margin-bottom: 2rem;">
+        <div class="policy-note section-gap">
             <strong>Ideia principal:</strong> fração representa partes de um todo. No contexto financeiro, isso ajuda a
             organizar gastos, separar reservas e definir prioridades.
         </div>
@@ -57,17 +57,17 @@
             <div class="grid">
                 <article class="card">
                     <h3>Metade para necessidades</h3>
-                    <p>Se metade de um valor mensal vai para alimentação e transporte, temos <strong>1/2</strong> do
+                    <p>Se metade de um valor mensal vai para alimentação e transporte, temos <strong class="math-formula">\( \frac{1}{2} \)</strong> do
                         orçamento destinado ao essencial.</p>
                 </article>
                 <article class="card">
                     <h3>Um quarto para guardar</h3>
-                    <p>Separar <strong>1/4</strong> da mesada significa reservar uma parte importante para um objetivo
+                    <p>Separar <strong class="math-formula">\( \frac{1}{4} \)</strong> da mesada significa reservar uma parte importante para um objetivo
                         futuro.</p>
                 </article>
                 <article class="card">
                     <h3>Três partes para uso imediato</h3>
-                    <p>Usar <strong>3/5</strong> do dinheiro disponível em despesas atuais mostra que parte ainda pode
+                    <p>Usar <strong class="math-formula">\( \frac{3}{5} \)</strong> do dinheiro disponível em despesas atuais mostra que parte ainda pode
                         ser planejada para depois.</p>
                 </article>
             </div>
@@ -78,16 +78,16 @@
             <div class="grid">
                 <article class="card">
                     <h3>Mesada</h3>
-                    <p>Uma mesada de R$ 120 com <strong>1/3</strong> para guardar resulta em R$ 40 reservados.</p>
+                    <p>Uma mesada de R$ 120 com <strong class="math-formula">\( \frac{1}{3} \)</strong> para guardar resulta em R$ 40 reservados.</p>
                 </article>
                 <article class="card">
                     <h3>Material escolar</h3>
-                    <p>Se <strong>2/5</strong> de R$ 200 são usados para cadernos e lápis, o gasto nessa parte é de
+                    <p>Se <strong class="math-formula">\( \frac{2}{5} \)</strong> de R$ 200 são usados para cadernos e lápis, o gasto nessa parte é de
                         R$ 80.</p>
                 </article>
                 <article class="card">
                     <h3>Lanche e transporte</h3>
-                    <p>Se <strong>3/4</strong> de R$ 60 já foram gastos, restam apenas <strong>1/4</strong>, ou seja,
+                    <p>Se <strong class="math-formula">\( \frac{3}{4} \)</strong> de R$ 60 já foram gastos, restam apenas <strong class="math-formula">\( \frac{1}{4} \)</strong>, ou seja,
                         R$ 15.</p>
                 </article>
             </div>
@@ -98,17 +98,17 @@
             <div class="grid">
                 <article class="card">
                     <h3>Organização</h3>
-                    <p>Se um estudante decide guardar 1/5 do dinheiro que recebe na semana, quanto ele separa ao final
+                    <p>Se um estudante decide guardar <span class="math-formula">\( \frac{1}{5} \)</span> do dinheiro que recebe na semana, quanto ele separa ao final
                         do mês?</p>
                 </article>
                 <article class="card">
                     <h3>Planejamento</h3>
-                    <p>Se 2/3 do orçamento já foram comprometidos, a parte restante é suficiente para despesas
+                    <p>Se <span class="math-formula">\( \frac{2}{3} \)</span> do orçamento já foram comprometidos, a parte restante é suficiente para despesas
                         imprevistas?</p>
                 </article>
                 <article class="card">
                     <h3>Comparação</h3>
-                    <p>Qual é maior: guardar 1/4 de um valor ou ter 20% de desconto em uma compra? Em quais situações
+                    <p>Qual é maior: guardar <span class="math-formula">\( \frac{1}{4} \)</span> de um valor ou ter \( 20\% \) de desconto em uma compra? Em quais situações
                         cada ideia aparece?</p>
                 </article>
             </div>
@@ -140,6 +140,17 @@
         </div>
     </footer>
 
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['\\(', '\\)'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+    </script>
+    <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     <script src="../../js/main.js"></script>
 </body>
 

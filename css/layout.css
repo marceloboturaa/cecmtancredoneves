@@ -454,12 +454,10 @@ footer strong {
     padding: 0.9rem 0.9rem 0.92rem;
     border-radius: 24px;
     background:
-        radial-gradient(circle at top right, rgba(104, 129, 60, 0.2), transparent 34%),
-        linear-gradient(180deg, rgba(255, 255, 255, 0.76), rgba(240, 247, 245, 0.72));
+        radial-gradient(circle at top right, rgba(104, 129, 60, 0.18), transparent 34%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 247, 245, 0.93));
     border: 1px solid rgba(23, 53, 87, 0.14);
     box-shadow: 0 22px 54px rgba(15, 42, 68, 0.16);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     z-index: 1350;
     overflow: hidden;
     opacity: 0;
@@ -472,13 +470,7 @@ footer strong {
     transform: translate3d(0, 0, 0) scale(1);
 }
 
-.floating-alert::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 6px;
-    background: linear-gradient(180deg, #8faa57, #445728);
-}
+
 
 .floating-alert:hover {
     box-shadow: 0 26px 60px rgba(15, 42, 68, 0.18);
@@ -591,6 +583,12 @@ footer strong {
 
 body.has-cookie-banner .floating-alert {
     bottom: 164px;
+}
+
+body.nav-open .floating-alert {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate3d(22px, 16px, 0) scale(0.94);
 }
 
 .cookie-banner {
@@ -791,7 +789,7 @@ body.has-cookie-banner .scroll-top-btn {
     }
 
     body.nav-open .nav-scrim {
-        display: block;
+        display: none;
     }
 
     .nav-links > li {
