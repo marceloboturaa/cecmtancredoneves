@@ -1,1311 +1,534 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
-    <title>Questões - Exposição Escolar | Colégio Tancredo</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/questoes.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
+  <title>Quiz | Educação Financeira | Colégio Tancredo</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/questoes.css">
 </head>
-
 <body>
-    <nav>
-        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
-        <div class="menu-toggle">☰</div>
-        <ul class="nav-links">
-            <li><a href="index.html">Início</a></li>
-            <li class="has-submenu nav-highlight">
-                <a href="mural.html">Mural</a>
-                <ul class="submenu">
-                    <li><a href="slide.html">Slides</a></li>
-                    <li><a href="trabalhos.html">Trabalhos</a></li>
-                    <li><a href="livros.html">Livros</a></li>
-                    <li><a href="apostilas.html">Apostilas</a></li>
-                    <li><a href="videos.html">Vídeos</a></li>
-                    <li><a href="acervo.html">Acervo</a></li>
-                </ul>
-            </li>
-            <li><a href="questoes.html">Questões</a></li>
-            <li class="has-submenu">
-                <a href="materias.html">Matérias</a>
-                <ul class="submenu">
-                    <li><a href="materias/educacao-financeira/index.html">Ed. Financeira</a></li>
-                    <li><a href="materias/matematica/index.html">Matemática</a></li>
-                    <li><a href="materias/filosofia/index.html">Filosofia</a></li>
-                    <li><a href="materias/maker/index.html">Maker</a></li>
-                    <li><a href="materias/robotica/index.html">Robótica</a></li>
-                </ul>
-            </li>
-            <li><a href="sobre.html">Sobre</a></li>
-        </ul>
-    </nav>
+  <nav>
+    <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span><span class="beta-badge">Beta</span></a></div>
+    <div class="menu-toggle">☰</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Início</a></li>
+      <li class="has-submenu nav-highlight"><a href="mural.html">Mural</a><ul class="submenu"><li><a href="slide.html">Slides</a></li><li><a href="trabalhos.html">Trabalhos</a></li><li><a href="livros.html">Livros</a></li><li><a href="apostilas.html">Apostilas</a></li><li><a href="videos.html">Vídeos</a></li><li><a href="acervo.html">Acervo</a></li></ul></li>
+      <li><a href="questoes.html">Quiz</a></li>
+      <li><a href="materias.html">Matérias</a></li>
+      <li><a href="sobre.html">Sobre</a></li>
+    </ul>
+  </nav>
 
-    <header class="dark-bg header-theme-matematica">
-        <h1>Questões Tipo Prova</h1>
-        <p>Escolha a área, responda uma questão por vez, use cartas ou 50/50 apenas uma vez por prova e abra o vídeo Universitário ligado ao tema atual.</p>
-    </header>
+  <header class="dark-bg header-theme-default">
+    <h1>Quiz de Educação Financeira</h1>
+    <p>Somente com conteúdos de Educação Financeira, mantendo cartas, 50/50, modo apresentação e vídeo de apoio.</p>
+  </header>
 
-    <main class="container">
-        <section class="questoes-shell">
-            <div class="questoes-coluna">
-                <div id="questoes-lista" class="questoes-coluna"></div>
-            </div>
-
-            <aside class="questoes-resumo">
-                <article class="questoes-filtros questoes-filtros--resumo">
-                    <div class="questoes-filtros-grid">
-                        <div class="questoes-campo">
-                            <label for="filtro-area">Área</label>
-                            <select id="filtro-area"></select>
-                        </div>
-                        <button type="button" class="btn" id="aplicar-filtro">Aplicar área</button>
-                        <button type="button" class="btn btn-outline" id="limpar-prova-topo">Embaralhar</button>
-                    </div>
-                </article>
-
-                <div class="questoes-status">
-                    <div class="questoes-pill">
-                        <span>Área escolhida</span>
-                        <strong id="status-area">Todas</strong>
-                    </div>
-                    <div class="questoes-pill">
-                        <span>Progresso</span>
-                        <strong id="status-progresso">1/0</strong>
-                    </div>
-                    <div class="questoes-pill">
-                        <span>Respondidas</span>
-                        <strong id="status-respondidas">0/0</strong>
-                    </div>
-                    <div class="questoes-pill">
-                        <span>Em branco e pulos</span>
-                        <strong id="status-pulos">0 em branco • 3 pulos</strong>
-                    </div>
-                </div>
-
-                <div class="questoes-status questoes-status--recursos">
-                    <div class="questoes-pill">
-                        <span>Cartas</span>
-                        <strong id="status-cartas">1 uso</strong>
-                    </div>
-                    <div class="questoes-pill">
-                        <span>50/50</span>
-                        <strong id="status-cinquenta">1 uso</strong>
-                    </div>
-                    <div class="questoes-pill">
-                        <span>Universitário</span>
-                        <strong>1 vídeo</strong>
-                    </div>
-                </div>
-
-                <div id="resultado-final" class="resultado-box">
-                    <strong>Aguardando envio</strong>
-                  
-                </div>
-
-                <div class="questoes-acoes">
-                    <button type="button" class="btn" id="corrigir-prova">Corrigir prova</button>
-                    <button type="button" class="btn btn-outline" id="limpar-prova">Limpar</button>
-                </div>
-            </aside>
-        </section>
-    </main>
-
-    <footer id="rodape">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-bottom">
-                    <span class="footer-copy">
-                        © 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> • Marcelo Botura
-                    </span>
-                    <a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link">
-                        <span>@sabormatematica</span>
-                    </a>
-                </div>
-            </div>
+  <main class="container">
+    <section class="questoes-shell">
+      <div class="questoes-coluna"><div id="questoes-lista" class="questoes-coluna"></div></div>
+      <aside class="questoes-resumo">
+        <article class="questoes-filtros questoes-filtros--resumo">
+          <div class="questoes-filtros-grid">
+            <div class="questoes-campo"><label for="filtro-area">Área</label><select id="filtro-area"><option value="educacao-financeira">Educação Financeira</option></select></div>
+            <button type="button" class="btn" id="aplicar-filtro">Novo quiz</button>
+            <button type="button" class="btn btn-outline" id="limpar-prova-topo">Embaralhar</button>
+          </div>
+        </article>
+        <div class="questoes-status">
+          <div class="questoes-pill"><span>Área escolhida</span><strong id="status-area">Educação Financeira</strong></div>
+          <div class="questoes-pill"><span>Progresso</span><strong id="status-progresso">1/10</strong></div>
+          <div class="questoes-pill"><span>Respondidas</span><strong id="status-respondidas">0/10</strong></div>
+          <div class="questoes-pill"><span>Em branco e pulos</span><strong id="status-pulos">10 em branco • 3 pulos</strong></div>
         </div>
-    </footer>
+        <div class="questoes-status questoes-status--recursos">
+          <div class="questoes-pill"><span>Cartas</span><strong id="status-cartas">1 uso</strong></div>
+          <div class="questoes-pill"><span>50/50</span><strong id="status-cinquenta">1 uso</strong></div>
+          <div class="questoes-pill"><span>Vídeo</span><strong>apoio por questão</strong></div>
+        </div>
+        <div id="resultado-final" class="resultado-box"><strong>Aguardando envio</strong><span>O resultado final aparece quando a última questão for respondida.</span></div>
+        <div class="questoes-acoes"><button type="button" class="btn" id="corrigir-prova">Corrigir quiz</button><button type="button" class="btn btn-outline" id="limpar-prova">Limpar</button></div>
+      </aside>
+    </section>
+  </main>
 
-    <script src="js/questoes-videos.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        const LIMITE_PULOS = 3;
-        const TAMANHO_PROVA_TODAS = 10;
-        const TAMANHO_PROVA_AREA = 8;
-        const CARTAS = [
-            { nome: 'Rei', rank: 'K', simbolo: '♦', classe: 'rei', elimina: 3, descricao: 'eliminou 3 alternativas erradas.' },
-            { nome: 'Dama', rank: 'Q', simbolo: '♥', classe: 'dama', elimina: 2, descricao: 'eliminou 2 alternativas erradas.' },
-            { nome: 'Valete', rank: 'J', simbolo: '♣', classe: 'valete', elimina: 1, descricao: 'eliminou 1 alternativa errada.' },
-            { nome: 'Ás', rank: 'A', simbolo: '♠', classe: 'as', elimina: 0, descricao: 'não eliminou nenhuma alternativa.' }
-        ];
+  <footer id="rodape"><div class="container"><div class="footer-content"><div class="footer-bottom"><span class="footer-copy">© 2026 CECMTAN • <strong><a href="sobre.html">Mural Digital</a></strong> </span><a href="https://www.youtube.com/@sabormatematica" target="_blank" class="yt-link"><span>@sabormatematica</span></a></div></div></div></footer>
 
-        const bancoQuestoes = [
-            {
-                id: 'ef-01',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Quando uma pessoa anota seus ganhos e gastos do mês, ela está organizando principalmente o:',
-                alternativas: ['patrimônio cultural', 'orçamento pessoal', 'horário escolar', 'roteiro de viagem'],
-                correta: 1,
-                explicacao: 'Orçamento pessoal é o registro das entradas e saídas de dinheiro.'
-            },
-            {
-                id: 'ef-02',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Guardar parte da renda para imprevistos ajuda a formar:',
-                alternativas: ['dívida rotativa', 'reserva de emergência', 'consumo impulsivo', 'juros compostos negativos'],
-                correta: 1,
-                explicacao: 'A reserva de emergência reduz o impacto financeiro de situações inesperadas.'
-            },
-            {
-                id: 'ef-03',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Comprar algo apenas por impulso, sem planejamento, pode prejudicar:',
-                alternativas: ['o controle financeiro', 'a memória histórica', 'a atividade física', 'o calendário escolar'],
-                correta: 0,
-                explicacao: 'O consumo por impulso desorganiza o orçamento e dificulta metas.'
-            },
-            {
-                id: 'ef-04',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Antes de parcelar uma compra, o mais importante é verificar:',
-                alternativas: ['a cor do produto', 'o total final e se cabe no orçamento', 'a embalagem mais bonita', 'o nome da loja'],
-                correta: 1,
-                explicacao: 'Parcelas pequenas podem esconder um valor final alto e comprometer meses futuros.'
-            },
-            {
-                id: 'ef-05',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Uma meta financeira de curto prazo pode ser:',
-                alternativas: ['comprar material escolar no próximo mês', 'se aposentar em 30 anos', 'comprar uma casa em outra cidade', 'mudar toda a carreira amanhã'],
-                correta: 0,
-                explicacao: 'Metas de curto prazo costumam ter prazo menor e valor mais controlável.'
-            },
-            {
-                id: 'ef-06',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Pesquisar preços antes de comprar ajuda principalmente a:',
-                alternativas: ['gastar mais rápido', 'comparar opções e economizar', 'aumentar parcelas', 'evitar qualquer decisão'],
-                correta: 1,
-                explicacao: 'Comparar preços amplia a chance de fazer uma compra consciente.'
-            },
-            {
-                id: 'ef-07',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Se a pessoa ganha R$ 1.500 e gasta R$ 1.700 no mês, o resultado foi de:',
-                alternativas: ['equilíbrio financeiro', 'superávit', 'déficit', 'investimento automático'],
-                correta: 2,
-                explicacao: 'Quando os gastos são maiores que a renda, existe déficit.'
-            },
-            {
-                id: 'ef-08',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Consumir com consciência significa:',
-                alternativas: ['comprar sempre a primeira opção', 'avaliar necessidade, preço e impacto da compra', 'gastar tudo para aproveitar promoções', 'evitar qualquer tipo de compra'],
-                correta: 1,
-                explicacao: 'Consumo consciente considera utilidade, orçamento e consequências da compra.'
-            },
-            {
-                id: 'ef-09',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Uma planilha de controle financeiro serve para:',
-                alternativas: ['desenhar produtos', 'acompanhar receitas e despesas', 'substituir todas as decisões', 'eliminar contas fixas'],
-                correta: 1,
-                explicacao: 'A planilha ajuda a visualizar como o dinheiro está sendo usado.'
-            },
-            {
-                id: 'ef-10',
-                area: 'educacao-financeira',
-                disciplina: 'Educação Financeira',
-                enunciado: 'Ao receber dinheiro, separar uma parte para objetivos futuros é uma atitude de:',
-                alternativas: ['improviso', 'planejamento', 'desorganização', 'risco elevado'],
-                correta: 1,
-                explicacao: 'Planejar o uso do dinheiro facilita alcançar metas e evita desperdícios.'
-            },
-            {
-                id: 'mat-01',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Um produto de R$ 200 recebeu 15% de desconto. Qual foi o valor do desconto?',
-                alternativas: ['R$ 15', 'R$ 20', 'R$ 30', 'R$ 35'],
-                correta: 2,
-                explicacao: '15% de 200 é 0,15 x 200 = 30.'
-            },
-            {
-                id: 'mat-02',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Se uma turma acertou 18 de 24 questões, o percentual de acertos foi:',
-                alternativas: ['25%', '50%', '75%', '90%'],
-                correta: 2,
-                explicacao: '18 dividido por 24 é 0,75, ou 75%.'
-            },
-            {
-                id: 'mat-03',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Qual fração representa metade de uma quantidade?',
-                alternativas: ['1/4', '1/3', '1/2', '2/3'],
-                correta: 2,
-                explicacao: 'A fração 1/2 representa a metade.'
-            },
-            {
-                id: 'mat-04',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Se 3 cadernos custam R$ 27, mantendo o mesmo preço, 1 caderno custa:',
-                alternativas: ['R$ 6', 'R$ 7', 'R$ 8', 'R$ 9'],
-                correta: 3,
-                explicacao: '27 dividido por 3 resulta em 9.'
-            },
-            {
-                id: 'mat-05',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Qual é o resultado de 25% de 80?',
-                alternativas: ['10', '15', '20', '25'],
-                correta: 2,
-                explicacao: '25% de 80 é 0,25 x 80 = 20.'
-            },
-            {
-                id: 'mat-06',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Se um valor passa de R$ 50 para R$ 65, o aumento foi de:',
-                alternativas: ['R$ 10', 'R$ 12', 'R$ 15', 'R$ 20'],
-                correta: 2,
-                explicacao: '65 menos 50 é igual a 15.'
-            },
-            {
-                id: 'mat-07',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'A escrita decimal de 3/4 é:',
-                alternativas: ['0,25', '0,5', '0,75', '1,25'],
-                correta: 2,
-                explicacao: '3 dividido por 4 é igual a 0,75.'
-            },
-            {
-                id: 'mat-08',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Um aluno economizou R$ 12 por semana durante 5 semanas. Quanto juntou?',
-                alternativas: ['R$ 50', 'R$ 55', 'R$ 60', 'R$ 65'],
-                correta: 2,
-                explicacao: '12 x 5 = 60.'
-            },
-            {
-                id: 'mat-09',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Qual operação resolve a divisão de uma conta em 4 partes iguais?',
-                alternativas: ['adição', 'subtração', 'multiplicação', 'divisão'],
-                correta: 3,
-                explicacao: 'Dividir reparte uma quantidade em partes iguais.'
-            },
-            {
-                id: 'mat-10',
-                area: 'matematica',
-                disciplina: 'Matemática',
-                enunciado: 'Se uma mochila custava R$ 120 e passou para R$ 108, houve desconto de:',
-                alternativas: ['R$ 8', 'R$ 10', 'R$ 12', 'R$ 15'],
-                correta: 2,
-                explicacao: '120 menos 108 é igual a 12.'
-            },
-            {
-                id: 'fil-01',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Uma atitude ética no ambiente escolar está relacionada a:',
-                alternativas: ['respeitar colegas e consequências das ações', 'agir sempre sem pensar', 'ignorar regras de convivência', 'falar sem ouvir ninguém'],
-                correta: 0,
-                explicacao: 'A ética envolve responsabilidade, diálogo e respeito ao outro.'
-            },
-            {
-                id: 'fil-02',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Pensamento crítico significa principalmente:',
-                alternativas: ['aceitar tudo sem análise', 'refletir e questionar com argumentos', 'decorar frases prontas', 'evitar qualquer dúvida'],
-                correta: 1,
-                explicacao: 'Pensar criticamente é analisar, comparar ideias e justificar posições.'
-            },
-            {
-                id: 'fil-03',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Na convivência social, o diálogo é importante porque:',
-                alternativas: ['elimina toda diferença', 'permite escuta e construção de entendimento', 'substitui toda responsabilidade', 'dispensa regras'],
-                correta: 1,
-                explicacao: 'O diálogo ajuda a compreender perspectivas diferentes e resolver conflitos.'
-            },
-            {
-                id: 'fil-04',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Quando alguém pensa nas consequências de sua atitude antes de agir, está exercendo:',
-                alternativas: ['consumo automático', 'reflexão moral', 'azar estatístico', 'imitação mecânica'],
-                correta: 1,
-                explicacao: 'Reflexão moral é avaliar se uma ação é justa, correta e responsável.'
-            },
-            {
-                id: 'fil-05',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Cidadania está ligada ao exercício de:',
-                alternativas: ['direitos e deveres', 'somente obrigações financeiras', 'apenas opinião individual', 'nenhuma participação social'],
-                correta: 0,
-                explicacao: 'Ser cidadão envolve direitos, deveres e participação na vida coletiva.'
-            },
-            {
-                id: 'fil-06',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Respeitar opiniões diferentes sem agressão mostra:',
-                alternativas: ['intolerância', 'apatia', 'convivência democrática', 'falta de pensamento'],
-                correta: 2,
-                explicacao: 'A convivência democrática depende de respeito e escuta.'
-            },
-            {
-                id: 'fil-07',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Questionar notícias antes de compartilhar é uma prática de:',
-                alternativas: ['pensamento crítico', 'consumo impulsivo', 'repetição automática', 'descuido ético'],
-                correta: 0,
-                explicacao: 'Verificar informações evita erros e amplia a responsabilidade social.'
-            },
-            {
-                id: 'fil-08',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Uma decisão justa tende a considerar:',
-                alternativas: ['somente o benefício pessoal', 'as regras, o contexto e o impacto sobre os outros', 'apenas a pressa do momento', 'o que é mais fácil'],
-                correta: 1,
-                explicacao: 'A justiça requer análise equilibrada e consideração do coletivo.'
-            },
-            {
-                id: 'fil-09',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Filosofar no cotidiano significa:',
-                alternativas: ['decorar nomes sem entender', 'refletir sobre problemas e escolhas da vida real', 'evitar perguntas difíceis', 'repetir ideias sem pensar'],
-                correta: 1,
-                explicacao: 'A filosofia ajuda a pensar sobre valores, sociedade e decisões.'
-            },
-            {
-                id: 'fil-10',
-                area: 'filosofia',
-                disciplina: 'Filosofia',
-                enunciado: 'Uma atitude antiética em grupo seria:',
-                alternativas: ['cooperar com responsabilidade', 'ouvir argumentos diferentes', 'enganar os colegas para obter vantagem', 'cumprir combinados'],
-                correta: 2,
-                explicacao: 'Agir com engano e vantagem indevida rompe princípios éticos.'
-            },
-            {
-                id: 'mak-01',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'A cultura maker valoriza principalmente:',
-                alternativas: ['aprender fazendo, testando e ajustando', 'copiar tudo sem experimentar', 'evitar erros a qualquer custo', 'trabalhar sempre isolado'],
-                correta: 0,
-                explicacao: 'No fazer maker, prototipar e corrigir faz parte do aprendizado.'
-            },
-            {
-                id: 'mak-02',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Um protótipo é:',
-                alternativas: ['o produto final sem testes', 'uma versão inicial para testar ideias', 'um texto sem prática', 'uma regra fixa'],
-                correta: 1,
-                explicacao: 'Protótipos servem para validar soluções antes da versão final.'
-            },
-            {
-                id: 'mak-03',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Reutilizar materiais em projetos maker contribui para:',
-                alternativas: ['mais desperdício', 'criatividade e sustentabilidade', 'menos experimentação', 'eliminação de ideias'],
-                correta: 1,
-                explicacao: 'Reuso estimula soluções criativas e consciência ambiental.'
-            },
-            {
-                id: 'mak-04',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Se um projeto não funciona na primeira tentativa, a atitude maker mais adequada é:',
-                alternativas: ['abandonar imediatamente', 'testar ajustes e tentar novamente', 'culpar o material', 'evitar qualquer mudança'],
-                correta: 1,
-                explicacao: 'Iterar e corrigir falhas faz parte do processo maker.'
-            },
-            {
-                id: 'mak-05',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Trabalhar em equipe em um projeto maker ajuda a:',
-                alternativas: ['somar ideias e dividir tarefas', 'impedir a criatividade', 'eliminar a aprendizagem', 'substituir todos os testes'],
-                correta: 0,
-                explicacao: 'A colaboração fortalece a construção e a troca de soluções.'
-            },
-            {
-                id: 'mak-06',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Planejar antes de montar um protótipo ajuda a:',
-                alternativas: ['reduzir improvisos desnecessários', 'eliminar toda adaptação', 'dispensar testes', 'garantir erro'],
-                correta: 0,
-                explicacao: 'O planejamento orienta a montagem e melhora o uso de materiais.'
-            },
-            {
-                id: 'mak-07',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Documentar etapas de um projeto serve para:',
-                alternativas: ['esconder o processo', 'acompanhar decisões e melhorias', 'parar a criação', 'substituir o protótipo'],
-                correta: 1,
-                explicacao: 'Registrar etapas facilita análise, apresentação e revisão.'
-            },
-            {
-                id: 'mak-08',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'No movimento maker, errar durante testes pode ser visto como:',
-                alternativas: ['fracasso definitivo', 'parte do aprendizado', 'motivo para desistir', 'perda total'],
-                correta: 1,
-                explicacao: 'O erro fornece informação para melhorar a solução.'
-            },
-            {
-                id: 'mak-09',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'Uma solução criativa em sala maker costuma surgir de:',
-                alternativas: ['experimentação prática', 'cópia automática', 'ausência de observação', 'medo de testar'],
-                correta: 0,
-                explicacao: 'Criatividade aparece quando ideias são colocadas em prática e avaliadas.'
-            },
-            {
-                id: 'mak-10',
-                area: 'maker',
-                disciplina: 'Maker',
-                enunciado: 'O objetivo de melhorar um projeto após feedback é:',
-                alternativas: ['ignorar usuários', 'aperfeiçoar a solução', 'voltar ao início sem motivo', 'parar a colaboração'],
-                correta: 1,
-                explicacao: 'Feedback bem usado ajuda a refinar o projeto.'
-            },
-            {
-                id: 'rob-01',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Na robótica educacional, sensores são usados para:',
-                alternativas: ['captar dados do ambiente', 'decorar o robô', 'substituir toda a programação', 'aumentar apenas o peso'],
-                correta: 0,
-                explicacao: 'Sensores permitem que o robô perceba luz, distância, toque e outros dados.'
-            },
-            {
-                id: 'rob-02',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Um algoritmo é:',
-                alternativas: ['uma peça metálica', 'uma sequência de passos para resolver um problema', 'um tipo de bateria', 'uma capa de proteção'],
-                correta: 1,
-                explicacao: 'Algoritmo é uma sequência lógica de instruções.'
-            },
-            {
-                id: 'rob-03',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Programar um robô significa:',
-                alternativas: ['dar instruções para executar ações', 'apenas pintar o equipamento', 'trocar o nome do projeto', 'deixar tudo aleatório'],
-                correta: 0,
-                explicacao: 'A programação define o comportamento do robô diante das situações.'
-            },
-            {
-                id: 'rob-04',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Quando o robô repete uma ação várias vezes, a estrutura lógica usada pode ser:',
-                alternativas: ['repetição', 'pausa eterna', 'contradição', 'silêncio'],
-                correta: 0,
-                explicacao: 'Estruturas de repetição executam comandos mais de uma vez.'
-            },
-            {
-                id: 'rob-05',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Motores em projetos robóticos servem para:',
-                alternativas: ['movimentar partes do robô', 'apenas iluminar sensores', 'guardar dados', 'substituir comandos'],
-                correta: 0,
-                explicacao: 'Motores transformam energia em movimento.'
-            },
-            {
-                id: 'rob-06',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Se o robô deve parar ao encontrar obstáculo, o programa precisa:',
-                alternativas: ['ignorar leituras do sensor', 'usar condição baseada na leitura do sensor', 'remover o motor', 'desligar o projeto sempre'],
-                correta: 1,
-                explicacao: 'Decisões condicionais fazem o robô reagir aos dados recebidos.'
-            },
-            {
-                id: 'rob-07',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Pensamento computacional envolve:',
-                alternativas: ['resolver problemas de forma lógica e organizada', 'decorar telas', 'evitar etapas', 'eliminar testes'],
-                correta: 0,
-                explicacao: 'Ele envolve decomposição, lógica, padrões e algoritmos.'
-            },
-            {
-                id: 'rob-08',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Testar um programa após alterações é importante para:',
-                alternativas: ['verificar se a solução continua funcionando', 'aumentar o peso do robô', 'dispensar sensores', 'ignorar erros'],
-                correta: 0,
-                explicacao: 'Testes confirmam se a mudança produziu o efeito esperado.'
-            },
-            {
-                id: 'rob-09',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Quando o robô reage à luz do ambiente, ele depende de:',
-                alternativas: ['sensor adequado', 'apenas da carcaça', 'somente da bateria', 'cor da mesa'],
-                correta: 0,
-                explicacao: 'A percepção do ambiente depende do sensor compatível com o dado desejado.'
-            },
-            {
-                id: 'rob-10',
-                area: 'robotica',
-                disciplina: 'Robótica',
-                enunciado: 'Corrigir falhas no código de um robô faz parte do processo de:',
-                alternativas: ['depuração', 'decoração', 'improviso visual', 'armazenamento'],
-                correta: 0,
-                explicacao: 'Depuração é o processo de encontrar e corrigir erros no código.'
-            },
-            {
-                id: 'qui-01',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Uma mistura homogênea apresenta:',
-                alternativas: ['mais de uma fase visível', 'aspecto uniforme em toda a extensão', 'componentes sempre sólidos', 'separação espontânea imediata'],
-                correta: 1,
-                explicacao: 'Misturas homogêneas têm aparência uniforme, como água com sal dissolvido.'
-            },
-            {
-                id: 'qui-02',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Água e óleo juntos formam uma mistura:',
-                alternativas: ['homogênea', 'simples', 'heterogênea', 'gasosa'],
-                correta: 2,
-                explicacao: 'Água e óleo não se misturam completamente e formam fases visíveis.'
-            },
-            {
-                id: 'qui-03',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Qual método de separação é adequado para separar areia da água?',
-                alternativas: ['filtração', 'fusão', 'condensação', 'sublimação'],
-                correta: 0,
-                explicacao: 'A filtração retém o sólido e permite a passagem do líquido.'
-            },
-            {
-                id: 'qui-04',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Derreter gelo é um exemplo de transformação:',
-                alternativas: ['química', 'nuclear', 'física', 'irreversível'],
-                correta: 2,
-                explicacao: 'Nesse caso a substância continua sendo água, mudando apenas o estado físico.'
-            },
-            {
-                id: 'qui-05',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'A ferrugem em um pedaço de ferro indica uma transformação:',
-                alternativas: ['física', 'química', 'mecânica', 'geométrica'],
-                correta: 1,
-                explicacao: 'A ferrugem forma uma nova substância, mostrando mudança química.'
-            },
-            {
-                id: 'qui-06',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Na tabela periódica, os elementos estão organizados principalmente de acordo com:',
-                alternativas: ['cor', 'massa do objeto encontrado', 'número atômico', 'estado físico apenas'],
-                correta: 2,
-                explicacao: 'A organização moderna da tabela periódica usa o número atômico crescente.'
-            },
-            {
-                id: 'qui-07',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Um indício comum de reação química é:',
-                alternativas: ['mudança de sala', 'formação de gás ou mudança de cor', 'apenas corte do material', 'redução do tamanho por divisão'],
-                correta: 1,
-                explicacao: 'Mudança de cor, liberação de gás e formação de resíduos podem indicar reação química.'
-            },
-            {
-                id: 'qui-08',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Quando a água evapora e continua sendo água, ocorreu mudança:',
-                alternativas: ['química', 'física', 'radioativa', 'biológica'],
-                correta: 1,
-                explicacao: 'A evaporação altera o estado físico sem formar outra substância.'
-            },
-            {
-                id: 'qui-09',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Os elementos de uma mesma família na tabela periódica costumam ter:',
-                alternativas: ['comportamentos químicos semelhantes', 'o mesmo nome', 'a mesma cor natural', 'igual quantidade de massa em qualquer amostra'],
-                correta: 0,
-                explicacao: 'Elementos de uma mesma família compartilham propriedades químicas parecidas.'
-            },
-            {
-                id: 'qui-10',
-                area: 'quimica',
-                disciplina: 'Química',
-                enunciado: 'Separar grãos maiores de menores com peneira é um exemplo de:',
-                alternativas: ['peneiração', 'destilação', 'combustão', 'oxidação'],
-                correta: 0,
-                explicacao: 'A peneiração separa sólidos com tamanhos diferentes de partículas.'
-            }
-        ];
+  <script src="js/questoes-videos.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    const LIMITE_PULOS = 3;
+    const TAMANHO_PROVA = 10;
+    const grupos = [
+      ['oqe','O que e Educacao Financeira',[['Educacao financeira tambem envolve:',['decidir com responsabilidade e planejamento','comprar sem comparar','gastar tudo rapidamente','evitar metas'],0,'O conteudo destaca consciencia, planejamento e responsabilidade.'],['Diferenciar necessidade e desejo melhora:',['o consumo consciente','a pressa para comprar','o valor do imposto','a propaganda'],0,'Essa distincao evita compras impulsivas.'],['A falta de educacao financeira pode levar a:',['mais organizacao','endividamento por impulso','mais autocontrole','mais previsao'],1,'Sem orientacao, aumentam desperdicio e dividas.'],['Planejar o uso do dinheiro ajuda a:',['agir sem pensar','alcancar objetivos com mais seguranca','parcelar tudo','ignorar prioridades'],1,'Planejamento conecta presente e futuro.'],['Juros e parcelamento devem ser analisados porque:',['sempre diminuem o preco final','podem aumentar bastante o valor pago','nao mudam o orcamento','substituem a meta'],1,'O valor final pode ficar bem mais alto.'],['Anotar gastos e comparar precos sao exemplos de:',['habitos financeiros saudaveis','consumo impulsivo','desorganizacao','credito automatico'],0,'Pequenas praticas melhoram o controle do dinheiro.'],['A escola contribui com educacao financeira para formar estudantes:',['mais criticos e preparados','mais impulsivos','mais dependentes de credito','mais indiferentes'],0,'A escola amplia a leitura critica sobre o dinheiro.'],['Reservar parte dos recursos para o futuro demonstra:',['improviso','visao de longo prazo','descontrole','pressa'],1,'Pensar no futuro e parte da educacao financeira.'],['Comprar para parecer igual aos outros representa:',['planejamento','pressao social no consumo','reserva de emergencia','orcamento'],1,'Aparencia nao deve comandar decisoes importantes.'],['Quem tem educacao financeira tende a:',['pensar antes de comprar','gastar sem acompanhar','parcelar sem calcular','ignorar consequencias'],0,'A decisao se torna mais consciente e menos impulsiva.']]],
+      ['con','Conceitos Basicos',[['Orcamento e o registro de:',['receitas e despesas','somente investimentos','contas atrasadas','produtos desejados'],0,'Orcamento mostra entradas e saidas de dinheiro.'],['Quando o dinheiro entra, isso e chamado de receita. Quando sai, e chamado de:',['credito','despesa','juros','patrimonio'],1,'Despesa e todo gasto realizado.'],['Consumo consciente significa:',['comprar no impulso','avaliar necessidade, preco e utilidade','parcelar sempre','seguir a propaganda'],1,'Consumo consciente considera necessidade e impacto.'],['Reserva de emergencia serve para:',['comprar itens superfluos','lidar com imprevistos','trocar o salario','aumentar a pressa'],1,'Ela protege em situacoes inesperadas.'],['Antes de usar credito, o ideal e entender:',['a cor do cartao','o total final a pagar','o nome da loja','o horario da compra'],1,'O valor final mostra o custo real da decisao.'],['Inflacao reduz principalmente:',['o numero de contas','o poder de compra','a necessidade de planejar','a existencia de despesas'],1,'Com inflacao, o mesmo dinheiro compra menos.'],['Pesquisar antes de comprar ajuda a:',['desperdicar mais','economizar e decidir melhor','gastar sem limite','evitar comparacoes'],1,'Comparar opcoes melhora a qualidade da escolha.'],['Guardar pequenos valores com frequencia desenvolve:',['disciplina financeira','descontrole','endividamento','impulsividade'],0,'A constancia fortalece o habito de organizar o dinheiro.'],['Ter meta financeira clara ajuda a:',['dar direcao ao esforco','eliminar todas as despesas','ignorar prioridades','comprar primeiro'],0,'Objetivos concretos facilitam economizar com sentido.'],['Diferenciar necessidade e desejo ajuda a:',['evitar escolhas precipitadas','comprar mais rapido','depender mais de credito','esquecer o orcamento'],0,'Esse e um ponto central dos conceitos basicos.']]],
+      ['his','Historia do Dinheiro no Brasil',[['Antes da moeda circular amplamente, uma forma de troca usada foi:',['escambo','pix','boleto','cartao'],0,'O escambo marcou trocas diretas no inicio da historia economica.'],['A Casa da Moeda foi importante porque:',['eliminou o comercio','organizou a producao monetaria','substituiu a escola','acabou com impostos'],1,'Ela ajudou a estruturar a producao de moedas.'],['O real foi associado a:',['maior instabilidade','estabilizacao da economia','fim do dinheiro','retorno ao escambo'],1,'O Plano Real aparece como marco de estabilizacao.'],['Conhecer a historia das moedas ajuda a entender:',['como a economia muda ao longo do tempo','apenas nomes antigos','somente colecoes','somente simbolos'],0,'A evolucao monetaria mostra transformacoes economicas.'],['Mudancas frequentes de moeda no Brasil estiveram ligadas a problemas como:',['falta de comercio','inflacao e instabilidade','excesso de reservas','queda da populacao'],1,'Trocas monetarias muitas vezes refletiram desequilibrios economicos.'],['Estudar o dinheiro do Brasil tambem ajuda a aprender:',['educacao financeira no cotidiano','somente datas isoladas','apenas nomes de reis','tecnicas de laboratorio'],0,'A pagina liga historia e conceitos financeiros.'],['Quando uma moeda perde valor rapidamente, isso dificulta:',['o planejamento financeiro','o nome das cidades','a impressao de livros','a criacao de escolas'],0,'Instabilidade atrapalha a organizacao das familias.'],['O estudo do real, do cruzeiro e do reis mostra que o dinheiro e:',['imutavel','uma construcao historica','apenas decorativo','independente da economia'],1,'O dinheiro muda conforme necessidades historicas.'],['Uma moeda estavel facilita:',['comparar precos e planejar gastos','comprar sem pensar','dispensar orcamento','eliminar poupanca'],0,'Estabilidade melhora o planejamento.'],['A pagina amplia a historia do dinheiro brasileiro do escambo ate:',['criptomoedas','escudos','metais raros','fichas escolares'],0,'O conteudo vai ate formas digitais mais recentes.']]],
+      ['moe','Moeda nas Civilizacoes',[['No escambo, a principal dificuldade era:',['coincidencia entre interesses','excesso de moedas','existencia de bancos centrais','uso de cartoes'],0,'A troca direta depende de as duas partes quererem o que a outra oferece.'],['A primeira moeda metalica conhecida foi associada a:',['Lidia, na atual Turquia','Brasil imperial','Portugal moderno','Argentina atual'],0,'A Lidia aparece como referencia das primeiras moedas metalicas.'],['Moedas ajudaram antigas civilizacoes a:',['organizar comercio e impostos','eliminar toda troca','impedir circulacao de bens','substituir governos'],0,'As moedas facilitaram medidas de valor e circulacao economica.'],['O darico persa aparece ligado a:',['administracao de um grande imperio','esportes escolares','tecnologia digital','moedas plasticas'],0,'O conteudo mostra relacao entre moeda e organizacao imperial.'],['Moedas gregas com simbolos de cidades mostram que a moeda podia expressar:',['identidade politica e cultural','somente peso do metal','falta de comercio','ausencia de autoridade'],0,'Moedas tambem comunicavam poder e cultura.'],['O solidus bizantino ganhou destaque por ser visto como moeda:',['instavel e rara','estavel e influente','proibida no comercio','feita de madeira'],1,'O texto destaca sua estabilidade no comercio.'],['Comparado ao escambo, o uso da moeda trouxe mais facilidade para:',['definir valor e realizar trocas','voltar a trocar apenas favores','evitar comercio','eliminar registros'],0,'A moeda padroniza valor e simplifica negociacoes.'],['Estudar moedas antigas ajuda a perceber que o dinheiro:',['sempre foi igual','mudou conforme o tempo e as sociedades','nunca teve funcao comercial','e apenas objeto artistico'],1,'As sociedades criaram solucoes diferentes para o valor.'],['As moedas chinesas com formatos variados mostram:',['desenvolvimento proprio de sistemas monetarios','ausencia total de comercio','falta de metal','uso exclusivo de papel'],0,'A pagina mostra modelos proprios em diferentes sociedades.'],['Analisar civilizacoes e moedas ajuda a ligar historia com:',['educacao financeira e nocao de valor','somente ornamentacao','biologia celular','esportes'],0,'O tema conecta historia, comercio, valor e uso consciente do dinheiro.']]],
+      ['jur','Juros Compostos',[['Juros compostos ocorrem quando os juros de um periodo passam a render nos periodos seguintes?',['sim','nao','so em compras a vista','so em moedas antigas'],0,'Essa e a logica central do crescimento composto.'],['Em comparacao aos juros simples, os juros compostos tendem a crescer:',['mais devagar sempre','em linha reta','com aceleracao ao longo do tempo','sem depender do tempo'],2,'O grafico em curva mostra o efeito acumulado do tempo.'],['O tempo e importante nos juros compostos porque:',['quanto maior o tempo, maior o efeito acumulado','o tempo reduz toda taxa a zero','o tempo nao muda nada','so importa no primeiro mes'],0,'Mais periodos permitem juros sobre juros.'],['Em investimentos, os juros compostos ajudam quando:',['os rendimentos sao reinvestidos','todo ganho e ignorado','nao existe prazo','a taxa e negativa'],0,'Reinvestir permite crescimento composto.'],['Em dividas, os juros compostos viram problema quando:',['a conta e paga em dia','o saldo nao e quitado e os juros se acumulam','a compra e planejada','o valor e comparado'],1,'Dividas prolongadas acumulam juros sobre juros.'],['A Regra dos 72 serve para estimar aproximadamente:',['o tempo para dobrar um valor','o total de despesas fixas','a inflacao anual','o limite do cartao'],0,'Ela da uma estimativa rapida do tempo para dobrar o capital.'],['Guardar dinheiro cedo costuma ajudar mais porque:',['o tempo favorece o crescimento composto','o banco dobra tudo no primeiro dia','nao existe risco de juros','o preco para de subir'],0,'Comecar antes aumenta o numero de periodos de rendimento.'],['Parcelamentos longos exigem atencao porque:',['o total pago pode ficar acima do valor do produto','sempre saem de graca','nao alteram o orcamento','substituem a reserva'],0,'O prazo maior pode ampliar bastante o custo final.'],['No grafico dos juros compostos, a curva indica:',['crescimento com acumulacao','queda obrigatoria do capital','ausencia de rendimento','valor fixo'],0,'A curva representa aceleracao do crescimento.'],['A principal licao sobre juros compostos no cotidiano e:',['tempo e taxa precisam ser analisados antes de decidir','qualquer emprestimo compensa','investir tarde e igual a investir cedo','parcelar nunca muda o valor final'],0,'Entender taxa, prazo e acumulacao evita erros em dividas e investimentos.']]],
+      ['pla','Planejamento ao Consumo',[['Planejamento ao consumo ajuda o estudante a:',['comprar sem pensar','organizar escolhas antes de gastar','ignorar metas','eliminar pesquisa'],1,'Planejar o consumo reduz impulsividade e melhora as decisoes.'],['No trabalho proposto, uma entrega prevista foi:',['explicacao oral do tema','somente jogo digital','apenas compra de materiais','nenhum registro escrito'],0,'A pagina cita apresentacao oral como parte da atividade.'],['O material escrito da atividade tem funcao de:',['registrar o conteudo pesquisado','substituir toda discussao','evitar leitura','dispensar sintese'],0,'A producao escrita organiza o conhecimento estudado.'],['A sintese das ideias centrais do tema serve para:',['resumir o que foi aprendido','aumentar gastos','trocar o tema','dispensar planejamento'],0,'Sintetizar ajuda a destacar o essencial do estudo.'],['Planejar o consumo antes da compra estimula:',['impulso','analise e criterio','descontrole','pressa'],1,'A proposta valoriza escolhas pensadas e justificadas.'],['Apresentar o tema para a turma contribui para:',['socializar o conhecimento','gastar mais dinheiro','eliminar o conteudo','fugir do assunto'],0,'A socializacao faz parte do processo pedagogico.'],['Quando a pessoa planeja o consumo, ela tende a considerar:',['necessidade, preco e prioridade','somente a embalagem','apenas a pressa','somente a opiniao dos outros'],0,'Planejamento envolve comparar e justificar a escolha.'],['Uma compra alinhada ao planejamento normalmente respeita:',['o orcamento disponivel','o impulso do momento','a propaganda','o parcelamento mais longo'],0,'Consumo planejado precisa caber no orcamento.'],['Pesquisar antes de consumir ajuda a:',['melhorar a qualidade da decisao','comprar mais caro de proposito','dispensar comparacoes','eliminar qualquer duvida sem leitura'],0,'A pesquisa amplia o repertorio e melhora a escolha final.'],['A ideia central de planejamento ao consumo e:',['usar o dinheiro com intencao e criterio','comprar primeiro e refletir depois','parcelar sempre sem calcular','seguir modas'],0,'O tema trabalha organizacao, reflexao e responsabilidade no consumo.']]]
+    ];
 
-        const areas = [
-            { id: 'todas', nome: 'Todas as áreas' },
-            { id: 'educacao-financeira', nome: 'Educação Financeira' },
-            { id: 'matematica', nome: 'Matemática' },
-            { id: 'filosofia', nome: 'Filosofia' },
-            { id: 'quimica', nome: 'Química' },
-            { id: 'maker', nome: 'Maker' },
-            { id: 'robotica', nome: 'Robótica' }
-        ];
+    const CARTAS = [
+      { nome: 'Rei', rank: 'K', simbolo: '♦', classe: 'rei', elimina: 3, descricao: 'eliminou 3 alternativas erradas.' },
+      { nome: 'Dama', rank: 'Q', simbolo: '♥', classe: 'dama', elimina: 2, descricao: 'eliminou 2 alternativas erradas.' },
+      { nome: 'Valete', rank: 'J', simbolo: '♣', classe: 'valete', elimina: 1, descricao: 'eliminou 1 alternativa errada.' },
+      { nome: 'Ás', rank: 'A', simbolo: '♠', classe: 'as', elimina: 0, descricao: 'não eliminou nenhuma alternativa.' }
+    ];
 
-        const questoesLista = document.getElementById('questoes-lista');
-        const filtroArea = document.getElementById('filtro-area');
-        const aplicarFiltroBtn = document.getElementById('aplicar-filtro');
-        const limparProvaTopoBtn = document.getElementById('limpar-prova-topo');
-        const corrigirBtn = document.getElementById('corrigir-prova');
-        const limparBtn = document.getElementById('limpar-prova');
-        const statusArea = document.getElementById('status-area');
-        const statusProgresso = document.getElementById('status-progresso');
-        const statusRespondidas = document.getElementById('status-respondidas');
-        const statusPulos = document.getElementById('status-pulos');
-        const statusCartas = document.getElementById('status-cartas');
-        const statusCinquenta = document.getElementById('status-cinquenta');
-        const resultadoFinal = document.getElementById('resultado-final');
-
-        const estado = {
-            areaAtual: 'todas',
-            questoesAtivas: [],
-            reserva: [],
-            pulosRestantes: LIMITE_PULOS,
-            corrigida: false,
-            acertos: null,
-            erros: null,
-            indiceAtual: 0,
-            cinquentaUsado: false,
-            cartaConsumida: false,
-            questaoCartasId: null,
-            baralhoCartas: embaralhar(CARTAS),
-            telaFinal: false,
-            apresentacaoFallback: false
+    const bancoQuestoes = grupos.flatMap(function (grupo) {
+      return grupo[2].map(function (item, indice) {
+        return {
+          id: 'ef-' + grupo[0] + '-' + String(indice + 1).padStart(2, '0'),
+          area: 'educacao-financeira',
+          disciplina: 'Educação Financeira',
+          conteudo: grupo[1],
+          alternativas: item[1],
+          enunciado: item[0],
+          correta: item[2],
+          explicacao: item[3]
         };
-
-        function embaralhar(lista) {
-            const copia = [...lista];
-
-            for (let i = copia.length - 1; i > 0; i -= 1) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copia[i], copia[j]] = [copia[j], copia[i]];
-            }
-
-            return copia;
-        }
-
-        function escaparHtml(texto) {
-            return String(texto)
-                .replaceAll('&', '&amp;')
-                .replaceAll('<', '&lt;')
-                .replaceAll('>', '&gt;')
-                .replaceAll('"', '&quot;')
-                .replaceAll("'", '&#39;');
-        }
-
-        function nomeDaArea(areaId) {
-            const area = areas.find((item) => item.id === areaId);
-            return area ? area.nome : 'Todas as áreas';
-        }
-
-        function obterBancoFiltrado(areaId) {
-            return areaId === 'todas'
-                ? bancoQuestoes
-                : bancoQuestoes.filter((questao) => questao.area === areaId);
-        }
-
-        function criarInstanciaQuestao(questaoBase) {
-            const alternativasMisturadas = embaralhar(
-                questaoBase.alternativas.map((texto, indice) => ({
-                    texto,
-                    correta: indice === questaoBase.correta
-                }))
-            ).map((alternativa) => ({
-                texto: alternativa.texto,
-                correta: alternativa.correta,
-                oculta: false
-            }));
-
-            return {
-                ...questaoBase,
-                base: { ...questaoBase },
-                alternativas: alternativasMisturadas,
-                selecionada: null,
-                usou5050: false,
-                usouCarta: false,
-                cartaEscolhida: null,
-                mensagemCarta: '',
-                mostrarCartas: false
-            };
-        }
-
-        function tamanhoDaRodada(areaId) {
-            const totalDisponivel = obterBancoFiltrado(areaId).length;
-            const base = areaId === 'todas' ? TAMANHO_PROVA_TODAS : TAMANHO_PROVA_AREA;
-            return Math.min(base, totalDisponivel);
-        }
-
-        function reiniciarResultado() {
-            estado.corrigida = false;
-            estado.acertos = null;
-            estado.erros = null;
-            estado.telaFinal = false;
-            resultadoFinal.innerHTML = `
-                <strong>Aguardando envio</strong>
-                <span>O resultado final aparece automaticamente quando você responder a última questão.</span>
-            `;
-        }
-
-        function montarNovaProva() {
-            const bancoFiltrado = embaralhar(obterBancoFiltrado(estado.areaAtual));
-            const tamanho = tamanhoDaRodada(estado.areaAtual);
-
-            estado.questoesAtivas = bancoFiltrado.slice(0, tamanho).map(criarInstanciaQuestao);
-            estado.reserva = bancoFiltrado.slice(tamanho);
-            estado.pulosRestantes = LIMITE_PULOS;
-            estado.indiceAtual = 0;
-            estado.cinquentaUsado = false;
-            estado.cartaConsumida = false;
-            estado.questaoCartasId = null;
-            estado.baralhoCartas = embaralhar(CARTAS);
-            reiniciarResultado();
-            renderizarTudo();
-        }
-
-        function eliminarAlternativasErradas(questao, quantidade) {
-            const erradasVisiveis = questao.alternativas
-                .map((alternativa, indice) => ({ alternativa, indice }))
-                .filter((item) => !item.alternativa.correta && !item.alternativa.oculta && item.indice !== questao.selecionada);
-
-            const sorteadas = embaralhar(erradasVisiveis).slice(0, quantidade);
-            sorteadas.forEach((item) => {
-                item.alternativa.oculta = true;
-            });
-        }
-
-        function selecionarResposta(indiceQuestao, indiceAlternativa) {
-            if (estado.corrigida) {
-                return;
-            }
-
-            const questao = estado.questoesAtivas[indiceQuestao];
-
-            if (!questao) {
-                return;
-            }
-
-            questao.selecionada = indiceAlternativa;
-
-            const todasRespondidas = estado.questoesAtivas.every((item) => item.selecionada !== null);
-
-            if (todasRespondidas) {
-                corrigirProva();
-                return;
-            }
-
-            const proximaQuestaoEmBranco = estado.questoesAtivas.findIndex((item, indice) => indice > indiceQuestao && item.selecionada === null);
-            estado.indiceAtual = proximaQuestaoEmBranco !== -1
-                ? proximaQuestaoEmBranco
-                : estado.questoesAtivas.findIndex((item) => item.selecionada === null);
-
-            renderizarTudo();
-        }
-
-        function aplicarCinquenta(indiceQuestao) {
-            const questao = estado.questoesAtivas[indiceQuestao];
-
-            if (!questao || estado.corrigida || estado.cinquentaUsado) {
-                return;
-            }
-
-            eliminarAlternativasErradas(questao, 2);
-            questao.usou5050 = true;
-            estado.cinquentaUsado = true;
-            renderizarTudo();
-        }
-
-        function alternarCartas(indiceQuestao) {
-            const questao = estado.questoesAtivas[indiceQuestao];
-
-            if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId) {
-                return;
-            }
-
-            questao.mostrarCartas = true;
-            estado.questaoCartasId = questao.id;
-            estado.indiceAtual = indiceQuestao;
-            renderizarTudo();
-        }
-
-        function escolherCarta(indiceQuestao, indiceCarta) {
-            const questao = estado.questoesAtivas[indiceQuestao];
-
-            if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId !== questao.id || !estado.baralhoCartas[indiceCarta]) {
-                return;
-            }
-
-            const carta = estado.baralhoCartas[indiceCarta];
-            eliminarAlternativasErradas(questao, carta.elimina);
-            questao.usouCarta = true;
-            questao.cartaEscolhida = carta.nome;
-            questao.mensagemCarta = `${carta.nome}: ${carta.descricao}`;
-            questao.mostrarCartas = true;
-            estado.cartaConsumida = true;
-            renderizarTudo();
-        }
-
-        function obterQuestaoReserva(areaId, idAtual) {
-            const indiceReserva = estado.reserva.findIndex((questao) => questao.area === areaId && questao.id !== idAtual);
-
-            if (indiceReserva === -1) {
-                return null;
-            }
-
-            return estado.reserva.splice(indiceReserva, 1)[0];
-        }
-
-        function pularQuestao(indiceQuestao) {
-            const questaoAtual = estado.questoesAtivas[indiceQuestao];
-
-            if (!questaoAtual || estado.corrigida || estado.pulosRestantes <= 0) {
-                return;
-            }
-
-            if (estado.questaoCartasId === questaoAtual.id && !estado.cartaConsumida) {
-                resultadoFinal.innerHTML = `
-                    <strong>Escolha a carta primeiro</strong>
-                    <span>As cartas já foram abertas para esta questão.</span>
-                    <small>Escolha uma delas antes de pular ou siga para outra questão usando a navegação inferior.</small>
-                `;
-                return;
-            }
-
-            const substituta = obterQuestaoReserva(questaoAtual.area, questaoAtual.id);
-
-            if (!substituta) {
-                resultadoFinal.innerHTML = `
-                    <strong>Sem reserva disponível</strong>
-                    <span>Não há outra questão da mesma área para substituir esta neste momento.</span>
-                    <small>Troque a área ou gere uma nova mistura para renovar o banco disponível.</small>
-                `;
-                return;
-            }
-
-            estado.reserva.push(questaoAtual.base);
-
-            estado.questoesAtivas[indiceQuestao] = criarInstanciaQuestao(substituta);
-            estado.pulosRestantes -= 1;
-            estado.indiceAtual = indiceQuestao;
-            renderizarTudo();
-        }
-
-        function corrigirProva() {
-            let acertos = 0;
-
-            estado.questoesAtivas.forEach((questao) => {
-                questao.alternativas.forEach((alternativa) => {
-                    alternativa.oculta = false;
-                });
-
-                if (questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta) {
-                    acertos += 1;
-                }
-            });
-
-            estado.corrigida = true;
-            estado.acertos = acertos;
-            estado.erros = estado.questoesAtivas.length - acertos;
-            estado.indiceAtual = 0;
-            estado.telaFinal = true;
-
-            const percentual = Math.round((acertos / estado.questoesAtivas.length) * 100);
-            resultadoFinal.innerHTML = `
-                <strong>${acertos}/${estado.questoesAtivas.length} acertos</strong>
-                <span>Desempenho final: ${percentual}%.</span>
-                <small>${percentual >= 70 ? 'Bom resultado. Continue revisando para consolidar o conteúdo.' : 'Vale revisar os comentários das questões para reforçar os pontos principais.'}</small>
-            `;
-
-            renderizarTudo();
-        }
-
-        function limparEEmbaralhar() {
-            montarNovaProva();
-        }
-
-        function revisarRespostas() {
-            if (!estado.corrigida) {
-                return;
-            }
-
-            estado.telaFinal = false;
-            estado.indiceAtual = 0;
-            renderizarTudo();
-        }
-
-        function irParaQuestao(indice) {
-            if (indice < 0 || indice >= estado.questoesAtivas.length) {
-                return;
-            }
-
-            estado.indiceAtual = indice;
-            renderizarTudo();
-        }
-
-        function obterVideoUniversitario(questao) {
-            if (!questao) {
-                return null;
-            }
-
-            if (window.questoesVideoMap && window.questoesVideoMap[questao.id]) {
-                return window.questoesVideoMap[questao.id];
-            }
-
-            return null;
-        }
-
-        function abrirVideoUniversitario(indiceQuestao) {
-            const questao = estado.questoesAtivas[indiceQuestao];
-            const video = obterVideoUniversitario(questao);
-
-            if (!video) {
-                return;
-            }
-
-            const destino = `visualizador-video.html?youtube=${encodeURIComponent(video.youtubeId)}&titulo=${encodeURIComponent(video.titulo)}&descricao=${encodeURIComponent(video.descricao)}`;
-            const novaJanela = window.open(destino, '_blank');
-
-            if (novaJanela) {
-                novaJanela.focus();
-                return;
-            }
-
-            window.location.href = destino;
-        }
-
-        function atualizarResumo() {
-            const respondidas = estado.questoesAtivas.filter((questao) => questao.selecionada !== null).length;
-            const emBranco = estado.questoesAtivas.length - respondidas;
-
-            statusArea.textContent = nomeDaArea(estado.areaAtual);
-            statusProgresso.textContent = estado.questoesAtivas.length ? `${estado.indiceAtual + 1}/${estado.questoesAtivas.length}` : '0/0';
-            statusRespondidas.textContent = `${respondidas}/${estado.questoesAtivas.length}`;
-            statusPulos.textContent = `${emBranco} em branco • ${estado.pulosRestantes} pulos`;
-            statusCartas.textContent = estado.cartaConsumida ? '0 uso' : '1 uso';
-            statusCinquenta.textContent = estado.cinquentaUsado ? '0 uso' : '1 uso';
-        }
-
-        function sincronizarModoApresentacao() {
-            const ativo = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
-            document.body.classList.toggle('questoes-apresentacao', ativo);
-        }
-
-        async function alternarModoApresentacao() {
-            if (estado.apresentacaoFallback) {
-                estado.apresentacaoFallback = false;
-                sincronizarModoApresentacao();
-                return;
-            }
-
-            try {
-                if (!document.fullscreenElement) {
-                    await document.documentElement.requestFullscreen();
-                } else {
-                    await document.exitFullscreen();
-                }
-            } catch (erro) {
-                estado.apresentacaoFallback = !estado.apresentacaoFallback;
-            }
-
-            sincronizarModoApresentacao();
-        }
-
-        function renderizarQuestoes() {
-            if (!estado.questoesAtivas.length) {
-                questoesLista.innerHTML = '<div class="questoes-vazio">Nenhuma questão encontrada para esta área.</div>';
-                return;
-            }
-
-            if (estado.telaFinal) {
-                const percentual = Math.round((estado.acertos / estado.questoesAtivas.length) * 100);
-
-                questoesLista.innerHTML = `
-                    <article class="questao-card questao-card--final">
-                        <div class="questao-final-kicker">Resultado final</div>
-                        <h2 class="questao-final-titulo">Prova concluída</h2>
-                        <p class="questao-final-texto">Você terminou o simulado. Veja o resumo com acertos, erros e aproveitamento geral.</p>
-                        <div class="questao-final-grid">
-                            <div class="questao-final-box">
-                                <span>Acertos</span>
-                                <strong>${estado.acertos}</strong>
-                            </div>
-                            <div class="questao-final-box questao-final-box--erro">
-                                <span>Erros</span>
-                                <strong>${estado.erros}</strong>
-                            </div>
-                            <div class="questao-final-box">
-                                <span>Aproveitamento</span>
-                                <strong>${percentual}%</strong>
-                            </div>
-                        </div>
-                        <div class="questao-final-acoes">
-                            <button type="button" class="btn" data-action="revisar">Rever respostas</button>
-                            <button type="button" class="btn btn-outline" data-action="reiniciar">Nova tentativa</button>
-                        </div>
-                    </article>
-                `;
-                return;
-            }
-
-            const indiceQuestao = estado.indiceAtual;
-            const questao = estado.questoesAtivas[indiceQuestao];
-            const ajudaTags = [];
-            const videoAtual = obterVideoUniversitario(questao);
-            const apresentacaoAtiva = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
-
-            if (questao.usou5050) {
-                ajudaTags.push('<span class="questao-ajuda-tag">50/50 usado</span>');
-            }
-
-            if (questao.cartaEscolhida) {
-                ajudaTags.push(`<span class="questao-ajuda-tag">Carta: ${escaparHtml(questao.cartaEscolhida)}</span>`);
-            }
-
-            if (estado.questaoCartasId === questao.id && !questao.cartaEscolhida) {
-                ajudaTags.push('<span class="questao-ajuda-tag">Cartas abertas</span>');
-            }
-
-            const alternativasHtml = questao.alternativas.map((alternativa, indiceAlternativa) => {
-                const classes = ['alternativa'];
-
-                if (questao.selecionada === indiceAlternativa) {
-                    classes.push('selecionada');
-                }
-
-                if (!estado.corrigida && alternativa.oculta) {
-                    classes.push('oculta-ajuda');
-                }
-
-                if (estado.corrigida && alternativa.correta) {
-                    classes.push('correta');
-                }
-
-                if (estado.corrigida && questao.selecionada === indiceAlternativa && !alternativa.correta) {
-                    classes.push('incorreta');
-                }
-
-                const checked = questao.selecionada === indiceAlternativa ? 'checked' : '';
-                const disabled = estado.corrigida || alternativa.oculta ? 'disabled' : '';
-
-                return `
-                    <label class="${classes.join(' ')}">
-                        <input type="radio" name="questao-${indiceQuestao}" value="${indiceAlternativa}" ${checked} ${disabled}>
-                        <div>
-                            <strong>${String.fromCharCode(65 + indiceAlternativa)}</strong>
-                            <span>${escaparHtml(alternativa.texto)}</span>
-                        </div>
-                    </label>
-                `;
-            }).join('');
-
-            const cartasHtml = estado.questaoCartasId === questao.id ? `
-                <div class="cartas-painel">
-                    <div class="cartas-grid">
-                        ${estado.baralhoCartas.map((carta, indiceCarta) => {
-                            const revelou = questao.cartaEscolhida && estado.baralhoCartas[indiceCarta].nome === questao.cartaEscolhida;
-                            const disabled = questao.usouCarta ? 'disabled' : '';
-                            const classes = ['carta-btn', `carta-${carta.classe}`];
-                            if (revelou) {
-                                classes.push('revelada');
-                            }
-
-                            return `
-                                <button type="button" class="${classes.join(' ')}" data-action="escolher-carta" data-questao-index="${indiceQuestao}" data-carta-index="${indiceCarta}" ${disabled}>
-                                    <span class="carta-indice">${indiceCarta + 1}</span>
-                                    <span class="carta-simbolo">${escaparHtml(carta.simbolo)}</span>
-                                </button>
-                            `;
-                        }).join('')}
-                    </div>
-                    <div class="cartas-resultado">${escaparHtml(questao.mensagemCarta || 'Escolha uma única carta. Ela será o único uso de cartas disponível nesta prova.')}</div>
-                </div>
-            ` : '';
-
-            const cardClasses = ['questao-card'];
-            if (estado.corrigida) {
-                const acertou = questao.selecionada !== null && questao.alternativas[questao.selecionada] && questao.alternativas[questao.selecionada].correta;
-                cardClasses.push(acertou ? 'corrigida-certa' : 'corrigida-errada');
-            }
-
-            questoesLista.innerHTML = `
-                <article class="${cardClasses.join(' ')}">
-                    <div class="questao-topo">
-                        <div class="questao-topo-esquerda">
-                            <span class="questao-numero">${indiceQuestao + 1}</span>
-                            <span class="questao-disciplina">${escaparHtml(questao.disciplina)}</span>
-                            ${ajudaTags.join('')}
-                        </div>
-                        <button type="button" class="questao-topo-icone" data-action="apresentacao" aria-label="${apresentacaoAtiva ? 'Sair do modo apresentação' : 'Entrar no modo apresentação'}" title="${apresentacaoAtiva ? 'Sair do modo apresentação' : 'Modo apresentação'}">${apresentacaoAtiva ? '×' : '⛶'}</button>
-                    </div>
-
-                    <p class="questao-enunciado">${escaparHtml(questao.enunciado)}</p>
-
-                    <div class="questao-acoes">
-                        <button type="button" class="questao-acao questao-acao--pular" data-action="pular" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.pulosRestantes <= 0 || (estado.questaoCartasId === questao.id && !questao.cartaEscolhida) ? 'disabled' : ''}>Pular (${estado.pulosRestantes})</button>
-                        <button type="button" class="questao-acao questao-acao--cartas" data-action="cartas" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.cartaConsumida || estado.questaoCartasId ? 'disabled' : ''}>Cartas</button>
-                        <button type="button" class="questao-acao questao-acao--cinquenta" data-action="cinquenta" data-questao-index="${indiceQuestao}" ${estado.corrigida || estado.cinquentaUsado ? 'disabled' : ''}>50/50</button>
-                        <button type="button" class="questao-acao questao-acao--universitario" data-action="universitario" data-questao-index="${indiceQuestao}" ${videoAtual ? '' : 'disabled'}>Universitário</button>
-                    </div>
-
-                    ${cartasHtml}
-
-                    <div class="questao-alternativas">${alternativasHtml}</div>
-
-                    <div class="questao-feedback ${estado.corrigida ? 'visivel' : ''}">
-                        <strong>Comentário:</strong>
-                        <span>${escaparHtml(questao.explicacao)}</span>
-                    </div>
-
-                    <div class="questao-navegacao">
-                        <button type="button" class="questao-nav-btn" data-action="anterior" ${indiceQuestao === 0 ? 'disabled' : ''}>Questão anterior</button>
-                        <div class="questao-navegacao-status">Questão ${indiceQuestao + 1} de ${estado.questoesAtivas.length}</div>
-                        <button type="button" class="questao-nav-btn" data-action="proxima" ${indiceQuestao >= estado.questoesAtivas.length - 1 ? 'disabled' : ''}>Próxima questão</button>
-                    </div>
-                </article>
-            `;
-        }
-
-        function renderizarTudo() {
-            atualizarResumo();
-            renderizarQuestoes();
-        }
-
-        function preencherFiltro() {
-            filtroArea.innerHTML = areas.map((area) => `<option value="${area.id}">${escaparHtml(area.nome)}</option>`).join('');
-            filtroArea.value = estado.areaAtual;
-        }
-
-        function aplicarFiltro() {
-            estado.areaAtual = filtroArea.value;
-            montarNovaProva();
-        }
-
-        questoesLista.addEventListener('click', (event) => {
-            const elemento = event.target.closest('[data-action]');
-
-            if (!elemento) {
-                return;
-            }
-
-            const indiceQuestao = Number(elemento.dataset.questaoIndex);
-            const acao = elemento.dataset.action;
-
-            if (acao === 'pular') {
-                pularQuestao(indiceQuestao);
-                return;
-            }
-
-            if (acao === 'cartas') {
-                alternarCartas(indiceQuestao);
-                return;
-            }
-
-            if (acao === 'escolher-carta') {
-                escolherCarta(indiceQuestao, Number(elemento.dataset.cartaIndex));
-                return;
-            }
-
-            if (acao === 'cinquenta') {
-                aplicarCinquenta(indiceQuestao);
-                return;
-            }
-
-            if (acao === 'universitario') {
-                abrirVideoUniversitario(indiceQuestao);
-                return;
-            }
-
-            if (acao === 'anterior') {
-                irParaQuestao(estado.indiceAtual - 1);
-                return;
-            }
-
-            if (acao === 'proxima') {
-                irParaQuestao(estado.indiceAtual + 1);
-                return;
-            }
-
-            if (acao === 'apresentacao') {
-                alternarModoApresentacao();
-                return;
-            }
-
-            if (acao === 'revisar') {
-                revisarRespostas();
-                return;
-            }
-
-            if (acao === 'reiniciar') {
-                limparEEmbaralhar();
-            }
+      });
+    });
+
+    const questoesLista = document.getElementById('questoes-lista');
+    const filtroArea = document.getElementById('filtro-area');
+    const statusArea = document.getElementById('status-area');
+    const statusProgresso = document.getElementById('status-progresso');
+    const statusRespondidas = document.getElementById('status-respondidas');
+    const statusPulos = document.getElementById('status-pulos');
+    const statusCartas = document.getElementById('status-cartas');
+    const statusCinquenta = document.getElementById('status-cinquenta');
+    const resultadoFinal = document.getElementById('resultado-final');
+
+    const estado = {
+      areaAtual: 'educacao-financeira',
+      questoesAtivas: [],
+      reserva: [],
+      indiceAtual: 0,
+      pulosRestantes: LIMITE_PULOS,
+      cinquentaUsado: false,
+      cartaConsumida: false,
+      questaoCartasId: null,
+      baralhoCartas: [],
+      corrigida: false,
+      acertos: null,
+      erros: null,
+      telaFinal: false,
+      apresentacaoFallback: false
+    };
+
+    function embaralhar(lista) {
+      const copia = [...lista];
+      for (let i = copia.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copia[i], copia[j]] = [copia[j], copia[i]];
+      }
+      return copia;
+    }
+
+    function escaparHtml(texto) {
+      return String(texto)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+
+    function criarInstancia(questao) {
+      return {
+        ...questao,
+        base: { ...questao },
+        selecionada: null,
+        usou5050: false,
+        usouCarta: false,
+        cartaEscolhida: null,
+        mensagemCarta: '',
+        alternativasRender: embaralhar(
+          questao.alternativas.map(function (texto, indice) {
+            return { texto: texto, correta: indice === questao.correta, oculta: false };
+          })
+        )
+      };
+    }
+
+    function reiniciarResultado() {
+      estado.corrigida = false;
+      estado.acertos = null;
+      estado.erros = null;
+      estado.telaFinal = false;
+      resultadoFinal.innerHTML = '<strong>Aguardando envio</strong><span>O resultado final aparece quando a última questão for respondida.</span>';
+    }
+
+    function montarProva() {
+      const lista = embaralhar(bancoQuestoes);
+      estado.questoesAtivas = lista.slice(0, TAMANHO_PROVA).map(criarInstancia);
+      estado.reserva = lista.slice(TAMANHO_PROVA);
+      estado.indiceAtual = 0;
+      estado.pulosRestantes = LIMITE_PULOS;
+      estado.cinquentaUsado = false;
+      estado.cartaConsumida = false;
+      estado.questaoCartasId = null;
+      estado.baralhoCartas = embaralhar(CARTAS);
+      reiniciarResultado();
+      renderizarTudo();
+    }
+
+    function eliminarAlternativasErradas(questao, quantidade) {
+      const erradas = questao.alternativasRender
+        .map(function (alternativa, indice) {
+          return { alternativa: alternativa, indice: indice };
+        })
+        .filter(function (item) {
+          return !item.alternativa.correta && !item.alternativa.oculta && item.indice !== questao.selecionada;
         });
 
-        questoesLista.addEventListener('change', (event) => {
-            if (event.target.matches('input[type="radio"]')) {
-                selecionarResposta(Number(event.target.name.replace('questao-', '')), Number(event.target.value));
-            }
+      embaralhar(erradas).slice(0, quantidade).forEach(function (item) {
+        item.alternativa.oculta = true;
+      });
+    }
+
+    function obterQuestaoReserva(idAtual) {
+      const indiceReserva = estado.reserva.findIndex(function (questao) {
+        return questao.id !== idAtual;
+      });
+
+      if (indiceReserva === -1) {
+        return null;
+      }
+
+      return estado.reserva.splice(indiceReserva, 1)[0];
+    }
+
+    function selecionarResposta(indiceQuestao, indiceAlternativa) {
+      if (estado.corrigida) {
+        return;
+      }
+
+      const questao = estado.questoesAtivas[indiceQuestao];
+      if (!questao) {
+        return;
+      }
+
+      questao.selecionada = indiceAlternativa;
+
+      const todasRespondidas = estado.questoesAtivas.every(function (item) {
+        return item.selecionada !== null;
+      });
+
+      if (todasRespondidas) {
+        corrigirProva();
+        return;
+      }
+
+      const proxima = estado.questoesAtivas.findIndex(function (item, idx) {
+        return idx > indiceQuestao && item.selecionada === null;
+      });
+
+      estado.indiceAtual = proxima !== -1
+        ? proxima
+        : estado.questoesAtivas.findIndex(function (item) { return item.selecionada === null; });
+
+      renderizarTudo();
+    }
+
+    function aplicarCinquenta(indiceQuestao) {
+      const questao = estado.questoesAtivas[indiceQuestao];
+      if (!questao || estado.corrigida || estado.cinquentaUsado) {
+        return;
+      }
+
+      eliminarAlternativasErradas(questao, 2);
+      questao.usou5050 = true;
+      estado.cinquentaUsado = true;
+      renderizarTudo();
+    }
+
+    function alternarCartas(indiceQuestao) {
+      const questao = estado.questoesAtivas[indiceQuestao];
+      if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId) {
+        return;
+      }
+
+      estado.questaoCartasId = questao.id;
+      estado.indiceAtual = indiceQuestao;
+      renderizarTudo();
+    }
+
+    function escolherCarta(indiceQuestao, indiceCarta) {
+      const questao = estado.questoesAtivas[indiceQuestao];
+      if (!questao || estado.corrigida || estado.cartaConsumida || estado.questaoCartasId !== questao.id || !estado.baralhoCartas[indiceCarta]) {
+        return;
+      }
+
+      const carta = estado.baralhoCartas[indiceCarta];
+      eliminarAlternativasErradas(questao, carta.elimina);
+      questao.usouCarta = true;
+      questao.cartaEscolhida = carta.nome;
+      questao.mensagemCarta = carta.nome + ': ' + carta.descricao;
+      estado.cartaConsumida = true;
+      renderizarTudo();
+    }
+
+    function pularQuestao(indiceQuestao) {
+      const questaoAtual = estado.questoesAtivas[indiceQuestao];
+      if (!questaoAtual || estado.corrigida || estado.pulosRestantes <= 0) {
+        return;
+      }
+
+      if (estado.questaoCartasId === questaoAtual.id && !questaoAtual.cartaEscolhida) {
+        resultadoFinal.innerHTML = '<strong>Escolha a carta primeiro</strong><span>As cartas já foram abertas para esta questão.</span><small>Escolha uma delas antes de pular.</small>';
+        return;
+      }
+
+      const substituta = obterQuestaoReserva(questaoAtual.id);
+      if (!substituta) {
+        resultadoFinal.innerHTML = '<strong>Sem reserva disponível</strong><span>Não há outra questão para substituir esta agora.</span><small>Gere um novo quiz para renovar a seleção.</small>';
+        return;
+      }
+
+      estado.reserva.push(questaoAtual.base);
+      estado.questoesAtivas[indiceQuestao] = criarInstancia(substituta);
+      estado.pulosRestantes -= 1;
+      estado.indiceAtual = indiceQuestao;
+      renderizarTudo();
+    }
+
+    function abrirVideo(indiceQuestao) {
+      const q = estado.questoesAtivas[indiceQuestao];
+      const video = q && window.questoesVideoMap ? window.questoesVideoMap[q.id] : null;
+      if (!video) {
+        return;
+      }
+
+      const destino = 'visualizador-video.html?youtube=' + encodeURIComponent(video.youtubeId) + '&titulo=' + encodeURIComponent(video.titulo) + '&descricao=' + encodeURIComponent(video.descricao);
+      const novaJanela = window.open(destino, '_blank');
+      if (novaJanela) {
+        novaJanela.focus();
+        return;
+      }
+
+      window.location.href = destino;
+    }
+
+    function corrigirProva() {
+      let acertos = 0;
+
+      estado.questoesAtivas.forEach(function (questao) {
+        questao.alternativasRender.forEach(function (alternativa) {
+          alternativa.oculta = false;
         });
 
-        aplicarFiltroBtn.addEventListener('click', aplicarFiltro);
-        limparProvaTopoBtn.addEventListener('click', limparEEmbaralhar);
-        limparBtn.addEventListener('click', limparEEmbaralhar);
-        corrigirBtn.addEventListener('click', corrigirProva);
-        document.addEventListener('fullscreenchange', sincronizarModoApresentacao);
+        if (questao.selecionada !== null && questao.alternativasRender[questao.selecionada] && questao.alternativasRender[questao.selecionada].correta) {
+          acertos += 1;
+        }
+      });
 
-        preencherFiltro();
-        montarNovaProva();
-    </script>
+      estado.corrigida = true;
+      estado.acertos = acertos;
+      estado.erros = estado.questoesAtivas.length - acertos;
+      estado.indiceAtual = 0;
+      estado.telaFinal = true;
+
+      const percentual = Math.round((acertos / estado.questoesAtivas.length) * 100);
+      resultadoFinal.innerHTML = '<strong>' + acertos + '/' + estado.questoesAtivas.length + ' acertos</strong><span>Desempenho final: ' + percentual + '%.</span><small>' + (percentual >= 70 ? 'Bom resultado. Continue revisando para consolidar o conteúdo.' : 'Vale revisar os comentários das questões para reforçar os pontos principais.') + '</small>';
+      renderizarTudo();
+    }
+
+    function revisarRespostas() {
+      if (!estado.corrigida) {
+        return;
+      }
+
+      estado.telaFinal = false;
+      estado.indiceAtual = 0;
+      renderizarTudo();
+    }
+
+    function irParaQuestao(indice) {
+      if (indice < 0 || indice >= estado.questoesAtivas.length) {
+        return;
+      }
+
+      estado.indiceAtual = indice;
+      renderizarTudo();
+    }
+
+    function sincronizarModoApresentacao() {
+      const ativo = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
+      document.body.classList.toggle('questoes-apresentacao', ativo);
+    }
+
+    async function alternarModoApresentacao() {
+      if (estado.apresentacaoFallback) {
+        estado.apresentacaoFallback = false;
+        sincronizarModoApresentacao();
+        return;
+      }
+
+      try {
+        if (!document.fullscreenElement) {
+          await document.documentElement.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch (erro) {
+        estado.apresentacaoFallback = !estado.apresentacaoFallback;
+      }
+
+      sincronizarModoApresentacao();
+    }
+
+    function atualizarStatus() {
+      const respondidas = estado.questoesAtivas.filter(function (q) {
+        return q.selecionada !== null;
+      }).length;
+
+      statusArea.textContent = 'Educação Financeira';
+      statusProgresso.textContent = estado.questoesAtivas.length ? (estado.indiceAtual + 1) + '/' + estado.questoesAtivas.length : '0/0';
+      statusRespondidas.textContent = respondidas + '/' + estado.questoesAtivas.length;
+      statusPulos.textContent = (estado.questoesAtivas.length - respondidas) + ' em branco • ' + estado.pulosRestantes + ' pulos';
+      statusCartas.textContent = estado.cartaConsumida ? '0 uso' : '1 uso';
+      statusCinquenta.textContent = estado.cinquentaUsado ? '0 uso' : '1 uso';
+    }
+
+    function renderizar() {
+      atualizarStatus();
+
+      if (!estado.questoesAtivas.length) {
+        questoesLista.innerHTML = '<div class="questoes-vazio">Nenhuma questão encontrada para Educação Financeira.</div>';
+        return;
+      }
+
+      if (estado.telaFinal) {
+        const percentual = Math.round((estado.acertos / estado.questoesAtivas.length) * 100);
+        questoesLista.innerHTML = '<article class="questao-card questao-card--final">' +
+          '<div class="questao-final-kicker">Resultado final</div>' +
+          '<h2 class="questao-final-titulo">Quiz concluído</h2>' +
+          '<p class="questao-final-texto">Você terminou o quiz. Veja o resumo com acertos, erros e aproveitamento geral.</p>' +
+          '<div class="questao-final-grid">' +
+            '<div class="questao-final-box"><span>Acertos</span><strong>' + estado.acertos + '</strong></div>' +
+            '<div class="questao-final-box questao-final-box--erro"><span>Erros</span><strong>' + estado.erros + '</strong></div>' +
+            '<div class="questao-final-box"><span>Aproveitamento</span><strong>' + percentual + '%</strong></div>' +
+          '</div>' +
+          '<div class="questao-final-acoes">' +
+            '<button type="button" class="btn" data-action="revisar">Rever respostas</button>' +
+            '<button type="button" class="btn btn-outline" data-action="reiniciar">Nova tentativa</button>' +
+          '</div>' +
+        '</article>';
+        return;
+      }
+
+      const indiceQuestao = estado.indiceAtual;
+      const q = estado.questoesAtivas[indiceQuestao];
+      const video = q && window.questoesVideoMap ? window.questoesVideoMap[q.id] : null;
+      const apresentacaoAtiva = Boolean(document.fullscreenElement) || estado.apresentacaoFallback;
+      const ajudaTags = ['<span class="questao-ajuda-tag">' + escaparHtml(q.conteudo) + '</span>'];
+
+      if (q.usou5050) ajudaTags.push('<span class="questao-ajuda-tag">50/50 usado</span>');
+      if (q.cartaEscolhida) ajudaTags.push('<span class="questao-ajuda-tag">Carta: ' + escaparHtml(q.cartaEscolhida) + '</span>');
+      if (estado.questaoCartasId === q.id && !q.cartaEscolhida) ajudaTags.push('<span class="questao-ajuda-tag">Cartas abertas</span>');
+
+      const alternativas = q.alternativasRender.map(function (alt, indice) {
+        const classes = ['alternativa'];
+        if (q.selecionada === indice) classes.push('selecionada');
+        if (!estado.corrigida && alt.oculta) classes.push('oculta-ajuda');
+        if (estado.corrigida && alt.correta) classes.push('correta');
+        if (estado.corrigida && q.selecionada === indice && !alt.correta) classes.push('incorreta');
+
+        return '<label class="' + classes.join(' ') + '">' +
+          '<input type="radio" name="questao-' + indiceQuestao + '" value="' + indice + '" ' + (q.selecionada === indice ? 'checked' : '') + ' ' + (estado.corrigida || alt.oculta ? 'disabled' : '') + '>' +
+          '<div><strong>' + String.fromCharCode(65 + indice) + '</strong><span>' + escaparHtml(alt.texto) + '</span></div>' +
+        '</label>';
+      }).join('');
+
+      const cartasHtml = estado.questaoCartasId === q.id ? '<div class="cartas-painel"><div class="cartas-grid">' +
+        estado.baralhoCartas.map(function (carta, indiceCarta) {
+          const revelou = q.cartaEscolhida && estado.baralhoCartas[indiceCarta].nome === q.cartaEscolhida;
+          const classes = ['carta-btn', 'carta-' + carta.classe];
+          if (revelou) classes.push('revelada');
+
+          return '<button type="button" class="' + classes.join(' ') + '" data-action="escolher-carta" data-questao-index="' + indiceQuestao + '" data-carta-index="' + indiceCarta + '" ' + (q.usouCarta ? 'disabled' : '') + '>' +
+            '<span class="carta-indice">' + escaparHtml(carta.rank) + '</span>' +
+            '<span class="carta-simbolo">' + escaparHtml(carta.simbolo) + '</span>' +
+          '</button>';
+        }).join('') +
+        '</div><div class="cartas-resultado">' + escaparHtml(q.mensagemCarta || 'Escolha uma única carta. Ela será o único uso de cartas disponível neste quiz.') + '</div></div>' : '';
+
+      const cardClasses = ['questao-card'];
+      if (estado.corrigida) {
+        const acertou = q.selecionada !== null && q.alternativasRender[q.selecionada] && q.alternativasRender[q.selecionada].correta;
+        cardClasses.push(acertou ? 'corrigida-certa' : 'corrigida-errada');
+      }
+
+      questoesLista.innerHTML = '<article class="' + cardClasses.join(' ') + '">' +
+        '<div class="questao-topo">' +
+          '<div class="questao-topo-esquerda">' +
+            '<span class="questao-numero">' + (indiceQuestao + 1) + '</span>' +
+            '<span class="questao-disciplina">Educação Financeira</span>' +
+            ajudaTags.join('') +
+          '</div>' +
+          '<button type="button" class="questao-topo-icone" data-action="apresentacao" aria-label="' + (apresentacaoAtiva ? 'Sair do modo apresentação' : 'Entrar no modo apresentação') + '" title="' + (apresentacaoAtiva ? 'Sair do modo apresentação' : 'Modo apresentação') + '">' + (apresentacaoAtiva ? '×' : '⛶') + '</button>' +
+        '</div>' +
+        '<p class="questao-enunciado">' + escaparHtml(q.enunciado) + '</p>' +
+        '<div class="questao-acoes">' +
+          '<button type="button" class="questao-acao questao-acao--pular" data-action="pular" data-questao-index="' + indiceQuestao + '" ' + (estado.corrigida || estado.pulosRestantes <= 0 || (estado.questaoCartasId === q.id && !q.cartaEscolhida) ? 'disabled' : '') + '>Pular (' + estado.pulosRestantes + ')</button>' +
+          '<button type="button" class="questao-acao questao-acao--cartas" data-action="cartas" data-questao-index="' + indiceQuestao + '" ' + (estado.corrigida || estado.cartaConsumida || estado.questaoCartasId ? 'disabled' : '') + '>Cartas</button>' +
+          '<button type="button" class="questao-acao questao-acao--cinquenta" data-action="cinquenta" data-questao-index="' + indiceQuestao + '" ' + (estado.corrigida || estado.cinquentaUsado ? 'disabled' : '') + '>50/50</button>' +
+          '<button type="button" class="questao-acao questao-acao--universitario" data-action="universitario" data-questao-index="' + indiceQuestao + '" ' + (video ? '' : 'disabled') + '>Abrir vídeo</button>' +
+        '</div>' +
+        cartasHtml +
+        '<div class="questao-alternativas">' + alternativas + '</div>' +
+        '<div class="questao-feedback ' + (estado.corrigida ? 'visivel' : '') + '"><strong>Comentário:</strong> <span>' + escaparHtml(q.explicacao) + '</span></div>' +
+        '<div class="questao-navegacao">' +
+          '<button type="button" class="questao-nav-btn" data-action="anterior" ' + (indiceQuestao === 0 ? 'disabled' : '') + '>Questão anterior</button>' +
+          '<div class="questao-navegacao-status">Questão ' + (indiceQuestao + 1) + ' de ' + estado.questoesAtivas.length + '</div>' +
+          '<button type="button" class="questao-nav-btn" data-action="proxima" ' + (indiceQuestao >= estado.questoesAtivas.length - 1 ? 'disabled' : '') + '>Próxima questão</button>' +
+        '</div>' +
+      '</article>';
+    }
+
+    function renderizarTudo() {
+      renderizar();
+    }
+
+    questoesLista.addEventListener('click', function (event) {
+      const elemento = event.target.closest('[data-action]');
+      if (!elemento) return;
+
+      const indiceQuestao = Number(elemento.dataset.questaoIndex);
+      const acao = elemento.dataset.action;
+
+      if (acao === 'pular') return pularQuestao(indiceQuestao);
+      if (acao === 'cartas') return alternarCartas(indiceQuestao);
+      if (acao === 'escolher-carta') return escolherCarta(indiceQuestao, Number(elemento.dataset.cartaIndex));
+      if (acao === 'cinquenta') return aplicarCinquenta(indiceQuestao);
+      if (acao === 'universitario') return abrirVideo(indiceQuestao);
+      if (acao === 'anterior') return irParaQuestao(estado.indiceAtual - 1);
+      if (acao === 'proxima') return irParaQuestao(estado.indiceAtual + 1);
+      if (acao === 'apresentacao') return alternarModoApresentacao();
+      if (acao === 'revisar') return revisarRespostas();
+      if (acao === 'reiniciar') return montarProva();
+    });
+
+    questoesLista.addEventListener('change', function (event) {
+      if (event.target.matches('input[type="radio"]')) {
+        selecionarResposta(Number(event.target.name.replace('questao-', '')), Number(event.target.value));
+      }
+    });
+
+    document.getElementById('aplicar-filtro').addEventListener('click', function () {
+      estado.areaAtual = filtroArea.value;
+      montarProva();
+    });
+    document.getElementById('limpar-prova-topo').addEventListener('click', montarProva);
+    document.getElementById('limpar-prova').addEventListener('click', montarProva);
+    document.getElementById('corrigir-prova').addEventListener('click', corrigirProva);
+    document.addEventListener('fullscreenchange', sincronizarModoApresentacao);
+    filtroArea.value = 'educacao-financeira';
+    montarProva();
+  </script>
 </body>
-
 </html>
-

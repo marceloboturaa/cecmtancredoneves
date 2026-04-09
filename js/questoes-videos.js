@@ -1,149 +1,47 @@
-window.questoesVideoMap = {
-    'ef-01': { youtubeId: '-C_wnHh0E4c', titulo: "Como organizar suas finanças com a Regra 50 30 20", descricao: "Vídeo de apoio relacionado à questão ef-01 de Educação Financeira. Canal: Célio Garcia - Inteligência Financeira." },
-    'ef-02': { youtubeId: 'YGbAlNfl7wE', titulo: "COMO DIVIDIR O SEU SALÁRIO - RONALDO RIBEIRO", descricao: "Vídeo de apoio relacionado à questão ef-02 de Educação Financeira. Canal: Ronaldo Ribeiro." },
-    'ef-03': { youtubeId: 'dTK-Zh4kUNE', titulo: "Quebre o ciclo: pare de comprar por impulso, comece a empreender e a investir", descricao: "Vídeo de apoio relacionado à questão ef-03 de Educação Financeira. Canal: Shock Financeiro ." },
-    'ef-04': { youtubeId: 'CB5zuxQl5ro', titulo: "O Que É Educação Financeira? Como Usar o Dinheiro? | Educação Financeira Ilustrada (1/10)", descricao: "Vídeo de apoio relacionado à questão ef-04 de Educação Financeira. Canal: Manual da Evolução." },
-    'ef-05': { youtubeId: '-C_wnHh0E4c', titulo: "Como organizar suas finanças com a Regra 50 30 20", descricao: "Vídeo de apoio relacionado à questão ef-05 de Educação Financeira. Canal: Célio Garcia - Inteligência Financeira." },
-    'ef-06': { youtubeId: 'XNAiUzVFZeE', titulo: "Como aprender educação financeira", descricao: "Vídeo de apoio relacionado à questão ef-06 de Educação Financeira. Canal: Primo Pobre." },
-    'ef-07': { youtubeId: 'YssoBqb9Z5M', titulo: "Educação Financeira: vídeo de apoio", descricao: "Vídeo de apoio relacionado à questão ef-07 de Educação Financeira. Canal: YouTube." },
-    'ef-08': { youtubeId: 'SEUFoQhp-KI', titulo: "Educação Financeira - Consumir com consciência o que é e por que importa", descricao: "Vídeo de apoio relacionado à questão ef-08 de Educação Financeira. Canal: EstudAí." },
-    'ef-09': { youtubeId: '7l-ntlNvAFg', titulo: "COMO FAZER CONTROLE DE GASTOS NO EXCEL? (Fácil e Organizado!)", descricao: "Vídeo de apoio relacionado à questão ef-09 de Educação Financeira. Canal: Tectreinamentos Informática Cursos." },
-    'ef-10': { youtubeId: 'VqXBtHGSB70', titulo: "Quer transformar sua vida financeira? Confira o Se Liga Finanças On.", descricao: "Vídeo de apoio relacionado à questão ef-10 de Educação Financeira. Canal: Sicoob Credilivre." },
-    'mat-01': { youtubeId: 'ssxo-ziRNpI', titulo: "Como calcular desconto?", descricao: "Vídeo de apoio relacionado à questão mat-01 de Matemática. Canal: Dicasdemat Sandro Curió." },
-    'mat-02': { youtubeId: 'M-WtgebtKCo', titulo: "Você acertou 18 de 24 questões de uma prova. Qual foi sua porcentagem de acertos? #matematica #aula", descricao: "Vídeo de apoio relacionado à questão mat-02 de Matemática. Canal: Matemática com Francivaldo." },
-    'mat-03': { youtubeId: 'pR1e0iiu0Pk', titulo: "COMO CALCULAR FRAÇÃO DE UM NÚMERO 🤯", descricao: "Vídeo de apoio relacionado à questão mat-03 de Matemática. Canal: Dicasdemat Sandro Curió." },
-    'mat-04': { youtubeId: 'uIVEd4NpdIs', titulo: "João comprou 4 cadernos por R$ 8,00 cada. Quanto ele pagou no total? #matemática", descricao: "Vídeo de apoio relacionado à questão mat-04 de Matemática. Canal: Professor Felipe Gomes." },
-    'mat-05': { youtubeId: 'Xm8xzW0cpXI', titulo: "COMO CALCULAR 25% DE 80? | Calculando 25 por cento de 80", descricao: "Vídeo de apoio relacionado à questão mat-05 de Matemática. Canal: Animando a Matemática." },
-    'mat-06': { youtubeId: 'RgY2vsI4iOc', titulo: "PORCENTAGEM | Qual foi o  aumento percentual⁉️", descricao: "Vídeo de apoio relacionado à questão mat-06 de Matemática. Canal: Professora Gisele Ramos - Matemática." },
-    'mat-07': { youtubeId: 'EMAoOklEA5w', titulo: "LEITURA E ESCRITA DOS NÚMEROS DECIMAIS 5º 6º ANOS \\\\Prof. Gis/", descricao: "Vídeo de apoio relacionado à questão mat-07 de Matemática. Canal: Gis com Giz Matemática." },
-    'mat-08': { youtubeId: '5lTcFkFZ6FI', titulo: "1 milhão agora ou 112 por hora? #matematicafinanceira #dinheiro #matematica", descricao: "Vídeo de apoio relacionado à questão mat-08 de Matemática. Canal: Profdombrauskas." },
-    'mat-09': { youtubeId: 'u_i0we15Zdo', titulo: "❤️❤️ NUNCA MAIS ERRE DIVISÃO!!!!", descricao: "Vídeo de apoio relacionado à questão mat-09 de Matemática. Canal: Matemática com AMORim." },
-    'mat-10': { youtubeId: 'tZloXqNiOE0', titulo: "🤑 Dica de PORCENTAGEM: Compra com Desconto RÁPIDO e FÁCIL 🤩 | Matemática", descricao: "Vídeo de apoio relacionado à questão mat-10 de Matemática. Canal: Prof. Rodrigo Pelace | Matemática." },
-    'fil-01': { youtubeId: 'Zc-fF5ca83w', titulo: "Ética e Moral:  Saiba como diferenciar?? || O que é, Conceitos, Definições e Exemplos", descricao: "Vídeo de apoio relacionado à questão fil-01 de Filosofia. Canal: Insista // Persista e nunca Desista!." },
-    'fil-02': { youtubeId: 'uAtEnxMAMHA', titulo: "Como Aprender Pensamento Crítico? Jordan Peterson (6 PASSOS)", descricao: "Vídeo de apoio relacionado à questão fil-02 de Filosofia. Canal: Eureka!." },
-    'fil-03': { youtubeId: 'upLFgWBJXB4', titulo: "Qual é a importância do Diálogo de Sócrates para a FILOSOFIA MODERNA? | Deleites da Filosofia", descricao: "Vídeo de apoio relacionado à questão fil-03 de Filosofia. Canal: TV FILARTLÊS." },
-    'fil-04': { youtubeId: 'lYhZklxj4cQ', titulo: "Não discuta com pessoas perturbadas. #reflexão #karnal #filosofia #calma #discussao #palestra", descricao: "Vídeo de apoio relacionado à questão fil-04 de Filosofia. Canal: Karnal Verdades." },
-    'fil-05': { youtubeId: '0V1m1UXR0-4', titulo: "CIDADANIA E DIREITOS: RESUMO DE SOCIOLOGIA | Curso do Encceja e Curso do Enem. Prof Alan Ghedini", descricao: "Vídeo de apoio relacionado à questão fil-05 de Filosofia. Canal: Curso Enem Gratuito." },
-    'fil-06': { youtubeId: 'lYhZklxj4cQ', titulo: "Não discuta com pessoas perturbadas. #reflexão #karnal #filosofia #calma #discussao #palestra", descricao: "Vídeo de apoio relacionado à questão fil-06 de Filosofia. Canal: Karnal Verdades." },
-    'fil-07': { youtubeId: 'uM0Gn4BUzxI', titulo: "Quem Pergunta Para Testar, Não Quer Aprender #consciência #educação #filosofia", descricao: "Vídeo de apoio relacionado à questão fil-07 de Filosofia. Canal: Saga Intelectual." },
-    'fil-08': { youtubeId: 'czfbY18UPqU', titulo: "Toda escolha é a escolha certa | A Filosofia de Kierkegaard", descricao: "Vídeo de apoio relacionado à questão fil-08 de Filosofia. Canal: Ludoviajante." },
-    'fil-09': { youtubeId: 'wa_T_GkUkFc', titulo: "O que é Filosofia? - Filosofia e Filosofar", descricao: "Vídeo de apoio relacionado à questão fil-09 de Filosofia. Canal: Vanderlei Roncato." },
-    'fil-10': { youtubeId: 'Zc-fF5ca83w', titulo: "Ética e Moral:  Saiba como diferenciar?? || O que é, Conceitos, Definições e Exemplos", descricao: "Vídeo de apoio relacionado à questão fil-10 de Filosofia. Canal: Insista // Persista e nunca Desista!." },
-    'mak-01': { youtubeId: 'xK6oIyYpaYU', titulo: "Entenda um pouco mais sobre a Cultura Maker, e como ela pode auxiliar na educação das crianças", descricao: "Vídeo de apoio relacionado à questão mak-01 de Maker. Canal: Editora Ciranda Cultural." },
-    'mak-02': { youtubeId: 'SBK1YdycjgY', titulo: "o protótipo é gente boa #poppyplaytime #prototype #1006 #vaiflopa #chapter5 #shorts", descricao: "Vídeo de apoio relacionado à questão mak-02 de Maker. Canal: Humberto meneghelli." },
-    'mak-03': { youtubeId: 'BB_5XErU5nE', titulo: "Como FAZER um CARRINHO movido a ar | carro movido a ar", descricao: "Vídeo de apoio relacionado à questão mak-03 de Maker. Canal: Maker, Artes e Variedades." },
-    'mak-04': { youtubeId: 'IJLsPoshWLg', titulo: "Projeto maker na escola", descricao: "Vídeo de apoio relacionado à questão mak-04 de Maker. Canal: Professor  Toreto." },
-    'mak-05': { youtubeId: 'IJLsPoshWLg', titulo: "Projeto maker na escola", descricao: "Vídeo de apoio relacionado à questão mak-05 de Maker. Canal: Professor  Toreto." },
-    'mak-06': { youtubeId: '08ek2sR2DYg', titulo: "dicas de prototipo para projetos maker, para atender mais possibilidades #maker #projeto", descricao: "Vídeo de apoio relacionado à questão mak-06 de Maker. Canal: Aprendiz Maker." },
-    'mak-07': { youtubeId: 'TPbW4RBq1oI', titulo: "Entenda DE UMA VEZ as Fases de um Projeto", descricao: "Vídeo de apoio relacionado à questão mak-07 de Maker. Canal: Gustavo Farias." },
-    'mak-08': { youtubeId: 't42DypZf0rc', titulo: "O que é o Movimento Maker?  | Estação Conhecimento", descricao: "Vídeo de apoio relacionado à questão mak-08 de Maker. Canal: TV UFSC." },
-    'mak-09': { youtubeId: 'ufwwp4dfoDk', titulo: "#criatividade  - Sala Maker, o espaço de criar da Escola Crescendo!", descricao: "Vídeo de apoio relacionado à questão mak-09 de Maker. Canal: Escola Crescendo TV." },
-    'mak-10': { youtubeId: '9GiafcoDf6E', titulo: "O PODER DO FEEDBACK | Série “Profissional do Futuro”", descricao: "Vídeo de apoio relacionado à questão mak-10 de Maker. Canal: Prazer, Karnal - Canal Oficial de Leandro Karnal." },
-    'rob-01': { youtubeId: '73kB82uwUUM', titulo: "Protótipos com Sensores - ( Robótica Educacional Rio Grande da Serra )", descricao: "Vídeo de apoio relacionado à questão rob-01 de Robótica. Canal: Robotica RGS." },
-    'rob-02': { youtubeId: 'JaTf3dhx464', titulo: "Entenda LÓGICA DE PROGRAMAÇÃO e ALGORITMOS - Aula 01", descricao: "Vídeo de apoio relacionado à questão rob-02 de Robótica. Canal: Sharpax." },
-    'rob-03': { youtubeId: 'sv9dDtYnE1g', titulo: "O que é Arduino, afinal de contas? #ManualMaker Aula 4, Vídeo 1", descricao: "Vídeo de apoio relacionado à questão rob-03 de Robótica. Canal: Manual do Mundo." },
-    'rob-04': { youtubeId: 'QRVbawGc-vM', titulo: "Aparelho mapeia veias e dribla medo de agulha", descricao: "Vídeo de apoio relacionado à questão rob-04 de Robótica. Canal: Einstein Hospital Israelita." },
-    'rob-05': { youtubeId: 'kA4kN4-0_yE', titulo: "🔧 Motores para Arduino: qual usar e para quê? 🚀", descricao: "Vídeo de apoio relacionado à questão rob-05 de Robótica. Canal: Guia Robótica." },
-    'rob-06': { youtubeId: 'r8C-zwJ4jz8', titulo: "Robô que desvia de obstáculos #arduino #escolapublica #robóticaeducativa #robótica", descricao: "Vídeo de apoio relacionado à questão rob-06 de Robótica. Canal: Professor Tom." },
-    'rob-07': { youtubeId: 'otVGNsi6NSQ', titulo: "Crianças aprendem conceitos de Pensamento Computacional com computação desplugada!", descricao: "Vídeo de apoio relacionado à questão rob-07 de Robótica. Canal: Professor Paiva." },
-    'rob-08': { youtubeId: 'NxAchwalbHM', titulo: "Quiz,teste seu conhecimento.#robotica #criatividade#quiztime#escola #perguntaserespostas#programação", descricao: "Vídeo de apoio relacionado à questão rob-08 de Robótica. Canal: Robótica na escola com Renan." },
-    'rob-09': { youtubeId: '61KSa8_whZg', titulo: "Humanóides ultra realista da china em congresso de robôs. #inteligenciaartificial  #ai  #tecnologia", descricao: "Vídeo de apoio relacionado à questão rob-09 de Robótica. Canal: MC DANDÃO CORTES." },
-    'rob-10': { youtubeId: 'I_UdHXU_yss', titulo: "por que robôs não conseguem clicar em “não sou um robô”?", descricao: "Vídeo de apoio relacionado à questão rob-10 de Robótica. Canal: Giuliana Mafra." },
-    'qui-01': { youtubeId: '2zU_3ganVj4', titulo: "A DIFERENÇA entre mistura HOMOGÊNEA e HETEROGÊNEA", descricao: "Vídeo de apoio relacionado à questão qui-01 de Química. Canal: Com Ciência." },
-    'qui-02': { youtubeId: 'TNQlvtsqoQ4', titulo: "Água, Óleo e Gelo", descricao: "Vídeo de apoio relacionado à questão qui-02 de Química. Canal: Flávio Cunha." },
-    'qui-03': { youtubeId: 'Ho95PJhX2Fc', titulo: "Técnica de separação de misturas", descricao: "Vídeo de apoio relacionado à questão qui-03 de Química. Canal: Física com Dudu." },
-    'qui-04': { youtubeId: 'Ivd3suCIZz8', titulo: "COMO OCORRE A TRANSFORMAÇÃO DA ÁGUA EM GELO? QUÍMICA NA PRÁTICA!", descricao: "Vídeo de apoio relacionado à questão qui-04 de Química. Canal: AviAcademy." },
-    'qui-05': { youtubeId: 'L8FJkVczNlM', titulo: "O QUE É FERRUGEM? Explorando a Oxidação do Ferro: Os Mistérios da Ferrugem Desvendados!", descricao: "Vídeo de apoio relacionado à questão qui-05 de Química. Canal: Tudo sobre Engenharias." },
-    'qui-06': { youtubeId: 'Vsnq2hJ2UZc', titulo: "Entenda a TABELA PERIÓDICA em 10 minutos - Toda Matéria", descricao: "Vídeo de apoio relacionado à questão qui-06 de Química. Canal: Toda Matéria." },
-    'qui-07': { youtubeId: 'tI7d4Rp-LxM', titulo: "Reação Química | Dica básica sobre Reações Químicas #química #reações", descricao: "Vídeo de apoio relacionado à questão qui-07 de Química. Canal: Dicas Rápidas de Química." },
-    'qui-08': { youtubeId: 'AKpao58ahtA', titulo: "RESUMO sobre ÁGUA - Bioquímica | Biologia com Samuel Cunha", descricao: "Vídeo de apoio relacionado à questão qui-08 de Química. Canal: Biologia com Samuel Cunha." },
-    'qui-09': { youtubeId: 'Vsnq2hJ2UZc', titulo: "Entenda a TABELA PERIÓDICA em 10 minutos - Toda Matéria", descricao: "Vídeo de apoio relacionado à questão qui-09 de Química. Canal: Toda Matéria." },
-    'qui-10': { youtubeId: 'nDvRzzDlPSU', titulo: "Separação de misturas heterogêneas. #quimicageral #quimica", descricao: "Vídeo de apoio relacionado à questão qui-10 de Química. Canal: Claudia Regina Quimica." }
+﻿const videoGroups = {
+  oqe: { youtubeId: 'CB5zuxQl5ro', titulo: 'O que e educacao financeira', descricao: 'Video de apoio sobre uso consciente do dinheiro, escolhas e planejamento.' },
+  con: { youtubeId: '-C_wnHh0E4c', titulo: 'Como organizar financas com a regra 50 30 20', descricao: 'Video de apoio sobre orcamento, receitas, despesas e organizacao financeira.' },
+  his: { youtubeId: '-7Az6V2oAD4', titulo: 'Banco Central do Brasil', descricao: 'Video de apoio sobre historia do dinheiro e educacao financeira.' },
+  moe: { youtubeId: 'T5I1s_NEnx8', titulo: 'Educacao financeira na pratica', descricao: 'Video de apoio para relacionar valor, trocas e evolucao do dinheiro.' },
+  jur: { youtubeId: 'Popa7dOjOMU', titulo: 'Juros compostos na pratica', descricao: 'Video de apoio sobre acumulacao, tempo e impacto dos juros.' },
+  pla: { youtubeId: 'SEUFoQhp-KI', titulo: 'Consumo consciente e planejamento', descricao: 'Video de apoio sobre planejamento ao consumo e escolhas responsaveis.' }
 };
 
-window.questoesVideoCatalog = [
-    { youtubeId: 'ufwwp4dfoDk', titulo: "#criatividade  - Sala Maker, o espaço de criar da Escola Crescendo!", descricao: "Vídeo de apoio relacionado à questão mak-09 de Maker. Canal: Escola Crescendo TV.", thumb: 'https://img.youtube.com/vi/ufwwp4dfoDk/hqdefault.jpg' },
-    { youtubeId: 'u_i0we15Zdo', titulo: "❤️❤️ NUNCA MAIS ERRE DIVISÃO!!!!", descricao: "Vídeo de apoio relacionado à questão mat-09 de Matemática. Canal: Matemática com AMORim.", thumb: 'https://img.youtube.com/vi/u_i0we15Zdo/hqdefault.jpg' },
-    { youtubeId: 'kA4kN4-0_yE', titulo: "🔧 Motores para Arduino: qual usar e para quê? 🚀", descricao: "Vídeo de apoio relacionado à questão rob-05 de Robótica. Canal: Guia Robótica.", thumb: 'https://img.youtube.com/vi/kA4kN4-0_yE/hqdefault.jpg' },
-    { youtubeId: 'tZloXqNiOE0', titulo: "🤑 Dica de PORCENTAGEM: Compra com Desconto RÁPIDO e FÁCIL 🤩 | Matemática", descricao: "Vídeo de apoio relacionado à questão mat-10 de Matemática. Canal: Prof. Rodrigo Pelace | Matemática.", thumb: 'https://img.youtube.com/vi/tZloXqNiOE0/hqdefault.jpg' },
-    { youtubeId: '5lTcFkFZ6FI', titulo: "1 milhão agora ou 112 por hora? #matematicafinanceira #dinheiro #matematica", descricao: "Vídeo de apoio relacionado à questão mat-08 de Matemática. Canal: Profdombrauskas.", thumb: 'https://img.youtube.com/vi/5lTcFkFZ6FI/hqdefault.jpg' },
-    { youtubeId: '2zU_3ganVj4', titulo: "A DIFERENÇA entre mistura HOMOGÊNEA e HETEROGÊNEA", descricao: "Vídeo de apoio relacionado à questão qui-01 de Química. Canal: Com Ciência.", thumb: 'https://img.youtube.com/vi/2zU_3ganVj4/hqdefault.jpg' },
-    { youtubeId: 'TNQlvtsqoQ4', titulo: "Água, Óleo e Gelo", descricao: "Vídeo de apoio relacionado à questão qui-02 de Química. Canal: Flávio Cunha.", thumb: 'https://img.youtube.com/vi/TNQlvtsqoQ4/hqdefault.jpg' },
-    { youtubeId: 'QRVbawGc-vM', titulo: "Aparelho mapeia veias e dribla medo de agulha", descricao: "Vídeo de apoio relacionado à questão rob-04 de Robótica. Canal: Einstein Hospital Israelita.", thumb: 'https://img.youtube.com/vi/QRVbawGc-vM/hqdefault.jpg' },
-    { youtubeId: '0V1m1UXR0-4', titulo: "CIDADANIA E DIREITOS: RESUMO DE SOCIOLOGIA | Curso do Encceja e Curso do Enem. Prof Alan Ghedini", descricao: "Vídeo de apoio relacionado à questão fil-05 de Filosofia. Canal: Curso Enem Gratuito.", thumb: 'https://img.youtube.com/vi/0V1m1UXR0-4/hqdefault.jpg' },
-    { youtubeId: 'XNAiUzVFZeE', titulo: "Como aprender educação financeira", descricao: "Vídeo de apoio relacionado à questão ef-06 de Educação Financeira. Canal: Primo Pobre.", thumb: 'https://img.youtube.com/vi/XNAiUzVFZeE/hqdefault.jpg' },
-    { youtubeId: 'uAtEnxMAMHA', titulo: "Como Aprender Pensamento Crítico? Jordan Peterson (6 PASSOS)", descricao: "Vídeo de apoio relacionado à questão fil-02 de Filosofia. Canal: Eureka!.", thumb: 'https://img.youtube.com/vi/uAtEnxMAMHA/hqdefault.jpg' },
-    { youtubeId: 'Xm8xzW0cpXI', titulo: "COMO CALCULAR 25% DE 80? | Calculando 25 por cento de 80", descricao: "Vídeo de apoio relacionado à questão mat-05 de Matemática. Canal: Animando a Matemática.", thumb: 'https://img.youtube.com/vi/Xm8xzW0cpXI/hqdefault.jpg' },
-    { youtubeId: 'ssxo-ziRNpI', titulo: "Como calcular desconto?", descricao: "Vídeo de apoio relacionado à questão mat-01 de Matemática. Canal: Dicasdemat Sandro Curió.", thumb: 'https://img.youtube.com/vi/ssxo-ziRNpI/hqdefault.jpg' },
-    { youtubeId: 'pR1e0iiu0Pk', titulo: "COMO CALCULAR FRAÇÃO DE UM NÚMERO 🤯", descricao: "Vídeo de apoio relacionado à questão mat-03 de Matemática. Canal: Dicasdemat Sandro Curió.", thumb: 'https://img.youtube.com/vi/pR1e0iiu0Pk/hqdefault.jpg' },
-    { youtubeId: 'YGbAlNfl7wE', titulo: "COMO DIVIDIR O SEU SALÁRIO - RONALDO RIBEIRO", descricao: "Vídeo de apoio relacionado à questão ef-02 de Educação Financeira. Canal: Ronaldo Ribeiro.", thumb: 'https://img.youtube.com/vi/YGbAlNfl7wE/hqdefault.jpg' },
-    { youtubeId: '7l-ntlNvAFg', titulo: "COMO FAZER CONTROLE DE GASTOS NO EXCEL? (Fácil e Organizado!)", descricao: "Vídeo de apoio relacionado à questão ef-09 de Educação Financeira. Canal: Tectreinamentos Informática Cursos.", thumb: 'https://img.youtube.com/vi/7l-ntlNvAFg/hqdefault.jpg' },
-    { youtubeId: 'BB_5XErU5nE', titulo: "Como FAZER um CARRINHO movido a ar | carro movido a ar", descricao: "Vídeo de apoio relacionado à questão mak-03 de Maker. Canal: Maker, Artes e Variedades.", thumb: 'https://img.youtube.com/vi/BB_5XErU5nE/hqdefault.jpg' },
-    { youtubeId: 'Ivd3suCIZz8', titulo: "COMO OCORRE A TRANSFORMAÇÃO DA ÁGUA EM GELO? QUÍMICA NA PRÁTICA!", descricao: "Vídeo de apoio relacionado à questão qui-04 de Química. Canal: AviAcademy.", thumb: 'https://img.youtube.com/vi/Ivd3suCIZz8/hqdefault.jpg' },
-    { youtubeId: '-C_wnHh0E4c', titulo: "Como organizar suas finanças com a Regra 50 30 20", descricao: "Vídeo de apoio relacionado à questão ef-01 de Educação Financeira. Canal: Célio Garcia - Inteligência Financeira.", thumb: 'https://img.youtube.com/vi/-C_wnHh0E4c/hqdefault.jpg' },
-    { youtubeId: 'otVGNsi6NSQ', titulo: "Crianças aprendem conceitos de Pensamento Computacional com computação desplugada!", descricao: "Vídeo de apoio relacionado à questão rob-07 de Robótica. Canal: Professor Paiva.", thumb: 'https://img.youtube.com/vi/otVGNsi6NSQ/hqdefault.jpg' },
-    { youtubeId: '08ek2sR2DYg', titulo: "dicas de prototipo para projetos maker, para atender mais possibilidades #maker #projeto", descricao: "Vídeo de apoio relacionado à questão mak-06 de Maker. Canal: Aprendiz Maker.", thumb: 'https://img.youtube.com/vi/08ek2sR2DYg/hqdefault.jpg' },
-    { youtubeId: 'SEUFoQhp-KI', titulo: "Educação Financeira - Consumir com consciência o que é e por que importa", descricao: "Vídeo de apoio relacionado à questão ef-08 de Educação Financeira. Canal: EstudAí.", thumb: 'https://img.youtube.com/vi/SEUFoQhp-KI/hqdefault.jpg' },
-    { youtubeId: 'YssoBqb9Z5M', titulo: "Educação Financeira: vídeo de apoio", descricao: "Vídeo de apoio relacionado à questão ef-07 de Educação Financeira. Canal: YouTube.", thumb: 'https://img.youtube.com/vi/YssoBqb9Z5M/hqdefault.jpg' },
-    { youtubeId: 'Vsnq2hJ2UZc', titulo: "Entenda a TABELA PERIÓDICA em 10 minutos - Toda Matéria", descricao: "Vídeo de apoio relacionado à questão qui-06 de Química. Canal: Toda Matéria.", thumb: 'https://img.youtube.com/vi/Vsnq2hJ2UZc/hqdefault.jpg' },
-    { youtubeId: 'TPbW4RBq1oI', titulo: "Entenda DE UMA VEZ as Fases de um Projeto", descricao: "Vídeo de apoio relacionado à questão mak-07 de Maker. Canal: Gustavo Farias.", thumb: 'https://img.youtube.com/vi/TPbW4RBq1oI/hqdefault.jpg' },
-    { youtubeId: 'JaTf3dhx464', titulo: "Entenda LÓGICA DE PROGRAMAÇÃO e ALGORITMOS - Aula 01", descricao: "Vídeo de apoio relacionado à questão rob-02 de Robótica. Canal: Sharpax.", thumb: 'https://img.youtube.com/vi/JaTf3dhx464/hqdefault.jpg' },
-    { youtubeId: 'xK6oIyYpaYU', titulo: "Entenda um pouco mais sobre a Cultura Maker, e como ela pode auxiliar na educação das crianças", descricao: "Vídeo de apoio relacionado à questão mak-01 de Maker. Canal: Editora Ciranda Cultural.", thumb: 'https://img.youtube.com/vi/xK6oIyYpaYU/hqdefault.jpg' },
-    { youtubeId: 'Zc-fF5ca83w', titulo: "Ética e Moral:  Saiba como diferenciar?? || O que é, Conceitos, Definições e Exemplos", descricao: "Vídeo de apoio relacionado à questão fil-01 de Filosofia. Canal: Insista // Persista e nunca Desista!.", thumb: 'https://img.youtube.com/vi/Zc-fF5ca83w/hqdefault.jpg' },
-    { youtubeId: '61KSa8_whZg', titulo: "Humanóides ultra realista da china em congresso de robôs. #inteligenciaartificial  #ai  #tecnologia", descricao: "Vídeo de apoio relacionado à questão rob-09 de Robótica. Canal: MC DANDÃO CORTES.", thumb: 'https://img.youtube.com/vi/61KSa8_whZg/hqdefault.jpg' },
-    { youtubeId: 'uIVEd4NpdIs', titulo: "João comprou 4 cadernos por R$ 8,00 cada. Quanto ele pagou no total? #matemática", descricao: "Vídeo de apoio relacionado à questão mat-04 de Matemática. Canal: Professor Felipe Gomes.", thumb: 'https://img.youtube.com/vi/uIVEd4NpdIs/hqdefault.jpg' },
-    { youtubeId: 'EMAoOklEA5w', titulo: "LEITURA E ESCRITA DOS NÚMEROS DECIMAIS 5º 6º ANOS \\\\Prof. Gis/", descricao: "Vídeo de apoio relacionado à questão mat-07 de Matemática. Canal: Gis com Giz Matemática.", thumb: 'https://img.youtube.com/vi/EMAoOklEA5w/hqdefault.jpg' },
-    { youtubeId: 'lYhZklxj4cQ', titulo: "Não discuta com pessoas perturbadas. #reflexão #karnal #filosofia #calma #discussao #palestra", descricao: "Vídeo de apoio relacionado à questão fil-04 de Filosofia. Canal: Karnal Verdades.", thumb: 'https://img.youtube.com/vi/lYhZklxj4cQ/hqdefault.jpg' },
-    { youtubeId: '9GiafcoDf6E', titulo: "O PODER DO FEEDBACK | Série “Profissional do Futuro”", descricao: "Vídeo de apoio relacionado à questão mak-10 de Maker. Canal: Prazer, Karnal - Canal Oficial de Leandro Karnal.", thumb: 'https://img.youtube.com/vi/9GiafcoDf6E/hqdefault.jpg' },
-    { youtubeId: 'SBK1YdycjgY', titulo: "o protótipo é gente boa #poppyplaytime #prototype #1006 #vaiflopa #chapter5 #shorts", descricao: "Vídeo de apoio relacionado à questão mak-02 de Maker. Canal: Humberto meneghelli.", thumb: 'https://img.youtube.com/vi/SBK1YdycjgY/hqdefault.jpg' },
-    { youtubeId: 'sv9dDtYnE1g', titulo: "O que é Arduino, afinal de contas? #ManualMaker Aula 4, Vídeo 1", descricao: "Vídeo de apoio relacionado à questão rob-03 de Robótica. Canal: Manual do Mundo.", thumb: 'https://img.youtube.com/vi/sv9dDtYnE1g/hqdefault.jpg' },
-    { youtubeId: 'CB5zuxQl5ro', titulo: "O Que É Educação Financeira? Como Usar o Dinheiro? | Educação Financeira Ilustrada (1/10)", descricao: "Vídeo de apoio relacionado à questão ef-04 de Educação Financeira. Canal: Manual da Evolução.", thumb: 'https://img.youtube.com/vi/CB5zuxQl5ro/hqdefault.jpg' },
-    { youtubeId: 'L8FJkVczNlM', titulo: "O QUE É FERRUGEM? Explorando a Oxidação do Ferro: Os Mistérios da Ferrugem Desvendados!", descricao: "Vídeo de apoio relacionado à questão qui-05 de Química. Canal: Tudo sobre Engenharias.", thumb: 'https://img.youtube.com/vi/L8FJkVczNlM/hqdefault.jpg' },
-    { youtubeId: 'wa_T_GkUkFc', titulo: "O que é Filosofia? - Filosofia e Filosofar", descricao: "Vídeo de apoio relacionado à questão fil-09 de Filosofia. Canal: Vanderlei Roncato.", thumb: 'https://img.youtube.com/vi/wa_T_GkUkFc/hqdefault.jpg' },
-    { youtubeId: 't42DypZf0rc', titulo: "O que é o Movimento Maker?  | Estação Conhecimento", descricao: "Vídeo de apoio relacionado à questão mak-08 de Maker. Canal: TV UFSC.", thumb: 'https://img.youtube.com/vi/t42DypZf0rc/hqdefault.jpg' },
-    { youtubeId: 'I_UdHXU_yss', titulo: "por que robôs não conseguem clicar em “não sou um robô”?", descricao: "Vídeo de apoio relacionado à questão rob-10 de Robótica. Canal: Giuliana Mafra.", thumb: 'https://img.youtube.com/vi/I_UdHXU_yss/hqdefault.jpg' },
-    { youtubeId: 'RgY2vsI4iOc', titulo: "PORCENTAGEM | Qual foi o  aumento percentual⁉️", descricao: "Vídeo de apoio relacionado à questão mat-06 de Matemática. Canal: Professora Gisele Ramos - Matemática.", thumb: 'https://img.youtube.com/vi/RgY2vsI4iOc/hqdefault.jpg' },
-    { youtubeId: 'IJLsPoshWLg', titulo: "Projeto maker na escola", descricao: "Vídeo de apoio relacionado à questão mak-04 de Maker. Canal: Professor  Toreto.", thumb: 'https://img.youtube.com/vi/IJLsPoshWLg/hqdefault.jpg' },
-    { youtubeId: '73kB82uwUUM', titulo: "Protótipos com Sensores - ( Robótica Educacional Rio Grande da Serra )", descricao: "Vídeo de apoio relacionado à questão rob-01 de Robótica. Canal: Robotica RGS.", thumb: 'https://img.youtube.com/vi/73kB82uwUUM/hqdefault.jpg' },
-    { youtubeId: 'upLFgWBJXB4', titulo: "Qual é a importância do Diálogo de Sócrates para a FILOSOFIA MODERNA? | Deleites da Filosofia", descricao: "Vídeo de apoio relacionado à questão fil-03 de Filosofia. Canal: TV FILARTLÊS.", thumb: 'https://img.youtube.com/vi/upLFgWBJXB4/hqdefault.jpg' },
-    { youtubeId: 'dTK-Zh4kUNE', titulo: "Quebre o ciclo: pare de comprar por impulso, comece a empreender e a investir", descricao: "Vídeo de apoio relacionado à questão ef-03 de Educação Financeira. Canal: Shock Financeiro .", thumb: 'https://img.youtube.com/vi/dTK-Zh4kUNE/hqdefault.jpg' },
-    { youtubeId: 'uM0Gn4BUzxI', titulo: "Quem Pergunta Para Testar, Não Quer Aprender #consciência #educação #filosofia", descricao: "Vídeo de apoio relacionado à questão fil-07 de Filosofia. Canal: Saga Intelectual.", thumb: 'https://img.youtube.com/vi/uM0Gn4BUzxI/hqdefault.jpg' },
-    { youtubeId: 'VqXBtHGSB70', titulo: "Quer transformar sua vida financeira? Confira o Se Liga Finanças On.", descricao: "Vídeo de apoio relacionado à questão ef-10 de Educação Financeira. Canal: Sicoob Credilivre.", thumb: 'https://img.youtube.com/vi/VqXBtHGSB70/hqdefault.jpg' },
-    { youtubeId: 'NxAchwalbHM', titulo: "Quiz,teste seu conhecimento.#robotica #criatividade#quiztime#escola #perguntaserespostas#programação", descricao: "Vídeo de apoio relacionado à questão rob-08 de Robótica. Canal: Robótica na escola com Renan.", thumb: 'https://img.youtube.com/vi/NxAchwalbHM/hqdefault.jpg' },
-    { youtubeId: 'tI7d4Rp-LxM', titulo: "Reação Química | Dica básica sobre Reações Químicas #química #reações", descricao: "Vídeo de apoio relacionado à questão qui-07 de Química. Canal: Dicas Rápidas de Química.", thumb: 'https://img.youtube.com/vi/tI7d4Rp-LxM/hqdefault.jpg' },
-    { youtubeId: 'AKpao58ahtA', titulo: "RESUMO sobre ÁGUA - Bioquímica | Biologia com Samuel Cunha", descricao: "Vídeo de apoio relacionado à questão qui-08 de Química. Canal: Biologia com Samuel Cunha.", thumb: 'https://img.youtube.com/vi/AKpao58ahtA/hqdefault.jpg' },
-    { youtubeId: 'r8C-zwJ4jz8', titulo: "Robô que desvia de obstáculos #arduino #escolapublica #robóticaeducativa #robótica", descricao: "Vídeo de apoio relacionado à questão rob-06 de Robótica. Canal: Professor Tom.", thumb: 'https://img.youtube.com/vi/r8C-zwJ4jz8/hqdefault.jpg' },
-    { youtubeId: 'nDvRzzDlPSU', titulo: "Separação de misturas heterogêneas. #quimicageral #quimica", descricao: "Vídeo de apoio relacionado à questão qui-10 de Química. Canal: Claudia Regina Quimica.", thumb: 'https://img.youtube.com/vi/nDvRzzDlPSU/hqdefault.jpg' },
-    { youtubeId: 'Ho95PJhX2Fc', titulo: "Técnica de separação de misturas", descricao: "Vídeo de apoio relacionado à questão qui-03 de Química. Canal: Física com Dudu.", thumb: 'https://img.youtube.com/vi/Ho95PJhX2Fc/hqdefault.jpg' },
-    { youtubeId: 'czfbY18UPqU', titulo: "Toda escolha é a escolha certa | A Filosofia de Kierkegaard", descricao: "Vídeo de apoio relacionado à questão fil-08 de Filosofia. Canal: Ludoviajante.", thumb: 'https://img.youtube.com/vi/czfbY18UPqU/hqdefault.jpg' },
-    { youtubeId: 'M-WtgebtKCo', titulo: "Você acertou 18 de 24 questões de uma prova. Qual foi sua porcentagem de acertos? #matematica #aula", descricao: "Vídeo de apoio relacionado à questão mat-02 de Matemática. Canal: Matemática com Francivaldo.", thumb: 'https://img.youtube.com/vi/M-WtgebtKCo/hqdefault.jpg' }
-];
+const sitePageVideos = [
+  { youtubeId: '-7Az6V2oAD4', titulo: 'Banco Central do Brasil', descricao: 'Video de apoio sobre a historia do dinheiro e educacao financeira.' },
+  { youtubeId: 'T5I1s_NEnx8', titulo: 'Educacao Financeira na pratica', descricao: 'Video complementar para ampliar a leitura sobre escolhas financeiras e consumo consciente.' },
+  { youtubeId: 'Popa7dOjOMU', titulo: 'Educacao Financeira - video complementar 1', descricao: 'Conteudo em video para aprofundar planejamento, consumo e organizacao financeira.' },
+  { youtubeId: '5vpixQc3b2M', titulo: 'Educacao Financeira - video complementar 2', descricao: 'Material em video para reforcar escolhas conscientes e uso responsavel do dinheiro.' },
+  { youtubeId: '3PKiaQJdzrM', titulo: 'Educacao Financeira - video complementar 3', descricao: 'Video de apoio para ampliar a reflexao sobre orcamento, metas e decisoes financeiras.' },
+  { youtubeId: 'anBcX9yLYdc', titulo: 'Educacao Financeira - video complementar 4', descricao: 'Conteudo em video para estudo e aprofundamento dos temas de educacao financeira.' },
+  { youtubeId: '6aolLKTHo-I', titulo: 'Educacao Financeira - video complementar 5', descricao: 'Video extra para reforcar habitos de consumo consciente e planejamento do dia a dia.' },
+  { youtubeId: '35QkwQrJzwY', titulo: 'Educacao Financeira - video complementar 6', descricao: 'Material em video com apoio para leitura, analise e discussao em educacao financeira.' },
+  { youtubeId: 'AnZge4m995w', titulo: 'Educacao Financeira - video complementar 7', descricao: 'Video complementar para ampliar o repertorio sobre financas e consumo responsavel.' }
+].map(function (video) {
+  return { ...video, thumb: 'https://img.youtube.com/vi/' + video.youtubeId + '/hqdefault.jpg' };
+});
 
-window.sitePageVideoCatalog = [
-    { youtubeId: '-7Az6V2oAD4', titulo: "Banco Central do Brasil", descricao: "Vídeo de apoio sobre a história do dinheiro e educação financeira.", thumb: 'https://img.youtube.com/vi/-7Az6V2oAD4/hqdefault.jpg' },
-    { youtubeId: 'T5I1s_NEnx8', titulo: "Educação Financeira na prática", descricao: "Vídeo complementar para ampliar a leitura sobre escolhas financeiras e consumo consciente.", thumb: 'https://img.youtube.com/vi/T5I1s_NEnx8/hqdefault.jpg' },
-    { youtubeId: 'Popa7dOjOMU', titulo: "Educação Financeira - vídeo complementar 1", descricao: "Conteúdo em vídeo para aprofundar noções de consumo, planejamento e organização financeira.", thumb: 'https://img.youtube.com/vi/Popa7dOjOMU/hqdefault.jpg' },
-    { youtubeId: '5vpixQc3b2M', titulo: "Educação Financeira - vídeo complementar 2", descricao: "Material em vídeo para reforçar escolhas conscientes e uso responsável do dinheiro.", thumb: 'https://img.youtube.com/vi/5vpixQc3b2M/hqdefault.jpg' },
-    { youtubeId: '3PKiaQJdzrM', titulo: "Educação Financeira - vídeo complementar 3", descricao: "Vídeo de apoio para ampliar a reflexão sobre orçamento, metas e decisões financeiras.", thumb: 'https://img.youtube.com/vi/3PKiaQJdzrM/hqdefault.jpg' },
-    { youtubeId: 'anBcX9yLYdc', titulo: "Educação Financeira - vídeo complementar 4", descricao: "Conteúdo em vídeo para estudo e aprofundamento dos temas de educação financeira.", thumb: 'https://img.youtube.com/vi/anBcX9yLYdc/hqdefault.jpg' },
-    { youtubeId: '6aolLKTHo-I', titulo: "Educação Financeira - vídeo complementar 5", descricao: "Vídeo extra para reforçar hábitos de consumo consciente e planejamento do dia a dia.", thumb: 'https://img.youtube.com/vi/6aolLKTHo-I/hqdefault.jpg' },
-    { youtubeId: '35QkwQrJzwY', titulo: "Educação Financeira - vídeo complementar 6", descricao: "Material em vídeo com apoio para leitura, análise e discussão em educação financeira.", thumb: 'https://img.youtube.com/vi/35QkwQrJzwY/hqdefault.jpg' },
-    { youtubeId: 'AnZge4m995w', titulo: "Educação Financeira - vídeo complementar 7", descricao: "Vídeo complementar para ampliar o repertório sobre finanças e consumo responsável.", thumb: 'https://img.youtube.com/vi/AnZge4m995w/hqdefault.jpg' },
-    { youtubeId: 'gB6p6d5c-tY', titulo: "Química - Tabela Periódica", descricao: "Vídeo complementar de Química para revisar famílias, períodos e organização dos elementos químicos.", thumb: 'https://img.youtube.com/vi/gB6p6d5c-tY/hqdefault.jpg' }
-];
+window.questoesVideoMap = {};
+Object.keys(videoGroups).forEach(function (prefix) {
+  for (let numero = 1; numero <= 10; numero += 1) {
+    const id = 'ef-' + prefix + '-' + String(numero).padStart(2, '0');
+    const group = videoGroups[prefix];
+    window.questoesVideoMap[id] = { youtubeId: group.youtubeId, titulo: group.titulo, descricao: group.descricao };
+  }
+});
 
-window.videoCatalogCompleto = (() => {
-    const merged = [];
-    const seen = new Set();
+window.questoesVideoCatalog = Object.values(videoGroups).map(function (video) {
+  return { ...video, thumb: 'https://img.youtube.com/vi/' + video.youtubeId + '/hqdefault.jpg' };
+});
 
-    [...window.sitePageVideoCatalog, ...window.questoesVideoCatalog].forEach((video) => {
-        if (!video || !video.youtubeId || seen.has(video.youtubeId)) {
-            return;
-        }
-
-        seen.add(video.youtubeId);
-        merged.push(video);
-    });
-
-    return merged;
+window.sitePageVideoCatalog = sitePageVideos;
+window.videoCatalogCompleto = (function () {
+  const merged = [];
+  const seen = new Set();
+  [...window.sitePageVideoCatalog, ...window.questoesVideoCatalog].forEach(function (video) {
+    if (!video || !video.youtubeId || seen.has(video.youtubeId)) return;
+    seen.add(video.youtubeId);
+    merged.push(video);
+  });
+  return merged;
 })();

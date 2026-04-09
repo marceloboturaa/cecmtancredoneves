@@ -1,4 +1,4 @@
-/* MENU MOBILE + AJUSTES GLOBAIS */
+﻿/* MENU MOBILE + AJUSTES GLOBAIS */
 const mainScriptElement = document.currentScript;
 const siteBaseUrl = mainScriptElement
     ? new URL(mainScriptElement.getAttribute('src'), window.location.href).href.replace(/js\/main\.js(?:\?.*)?$/, '')
@@ -104,7 +104,7 @@ function ensureQuestoesLink() {
         const questoesItem = document.createElement('li');
         const questoesLink = document.createElement('a');
         questoesLink.href = resolveSiteUrl('questoes.html');
-        questoesLink.textContent = 'Questões';
+        questoesLink.textContent = 'Quiz';
         questoesItem.appendChild(questoesLink);
 
         const materiasItem = topLevelItems.find(function (item) {
@@ -135,7 +135,7 @@ function ensureSubmenuLinks() {
                 { href: 'trabalhos.html', label: 'Trabalhos' },
                 { href: 'livros.html', label: 'Livros' },
                 { href: 'apostilas.html', label: 'Apostilas' },
-                { href: 'videos.html', label: 'Vídeos' },
+                { href: 'videos.html', label: 'VÃ­deos' },
                 { href: 'acervo.html', label: 'Acervo' }
             ]
         }
@@ -206,6 +206,56 @@ function ensureEdFinanceiraLink() {
     });
 }
 
+function normalizeVisibleLabels() {
+    const menuToggle = document.querySelector('.menu-toggle');
+    if (menuToggle) {
+        menuToggle.textContent = '\u2630';
+    }
+
+    document.querySelectorAll('.nav-links > li > a').forEach(function (link) {
+        const href = link.getAttribute('href') || '';
+
+        if (href.includes('index.html')) link.textContent = 'In\u00edcio';
+        if (href.includes('questoes.html')) link.textContent = 'Quiz';
+        if (href.includes('videos.html')) link.textContent = 'V\u00eddeos';
+        if (href.includes('materias.html') || href.includes('materias/educacao-financeira/index.html')) {
+            link.textContent = 'Mat\u00e9rias';
+        }
+    });
+}
+
+function normalizeEducacaoFinanceiraMenu() {
+    document.querySelectorAll('.nav-links').forEach(function (navLinks) {
+        const materiasItem = Array.from(navLinks.children).find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) return false;
+
+            const href = link.getAttribute('href') || '';
+            const text = (link.textContent || '').toLowerCase();
+            return href.includes('materias.html') || text.includes('mater');
+        });
+
+        if (!materiasItem) {
+            return;
+        }
+
+        const link = materiasItem.querySelector(':scope > a');
+        if (!link) {
+            return;
+        }
+
+        link.href = resolveSiteUrl('materias.html');
+        link.textContent = 'Mat\u00e9rias';
+
+        const submenu = materiasItem.querySelector(':scope > .submenu');
+        if (submenu) {
+            submenu.remove();
+        }
+
+        materiasItem.classList.remove('has-submenu', 'submenu-open');
+    });
+}
+
 function ensurePrivacyMenuIcon() {
     document.querySelectorAll('.nav-links').forEach(function (navLinks) {
         const topLevelItems = Array.from(navLinks.children);
@@ -224,8 +274,8 @@ function ensurePrivacyMenuIcon() {
         const privacyLink = document.createElement('a');
         privacyLink.href = resolveSiteUrl('diretrizes.html#diretrizes');
         privacyLink.className = 'nav-privacy-link';
-        privacyLink.setAttribute('aria-label', 'Política e diretrizes do site');
-        privacyLink.title = 'Política e diretrizes do site';
+        privacyLink.setAttribute('aria-label', 'PolÃ­tica e diretrizes do site');
+        privacyLink.title = 'PolÃ­tica e diretrizes do site';
         privacyLink.innerHTML = '<svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 5 5v6c0 5.05 3.41 9.57 7 11 3.59-1.43 7-5.95 7-11V5l-7-3zm0 2.18L17 6.32v4.62c0 3.98-2.53 7.67-5 8.86-2.47-1.19-5-4.88-5-8.86V6.32l5-2.14z"/></svg>';
         privacyItem.appendChild(privacyLink);
 
@@ -277,7 +327,7 @@ function setupFloatingAlerts() {
 
         window.setTimeout(function () {
             if (document.body.contains(alertElement)) {
-                playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
+                playUiSound('assets/audio/alerta-botÃ£o-novidade-flutuante.mp3', 0.7);
             }
         }, 180);
 
@@ -312,18 +362,18 @@ function createCookieBanner() {
                 <span class="cookie-banner__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10c-4.42 0-8-3.58-8-8 0-.7.09-1.38.26-2.03A9.95 9.95 0 0 0 12 2zm-3 7.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zm5 1.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM8.5 14a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm6.25 2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>
                 </span>
-                <strong>Nós usamos cookies</strong>
+                <strong>NÃ³s usamos cookies</strong>
             </div>
             <p>
-                Este site usa cookies e recursos similares para lembrar sua preferência de navegação,
-                registrar o consentimento e manter a experiência estável. Recursos externos podem seguir
-                políticas próprias.
+                Este site usa cookies e recursos similares para lembrar sua preferÃªncia de navegaÃ§Ã£o,
+                registrar o consentimento e manter a experiÃªncia estÃ¡vel. Recursos externos podem seguir
+                polÃ­ticas prÃ³prias.
             </p>
             <details class="cookie-banner__details">
-                <summary>Informações sobre privacidade</summary>
+                <summary>InformaÃ§Ãµes sobre privacidade</summary>
                 <p>
-                    O projeto segue as diretrizes institucionais do colégio e apresenta orientações de
-                    privacidade alinhadas à LGPD. Leia mais em
+                    O projeto segue as diretrizes institucionais do colÃ©gio e apresenta orientaÃ§Ãµes de
+                    privacidade alinhadas Ã  LGPD. Leia mais em
                     <a href="${resolveSiteUrl('diretrizes.html#diretrizes')}">Diretrizes do Site</a>
                     e
                     <a href="${resolveSiteUrl('diretrizes.html#privacidade')}">Privacidade e LGPD</a>.
@@ -360,6 +410,8 @@ document.addEventListener('DOMContentLoaded', function () {
     ensureSubmenuLinks();
     ensureEdFinanceiraLink();
     ensureQuestoesLink();
+    normalizeEducacaoFinanceiraMenu();
+    normalizeVisibleLabels();
     ensurePrivacyMenuIcon();
 
     const menuToggle = document.querySelector('.menu-toggle');
@@ -477,7 +529,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollTopBtn.innerHTML = '&#8593;';
 
         scrollTopBtn.addEventListener('click', function () {
-            playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
+            playUiSound('assets/audio/alerta-botÃ£o-novidade-flutuante.mp3', 0.7);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
