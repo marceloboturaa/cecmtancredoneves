@@ -432,6 +432,13 @@
             animation: cardIdle 2.8s ease-in-out infinite;
         }
 
+        .carta-inner {
+            position: absolute;
+            inset: 0.35rem;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
         .carta-btn:hover:not(:disabled) {
             transform: translateY(-4px) rotate(-1.2deg) scale(1.02);
             box-shadow: 0 14px 28px rgba(15, 23, 42, 0.18);
@@ -446,8 +453,12 @@
         .carta-btn.revelada {
             background: linear-gradient(180deg, #ffffff, #e6eef8);
             color: #0f172a;
-            transform: rotateY(180deg) scale(1.04);
+            transform: scale(1.04);
             animation: cardReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .carta-btn.revelada .carta-inner {
+            transform: rotateY(180deg);
         }
 
         .carta-btn.carta-rei {
@@ -488,22 +499,28 @@
             animation: cardShine 2.4s linear infinite;
         }
 
-        .carta-indice {
-            display: inline-flex;
-            width: 26px;
-            height: 26px;
+        .carta-face {
+            position: absolute;
+            inset: 0;
+            display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.22);
-            color: #fff;
-            font-size: 0.76rem;
-            position: relative;
-            z-index: 1;
-            font-weight: 800;
-            box-shadow: 0 6px 16px rgba(15, 23, 42, 0.18);
-            text-shadow: 0 1px 2px rgba(15, 23, 42, 0.28);
+            border-radius: 12px;
             backface-visibility: hidden;
+            overflow: hidden;
+        }
+
+        .carta-face--front {
+            background: transparent;
+        }
+
+        .carta-face--back {
+            transform: rotateY(180deg);
+            background: rgba(255, 255, 255, 0.94);
+            color: #0f172a;
+            flex-direction: column;
+            gap: 0.1rem;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
         .carta-simbolo {
@@ -511,9 +528,8 @@
             align-items: center;
             justify-content: center;
             min-height: 58px;
-            font-size: 2.25rem;
+            font-size: 2.35rem;
             line-height: 1;
-            margin-top: 0.05rem;
             position: relative;
             z-index: 1;
             color: inherit;
@@ -522,25 +538,29 @@
                 0 4px 14px rgba(15, 23, 42, 0.28);
             font-weight: 900;
             backface-visibility: hidden;
-        }
-
-        .carta-btn.revelada .carta-indice {
-            background: rgba(15, 23, 42, 0.08);
-            color: #0f172a;
-        }
-
-        .carta-btn.revelada .carta-simbolo {
-            color: #0f172a;
-            text-shadow: none;
-        }
-
-        .carta-btn.revelada .carta-indice,
-        .carta-btn.revelada .carta-simbolo {
-            transform: rotateY(180deg);
-        }
-
-        .carta-btn:not(.revelada) .carta-simbolo {
             animation: cardFloat 1.8s ease-in-out infinite;
+        }
+
+        .carta-elimina-num {
+            display: block;
+            font-size: 2.2rem;
+            line-height: 1;
+            font-weight: 900;
+            letter-spacing: -0.03em;
+        }
+
+        .carta-elimina-texto {
+            display: block;
+            font-size: 0.76rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(15, 23, 42, 0.7);
+        }
+
+        .carta-btn.revelada .carta-simbolo {
+            text-shadow: none;
+            animation: none;
         }
 
         @keyframes cardFloat {
@@ -577,17 +597,17 @@
 
         @keyframes cardReveal {
             0% {
-                transform: rotateY(0deg) scale(0.96);
+                transform: scale(0.96);
                 filter: brightness(1);
             }
 
             55% {
-                transform: rotateY(200deg) scale(1.08);
+                transform: scale(1.08);
                 filter: brightness(1.18);
             }
 
             100% {
-                transform: rotateY(180deg) scale(1.04);
+                transform: scale(1.04);
                 filter: brightness(1);
             }
         }

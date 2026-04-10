@@ -449,10 +449,18 @@
           const revelou = q.cartaEscolhida && estado.baralhoCartas[indiceCarta].nome === q.cartaEscolhida;
           const classes = ['carta-btn', 'carta-' + carta.classe];
           if (revelou) classes.push('revelada');
+          const cartaLabel = carta.nome + ', elimina ' + carta.elimina + ' alternativas';
 
-          return '<button type="button" class="' + classes.join(' ') + '" data-action="escolher-carta" data-questao-index="' + indiceQuestao + '" data-carta-index="' + indiceCarta + '" ' + (q.usouCarta ? 'disabled' : '') + '>' +
-            '<span class="carta-indice">' + escaparHtml(carta.rank) + '</span>' +
-            '<span class="carta-simbolo">' + escaparHtml(carta.simbolo) + '</span>' +
+          return '<button type="button" class="' + classes.join(' ') + '" data-action="escolher-carta" data-questao-index="' + indiceQuestao + '" data-carta-index="' + indiceCarta + '" aria-label="' + escaparHtml(cartaLabel) + '" title="' + escaparHtml(cartaLabel) + '" ' + (q.usouCarta ? 'disabled' : '') + '>' +
+            '<span class="carta-inner">' +
+              '<span class="carta-face carta-face--front">' +
+                '<span class="carta-simbolo">' + escaparHtml(carta.simbolo) + '</span>' +
+              '</span>' +
+              '<span class="carta-face carta-face--back">' +
+                '<span class="carta-elimina-num">' + escaparHtml(String(carta.elimina)) + '</span>' +
+                '<span class="carta-elimina-texto">eliminadas</span>' +
+              '</span>' +
+            '</span>' +
           '</button>';
         }).join('') +
         '</div><div class="cartas-resultado">' + escaparHtml(q.mensagemCarta || 'Escolha uma única carta. Ela será o único uso de cartas disponível neste quiz.') + '</div></div>' : '';

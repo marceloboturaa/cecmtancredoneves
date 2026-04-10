@@ -264,6 +264,22 @@ nav {
 }
 
 /*
+ * O item "Matérias" funciona como link simples.
+ * O submenu antigo fica oculto mesmo antes da normalização do JS.
+ */
+.nav-links > li.has-submenu > a[href*="materias.html"] {
+    gap: 0;
+}
+
+.nav-links > li.has-submenu > a[href*="materias.html"]::before {
+    display: none;
+}
+
+.nav-links > li.has-submenu > a[href*="materias.html"] + .submenu {
+    display: none !important;
+}
+
+/*
  * ITENS OCULTOS DO MENU DE MATERIAS
  * Mantidos no HTML, mas visiveis apenas apos aprovacao.
  */
