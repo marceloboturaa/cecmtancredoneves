@@ -73,6 +73,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         const fotos = [
+            "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
+            "mural-pascoa-colegio-tancredo-almeida-neces.jpg",
             "escambo-turma-9d-IMG_20260307_153246.jpg",
             "escambo-turma-9d-IMG_20260307_164507.jpg",
             "escambo-turma-9d-IMG_20260307_164641.jpg",
@@ -122,6 +124,8 @@
                 .replace(/[\u0300-\u036f]/g, "")
                 .toLowerCase();
 
+            if (nomeNormalizado.includes("bullying")) return "Bullying";
+            if (nomeNormalizado.includes("pascoa")) return "Páscoa";
             if (nomeNormalizado.includes("escambo")) return "Escambo";
             if (nomeNormalizado.includes("egip") || nomeNormalizado.includes("egito")) return "Egito";
             if (nomeNormalizado.includes("chines")) return "China";
@@ -139,6 +143,7 @@
 
         function obterDadosFoto(foto) {
             return {
+                foto: foto,
                 titulo: obterTituloCartaz(foto)
             };
         }
@@ -161,15 +166,41 @@
             return ancoraPorTitulo[titulo] || "linha-do-tempo";
         }
 
-        function obterLinkAnotacao({ titulo }) {
+        function obterLinkAnotacao({ titulo, foto }) {
+            const nomeNormalizado = (foto || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+
+            if (nomeNormalizado.includes("bullying")) {
+                return "noticias/bullying.html";
+            }
+
+            if (nomeNormalizado.includes("pascoa")) {
+                return "noticias/pascoa.html";
+            }
+
             return `${paginaAnotacaoProfessor}#${obterAncoraAnotacao(titulo)}`;
         }
 
-        function criarCaptionHtml({ titulo }) {
+        function obterTextoAnotacao({ foto }) {
+            const nomeNormalizado = (foto || "")
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .toLowerCase();
+
+            if (nomeNormalizado.includes("bullying") || nomeNormalizado.includes("pascoa")) {
+                return "Veja anotação do colégio";
+            }
+
+            return "Veja anotação do professor";
+        }
+
+        function criarCaptionHtml(dadosFoto) {
             return `
                 <div class="gallery-caption-note">
-                    <strong>${titulo}</strong>
-                    <a href="${obterLinkAnotacao({ titulo })}" class="gallery-caption-link">Veja anotação do professor</a>
+                    <strong>${dadosFoto.titulo}</strong>
+                    <a href="${obterLinkAnotacao(dadosFoto)}" class="gallery-caption-link">${obterTextoAnotacao(dadosFoto)}</a>
                 </div>
             `.replace(/\s+/g, ' ').trim();
         }
@@ -186,7 +217,7 @@
                         <div class="gallery-note-text">
                             <strong class="gallery-note-title">${dadosFoto.titulo}</strong>
                         </div>
-                        <a href="${obterLinkAnotacao(dadosFoto)}" class="btn btn-outline gallery-note-link">Veja anotação do professor</a>
+                        <a href="${obterLinkAnotacao(dadosFoto)}" class="btn btn-outline gallery-note-link">${obterTextoAnotacao(dadosFoto)}</a>
                     </div>
                 </div>
             `;

@@ -138,6 +138,13 @@ function ensureSubmenuLinks() {
                 { href: 'videos.html', label: 'VÃ­deos' },
                 { href: 'acervo.html', label: 'Acervo' }
             ]
+        },
+        {
+            menuHref: 'noticias.html',
+            items: [
+                { href: 'noticias/bullying.html', label: 'Bullying' },
+                { href: 'noticias/pascoa.html', label: 'P\u00e1scoa' }
+            ]
         }
     ];
 
@@ -172,6 +179,81 @@ function ensureSubmenuLinks() {
                 submenu.appendChild(li);
             });
         });
+    });
+}
+
+function ensureNoticiasMenu() {
+    document.querySelectorAll('.nav-links').forEach(function (navLinks) {
+        const topLevelItems = Array.from(navLinks.children);
+        let noticiasItem = topLevelItems.find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
+
+            const href = link.getAttribute('href') || '';
+            const text = (link.textContent || '').toLowerCase();
+            return href.includes('noticias.html') || text.includes('notícias') || text.includes('noticias');
+        });
+
+        if (!noticiasItem) {
+            noticiasItem = document.createElement('li');
+            noticiasItem.className = 'has-submenu';
+
+            const link = document.createElement('a');
+            link.href = resolveSiteUrl('noticias.html');
+            link.textContent = 'Not\u00edcias';
+            noticiasItem.appendChild(link);
+
+            const submenu = document.createElement('ul');
+            submenu.className = 'submenu';
+            noticiasItem.appendChild(submenu);
+        }
+
+        const submenu = noticiasItem.querySelector(':scope > .submenu');
+        if (!submenu) {
+            const novoSubmenu = document.createElement('ul');
+            novoSubmenu.className = 'submenu';
+            noticiasItem.appendChild(novoSubmenu);
+        }
+
+        const noticiasMenuLink = noticiasItem.querySelector(':scope > a');
+        if (noticiasMenuLink) {
+            noticiasMenuLink.href = resolveSiteUrl('noticias.html');
+            noticiasMenuLink.textContent = 'Not\u00edcias';
+        }
+
+        const questoesItem = topLevelItems.find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
+
+            const href = link.getAttribute('href') || '';
+            return href.includes('questoes.html');
+        });
+
+        const materiasItem = topLevelItems.find(function (item) {
+            const link = item.querySelector(':scope > a');
+            if (!link) {
+                return false;
+            }
+
+            const href = link.getAttribute('href') || '';
+            return href.includes('materias.html');
+        });
+
+        if (questoesItem) {
+            navLinks.insertBefore(noticiasItem, questoesItem);
+            return;
+        }
+
+        if (materiasItem) {
+            navLinks.insertBefore(noticiasItem, materiasItem);
+            return;
+        }
+
+        navLinks.appendChild(noticiasItem);
     });
 }
 
@@ -216,6 +298,7 @@ function normalizeVisibleLabels() {
         const href = link.getAttribute('href') || '';
 
         if (href.includes('index.html')) link.textContent = 'In\u00edcio';
+        if (href.includes('noticias.html')) link.textContent = 'Not\u00edcias';
         if (href.includes('questoes.html')) link.textContent = 'Quiz';
         if (href.includes('videos.html')) link.textContent = 'V\u00eddeos';
         if (href.includes('materias.html') || href.includes('materias/educacao-financeira/index.html')) {
@@ -407,6 +490,7 @@ function createCookieBanner() {
 
 document.addEventListener('DOMContentLoaded', function () {
     enhanceBetaBadges();
+    ensureNoticiasMenu();
     ensureSubmenuLinks();
     ensureEdFinanceiraLink();
     ensureQuestoesLink();
