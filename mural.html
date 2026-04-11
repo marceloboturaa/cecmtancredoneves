@@ -43,7 +43,7 @@
 
 
     <header class="dark-bg header-theme-default">
-        <h1>Mural de Fotos</h1>
+        <h1 class="home-hero-title">Mural de Fotos</h1>
         <p>Registros das produções dos alunos</p>
     </header>
 
@@ -73,8 +73,9 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         const fotos = [
+            "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
             "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
-            "mural-pascoa-colegio-tancredo-almeida-neces.jpg",
+            "mural-pascoa-colegio-tancredo-almeida-neves.jpg",
             "escambo-turma-9d-IMG_20260307_153246.jpg",
             "escambo-turma-9d-IMG_20260307_164507.jpg",
             "escambo-turma-9d-IMG_20260307_164641.jpg",
@@ -112,11 +113,30 @@
             "persia-turma-6c-IMG_20260307_163643.jpg"
         ];
 
+        const fotosRecentes = [
+            "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
+            "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
+            "mural-pascoa-colegio-tancredo-almeida-neves.jpg"
+        ];
+
         const FOTOS_POR_ETAPA = 6;
         const container = document.getElementById("galeria-fotos");
         const botaoVerMais = document.getElementById("ver-mais-fotos");
         const paginaAnotacaoProfessor = "materias/educacao-financeira/moeda-nas-civilizacoes.html";
         let fotosExibidas = 0;
+
+        function ordenarFotosMaisRecentesPrimeiro(lista) {
+            return [...lista].sort(function (a, b) {
+                const prioridadeA = fotosRecentes.includes(a) ? 0 : 1;
+                const prioridadeB = fotosRecentes.includes(b) ? 0 : 1;
+
+                if (prioridadeA !== prioridadeB) {
+                    return prioridadeA - prioridadeB;
+                }
+
+                return 0;
+            });
+        }
 
         function obterTituloCartaz(foto) {
             const nomeNormalizado = foto
@@ -124,6 +144,7 @@
                 .replace(/[\u0300-\u036f]/g, "")
                 .toLowerCase();
 
+            if (nomeNormalizado.includes("retorno")) return "Retorno às aulas";
             if (nomeNormalizado.includes("bullying")) return "Bullying";
             if (nomeNormalizado.includes("pascoa")) return "Páscoa";
             if (nomeNormalizado.includes("escambo")) return "Escambo";
@@ -180,6 +201,10 @@
                 return "noticias/pascoa.html";
             }
 
+            if (nomeNormalizado.includes("retorno")) {
+                return "noticias/retorno-as-aulas.html";
+            }
+
             return `${paginaAnotacaoProfessor}#${obterAncoraAnotacao(titulo)}`;
         }
 
@@ -189,8 +214,8 @@
                 .replace(/[\u0300-\u036f]/g, "")
                 .toLowerCase();
 
-            if (nomeNormalizado.includes("bullying") || nomeNormalizado.includes("pascoa")) {
-                return "Veja anotação do colégio";
+            if (nomeNormalizado.includes("bullying") || nomeNormalizado.includes("pascoa") || nomeNormalizado.includes("retorno")) {
+                return "Veja anotação do Colégio";
             }
 
             return "Veja anotação do professor";
@@ -224,7 +249,8 @@
         }
 
         function renderizarMaisFotos() {
-            const proximasFotos = fotos.slice(fotosExibidas, fotosExibidas + FOTOS_POR_ETAPA);
+            const fotosOrdenadas = ordenarFotosMaisRecentesPrimeiro(fotos);
+            const proximasFotos = fotosOrdenadas.slice(fotosExibidas, fotosExibidas + FOTOS_POR_ETAPA);
 
             if (!proximasFotos.length) {
                 return;

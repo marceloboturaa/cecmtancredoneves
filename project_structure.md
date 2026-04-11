@@ -139,7 +139,6 @@ cecmtancredoneves/
 │   │   ├── 🌐 o-que-e-educacao-financeira.html
 │   │   └── 🌐 planejamento-ao-consumo.html
 │   ├── 📂 filosofia/
-│   │   ├── 🌐 etica-e-cidadania.html
 │   │   ├── 🌐 filosofia-no-cotidiano.html
 │   │   ├── 🌐 index.html
 │   │   └── 🌐 tecnologia-e-sociedade.html

@@ -136,12 +136,14 @@ function ensureSubmenuLinks() {
                 { href: 'livros.html', label: 'Livros' },
                 { href: 'apostilas.html', label: 'Apostilas' },
                 { href: 'videos.html', label: 'VÃ­deos' },
-                { href: 'acervo.html', label: 'Acervo' }
+                { href: 'acervo.html', label: 'Acervo' },
+                { href: 'mural.html', label: 'MURAL', className: 'nav-highlight' }
             ]
         },
         {
             menuHref: 'noticias.html',
             items: [
+                { href: 'noticias/retorno-as-aulas.html', label: 'Retorno às aulas' },
                 { href: 'noticias/bullying.html', label: 'Bullying' },
                 { href: 'noticias/pascoa.html', label: 'P\u00e1scoa' }
             ]
@@ -161,10 +163,18 @@ function ensureSubmenuLinks() {
                 return;
             }
 
+            if (config.menuHref === 'mural.html') {
+                trigger.removeAttribute('href');
+                trigger.setAttribute('aria-disabled', 'true');
+                trigger.setAttribute('role', 'button');
+            }
+
             config.items.forEach(function (item) {
+                const targetPath = new URL(resolveSiteUrl(item.href)).pathname.replace(/\/+$/, '');
                 const exists = Array.from(submenu.querySelectorAll(':scope > li > a')).some(function (link) {
                     const linkHref = link.getAttribute('href') || '';
-                    return linkHref.includes(item.href);
+                    const linkPath = new URL(linkHref, window.location.href).pathname.replace(/\/+$/, '');
+                    return linkPath === targetPath;
                 });
 
                 if (exists) {
@@ -172,6 +182,9 @@ function ensureSubmenuLinks() {
                 }
 
                 const li = document.createElement('li');
+                if (item.className) {
+                    li.className = item.className;
+                }
                 const link = document.createElement('a');
                 link.href = resolveSiteUrl(item.href);
                 link.textContent = item.label;
@@ -185,7 +198,7 @@ function ensureSubmenuLinks() {
 function ensureNoticiasMenu() {
     document.querySelectorAll('.nav-links').forEach(function (navLinks) {
         const topLevelItems = Array.from(navLinks.children);
-        let noticiasItem = topLevelItems.find(function (item) {
+        const noticiasItems = topLevelItems.filter(function (item) {
             const link = item.querySelector(':scope > a');
             if (!link) {
                 return false;
@@ -195,6 +208,14 @@ function ensureNoticiasMenu() {
             const text = (link.textContent || '').toLowerCase();
             return href.includes('noticias.html') || text.includes('notícias') || text.includes('noticias');
         });
+
+        if (noticiasItems.length > 1) {
+            noticiasItems.slice(1).forEach(function (duplicateItem) {
+                duplicateItem.remove();
+            });
+        }
+
+        let noticiasItem = noticiasItems[0] || null;
 
         if (!noticiasItem) {
             noticiasItem = document.createElement('li');
@@ -254,6 +275,21 @@ function ensureNoticiasMenu() {
         }
 
         navLinks.appendChild(noticiasItem);
+    });
+}
+
+function normalizeMuralMenuLabel() {
+    document.querySelectorAll('.nav-links > .has-submenu > a').forEach(function (link) {
+        const href = link.getAttribute('href') || '';
+        const text = (link.textContent || '').trim().toLowerCase();
+
+        if (!href.includes('mural.html') && text !== 'mural') {
+            return;
+        }
+
+        link.removeAttribute('href');
+        link.setAttribute('aria-disabled', 'true');
+        link.setAttribute('role', 'button');
     });
 }
 
@@ -332,10 +368,18 @@ function normalizeEducacaoFinanceiraMenu() {
 
         const submenu = materiasItem.querySelector(':scope > .submenu');
         if (submenu) {
-            submenu.remove();
-        }
+            Array.from(submenu.querySelectorAll(':scope > li')).forEach(function (li) {
+                const link = li.querySelector(':scope > a');
+                if (!link) {
+                    return;
+                }
 
-        materiasItem.classList.remove('has-submenu', 'submenu-open');
+                const href = link.getAttribute('href') || '';
+                if (!href.includes('materias/educacao-financeira/index.html')) {
+                    li.remove();
+                }
+            });
+        }
     });
 }
 
@@ -492,6 +536,7 @@ document.addEventListener('DOMContentLoaded', function () {
     enhanceBetaBadges();
     ensureNoticiasMenu();
     ensureSubmenuLinks();
+    normalizeMuralMenuLabel();
     ensureEdFinanceiraLink();
     ensureQuestoesLink();
     normalizeEducacaoFinanceiraMenu();

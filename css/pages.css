@@ -2345,39 +2345,6 @@ header.dark-bg.header-theme-matematica-alt {
     object-fit: cover;
 }
 
-.news-article__meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.7rem;
-}
-
-.news-article__meta span {
-    display: inline-flex;
-    align-items: center;
-    min-height: 34px;
-    padding: 0.35rem 0.8rem;
-    border-radius: 999px;
-    background: rgba(23, 53, 87, 0.06);
-    color: var(--blue);
-    font-size: 0.78rem;
-    font-weight: 700;
-}
-
-.news-related {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1rem;
-}
-
-.news-related .card {
-    display: grid;
-    gap: 0.8rem;
-}
-
-.news-related .btn {
-    width: fit-content;
-}
-
 .updates-chapters {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

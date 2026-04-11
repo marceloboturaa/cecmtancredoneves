@@ -44,7 +44,7 @@
     </nav>
 
     <header class="dark-bg header-theme-default">
-        <h1>Acervo</h1>
+        <h1 class="home-hero-title">Acervo</h1>
         <p>Imagens, apresentações, livros, apostilas e vídeos</p>
     </header>
 
@@ -95,6 +95,9 @@
         const pdfCacheKey = Date.now();
 
         const imagens = [
+            "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
+            "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
+            "mural-pascoa-colegio-tancredo-almeida-neves.jpg",
             "escambo-turma-9d-IMG_20260307_153246.jpg",
             "escambo-turma-9d-IMG_20260307_164507.jpg",
             "escambo-turma-9d-IMG_20260307_164641.jpg",
@@ -267,6 +270,9 @@
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase();
 
+            if (nomeNormalizado.includes('retorno')) return 'Retorno às aulas';
+            if (nomeNormalizado.includes('bullying')) return 'Bullying';
+            if (nomeNormalizado.includes('pascoa')) return 'Páscoa';
             if (nomeNormalizado.includes('escambo')) return 'Escambo';
             if (nomeNormalizado.includes('egip') || nomeNormalizado.includes('egito')) return 'Egito';
             if (nomeNormalizado.includes('chines')) return 'China';
