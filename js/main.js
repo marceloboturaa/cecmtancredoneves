@@ -387,7 +387,7 @@ function setupWhatsAppShareButtons() {
     document.querySelectorAll('[data-whatsapp-share]').forEach(function (button) {
         const shareTitle = button.getAttribute('data-share-title') || document.title;
         const shareSummary = button.getAttribute('data-share-summary') || button.getAttribute('data-share-text') || '';
-        const shareUrl = button.getAttribute('data-share-url') || window.location.href;
+        const shareUrl = new URL(button.getAttribute('data-share-url') || window.location.href, window.location.href).href;
         const messageParts = [shareTitle];
 
         if (shareSummary) {
@@ -397,7 +397,14 @@ function setupWhatsAppShareButtons() {
         messageParts.push(shareUrl);
         const message = messageParts.join('\n\n').trim();
 
-        button.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
+        const whatsappBase = isMobileDevice
+            ? 'https://wa.me/'
+            : 'https://web.whatsapp.com/send?text=';
+
+        button.href = isMobileDevice
+            ? `${whatsappBase}?text=${encodeURIComponent(message)}`
+            : `${whatsappBase}${encodeURIComponent(message)}`;
         button.target = '_blank';
         button.rel = 'noopener noreferrer';
     });
