@@ -2896,3 +2896,162 @@ header.dark-bg.header-theme-matematica-alt {
     }
 }
 
+@media (max-width: 768px) {
+    header:not(nav header) {
+        padding: 4rem 1rem 3rem;
+        clip-path: polygon(0 0, 100% 0, 100% 94%, 0 100%);
+    }
+
+    header h1 {
+        font-size: 1.8rem;
+        line-height: 1.15;
+        margin-bottom: 0.65rem;
+    }
+
+    header p {
+        font-size: 0.98rem;
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .card,
+    .policy-note,
+    .policy-card,
+    .site-map-card,
+    .materia-card,
+    .materia-card-clean,
+    .news-card__body,
+    .news-article__hero,
+    .coin-period-card,
+    .video-card,
+    .timeline-card,
+    .updates-hero,
+    .updates-stat,
+    .updates-chapter,
+    .updates-closure,
+    .compound-calculator,
+    .finance-level-card,
+    .finance-final-card {
+        padding: 1.15rem !important;
+        border-radius: 20px;
+    }
+
+    .card p,
+    .policy-note,
+    .policy-note p,
+    .policy-card p,
+    .site-map-card p,
+    .materia-card p,
+    .materia-card-clean p,
+    .news-card p,
+    .news-article p,
+    .coin-period-card p,
+    .video-info p,
+    .timeline-card p,
+    .updates-hero p,
+    .updates-stat p,
+    .updates-chapter p,
+    .updates-closure p,
+    .compound-calculator p,
+    .finance-level-card p,
+    .finance-final-card p,
+    .text-justify {
+        text-align: left;
+        hyphens: auto;
+        word-break: normal;
+    }
+
+    .gallery-note,
+    .share-actions,
+    .gallery-actions,
+    .materias-actions,
+    .news-card__links {
+        justify-content: center;
+    }
+
+    .news-card__links,
+    .share-actions {
+        gap: 0.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header:not(nav header) {
+        padding: 3.4rem 0.85rem 2.5rem;
+    }
+
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    header p {
+        font-size: 0.93rem;
+    }
+
+    .container {
+        padding-left: 0.85rem;
+        padding-right: 0.85rem;
+    }
+
+    .card,
+    .policy-note,
+    .policy-card,
+    .site-map-card,
+    .materia-card,
+    .materia-card-clean,
+    .news-card__body,
+    .news-article__hero,
+    .coin-period-card,
+    .video-card,
+    .timeline-card,
+    .updates-hero,
+    .updates-stat,
+    .updates-chapter,
+    .updates-closure,
+    .compound-calculator,
+    .finance-level-card,
+    .finance-final-card {
+        padding: 1rem !important;
+        border-radius: 18px;
+    }
+
+    .card h3,
+    .policy-card h2,
+    .site-map-card h2,
+    .news-card h3,
+    .coin-period-copy h2,
+    .finance-level-card h2,
+    .finance-final-card h2 {
+        font-size: 1.18rem;
+    }
+
+    .card p,
+    .policy-note,
+    .policy-note p,
+    .policy-card p,
+    .site-map-card p,
+    .materia-card p,
+    .materia-card-clean p,
+    .news-card p,
+    .news-article p,
+    .coin-period-card p,
+    .video-info p,
+    .timeline-card p,
+    .updates-hero p,
+    .updates-stat p,
+    .updates-chapter p,
+    .updates-closure p,
+    .compound-calculator p,
+    .finance-level-card p,
+    .finance-final-card p,
+    .text-justify {
+        font-size: 0.98rem;
+        line-height: 1.7;
+    }
+}
+
