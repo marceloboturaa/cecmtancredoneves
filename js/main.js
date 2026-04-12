@@ -387,15 +387,14 @@ function setupWhatsAppShareButtons() {
     document.querySelectorAll('[data-whatsapp-share]').forEach(function (button) {
         const shareTitle = button.getAttribute('data-share-title') || document.title;
         const shareSummary = button.getAttribute('data-share-summary') || button.getAttribute('data-share-text') || '';
-        const shareUrl = new URL(button.getAttribute('data-share-url') || window.location.href, window.location.href).href;
+        const shareUrl = resolveSiteUrl(button.getAttribute('data-share-url') || window.location.pathname);
         const messageParts = [shareTitle];
 
         if (shareSummary) {
             messageParts.push(shareSummary);
         }
 
-        messageParts.push(shareUrl);
-        const message = messageParts.join('\n\n').trim();
+        const message = `${shareTitle}${shareSummary ? ` - ${shareSummary}` : ''} - CECMTAN | ${shareUrl}`.trim();
 
         const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone/i.test(navigator.userAgent);
         const whatsappBase = isMobileDevice
