@@ -2318,6 +2318,25 @@ header.dark-bg.header-theme-matematica-alt {
     gap: 0.7rem;
 }
 
+.btn-whatsapp {
+    background: #25d366;
+    color: #ffffff;
+    border: 1px solid #1fb85a;
+}
+
+.btn-whatsapp:hover {
+    background: #1fb85a;
+    color: #ffffff;
+}
+
+.share-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin: 1rem 0 0;
+}
+
 .news-article {
     display: grid;
     gap: 1.2rem;

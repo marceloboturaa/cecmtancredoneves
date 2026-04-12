@@ -383,6 +383,26 @@ function normalizeEducacaoFinanceiraMenu() {
     });
 }
 
+function setupWhatsAppShareButtons() {
+    document.querySelectorAll('[data-whatsapp-share]').forEach(function (button) {
+        const shareTitle = button.getAttribute('data-share-title') || document.title;
+        const shareSummary = button.getAttribute('data-share-summary') || button.getAttribute('data-share-text') || '';
+        const shareUrl = button.getAttribute('data-share-url') || window.location.href;
+        const messageParts = [shareTitle];
+
+        if (shareSummary) {
+            messageParts.push(shareSummary);
+        }
+
+        messageParts.push(shareUrl);
+        const message = messageParts.join('\n\n').trim();
+
+        button.href = `https://wa.me/?text=${encodeURIComponent(message)}`;
+        button.target = '_blank';
+        button.rel = 'noopener noreferrer';
+    });
+}
+
 function ensurePrivacyMenuIcon() {
     document.querySelectorAll('.nav-links').forEach(function (navLinks) {
         const topLevelItems = Array.from(navLinks.children);
@@ -542,6 +562,7 @@ document.addEventListener('DOMContentLoaded', function () {
     normalizeEducacaoFinanceiraMenu();
     normalizeVisibleLabels();
     ensurePrivacyMenuIcon();
+    setupWhatsAppShareButtons();
 
     const menuToggle = document.querySelector('.menu-toggle');
     const navLinks = document.querySelector('.nav-links');
