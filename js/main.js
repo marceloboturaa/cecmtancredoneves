@@ -223,7 +223,7 @@ function ensureNoticiasMenu() {
 
             const link = document.createElement('a');
             link.href = resolveSiteUrl('noticias.html');
-            link.textContent = 'Not\u00edcias';
+            link.textContent = 'Col\u00e9gio';
             noticiasItem.appendChild(link);
 
             const submenu = document.createElement('ul');
@@ -241,7 +241,7 @@ function ensureNoticiasMenu() {
         const noticiasMenuLink = noticiasItem.querySelector(':scope > a');
         if (noticiasMenuLink) {
             noticiasMenuLink.href = resolveSiteUrl('noticias.html');
-            noticiasMenuLink.textContent = 'Not\u00edcias';
+            noticiasMenuLink.textContent = 'Col\u00e9gio';
         }
 
         const questoesItem = topLevelItems.find(function (item) {
@@ -334,7 +334,7 @@ function normalizeVisibleLabels() {
         const href = link.getAttribute('href') || '';
 
         if (href.includes('index.html')) link.textContent = 'In\u00edcio';
-        if (href.includes('noticias.html')) link.textContent = 'Not\u00edcias';
+        if (href.includes('noticias.html')) link.textContent = 'Col\u00e9gio';
         if (href.includes('questoes.html')) link.textContent = 'Quiz';
         if (href.includes('videos.html')) link.textContent = 'V\u00eddeos';
         if (href.includes('materias.html') || href.includes('materias/educacao-financeira/index.html')) {

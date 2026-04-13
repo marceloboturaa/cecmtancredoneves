@@ -34,7 +34,7 @@
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
-            <li><a href="questoes.html">Questões</a></li>
+            <li><a href="questoes.html">Quiz</a></li>
             <li class="has-submenu">
                 <a href="materias.html">Matérias</a>
                 <ul class="submenu">
@@ -80,6 +80,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js"></script>
     <script>
         const fotos = [
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_200733.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201252.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201550.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_202024.jpg",
             "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
             "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
             "mural-pascoa-colegio-tancredo-almeida-neves.jpg",
@@ -121,6 +125,10 @@
         ];
 
         const fotosRecentes = [
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_200733.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201252.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201550.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_202024.jpg",
             "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
             "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
             "mural-pascoa-colegio-tancredo-almeida-neves.jpg"
@@ -130,6 +138,7 @@
         const container = document.getElementById("galeria-fotos");
         const botaoVerMais = document.getElementById("ver-mais-fotos");
         const paginaAnotacaoProfessor = "materias/educacao-financeira/moeda-nas-civilizacoes.html";
+        const paginaNovaPostagemFinanceira = "materias/educacao-financeira/meu-dinheiro-minhas-escolhas.html";
         let fotosExibidas = 0;
 
         function ordenarFotosMaisRecentesPrimeiro(lista) {
@@ -154,6 +163,13 @@
             if (nomeNormalizado.includes("retorno")) return "Retorno às aulas";
             if (nomeNormalizado.includes("bullying")) return "Bullying";
             if (nomeNormalizado.includes("pascoa")) return "Páscoa";
+            if (nomeNormalizado.includes("meu-dinheiro-minhas-escolhas")) {
+                if (nomeNormalizado.includes("200733")) return "Orçamento";
+                if (nomeNormalizado.includes("201252")) return "Necessidade x desejo";
+                if (nomeNormalizado.includes("201550")) return "Poupança";
+                if (nomeNormalizado.includes("202024")) return "50% 30% 20%";
+                return "Meu dinheiro, minhas escolhas";
+            }
             if (nomeNormalizado.includes("escambo")) return "Escambo";
             if (nomeNormalizado.includes("egip") || nomeNormalizado.includes("egito")) return "Egito";
             if (nomeNormalizado.includes("chines")) return "China";
@@ -212,6 +228,10 @@
                 return "noticias/retorno-as-aulas.html";
             }
 
+            if (nomeNormalizado.includes("meu-dinheiro-minhas-escolhas")) {
+                return paginaNovaPostagemFinanceira;
+            }
+
             return `${paginaAnotacaoProfessor}#${obterAncoraAnotacao(titulo)}`;
         }
 
@@ -222,10 +242,14 @@
                 .toLowerCase();
 
             if (nomeNormalizado.includes("bullying") || nomeNormalizado.includes("pascoa") || nomeNormalizado.includes("retorno")) {
-                return "Veja anotação do Colégio";
+                return "Ver postagem";
             }
 
-            return "Veja anotação do professor";
+            if (nomeNormalizado.includes("meu-dinheiro-minhas-escolhas")) {
+                return "Ver postagem";
+            }
+
+            return "Ver postagem";
         }
 
         function criarCaptionHtml(dadosFoto) {
@@ -281,4 +305,5 @@
 </body>
 
 </html>
+
 

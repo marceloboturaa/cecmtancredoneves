@@ -36,7 +36,7 @@
                     <li><a href="acervo.html">Acervo</a></li>
                 </ul>
             </li>
-            <li><a href="questoes.html">Questões</a></li>
+            <li><a href="questoes.html">Quiz</a></li>
             <li class="has-submenu">
                 <a href="materias.html">Matérias</a>
                 <ul class="submenu">
@@ -102,6 +102,10 @@
         const pdfCacheKey = Date.now();
 
         const imagens = [
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_200733.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201252.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201550.jpg",
+            "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_202024.jpg",
             "mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg",
             "mural-bullying-colegio-tancredo-alemeida-neves.jpeg",
             "mural-pascoa-colegio-tancredo-almeida-neves.jpg",
@@ -277,6 +281,13 @@
                 .replace(/[\u0300-\u036f]/g, '')
                 .toLowerCase();
 
+            if (nomeNormalizado.includes('meu-dinheiro-minhas-escolhas')) {
+                if (nomeNormalizado.includes('200733')) return 'Meu dinheiro, minhas escolhas - cartaz 1';
+                if (nomeNormalizado.includes('201252')) return 'Meu dinheiro, minhas escolhas - cartaz 2';
+                if (nomeNormalizado.includes('201550')) return 'Meu dinheiro, minhas escolhas - cartaz 3';
+                if (nomeNormalizado.includes('202024')) return 'Meu dinheiro, minhas escolhas - cartaz 4';
+                return 'Meu dinheiro, minhas escolhas';
+            }
             if (nomeNormalizado.includes('retorno')) return 'Retorno às aulas';
             if (nomeNormalizado.includes('bullying')) return 'Bullying';
             if (nomeNormalizado.includes('pascoa')) return 'Páscoa';
@@ -557,4 +568,5 @@
 </body>
 
 </html>
+
 
