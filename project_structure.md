@@ -1,13 +1,13 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 20/03/2026, 19:45:31*
+*Generated on: 13/04/2026, 00:20:06*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 120 |
-| 📁 Total Folders | 18 |
+| 📄 Total Files | 117 |
+| 📁 Total Folders | 14 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
 
@@ -19,33 +19,34 @@
 
 ### By File Type
 
-- 🌐 **.html** (HTML files): 43 files (35.8%)
-- 🖼️ **.jpg** (JPEG images): 35 files (29.2%)
-- 📕 **.pdf** (PDF files): 13 files (10.8%)
-- 🎨 **.css** (Stylesheets): 11 files (9.2%)
-- 🎨 **.svg** (SVG images): 5 files (4.2%)
-- 📜 **.js** (JavaScript files): 5 files (4.2%)
+- 🖼️ **.jpg** (JPEG images): 41 files (35.0%)
+- 🌐 **.html** (HTML files): 31 files (26.5%)
+- 📕 **.pdf** (PDF files): 13 files (11.1%)
+- 🎨 **.css** (Stylesheets): 12 files (10.3%)
+- 📜 **.js** (JavaScript files): 6 files (5.1%)
+- 🎨 **.svg** (SVG images): 5 files (4.3%)
 - 📄 **.** (Other files): 2 files (1.7%)
 - 📄 **.mp3** (Other files): 2 files (1.7%)
 - 📄 **.txt** (Text files): 2 files (1.7%)
 - 📖 **.md** (Markdown files): 2 files (1.7%)
+- 🖼️ **.jpeg** (JPEG images): 1 files (0.9%)
 
 ### By Category
 
-- **Web**: 43 files (35.8%)
-- **Assets**: 40 files (33.3%)
-- **Docs**: 17 files (14.2%)
-- **Styles**: 11 files (9.2%)
-- **JavaScript**: 5 files (4.2%)
-- **Other**: 4 files (3.3%)
+- **Assets**: 47 files (40.2%)
+- **Web**: 31 files (26.5%)
+- **Docs**: 17 files (14.5%)
+- **Styles**: 12 files (10.3%)
+- **JavaScript**: 6 files (5.1%)
+- **Other**: 4 files (3.4%)
 
 ### 📁 Largest Directories
 
-- **root**: 120 files
-- **image**: 35 files
-- **materias**: 25 files
-- **css**: 11 files
-- **assets**: 7 files
+- **root**: 117 files
+- **image**: 42 files
+- **css**: 12 files
+- **materias\educacao-financeira**: 8 files
+- **materias**: 8 files
 
 ## 🌳 Directory Structure
 
@@ -67,11 +68,13 @@ cecmtancredoneves/
 │   │   └── 🎨 colegio-tancredo-almeida-neves_icon 512x512.svg
 │   └── 📂 logo/
 │   │   └── 🎨 colegio-estadual-c-vico-militar-tancredo-de-almeida-neves-foz-do-igua-logomarcar-logo.svg
+├── 🌐 atualizacoes.html
 ├── 🎨 css/
 │   ├── 🎨 acervo.css
 │   ├── 🎨 components.css
 │   ├── 🎨 layout.css
 │   ├── 🎨 pages.css
+│   ├── 🎨 questoes.css
 │   ├── 🎨 slide.css
 │   ├── 🎨 style.css
 │   ├── 🎨 theme.css
@@ -82,6 +85,10 @@ cecmtancredoneves/
 ├── 🌐 diretrizes.html
 ├── 📄 history.txt
 ├── 📂 image/
+│   ├── 🖼️ 9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_200733.jpg
+│   ├── 🖼️ 9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201252.jpg
+│   ├── 🖼️ 9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201550.jpg
+│   ├── 🖼️ 9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_202024.jpg
 │   ├── 🖼️ binzantino-truma-IMG_20260307_165132.jpg
 │   ├── 🖼️ bizantina-turma-2a-IMG_20260307_160419.jpg
 │   ├── 🖼️ bizantino-truma-IMG_20260307_155516.jpg
@@ -110,6 +117,9 @@ cecmtancredoneves/
 │   ├── 🖼️ medieval-turma-6c-IMG_20260307_165010.jpg
 │   ├── 🖼️ medieval-turma-9d-IMG_20260307_154931.jpg
 │   ├── 🖼️ medieval-turma-9e-IMG_20260307_152625.jpg
+│   ├── 🖼️ mural-bullying-colegio-tancredo-alemeida-neves.jpeg
+│   ├── 🖼️ mural-pascoa-colegio-tancredo-almeida-neves.jpg
+│   ├── 🖼️ mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg
 │   ├── 🖼️ otomano-2a-IMG_20260315_223706.jpg
 │   ├── 🖼️ otomano-9e-IMG_20260315_225319.jpg
 │   ├── 🖼️ persia-turma-2a-IMG_20260307_160837.jpg
@@ -121,6 +131,7 @@ cecmtancredoneves/
 ├── 📂 js/
 │   ├── 📜 loader.js
 │   ├── 📜 main.js
+│   ├── 📜 questoes-videos.js
 │   ├── 📜 scroll-helper.js
 │   ├── 📜 scroll-top.js
 │   └── 📜 turn.min.js
@@ -131,38 +142,22 @@ cecmtancredoneves/
 ├── 🌐 livros.html
 ├── 📄 llms.txt
 ├── 📂 materias/
-│   ├── 📂 educacao-financeira/
+│   └── 📂 educacao-financeira/
 │   │   ├── 🌐 conceitos-basicos.html
 │   │   ├── 🌐 historia-do-dinheiro-brasil.html
 │   │   ├── 🌐 index.html
+│   │   ├── 🌐 juros-compostos.html
+│   │   ├── 🌐 meu-dinheiro-minhas-escolhas.html
 │   │   ├── 🌐 moeda-nas-civilizacoes.html
 │   │   ├── 🌐 o-que-e-educacao-financeira.html
 │   │   └── 🌐 planejamento-ao-consumo.html
-│   ├── 📂 filosofia/
-│   │   ├── 🌐 filosofia-no-cotidiano.html
-│   │   ├── 🌐 index.html
-│   │   └── 🌐 tecnologia-e-sociedade.html
-│   ├── 📂 maker/
-│   │   ├── 🌐 desafios-maker.html
-│   │   ├── 🌐 index.html
-│   │   ├── 🌐 materiais-e-reutilizacao.html
-│   │   └── 🌐 prototipagem-criativa.html
-│   ├── 📂 matematica/
-│   │   ├── 🌐 fracoes-financeiras.html
-│   │   ├── 🌐 index.html
-│   │   └── 🌐 porcentagem-financeira.html
-│   ├── 📂 quimica/
-│   │   ├── 🌐 index.html
-│   │   ├── 🌐 misturas-e-separacao.html
-│   │   ├── 🌐 transformacoes-da-materia.html
-│   │   └── 🌐 video-tabela-periodica.html
-│   └── 📂 robotica/
-│   │   ├── 🌐 index.html
-│   │   ├── 🌐 logica-e-programacao.html
-│   │   ├── 🌐 projetos-roboticos.html
-│   │   └── 🌐 sensores-e-automacao.html
 ├── 🌐 materias.html
 ├── 🌐 mural.html
+├── 📂 noticias/
+│   ├── 🌐 bullying.html
+│   ├── 🌐 pascoa.html
+│   └── 🌐 retorno-as-aulas.html
+├── 🌐 noticias.html
 ├── 📖 project_structure.md
 ├── 🌐 questoes.html
 ├── 🔴 📖 **README.md**
@@ -199,6 +194,7 @@ cecmtancredoneves/
 - 🎨 Assets: SVG images
 - 🎨 Styles: Stylesheets
 - 📄 Docs: Text files
+- 🖼️ Assets: JPEG images
 - 🖼️ Assets: JPEG images
 - 📜 JavaScript: JavaScript files
 - 📖 Docs: Markdown files

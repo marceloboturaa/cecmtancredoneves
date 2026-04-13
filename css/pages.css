@@ -251,6 +251,28 @@ header.dark-bg.header-theme-matematica-alt {
     flex-shrink: 0;
 }
 
+.page-index-home {
+    min-height: auto;
+}
+
+.page-index-home footer {
+    margin-top: 0;
+}
+
+.page-index-home .slider {
+    padding-top: 24px;
+    padding-bottom: 24px;
+}
+
+.page-index-home .slider-track {
+    gap: 14px;
+}
+
+.page-index-home .slider-track img {
+    width: 420px;
+    height: 280px;
+}
+
 /* ================= HERO COM SLIDER DE FUNDO ================= */
 .hero-slider {
     position: relative;
@@ -419,9 +441,23 @@ header.dark-bg.header-theme-matematica-alt {
         height: 100px;
     }
 
+    .page-index-home {
+        min-height: auto;
+    }
+
+    .page-index-home .slider {
+        padding-top: 14px;
+        padding-bottom: 18px;
+    }
+
+    .page-index-home .slider-track {
+        gap: 12px;
+    }
+
     .slider-track img {
-        width: 200px;
-        height: 130px;
+        width: min(84vw, 360px);
+        height: auto;
+        aspect-ratio: 4 / 3;
     }
 
     .gallery-note {
@@ -2996,6 +3032,17 @@ header.dark-bg.header-theme-matematica-alt {
     .container {
         padding-left: 0.85rem;
         padding-right: 0.85rem;
+    }
+
+    .page-index-home .slider {
+        padding-top: 12px;
+        padding-bottom: 16px;
+    }
+
+    .page-index-home .slider-track img {
+        width: min(88vw, 340px);
+        height: auto;
+        aspect-ratio: 4 / 3;
     }
 
     .card,
