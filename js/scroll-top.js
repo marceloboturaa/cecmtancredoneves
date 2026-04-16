@@ -45,7 +45,7 @@
             }
 
             .scroll-top-btn:hover {
-                background: #5a6e34;
+                background: #496b2e;
             }
 
             .scroll-top-btn.is-visible {

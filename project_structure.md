@@ -1,12 +1,12 @@
 # 📁 cecmtancredoneves - Project Structure
 
-*Generated on: 13/04/2026, 00:20:06*
+*Generated on: 16/04/2026, 00:45:52*
 
 ## 📋 Quick Overview
 
 | Metric | Value |
 |--------|-------|
-| 📄 Total Files | 117 |
+| 📄 Total Files | 119 |
 | 📁 Total Folders | 14 |
 | 🌳 Max Depth | 2 levels |
 | 🛠️ Tech Stack | CSS |
@@ -19,31 +19,31 @@
 
 ### By File Type
 
-- 🖼️ **.jpg** (JPEG images): 41 files (35.0%)
-- 🌐 **.html** (HTML files): 31 files (26.5%)
-- 📕 **.pdf** (PDF files): 13 files (11.1%)
-- 🎨 **.css** (Stylesheets): 12 files (10.3%)
-- 📜 **.js** (JavaScript files): 6 files (5.1%)
-- 🎨 **.svg** (SVG images): 5 files (4.3%)
+- 🖼️ **.jpg** (JPEG images): 42 files (35.3%)
+- 🌐 **.html** (HTML files): 32 files (26.9%)
+- 📕 **.pdf** (PDF files): 13 files (10.9%)
+- 🎨 **.css** (Stylesheets): 12 files (10.1%)
+- 📜 **.js** (JavaScript files): 6 files (5.0%)
+- 🎨 **.svg** (SVG images): 5 files (4.2%)
 - 📄 **.** (Other files): 2 files (1.7%)
 - 📄 **.mp3** (Other files): 2 files (1.7%)
 - 📄 **.txt** (Text files): 2 files (1.7%)
 - 📖 **.md** (Markdown files): 2 files (1.7%)
-- 🖼️ **.jpeg** (JPEG images): 1 files (0.9%)
+- 🖼️ **.jpeg** (JPEG images): 1 files (0.8%)
 
 ### By Category
 
-- **Assets**: 47 files (40.2%)
-- **Web**: 31 files (26.5%)
-- **Docs**: 17 files (14.5%)
-- **Styles**: 12 files (10.3%)
-- **JavaScript**: 6 files (5.1%)
+- **Assets**: 48 files (40.3%)
+- **Web**: 32 files (26.9%)
+- **Docs**: 17 files (14.3%)
+- **Styles**: 12 files (10.1%)
+- **JavaScript**: 6 files (5.0%)
 - **Other**: 4 files (3.4%)
 
 ### 📁 Largest Directories
 
-- **root**: 117 files
-- **image**: 42 files
+- **root**: 119 files
+- **image**: 43 files
 - **css**: 12 files
 - **materias\educacao-financeira**: 8 files
 - **materias**: 8 files
@@ -69,6 +69,7 @@ cecmtancredoneves/
 │   └── 📂 logo/
 │   │   └── 🎨 colegio-estadual-c-vico-militar-tancredo-de-almeida-neves-foz-do-igua-logomarcar-logo.svg
 ├── 🌐 atualizacoes.html
+├── 🌐 colegio.html
 ├── 🎨 css/
 │   ├── 🎨 acervo.css
 │   ├── 🎨 components.css
@@ -117,6 +118,7 @@ cecmtancredoneves/
 │   ├── 🖼️ medieval-turma-6c-IMG_20260307_165010.jpg
 │   ├── 🖼️ medieval-turma-9d-IMG_20260307_154931.jpg
 │   ├── 🖼️ medieval-turma-9e-IMG_20260307_152625.jpg
+│   ├── 🖼️ mural-abril-azul-autismo-compreender-é-respeitar-colegio-tancredo-almeida-neves.jpg
 │   ├── 🖼️ mural-bullying-colegio-tancredo-alemeida-neves.jpeg
 │   ├── 🖼️ mural-pascoa-colegio-tancredo-almeida-neves.jpg
 │   ├── 🖼️ mural-retorno-as-aulas-colegio-tancredo-almeida-neves.jpg
@@ -154,10 +156,10 @@ cecmtancredoneves/
 ├── 🌐 materias.html
 ├── 🌐 mural.html
 ├── 📂 noticias/
+│   ├── 🌐 abril-azul.html
 │   ├── 🌐 bullying.html
 │   ├── 🌐 pascoa.html
 │   └── 🌐 retorno-as-aulas.html
-├── 🌐 noticias.html
 ├── 📖 project_structure.md
 ├── 🌐 questoes.html
 ├── 🔴 📖 **README.md**

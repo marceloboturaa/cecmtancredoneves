@@ -8,7 +8,7 @@
 ![Instituição](https://img.shields.io/badge/instituição-CECM%20Tancredo%20Neves-173557)
 ---
 
-**Legado Digital** é um projeto educacional criado para apresentar e divulgar os trabalhos desenvolvidos pelos estudantes do Colégio Estadual Cívico-Militar **Tranquedo de Almeida Neves**.
+**Legado Digital** é um projeto educacional criado para apresentar e divulgar os trabalhos desenvolvidos pelos estudantes do Colégio Estadual Cívico-Militar **Tancredo de Almeida Neves**.
 
 Criado inicialmente pelo professor **Marcelo Botura**, este site é um **ecossistema de aprendizagem** e um espaço de convergência, transformado em uma vitrine digital que integra produções de todas as áreas do conhecimento. Aqui, a jornada acadêmica ganha visibilidade através de vídeos, pesquisas, tabelas e materiais interativos que traduzem nossa prática pedagógica em resultados reais.
 

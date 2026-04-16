@@ -308,3 +308,25 @@ ARQUIVOS PRINCIPAIS AFETADOS
 - llms.txt foi atualizado para refletir o novo catalogo compartilhado de videos, o fluxo de carregamento progressivo nas galerias e o comportamento atual do simulado.
 - Arquivos temporarios .tmp_questoes_video_map.txt e .tmp_questoes_video_gallery_lines.txt foram removidos por nao fazerem parte do site publicado.
 
+==================================================
+16/04/2026
+==================================================
+
+1. Padronizacao do nome do colegio
+- A pagina institucional passou a usar `colegio.html` como rota principal.
+- O nome oficial do site foi padronizado para `Colégio Estadual Cívico-Militar Tancredo de Almeida Neves` nos titulos, metas e navegacao.
+- O antigo `noticias.html` foi removido para evitar duplicidade e links antigos foram reorganizados.
+
+2. Noticias e Abril Azul
+- Foi criada a pagina `noticias/abril-azul.html` com imagem e texto sobre conscientizacao do TEA.
+- O bloco institucional do colegio passou a seguir a ordem `Abril Azul`, `Bullying`, `Pascoa` e `Retorno as aulas` por ultimo.
+- A pagina principal do colegio ficou separada do resto do acervo de noticias para facilitar a navegacao.
+
+3. Podcast na home
+- A pagina inicial ganhou um bloco de podcast acima do rodape.
+- O episodio do Spotify foi integrado de forma responsiva para desktop e celular.
+- O bloco foi mantido como conteudo extra sem quebrar o rodape como ultimo elemento visual da pagina.
+
+4. Atualizacao de documentacao
+- `llms.txt`, `sitemap.html` e `atualizacoes.html` foram atualizados para refletir as rotas atuais e o nome oficial do colegio.
+

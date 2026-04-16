@@ -135,17 +135,18 @@ function ensureSubmenuLinks() {
                 { href: 'trabalhos.html', label: 'Trabalhos' },
                 { href: 'livros.html', label: 'Livros' },
                 { href: 'apostilas.html', label: 'Apostilas' },
-                { href: 'videos.html', label: 'VÃ­deos' },
+                { href: 'videos.html', label: 'Vídeos' },
                 { href: 'acervo.html', label: 'Acervo' },
                 { href: 'mural.html', label: 'MURAL', className: 'nav-highlight' }
             ]
         },
         {
-            menuHref: 'noticias.html',
+            menuHref: 'colegio.html',
             items: [
-                { href: 'noticias/retorno-as-aulas.html', label: 'Retorno às aulas' },
+                { href: 'noticias/abril-azul.html', label: 'Abril Azul' },
                 { href: 'noticias/bullying.html', label: 'Bullying' },
-                { href: 'noticias/pascoa.html', label: 'P\u00e1scoa' }
+                { href: 'noticias/pascoa.html', label: 'P\u00e1scoa' },
+                { href: 'noticias/retorno-as-aulas.html', label: 'Retorno às aulas' }
             ]
         }
     ];
@@ -169,36 +170,61 @@ function ensureSubmenuLinks() {
                 trigger.setAttribute('role', 'button');
             }
 
+            const existingItems = Array.from(submenu.querySelectorAll(':scope > li'));
+            const orderedItems = [];
+
             config.items.forEach(function (item) {
                 const targetPath = new URL(resolveSiteUrl(item.href)).pathname.replace(/\/+$/, '');
-                const exists = Array.from(submenu.querySelectorAll(':scope > li > a')).some(function (link) {
+                let li = existingItems.find(function (candidate) {
+                    const link = candidate.querySelector(':scope > a');
+                    if (!link) {
+                        return false;
+                    }
+
                     const linkHref = link.getAttribute('href') || '';
                     const linkPath = new URL(linkHref, window.location.href).pathname.replace(/\/+$/, '');
                     return linkPath === targetPath;
                 });
 
-                if (exists) {
-                    return;
+                if (!li) {
+                    li = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = resolveSiteUrl(item.href);
+                    link.textContent = item.label;
+                    li.appendChild(link);
+                } else {
+                    const link = li.querySelector(':scope > a');
+                    if (link) {
+                        link.href = resolveSiteUrl(item.href);
+                        link.textContent = item.label;
+                    }
                 }
 
-                const li = document.createElement('li');
                 if (item.className) {
                     li.className = item.className;
+                } else if (config.menuHref === 'colegio.html') {
+                    li.className = '';
                 }
-                const link = document.createElement('a');
-                link.href = resolveSiteUrl(item.href);
-                link.textContent = item.label;
-                li.appendChild(link);
-                submenu.appendChild(li);
+
+                orderedItems.push(li);
             });
+
+            if (config.menuHref === 'colegio.html') {
+                Array.from(submenu.querySelectorAll(':scope > li')).forEach(function (li) {
+                    li.remove();
+                });
+                orderedItems.forEach(function (li) {
+                    submenu.appendChild(li);
+                });
+            }
         });
     });
 }
 
-function ensureNoticiasMenu() {
+function ensureColegioMenu() {
     document.querySelectorAll('.nav-links').forEach(function (navLinks) {
         const topLevelItems = Array.from(navLinks.children);
-        const noticiasItems = topLevelItems.filter(function (item) {
+        const colegioItems = topLevelItems.filter(function (item) {
             const link = item.querySelector(':scope > a');
             if (!link) {
                 return false;
@@ -206,42 +232,43 @@ function ensureNoticiasMenu() {
 
             const href = link.getAttribute('href') || '';
             const text = (link.textContent || '').toLowerCase();
-            return href.includes('noticias.html') || text.includes('notícias') || text.includes('noticias');
+            return href.includes('colegio.html') || text.includes('colégio') || text.includes('colegio');
         });
 
-        if (noticiasItems.length > 1) {
-            noticiasItems.slice(1).forEach(function (duplicateItem) {
+        if (colegioItems.length > 1) {
+            colegioItems.slice(1).forEach(function (duplicateItem) {
                 duplicateItem.remove();
             });
         }
 
-        let noticiasItem = noticiasItems[0] || null;
+        let colegioItem = colegioItems[0] || null;
 
-        if (!noticiasItem) {
-            noticiasItem = document.createElement('li');
-            noticiasItem.className = 'has-submenu';
+        if (!colegioItem) {
+            colegioItem = document.createElement('li');
+            colegioItem.className = 'has-submenu';
 
             const link = document.createElement('a');
-            link.href = resolveSiteUrl('noticias.html');
+            link.href = resolveSiteUrl('colegio.html');
             link.textContent = 'Col\u00e9gio';
-            noticiasItem.appendChild(link);
+            colegioItem.appendChild(link);
 
             const submenu = document.createElement('ul');
             submenu.className = 'submenu';
-            noticiasItem.appendChild(submenu);
+            colegioItem.appendChild(submenu);
         }
 
-        const submenu = noticiasItem.querySelector(':scope > .submenu');
+        let submenu = colegioItem.querySelector(':scope > .submenu');
         if (!submenu) {
             const novoSubmenu = document.createElement('ul');
             novoSubmenu.className = 'submenu';
-            noticiasItem.appendChild(novoSubmenu);
+            colegioItem.appendChild(novoSubmenu);
+            submenu = novoSubmenu;
         }
 
-        const noticiasMenuLink = noticiasItem.querySelector(':scope > a');
-        if (noticiasMenuLink) {
-            noticiasMenuLink.href = resolveSiteUrl('noticias.html');
-            noticiasMenuLink.textContent = 'Col\u00e9gio';
+        const colegioMenuLink = colegioItem.querySelector(':scope > a');
+        if (colegioMenuLink) {
+            colegioMenuLink.href = resolveSiteUrl('colegio.html');
+            colegioMenuLink.textContent = 'Col\u00e9gio';
         }
 
         const questoesItem = topLevelItems.find(function (item) {
@@ -265,16 +292,16 @@ function ensureNoticiasMenu() {
         });
 
         if (questoesItem) {
-            navLinks.insertBefore(noticiasItem, questoesItem);
+            navLinks.insertBefore(colegioItem, questoesItem);
             return;
         }
 
         if (materiasItem) {
-            navLinks.insertBefore(noticiasItem, materiasItem);
+            navLinks.insertBefore(colegioItem, materiasItem);
             return;
         }
 
-        navLinks.appendChild(noticiasItem);
+        navLinks.appendChild(colegioItem);
     });
 }
 
@@ -334,7 +361,7 @@ function normalizeVisibleLabels() {
         const href = link.getAttribute('href') || '';
 
         if (href.includes('index.html')) link.textContent = 'In\u00edcio';
-        if (href.includes('noticias.html')) link.textContent = 'Col\u00e9gio';
+        if (href.includes('colegio.html')) link.textContent = 'Col\u00e9gio';
         if (href.includes('questoes.html')) link.textContent = 'Quiz';
         if (href.includes('videos.html')) link.textContent = 'V\u00eddeos';
         if (href.includes('materias.html') || href.includes('materias/educacao-financeira/index.html')) {
@@ -427,8 +454,8 @@ function ensurePrivacyMenuIcon() {
         const privacyLink = document.createElement('a');
         privacyLink.href = resolveSiteUrl('diretrizes.html#diretrizes');
         privacyLink.className = 'nav-privacy-link';
-        privacyLink.setAttribute('aria-label', 'PolÃ­tica e diretrizes do site');
-        privacyLink.title = 'PolÃ­tica e diretrizes do site';
+        privacyLink.setAttribute('aria-label', 'Política e diretrizes do site');
+        privacyLink.title = 'Política e diretrizes do site';
         privacyLink.innerHTML = '<svg class="nav-icon-svg" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 5 5v6c0 5.05 3.41 9.57 7 11 3.59-1.43 7-5.95 7-11V5l-7-3zm0 2.18L17 6.32v4.62c0 3.98-2.53 7.67-5 8.86-2.47-1.19-5-4.88-5-8.86V6.32l5-2.14z"/></svg>';
         privacyItem.appendChild(privacyLink);
 
@@ -480,7 +507,7 @@ function setupFloatingAlerts() {
 
         window.setTimeout(function () {
             if (document.body.contains(alertElement)) {
-                playUiSound('assets/audio/alerta-botÃ£o-novidade-flutuante.mp3', 0.7);
+                playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
             }
         }, 180);
 
@@ -515,18 +542,18 @@ function createCookieBanner() {
                 <span class="cookie-banner__icon" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10c-4.42 0-8-3.58-8-8 0-.7.09-1.38.26-2.03A9.95 9.95 0 0 0 12 2zm-3 7.25a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zm5 1.75a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5zM8.5 14a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm6.25 2a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/></svg>
                 </span>
-                <strong>NÃ³s usamos cookies</strong>
+                <strong>Nós usamos cookies</strong>
             </div>
             <p>
-                Este site usa cookies e recursos similares para lembrar sua preferÃªncia de navegaÃ§Ã£o,
-                registrar o consentimento e manter a experiÃªncia estÃ¡vel. Recursos externos podem seguir
-                polÃ­ticas prÃ³prias.
+                Este site usa cookies e recursos similares para lembrar sua preferência de navegação,
+                registrar o consentimento e manter a experiência estável. Recursos externos podem seguir
+                políticas próprias.
             </p>
             <details class="cookie-banner__details">
-                <summary>InformaÃ§Ãµes sobre privacidade</summary>
+                <summary>Informações sobre privacidade</summary>
                 <p>
-                    O projeto segue as diretrizes institucionais do colÃ©gio e apresenta orientaÃ§Ãµes de
-                    privacidade alinhadas Ã  LGPD. Leia mais em
+                    O projeto segue as diretrizes institucionais do colégio e apresenta orientações de
+                    privacidade alinhadas à LGPD. Leia mais em
                     <a href="${resolveSiteUrl('diretrizes.html#diretrizes')}">Diretrizes do Site</a>
                     e
                     <a href="${resolveSiteUrl('diretrizes.html#privacidade')}">Privacidade e LGPD</a>.
@@ -560,7 +587,7 @@ function createCookieBanner() {
 
 document.addEventListener('DOMContentLoaded', function () {
     enhanceBetaBadges();
-    ensureNoticiasMenu();
+    ensureColegioMenu();
     ensureSubmenuLinks();
     normalizeMuralMenuLabel();
     ensureEdFinanceiraLink();
@@ -685,7 +712,7 @@ document.addEventListener('DOMContentLoaded', function () {
         scrollTopBtn.innerHTML = '&#8593;';
 
         scrollTopBtn.addEventListener('click', function () {
-            playUiSound('assets/audio/alerta-botÃ£o-novidade-flutuante.mp3', 0.7);
+            playUiSound('assets/audio/alerta-botão-novidade-flutuante.mp3', 0.7);
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 

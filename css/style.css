@@ -39,6 +39,61 @@ a {
     color: inherit;
 }
 
+.homepage-podcast {
+    padding: 1rem 0 1.25rem;
+}
+
+.homepage-podcast__card {
+    max-width: 1080px;
+    width: calc(100% - 2rem);
+    margin: 0 auto;
+    gap: 1rem;
+    align-items: center;
+}
+
+.homepage-podcast__text {
+    min-width: 0;
+}
+
+.homepage-podcast__text h2 {
+    margin-bottom: 0.35rem;
+    font-size: clamp(1.15rem, 2vw, 1.65rem);
+}
+
+.homepage-podcast__text p {
+    margin-bottom: 0;
+    max-width: 36ch;
+}
+
+.homepage-podcast__embed {
+    flex: 1 1 620px;
+    border: 0;
+    filter: none;
+    min-width: 0;
+}
+
+@media (max-width: 768px) {
+    .homepage-podcast {
+        padding: 0.75rem 0 1rem;
+    }
+
+    .homepage-podcast__card {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .homepage-podcast__text p {
+        max-width: none;
+    }
+
+    .homepage-podcast__embed {
+        width: 100%;
+        flex-basis: auto;
+    }
+}
+
 .scroll-top-btn {
     position: fixed;
     right: 24px;

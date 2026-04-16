@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Acervo escolar do CECMTAN com imagens, materiais e registros organizados por categoria.">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Acervo – Exposição Escolar | Colégio Tancredo">
+    <meta property="og:title" content="Acervo – Exposição Escolar | Colégio Estadual Cívico-Militar Tancredo de Almeida Neves">
     <meta property="og:description" content="Acervo escolar do CECMTAN com imagens, materiais e registros organizados por categoria.">
     <meta property="og:url" content="https://marceloboturaa.github.io/cecmtancredoneves/acervo.html">
     <meta property="og:site_name" content="CECMTAN">
     <meta name="twitter:card" content="summary">
     <link rel="icon" href="assets/image/colegio-tancredo-almeida-neves_icon 32x32.svg" type="image/svg+xml">
-    <title>Acervo – Exposição Escolar | Colégio Tancredo</title>
+    <title>Acervo – Exposição Escolar | Colégio Estadual Cívico-Militar Tancredo de Almeida Neves</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/acervo.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css" />
@@ -21,7 +21,7 @@
 
 <body>
     <nav>
-        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">CECM Tancredo de Almeida Neves</span></span></a></div>
+        <div class="logo"><a href="index.html"><span class="logo-text"><span class="logo-short">CECMTAN</span><span class="logo-full">Colégio Estadual Cívico-Militar Tancredo de Almeida Neves</span></span></a></div>
         <div class="menu-toggle">☰</div> <!-- Já existente, evita duplicação -->
         <ul class="nav-links">
             <li><a href="index.html">Início</a></li>
@@ -102,6 +102,7 @@
         const pdfCacheKey = Date.now();
 
         const imagens = [
+            "mural-abril-azul-autismo-compreender-é-respeitar-colegio-tancredo-almeida-neves.jpg",
             "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_200733.jpg",
             "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201252.jpg",
             "9d-atv1-av2-meu-dinheiro-minhas-escolhas-IMG_20260411_201550.jpg",
@@ -288,6 +289,7 @@
                 if (nomeNormalizado.includes('202024')) return 'Meu dinheiro, minhas escolhas - cartaz 4';
                 return 'Meu dinheiro, minhas escolhas';
             }
+            if (nomeNormalizado.includes('abril-azul')) return 'Abril Azul';
             if (nomeNormalizado.includes('retorno')) return 'Retorno às aulas';
             if (nomeNormalizado.includes('bullying')) return 'Bullying';
             if (nomeNormalizado.includes('pascoa')) return 'Páscoa';
@@ -568,5 +570,8 @@
 </body>
 
 </html>
+
+
+
 
 

@@ -1,18 +1,19 @@
 # llms.txt
 
-Project: Legado Digital / Colegio Tancredo Neves
+Project: Colégio Estadual Cívico-Militar Tancredo de Almeida Neves / CECMTAN
 Repository root: c:\xampp\htdocs\cecmtancredoneves
 Type: Static educational website
 Language: pt-BR content, file naming mostly lowercase and path-based
 
 ## Purpose
 
-This project is a digital exhibition website for student work from Colegio Tancredo Neves.
+This project is a digital exhibition website for student work from Colégio Estadual Cívico-Militar Tancredo de Almeida Neves.
 It showcases photos, subject pages, slides, books, handouts, and interactive educational content.
 There is no backend and no build pipeline. The site is composed of static HTML, CSS, JavaScript, local assets, and PDF viewers.
 Recent additions also include a policy/privacy area, a site map page, a cookie consent banner, anonymized display of student work titles, and a dedicated video catalog/viewer flow.
 The site also now includes a Mathematics subject area with finance-oriented content, a responsive article page for financial education, and a unified archive that includes videos.
 Recent work also added a quiz/simulado page, a Chemistry subject area kept out of the global menus, direct mural links to anchored sections inside the historical currency page, a renamed `diretrizes.html` route, a renamed `sitemap.html` route, and a dedicated visual updates/history page.
+The canonical institutional page is now `colegio.html`; the older `noticias.html` route was retired. Recent public-facing additions also include an Abril Azul page under `noticias/` and a Spotify podcast episode block on the home page.
 
 ## Runtime model
 
@@ -24,6 +25,7 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 ## Main routes
 
 - `/index.html`: home page with hero, image slider, and featured subject entry
+- `/colegio.html`: canonical institutional page for the school and the Colégio section
 - `/materias.html`: subject index page
 - `/mural.html`: photo wall
 - `/slide.html`: presentation listing page
@@ -60,6 +62,10 @@ Recent work also added a quiz/simulado page, a Chemistry subject area kept out o
 - `/materias/quimica/video-tabela-periodica.html`
 - `/materias/filosofia/index.html`
 - `/materias/maker/index.html`
+- `/noticias/abril-azul.html`: Abril Azul campaign page with image and text
+- `/noticias/bullying.html`: bullying awareness page
+- `/noticias/pascoa.html`: Easter page
+- `/noticias/retorno-as-aulas.html`: back-to-school page
 
 ## Asset folders
 
@@ -108,6 +114,7 @@ Viewer dependencies loaded from CDN inside HTML:
 - Keep `slide.html`, `acervo.html`, and the real `/slide/` folder contents in sync; the current slide files use `-3a` naming.
 - Navigation links are duplicated across many HTML files, so link changes usually need to be applied in multiple pages.
 - The canonical institutional routes are now `diretrizes.html` and `sitemap.html`; avoid reintroducing the older `politicas.html` and `mapa-do-site.html` names.
+- The canonical school page is `colegio.html`; avoid reintroducing `noticias.html` as the main route.
 - Subject cards and archive entries are not generated from a CMS; they are maintained manually.
 - Chemistry exists as a real subject route but should remain hidden from the global navigation menus unless explicitly requested otherwise.
 - The navbar receives progressive normalization via `js/main.js`, including a privacy/diretrizes icon and missing `Questões`/submenu links when needed.
