@@ -378,7 +378,7 @@ function normalizeEducacaoFinanceiraMenu() {
 
             const href = link.getAttribute('href') || '';
             const text = (link.textContent || '').toLowerCase();
-            return href.includes('materias.html') || text.includes('mater');
+            return href.includes('materias.html') || href.includes('materias/educacao-financeira/index.html') || text.includes('mater');
         });
 
         if (!materiasItem) {
@@ -711,7 +711,8 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.querySelectorAll('.nav-links a').forEach(function (link) {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', function (event) {
+            if (event.defaultPrevented) return;
             const parentItem = link.closest('.has-submenu');
 
             if (window.innerWidth <= 768 && (!parentItem || parentItem.classList.contains('submenu-open'))) {

@@ -34,7 +34,13 @@
                 </ul>
             </li>
             <li><a href="../../questoes.html">Quiz</a></li>
-            <li><a href="../../materias/educacao-financeira/index.html">Educação Financeira</a></li>
+            <li class="has-submenu">
+                <a href="../../materias.html">Matérias</a>
+                <ul class="submenu">
+                    <li><a href="../../materias/educacao-financeira/index.html">Ed. Financeira</a></li>
+                    <li><a href="../../materias/matematica/index.html">Matemática</a></li>
+                </ul>
+            </li>
             <li><a href="../../sobre.html">Sobre</a></li>
         </ul>
     </nav>
@@ -46,13 +52,17 @@
 
     <main class="container materias-shell">
         <section aria-labelledby="conteudos-titulo">
-            <article class="materia-card">
-                <span class="materia-badge">Matemática</span>
-                <h2 id="conteudos-titulo">Conteúdos e atividades</h2>
-                <p>Este espaço reunirá materiais de números, álgebra, geometria, grandezas e medidas, probabilidade e estatística.</p>
-                <p>Em breve, novos conteúdos e atividades estarão disponíveis aqui.</p>
-                <a href="../../materias.html" class="btn">Voltar às matérias</a>
-            </article>
+            <h2 id="conteudos-titulo">Conteúdos e atividades</h2>
+            <div class="materias-grid">
+                <article class="materia-card materia-card--matematica">
+                    <span class="materia-badge">Geometria</span>
+                    <h3>Teorema de Tales</h3>
+                    <p>Conheça Tales, explore retas paralelas e proporções e pratique com exercícios e registros da atividade.</p>
+                    <span class="materia-professor">Prof.ª Camila</span>
+                    <a href="teorema-de-tales.html" class="btn">Ver atividade</a>
+                </article>
+            </div>
+            <a href="../../materias.html" class="btn btn-outline btn-top-gap">Voltar às matérias</a>
         </section>
     </main>
 
