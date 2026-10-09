@@ -1,4 +1,4 @@
-﻿/* MENU MOBILE + AJUSTES GLOBAIS */
+/* MENU MOBILE + AJUSTES GLOBAIS */
 const mainScriptElement = document.currentScript;
 const siteBaseUrl = mainScriptElement
     ? new URL(mainScriptElement.getAttribute('src'), window.location.href).href.replace(/js\/main\.js(?:\?.*)?$/, '')
@@ -393,7 +393,29 @@ function normalizeEducacaoFinanceiraMenu() {
         link.href = resolveSiteUrl('materias.html');
         link.textContent = 'Mat\u00e9rias';
 
-        const submenu = materiasItem.querySelector(':scope > .submenu');
+        let submenu = materiasItem.querySelector(':scope > .submenu');
+        if (!submenu) {
+            submenu = document.createElement('ul');
+            submenu.className = 'submenu';
+            materiasItem.appendChild(submenu);
+        }
+        materiasItem.classList.add('has-submenu');
+        [
+            { path: 'materias/educacao-financeira/index.html', label: 'Ed. Financeira' },
+            { path: 'materias/matematica/index.html', label: 'Matemática' }
+        ].forEach(function (subject) {
+            const exists = Array.from(submenu.querySelectorAll('a')).some(function (item) {
+                return (item.getAttribute('href') || '').includes(subject.path);
+            });
+            if (!exists) {
+                const item = document.createElement('li');
+                const subjectLink = document.createElement('a');
+                subjectLink.href = resolveSiteUrl(subject.path);
+                subjectLink.textContent = subject.label;
+                item.appendChild(subjectLink);
+                submenu.appendChild(item);
+            }
+        });
         if (submenu) {
             Array.from(submenu.querySelectorAll(':scope > li')).forEach(function (li) {
                 const link = li.querySelector(':scope > a');
@@ -402,7 +424,7 @@ function normalizeEducacaoFinanceiraMenu() {
                 }
 
                 const href = link.getAttribute('href') || '';
-                if (!href.includes('materias/educacao-financeira/index.html')) {
+                if (!href.includes('materias/educacao-financeira/index.html') && !href.includes('materias/matematica/index.html')) {
                     li.remove();
                 }
             });
